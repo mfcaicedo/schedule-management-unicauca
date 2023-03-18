@@ -1,6 +1,6 @@
 ### Características
 
-- Proyecto hecho en Java 11.
+- Proyecto hecho en Java 18.
 - Proyecto elaborado por estudiantes de la Universidad del Cauca
 - Contiene dependencias básicas y  esenciales para la construcción de un API REST.
 - Utiliza Gradle como herramienta de automatización de compilación de código.
