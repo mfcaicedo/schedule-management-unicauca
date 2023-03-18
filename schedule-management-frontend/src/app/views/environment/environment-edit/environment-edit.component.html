@@ -1,0 +1,30 @@
+<c-card>
+  <c-card-header>
+
+  </c-card-header>
+  <c-card-body>
+    <app-environment-form
+    #child [isEdit]="true" [environment]="environmentParent" [isSent]="isSent"
+
+    ></app-environment-form>
+
+    <div class="d-grid gap-2 ">
+      <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid" (click)="showResource()">
+        Mostrar recursos de este ambiente
+      </button>
+    </div>
+  </c-card-body>
+</c-card>
+<br>
+<c-card *ngIf="show" >
+  <!-- <c-card *ngIf="true"> -->
+
+    <c-card-body>
+      <app-resources #listResources [isEdit]="true" (addedResource)="onAddedResource($event)" (removeResource)="onremoveResource($event)" [environment]="environmentParent"></app-resources>
+    </c-card-body>
+    <br>
+  </c-card>
+  <br>
+<button cButton color="primary" size="lg" [disabled]= "child.form.invalid" (click)="child.setValues() ;getInfo(); onUpdateEnvironment()" >
+  Actualizar este ambiente
+</button>

@@ -1,0 +1,48 @@
+<c-accordion-item >
+    <ng-template cTemplateId="accordionHeader">
+      <div *ngIf="!showSelectedCourse" >
+        <strong>Cursos </strong>
+      </div>
+
+      <div class="container" *ngIf="showSelectedCourse">
+        <label  >
+          Curso    : <strong>{{curso.subjectCode}}</strong> | Grupo    : <strong>{{curso.courseGroup}} </strong><br>
+          Semestre : <strong>{{semester}} </strong> <br>
+
+        </label>
+        <div md="5" >
+          <button cButton  id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeSelectedCourse()">
+            Cambiar selección
+          </button>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template cTemplateId="accordionBody">
+      <table cTable>
+        <thead cTableColor="dark">
+        <tr>
+          <th *ngFor="let c of columns">{{c}} </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let course of courses">
+          <td>{{course.courseId}} </td>
+          <td>{{course.courseGroup}} </td>
+          <td>{{course.courseCapacity}} </td>
+          <td>{{course.periodId}}</td>
+          <td>{{course.subjectCode}} </td>
+          <td>{{course.teacherCode}} </td>
+          <td>{{course.remainingHours}} </td>
+          <td><input [disabled]="isCheckboxDisabled" #checkboxes  id="selectedCourse"  type="checkbox" (click)="onSelectingCourse(course,$event)"></td>
+
+        </tr>
+        </tbody>
+
+      </table>
+      <app-paginador
+        (pageChanged)="loadTableCourses($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+
+      ></app-paginador>
+    </ng-template>
+</c-accordion-item>
+

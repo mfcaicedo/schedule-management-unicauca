@@ -1,0 +1,66 @@
+<c-accordion-item >
+  <ng-template cTemplateId="accordionHeader">
+    <div *ngIf="!showSelectedSchedule" >
+      <strong>Franjas Ocupadas</strong>
+    </div>
+
+    <div class="container" *ngIf="showSelectedSchedule">
+      <label  >
+        Dia Seleccionado : <strong>{{schedule.day}}</strong> <br>
+        Hora : <strong>{{schedule.startingTime}} </strong>
+        Curso : <strong>{{schedule.course.courseId}} </strong>
+      </label>
+      <div md="5" >
+          <button cButton  id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeSelectedSchedule()">
+            Cambiar selección
+          </button>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template cTemplateId="accordionBody">
+    <c-row class="mb-3">
+
+      <label cLabel class="col-sm-2 col-form-label" >
+        Filtrar por dia:
+      </label>
+      <c-col md="5">
+      <c-dropdown>
+        <button cButton cDropdownToggle color="light">
+          Selecciona el dia
+        </button>
+        <ul cDropdownMenu>
+          <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
+          <li *ngFor="let tipo of weekDays"><a (click)="updateTableTime(tipo.toUpperCase())" cDropdownItem>{{tipo}}</a></li>
+
+        </ul>
+      </c-dropdown>
+      </c-col>
+
+    </c-row>
+
+
+    <table cTable>
+      <thead cTableColor="dark">
+      <tr>
+        <th *ngFor="let c of columns">{{c}} </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let schedule of takenSchedules">
+        <td>{{schedule.id}} </td>
+        <td>{{schedule.day}}</td>
+        <td>{{schedule.startingTime}} </td>
+        <td>{{schedule.endingTime}} </td>
+        <td>{{schedule.course.subjectCode}}</td>
+        <td><input [disabled]="isCheckboxDisabled" #checkboxes  id="selectedSchedule"  type="checkbox" (click)="onSelectingSchedule(schedule,$event)"></td>
+
+      </tr>
+      </tbody>
+
+    </table>
+    <app-paginador
+        (pageChanged)="loadTableTime($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+
+    ></app-paginador>
+  </ng-template>
+</c-accordion-item>

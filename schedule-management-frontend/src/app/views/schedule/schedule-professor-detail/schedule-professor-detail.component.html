@@ -1,0 +1,26 @@
+<div class="grid-container">
+  <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
+    <!-- TODO llamar a tabla que lista a los profesores
+        debe emitir el profesor seleccionado
+    -->
+    <div class="elemnt">
+      <app-professor-all
+            #profes
+            (selectedProfessor)="getSelectedProfessor($event)"
+      ></app-professor-all>
+    </div>
+  </c-accordion>
+
+  <!-- TODO llamar a schedule-professor-view
+    pasar el profesor seleccionado que se capturo en getSelectedProfessor
+  -->
+  <div class="elemnt" *ngIf="showScheduleView" >
+
+      <app-schedule-professor-view
+        [profesor]="profesor"
+      ></app-schedule-professor-view>
+
+  </div>
+
+
+</div>

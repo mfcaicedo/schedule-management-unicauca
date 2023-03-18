@@ -1,0 +1,47 @@
+<form  [formGroup]="form" cForm >
+
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label">
+      Programa
+    </label>
+
+    <c-col md="5">
+      <select cSelect id="validationCustom04"  (change)="onSelectedProgram($event)" #selectRefPrograma >
+        <option value="">Escoge un programa</option>
+        <option *ngFor="let program of programs"  value="{{program.programId}}"  >{{program.name}} </option>
+
+
+      </select>
+
+    </c-col>
+    <c-col md="4">
+      <input formControlName="program"   touched type="text" readonly="true" [hidden]="!isEdit" required/>
+    </c-col>
+
+  </c-row>
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label">
+      Semestre
+    </label>
+
+    <c-col md="5">
+      <select cSelect id="validationCustom04"   (change)="onSelectedSemester($event)" #selectRefSemestre >
+        <option value="">Escoge un semestre</option>
+        <option *ngFor="let semester of semesters" value="{{semester}}" >{{semester}} </option>
+      </select>
+
+    </c-col>
+    <c-col md="4">
+      <input formControlName="semester"  type="text" readonly="true" [hidden]="!isEdit" required/>
+    </c-col>
+
+  </c-row>
+
+ <br>
+ <!-- <div class="d-grid gap-2 ">
+   <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="form.invalid" (click)="showResource()">Añadir recursos a este ambiente</button>
+ </div> -->
+
+
+</form>
+

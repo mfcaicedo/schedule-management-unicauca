@@ -1,0 +1,76 @@
+<c-row ngPreserveWhitespaces>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Ambientes </strong>
+      </c-card-header>
+      <c-card-body>
+
+        <c-row class="mb-3">
+
+          <label cLabel class="col-sm-2 col-form-label" >
+            Filtrar por tipo de ambiente :
+          </label>
+          <c-col md="5">
+          <c-dropdown>
+            <button cButton cDropdownToggle color="light">
+              Selecciona tipo ambiente
+            </button>
+            <ul cDropdownMenu>
+              <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
+              <li *ngFor="let tipo of environmentTypes"><a (click)="updateTableEnvironments(tipo)" cDropdownItem>{{tipo}}</a></li>
+
+            </ul>
+          </c-dropdown>
+          </c-col>
+
+        </c-row>
+
+
+        <table cTable>
+          <thead cTableColor="dark">
+          <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ambiente of environments">
+            <td>{{ambiente.id}} </td>
+            <td>{{ambiente.environmentType}} </td>
+            <td>{{ambiente.name}} </td>
+            <td>{{ambiente.location}}</td>
+            <td>{{ambiente.capacity}} </td>
+            <td>{{ambiente.facultyId}} </td>
+            <td>
+              <!-- <a [routerLink]="['../edit',ambiente.id]">
+
+              </a> -->
+              <a _ngcontent-spm-c175="" [routerLink]="['../edit',ambiente.id]" style="color:rgb(0, 0, 134)" >
+                <svg style="size: 10px;" class="ng-tns-c175-1 nav-icon ng-star-inserted" ng-reflect-custom-classes="[object Object]" ng-reflect-name="cil-pencil" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img"><path fill="var(--ci-danger-color, currentColor)" d="M29.663,482.25l.087.087a24.847,24.847,0,0,0,17.612,7.342,25.178,25.178,0,0,0,8.1-1.345l142.006-48.172,272.5-272.5A88.832,88.832,0,0,0,344.334,42.039l-272.5,272.5L23.666,456.541A24.844,24.844,0,0,0,29.663,482.25Zm337.3-417.584a56.832,56.832,0,0,1,80.371,80.373L411.5,180.873,331.127,100.5ZM99.744,331.884,308.5,123.127,388.873,203.5,180.116,412.256,58.482,453.518Z" class="ci-primary"></path></svg>
+              </a>
+
+              <a href="" [routerLink]="['../edit',ambiente.id]" style="color:rgb(0, 0, 134)">
+              <svg cIcon="cilZoomIn"    ng-reflect-name="cilZoomIn" ng-reflect-title="cilZoomIn" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" ><path fill="var(--ci-primary-color, currentColor)" d="M479.6,400.4l-81.084-81.084-62.368-25.767A175.008,175.008,0,0,0,368,192.687c0-97.047-78.953-176-176-176S16,95.64,16,192.687s78.953,176,176,176a175.028,175.028,0,0,0,101.619-32.378l25.7,62.2L400.4,479.6a56,56,0,0,0,79.2-79.2ZM48,192.687c0-79.4,64.6-144,144-144s144,64.6,144,144-64.6,144-144,144S48,272.088,48,192.687ZM456.971,456.971a24.029,24.029,0,0,1-33.942,0L346.457,380.4l-23.894-57.835L380.4,346.457l76.573,76.572A24.029,24.029,0,0,1,456.971,456.971Z" class="ci-primary"></path></svg>
+
+              </a>
+              <a href="" style="color:rgb(110, 0, 0)">
+                <svg ng-reflect-name="cilTrash" ng-reflect-title="cilTrash" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" ><path fill="var(--ci-primary-color, currentColor)" d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z" class="ci-primary"></path><rect width="32" height="200" x="168" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><rect width="32" height="200" x="240" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><rect width="32" height="200" x="312" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><path fill="var(--ci-primary-color, currentColor)" d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z" class="ci-primary"></path></svg>
+              </a>
+            </td>
+
+
+          </tr>
+          </tbody>
+
+        </table>
+        <br>
+        <app-paginador
+        (pageChanged)="loadTableEnvironments($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+
+        ></app-paginador>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>

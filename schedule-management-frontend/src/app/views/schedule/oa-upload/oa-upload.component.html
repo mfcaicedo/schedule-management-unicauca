@@ -1,0 +1,44 @@
+<c-card>
+  <c-card-header>
+    <strong>Carga Academica</strong>
+  </c-card-header>
+
+  <c-card-body>
+    <div class = "container">
+      <div class = "centrado">
+        <h5 >Cargar oferta acádemica al sistema </h5>
+        <!-- <p>
+          <input type="file" (change)="onUpload($event)">
+          <img *ngIf="imgRta" [src]="imgRta" alt="" width="100px">
+        </p> -->
+        <label for="images" class="drop-container">
+          <span class="drop-title">Drop files here</span>
+          or
+          <input type="file" id="images" accept="image/*" (change)="onUpload($event)" required >
+        </label>
+
+      </div>
+
+      <br>
+      <div class = "centrado">
+        <c-card  cBorder="danger" textColor="danger">
+         <c-card-header>
+            <strong>Cola de pendientes</strong>
+         </c-card-header>
+          <c-card-body>
+
+              <div class="pendientes">
+                <ul>
+                  <li *ngFor="let pendiente of colaPendientes"> <a href="">{{pendiente}}</a> </li>
+                </ul>
+            </div>
+
+          </c-card-body>
+        </c-card>
+      </div>
+
+    </div>
+  </c-card-body>
+
+</c-card>
+

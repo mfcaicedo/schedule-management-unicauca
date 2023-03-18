@@ -1,0 +1,31 @@
+<c-card>
+  <c-card-header>
+    <strong>Editar Recurso</strong>
+  </c-card-header>
+  <c-card-body>
+    <app-resources-form #child [isEdit]="true" [resource]="resource" (emitterForm)="getResourceForm($event)"></app-resources-form>
+
+    <div class="d-grid gap-2 ">
+      <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid" (click)="child.setValues();onShowEnvironments()">
+        Ver los ambientes que contienen a este recurso
+      </button>
+    </div>
+  </c-card-body>
+</c-card>
+
+<c-card *ngIf="showEnvironments">
+  <c-card-header>
+    <strong>Ambientes</strong>
+  </c-card-header>
+  <c-card-body>
+    <app-environments-from-resource [resourceId]="resource.id"></app-environments-from-resource>
+
+
+  </c-card-body>
+</c-card>
+
+<br>
+<button cButton color="primary" size="lg" [disabled]= "child.form.invalid" (click)="child.setValues() ;getInfoRecurso();onUpdateResource()" >
+  Actualizar este recurso
+</button>
+
