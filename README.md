@@ -1,8 +1,11 @@
 # Programación y asignación de horarios de clases - Universidad del Cauca
 
 #### Login: 
-Usuario: admin 
-Password: admin
+- Usuario: admin - Password: admin
+## Tecnologías: 
+- Angular - FrontEnd 
+- Spring Boot - BackEnd 
+- MySql - Base de datos relacional
 
 ## Requisitos funcionales 
 ### A. Información básica de la infraestructura física
