@@ -1,5 +1,5 @@
 # Programación y asignación de horarios de clases - Universidad del Cauca
-##Requisitos funcionales 
+## Requisitos funcionales 
 ### A. Información básica de la infraestructura física
 Se debe permitir al administrador/secretario académico/gestor de horarios de cada una
 facultades de la Universidad del Cauca, el ingreso de la información relacionada con la
