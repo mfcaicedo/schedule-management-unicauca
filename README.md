@@ -86,16 +86,18 @@ académico actual (por semestre/ por profesor).
 Se deberá permitir al administrador dar de alta los diferentes roles que interactúan en el
 sistema. Se deberá permitir el proceso de autenticación de los usuarios y recuperación de
 credenciales.
+
 ## Requisitos no funcionales
-A. **Escalabilidad:** Capacidad de garantizar una creciente carga de trabajo, respecto al
+
+1. **Escalabilidad:** Capacidad de garantizar una creciente carga de trabajo, respecto al
 número de conexiones o usuarios. Capacidad de almacenamiento de los datos.
-B. **Seguridad:** Importante considerar mecanismos de autenticación. Autorización o
+2. **Seguridad:** Importante considerar mecanismos de autenticación. Autorización o
 derechos de los usuarios en el sistema. Integridad de los datos para que los datos no
 sean alterados.
-C. **Modificabilidad:** El sistema puede cambiar así que debería poderse adaptar a nuevos
+3. **Modificabilidad:** El sistema puede cambiar así que debería poderse adaptar a nuevos
 requerimientos funcionales y no funcionales.
-D. **Usabilidad:** Garantizar facilidad de uso y aprendizaje a los diferentes roles
+4. **Usabilidad:** Garantizar facilidad de uso y aprendizaje a los diferentes roles
 (Administrador, secretario académico, coordinador del programa y jefe del
 departamento).
-E. **Portabilidad:** Se deberá garantizar que la aplicación funcione en diferentes
+5. **Portabilidad:** Se deberá garantizar que la aplicación funcione en diferentes
 plataformas.
