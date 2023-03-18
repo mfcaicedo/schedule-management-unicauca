@@ -2,6 +2,8 @@
 
 #### Login: 
 - Usuario: admin - Password: admin
+#### Nomenclatura ramas
+- grupo_[1 - 4]_[nombrerama]
 ## Tecnologías: 
 - Angular - FrontEnd 
 - Spring Boot - BackEnd 
