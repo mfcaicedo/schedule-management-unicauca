@@ -1,4 +1,9 @@
 # Programación y asignación de horarios de clases - Universidad del Cauca
+
+#### Login: 
+Usuario: admin 
+Password: admin
+
 ## Requisitos funcionales 
 ### A. Información básica de la infraestructura física
 Se debe permitir al administrador/secretario académico/gestor de horarios de cada una
