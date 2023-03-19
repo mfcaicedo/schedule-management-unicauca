@@ -1,4 +1,6 @@
 import { INavData } from '@coreui/angular';
+import { IconComponent } from '@coreui/icons-angular';
+import { url } from 'inspector';
 
 export const navItems: INavData[] = [
   // {
@@ -15,32 +17,36 @@ export const navItems: INavData[] = [
   //   name: 'Theme'
   // },
   {
-    name: 'Upload Carga academica',
+    name: 'Oferta académica',
     url: '/schedule/upload-oa',
-    iconComponent: { name: 'cil-drop' }
+    iconComponent: { name: 'cilBook' }, 
+    // children: [
+    //   {
+    //     name: 'Subir oferta',
+    //     url: '/schedule/upload-oa',
+    //     iconComponent: { name: 'cilCloudUpload' }
+    //   }, 
+    //   {
+    //     name: 'Editar oferta',
+    //     url: '/schedule/view-oa',
+    //     iconComponent: { name: 'cilPen' }
+    //   }
+    // ]
   },
-  // {
-  //   name: 'Typography',
-  //   url: '/theme/typography',
-  //   linkProps: { fragment: 'someAnchor' },
-  //   iconComponent: { name: 'cil-pencil' }
-  // },
-  // {
-  //   name: 'Components',
-  //   title: true
-  // },
   {
-    name:'Environment',
+    name:'Ambientes',
     url:'/environment',
-    iconComponent:{name:'cilHome'},
+    iconComponent:{name:'cilRoom'},
     children:[
       {
-        name: 'Environments',
-        url: '/environment/all'
+        name: 'Ver ambientes',
+        url: '/environment/all', 
+        iconComponent: { name: 'cilMediaPlay' }
       },
       {
-        name:'Create environment',
-        url:'/environment/create'
+        name:'Crear ambiente',
+        url:'/environment/create', 
+        iconComponent: { name: 'cilPlus' }
       },
       // {
       //   name:'Edit environment',
@@ -49,17 +55,20 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name:'Resource',
+    name:'Recursos',
     url:'/resource',
-    iconComponent:{name:'cil-pencil'},
+    iconComponent:{name:'cilDevices'},
     children:[
       {
-        name:'Resources',
-        url:'/resource/all'
+        name:'Ver recursos',
+        url:'/resource/all', 
+        // iconComponent: { name: 'cilMagnifyingGlass' }
+        iconComponent: { name: 'cilMediaPlay' }
       },
       {
-        name:'Create resource',
-        url:'/resource/create'
+        name:'Crear recurso',
+        url:'/resource/create', 
+        iconComponent: { name: 'cilPlus' }
       },
       // {
       //   name:'Edit resource',
