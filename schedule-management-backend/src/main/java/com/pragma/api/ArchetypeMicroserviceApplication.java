@@ -28,8 +28,15 @@ public class ArchetypeMicroserviceApplication {
      * 
      * @param args
      */
+
     public static void main(String[] args) {
         SpringApplication.run(ArchetypeMicroserviceApplication.class, args);
     }
 
 }
+
+
+
+
+
+
