@@ -18,20 +18,20 @@ export const navItems: INavData[] = [
   // },
   {
     name: 'Oferta académica',
-    url: '/schedule/upload-oa',
+    url: '/schedule',
     iconComponent: { name: 'cilBook' }, 
-    // children: [
-    //   {
-    //     name: 'Subir oferta',
-    //     url: '/schedule/upload-oa',
-    //     iconComponent: { name: 'cilCloudUpload' }
-    //   }, 
-    //   {
-    //     name: 'Editar oferta',
-    //     url: '/schedule/view-oa',
-    //     iconComponent: { name: 'cilPen' }
-    //   }
-    // ]
+    children: [
+      {
+        name: 'Subir oferta',
+        url: '/schedule/upload-oa',
+        iconComponent: { name: 'cilCloudUpload' }
+      }, 
+      {
+        name: 'Editar oferta',
+        url: '/schedule/view-oa',
+        iconComponent: { name: 'cilPen' }
+      }
+    ]
   },
   {
     name:'Ambientes',

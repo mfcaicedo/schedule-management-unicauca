@@ -1,44 +1,51 @@
 <c-card>
   <c-card-header>
-    <strong>Carga Academica</strong>
+    <strong>Oferta Academica</strong>
   </c-card-header>
 
   <c-card-body>
-    <div class = "container">
-      <div class = "centrado">
-        <h5 >Cargar oferta acádemica al sistema </h5>
+    <div class="container">
+      <div class="centrado">
+        <h5>Cargar oferta acádemica al sistema </h5>
         <!-- <p>
           <input type="file" (change)="onUpload($event)">
           <img *ngIf="imgRta" [src]="imgRta" alt="" width="100px">
         </p> -->
-        <label for="images" class="drop-container">
-          <span class="drop-title">Drop files here</span>
-          or
-          <input type="file" id="images" accept="image/*" (change)="onUpload($event)" required >
+        <label for="file-academic-offer" class="drop-container">
+          <span class="drop-title">Arrastra un archivo aquí</span>
+          <span class="drop-message">o haz clic para seleccionar un archivo</span>
+          <input type="file" id="file-academic-offer" accept=".xlsx" (change)="onUpload($event)" required>
         </label>
+
 
       </div>
 
       <br>
-      <div class = "centrado">
-        <c-card  cBorder="danger" textColor="danger">
-         <c-card-header>
+      <div class="centrado">
+        <c-card cBorder="danger" textColor="danger">
+          <c-card-header>
             <strong>Cola de pendientes</strong>
-         </c-card-header>
+          </c-card-header>
           <c-card-body>
 
-              <div class="pendientes">
-                <ul>
-                  <li *ngFor="let pendiente of colaPendientes"> <a href="">{{pendiente}}</a> </li>
-                </ul>
+            <div class="pendientes">
+              <ul>
+                <li *ngFor="let pendiente of colaPendientes"> <a href="">{{pendiente}}</a> </li>
+              </ul>
             </div>
 
           </c-card-body>
         </c-card>
       </div>
 
+      <!-- Snipper -->
+      <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+        <p style="color: white">
+          Cargando oferta...
+        </p>
+      </ngx-spinner>
+
     </div>
   </c-card-body>
 
 </c-card>
-
