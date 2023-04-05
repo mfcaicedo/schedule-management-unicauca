@@ -19,7 +19,7 @@ export const navItems: INavData[] = [
   {
     name: 'Oferta académica',
     url: '/schedule/upload-oa',
-    iconComponent: { name: 'cilBook' }, 
+    iconComponent: { name: 'cilCalendar' }, 
     // children: [
     //   {
     //     name: 'Subir oferta',
@@ -36,12 +36,12 @@ export const navItems: INavData[] = [
   {
     name:'Ambientes',
     url:'/environment',
-    iconComponent:{name:'cilRoom'},
+    iconComponent:{name:'cilBuilding'},
     children:[
       {
         name: 'Ver ambientes',
         url: '/environment/all', 
-        iconComponent: { name: 'cilMediaPlay' }
+        iconComponent: { name: 'cilListRich' }
       },
       {
         name:'Crear ambiente',
@@ -63,7 +63,7 @@ export const navItems: INavData[] = [
         name:'Ver recursos',
         url:'/resource/all', 
         // iconComponent: { name: 'cilMagnifyingGlass' }
-        iconComponent: { name: 'cilMediaPlay' }
+        iconComponent: { name: 'cilListRich' }
       },
       {
         name:'Crear recurso',
