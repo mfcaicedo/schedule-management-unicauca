@@ -4,14 +4,14 @@
   <c-col xs="12">
     <c-card class="mb-4">
       <c-card-header>
-        <strong>Recursos </strong>
+        <strong class="titulo">Recursos </strong>
       </c-card-header>
       <c-card-body>
 
         <c-row class="mb-3">
         <!-- <div class="col-auto"> -->
           <label cLabel class="col-sm-2 col-form-label" >
-            Filtrar por tipo de recurso :
+            Filtrar por tipo de recurso:
           </label>
           <c-col md="5">
           <c-dropdown>
@@ -34,8 +34,9 @@
             itemsPerPageSelect
             itemsPerPage={1}
             pagination
+            [responsive]="true"
         >
-          <thead cTableColor="dark">
+          <thead cTableColor="primary">
           <tr>
             <th *ngFor="let c of columns">{{c}} </th>
           </tr>
