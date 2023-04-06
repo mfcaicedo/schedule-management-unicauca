@@ -12,37 +12,37 @@ const routes: Routes = [
     },
     children: [
       {
-        path:'',
-        redirectTo:'/all',
-        pathMatch:'full'
+        path: '',
+        redirectTo: '/all',
+        pathMatch: 'full'
       },
       {
         path: 'all',
         component: ResourcesAllComponent,
         data: {
-          title: 'all',
+          title: 'Todos',
         }
       },
       {
-        path:'all/:resourceType',
-        component:ResourcesAllComponent,
-        data:{
-          title:'environmentType'
+        path: 'all/:resourceType',
+        component: ResourcesAllComponent,
+        data: {
+          title: 'environmentType'
         }
       },
       {
         //detalle y de un ambiente
-        path:'create',
-        component:ResourcesCreateComponent,
-        data:{
-          title:'create'
+        path: 'create',
+        component: ResourcesCreateComponent,
+        data: {
+          title: 'Crear'
         }
       },
       {
-        path:'edit/:resourceId',
-        component:ResourcesEditComponent,
-        data:{
-          title:'edit'
+        path: 'edit/:resourceId',
+        component: ResourcesEditComponent,
+        data: {
+          title: 'Editar'
         }
       }
     ]

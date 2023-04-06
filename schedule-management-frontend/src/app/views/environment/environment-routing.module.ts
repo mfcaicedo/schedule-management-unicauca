@@ -3,45 +3,53 @@ import { RouterModule, Routes } from '@angular/router';
 import { EnvironmentsComponent } from './environments/environments.component';
 import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
+import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component';
 const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Environment',
+      title: 'Ambientes',
     },
     children: [
       {
-        path:'',
-        redirectTo:'/all',
-        pathMatch:'full'
+        path: '',
+        redirectTo: '/all',
+        pathMatch: 'full'
       },
       {
         path: 'all',
         component: EnvironmentsComponent,
         data: {
-          title: 'all',
+          title: 'Todos',
         }
       },
       {
-        path:'all/:environmentType',
-        component:EnvironmentsComponent,
-        data:{
-          title:'environmentType'
+        path: 'all/:environmentType',
+        component: EnvironmentsComponent,
+        data: {
+          title: 'Tipo de ambiente'
         }
       },
       {
         //detalle y de un ambiente
-        path:'create',
-        component:EnvironmentDetailComponent,
-        data:{
-          title:'create'
+        path: 'create',
+        component: EnvironmentDetailComponent,
+        data: {
+          title: 'Crear'
         }
       },
       {
-        path:'edit/:environmentId',
-        component:EnvironmentEditComponent,
-        data:{
-          title:'edit'
+        path: 'edit/:environmentId',
+        component: EnvironmentEditComponent,
+        data: {
+          title: 'Editar'
+        }
+      },
+      {
+        path: 'upload-env',
+        component: EnvironmentUploadComponent,
+        data: {
+          title: 'Cargar ambiente'
         }
       }
     ]
