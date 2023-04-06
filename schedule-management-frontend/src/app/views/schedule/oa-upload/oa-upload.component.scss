@@ -43,9 +43,8 @@ c-card{
   height: 200px;
   padding: 20px;
   border-radius: 10px;
-  border: 2px dashed #555;
+  border: 2px dashed #111;
   color: #444;
-  cursor: pointer;
   transition: background .2s ease-in-out, border .2s ease-in-out;
 }
 
@@ -64,4 +63,30 @@ c-card{
   font-weight: bold;
   text-align: center;
   transition: color .2s ease-in-out;
+}
+
+.file-academic-offer{
+  display: none;
+}
+.btn-upload-file{
+  padding: 15px 25px;
+  background-color: #0A266F;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+
+}
+.btn-upload-file:hover{
+  background-color: #3e4ecc;
+  // background-color: #a80000;
+  transition: all 0.3s ease-in-out 0s;
+}
+.centrado h5{
+  color: #a80000;
+  font-weight: bold;
+}
+
+.flex-row-1{
+  margin-inline: 10px;
 }
