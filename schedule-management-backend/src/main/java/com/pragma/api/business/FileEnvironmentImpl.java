@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -40,34 +39,35 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
 
         for(FileRowEnvironment log:logs){
 
+                String[] words = log.getEnvironmentType().toUpperCase().split(",");
+                for (int i = 0; i < words.length; i++) {
+                    words[i] = words[i].trim();
+                    Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty());
+                    if(faculty!=null){
 
-            Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty());
-            if(faculty!=null){
+                        Environment environment = new Environment();
+                        environment.setName(log.getName());
+                        environment.setLocation(log.getLocation());
+                        environment.setCapacity(log.getCapacity());
+                        switch (words[i]){
+                            case "AUDITORIO":
+                                environment.setEnvironmentType(EnvironmentTypeEnumeration.AUDITORIO);
+                                break;
+                            case "LABORATORIO":
+                                environment.setEnvironmentType(EnvironmentTypeEnumeration.LABORATORIO);
+                                break;
+                            case "SALON":
+                                environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
+                                break;
+                        }
+                        environment.setFaculty(faculty);
+                        environmentRepository.save(environment);
 
-                Environment environment = new Environment();
-                environment.setName(log.getName());
-                environment.setLocation(log.getLocation());
-                environment.setCapacity(log.getCapacity());
-                switch (log.getEnvironmentType().toUpperCase()){
-                    case "AUDITORIO":
-                        environment.setEnvironmentType(EnvironmentTypeEnumeration.AUDITORIO);
-                        break;
-                    case "LABORATORIO":
-                        environment.setEnvironmentType(EnvironmentTypeEnumeration.LABORATORIO);
-                        break;
-                    case "SALON":
-                        environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
-                        break;
+                        infoLogs.add("Course Created succesfully!");
+                    }else{
+                        infoLogs.add("Course NOT Created");
+                    }
                 }
-                environment.setFaculty(faculty);
-                environmentRepository.save(environment);
-
-                infoLogs.add("Course Created succesfully!");
-            }else{
-                infoLogs.add("Course NOT Created");
-            }
-
-
 
         }
         return infoLogs;
