@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'schedule',
+      title: 'Oferta académica',
     },
     children: [
       {
@@ -58,7 +58,7 @@ const routes: Routes = [
         path:'upload-oa',
         component: OaUploadComponent,
         data : {
-          title:'upload-oa'
+          title:'Subir oferta'
         }
       }
     ]

@@ -1,5 +1,6 @@
 <c-card>
   <c-card-header>
+    <strong class="titulo">Editar Ambiente</strong>
 
   </c-card-header>
   <c-card-body>
@@ -9,7 +10,7 @@
     ></app-environment-form>
 
     <div class="d-grid gap-2 ">
-      <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid" (click)="showResource()">
+      <button cButton color="primary" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid" (click)="showResource()">
         Mostrar recursos de este ambiente
       </button>
     </div>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 import { ScheduleRoutingModule } from './schedule-routing.module';
@@ -31,7 +32,8 @@ import {
   TabsModule,
   TooltipModule,
   UtilitiesModule,
-  AlertModule
+  AlertModule, 
+
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { ScheduleBeforeCreateFormComponent } from './schedule-before-create-form/schedule-before-create-form.component';
@@ -70,9 +72,7 @@ import { OaUploadComponent } from './oa-upload/oa-upload.component';
   imports: [
     CommonModule,
     ScheduleRoutingModule,
-
     ToshareModule,
-    
     FormsModule,
     AlertModule,
     AccordionModule,
@@ -99,7 +99,8 @@ import { OaUploadComponent } from './oa-upload/oa-upload.component';
     DropdownModule,
     PaginationModule,
     PopoverModule,
-    TableModule
+    TableModule, 
+    NgxSpinnerModule,
   ]
 })
 export class ScheduleModule {
