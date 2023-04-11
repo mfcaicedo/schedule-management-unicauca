@@ -4,18 +4,18 @@ package com.pragma.api.business;
 
 import com.pragma.api.model.*;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
+import com.pragma.api.model.enums.ResourceTypeEnumeration;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IFacultyRepository;
 import com.pragma.api.util.file.FileEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
+//import org.hibernate.mapping.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class FileEnvironmentImpl implements IFileEnvironmentService{
@@ -58,7 +58,26 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                     case "SALON":
                         environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
                         break;
+                    default:
+                        environment.setEnvironmentType(EnvironmentTypeEnumeration.DEFAULT);
+                        break;
                 }
+
+                Set<Resource> Resources = new HashSet<>();
+                String[] words = log.getAvailableResources().split(",");
+                for (int i = 0; i < words.length; i++) {
+                    words[i] = words[i].toUpperCase().trim();
+                    Resource resource = new Resource();
+                    resource.setName(words[i]);
+                    if((words[i].equals("TELEVISOR"))||(words[i].equals("VIDEOBEAM"))){
+                        resource.setResourceType(ResourceTypeEnumeration.TECNOLOGICO);
+                    }else{
+                        resource.setResourceType(ResourceTypeEnumeration.PEDAGOGICO);
+                    }
+                    Resources.add(resource);
+                }
+
+                environment.setAvailableResources(Resources);
                 environment.setFaculty(faculty);
                 environmentRepository.save(environment);
 
@@ -66,9 +85,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
             }else{
                 infoLogs.add("Course NOT Created");
             }
-
-
-
         }
         return infoLogs;
     }
