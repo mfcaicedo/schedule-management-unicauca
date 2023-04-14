@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: '',
     data: {
-      title: 'Resource',
+      title: 'Recurso',
     },
     children: [
       {
@@ -20,7 +20,7 @@ const routes: Routes = [
         path: 'all',
         component: ResourcesAllComponent,
         data: {
-          title: 'all',
+          title: 'Todos',
         }
       },
       {
@@ -35,7 +35,7 @@ const routes: Routes = [
         path:'create',
         component:ResourcesCreateComponent,
         data:{
-          title:'create'
+          title:'Crear'
         }
       },
       {

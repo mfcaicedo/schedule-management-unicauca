@@ -36,7 +36,7 @@ export const navItems: INavData[] = [
   {
     name:'Ambientes',
     url:'/environment',
-    iconComponent:{name:'cilRoom'},
+    iconComponent:{name:'cilBuilding'},
     children:[
       {
         name:'Crear ambiente',
