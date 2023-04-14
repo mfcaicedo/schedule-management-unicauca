@@ -57,9 +57,12 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
         fileRow.setName(cells.get(0).getStringCellValue());
         fileRow.setLocation(cells.get(1).getStringCellValue());
         fileRow.setCapacity((int)cells.get(2).getNumericCellValue());
-        fileRow.setAvailableResources(cells.get(3).getStringCellValue());
-        fileRow.setEnvironmentType(cells.get(4).getStringCellValue());
-        fileRow.setFaculty(cells.get(5).getStringCellValue());
+        fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
+        fileRow.setFaculty(cells.get(4).getStringCellValue());
+        fileRow.setAvailableResources(cells.get(5).getStringCellValue());
+
+
+
         return fileRow;
     }
 }

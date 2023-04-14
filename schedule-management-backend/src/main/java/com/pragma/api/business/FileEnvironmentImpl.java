@@ -7,6 +7,7 @@ import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.model.enums.ResourceTypeEnumeration;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IFacultyRepository;
+import com.pragma.api.repository.IResourceRepository;
 import com.pragma.api.util.file.FileEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 //import org.hibernate.mapping.Set;
@@ -21,10 +22,20 @@ import java.util.*;
 public class FileEnvironmentImpl implements IFileEnvironmentService{
 
     //VERIFICAAAAR
-    @Autowired
+
     private IEnvironmentRepository environmentRepository;
-    @Autowired
+
     private IFacultyRepository facultyRepository;
+
+    private IResourceRepository resourceRepository;
+
+    @Autowired
+    public FileEnvironmentImpl(IEnvironmentRepository environmentRepository, IFacultyRepository facultyRepository,
+                               IResourceRepository resourceRepository) {
+        this.environmentRepository = environmentRepository;
+        this.facultyRepository = facultyRepository;
+        this.resourceRepository= resourceRepository;
+    }
 
     @Override
     public List<String> uploadFile(MultipartFile file) throws IOException {
@@ -40,8 +51,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
 
         for(FileRowEnvironment log:logs){
 
+            Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty().toUpperCase().trim());
 
-            Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty());
             if(faculty!=null){
 
                 Environment environment = new Environment();
@@ -63,21 +74,22 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                         break;
                 }
 
-                Set<Resource> Resources = new HashSet<>();
+                List<Resource> resourcesDb = this.resourceRepository.findAll();
+                Set<Resource> resources = new HashSet<>();
                 String[] words = log.getAvailableResources().split(",");
-                for (int i = 0; i < words.length; i++) {
-                    words[i] = words[i].toUpperCase().trim();
-                    Resource resource = new Resource();
-                    resource.setName(words[i]);
-                    if((words[i].equals("TELEVISOR"))||(words[i].equals("VIDEOBEAM"))){
-                        resource.setResourceType(ResourceTypeEnumeration.TECNOLOGICO);
-                    }else{
-                        resource.setResourceType(ResourceTypeEnumeration.PEDAGOGICO);
+                String[] wordsFormat = wordFormat(words);
+
+                for (int i = 0; i < resourcesDb.size(); i++) {
+                    if(i!=wordsFormat.length-1){
+                        if(resourcesDb.get(i).getName().toUpperCase().trim().equals(wordsFormat[i])){
+                            Resource resource = resourcesDb.get(i);
+                            resources.add(resource);
+
+                        }
                     }
-                    Resources.add(resource);
                 }
 
-                environment.setAvailableResources(Resources);
+                environment.setAvailableResources(resources);
                 environment.setFaculty(faculty);
                 environmentRepository.save(environment);
 
@@ -87,5 +99,12 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
             }
         }
         return infoLogs;
+    }
+
+    private String [] wordFormat(String [] words){
+        for (int i = 0; i < words.length; i++) {
+            words[i] = words[i].toUpperCase().trim();
+        }
+        return words;
     }
 }
