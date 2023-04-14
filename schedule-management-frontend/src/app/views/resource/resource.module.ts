@@ -83,7 +83,7 @@ import { EnvironmentsFromResourceComponent } from './environments-from-resource/
     TooltipModule,
     UtilitiesModule
   ],
-  exports:[
+  exports: [
     ResourcesComponent
   ]
 
