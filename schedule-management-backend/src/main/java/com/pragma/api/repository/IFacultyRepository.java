@@ -4,4 +4,6 @@ import com.pragma.api.model.Faculty;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface IFacultyRepository extends JpaRepository<Faculty, String> {
+    //boolean findByFacultyNameEquals(String name);
+    Faculty findByFacultyIdIs(String name);
 }

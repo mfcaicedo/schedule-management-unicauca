@@ -1,4 +1,4 @@
-package com.pragma.api.util;
+package com.pragma.api.util.file.templateclasses;
 
 import lombok.*;
 
