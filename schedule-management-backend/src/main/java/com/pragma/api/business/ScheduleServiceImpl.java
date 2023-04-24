@@ -129,25 +129,25 @@ public class ScheduleServiceImpl implements IScheduleService{
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+                    scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     return scheduleResponseDTO;
                 })
                 .collect(Collectors.toList());
     }
 
-    @Override
-    public List<ScheduleResponseDTO> getAllByTeacher(String teacherCode) {
-        Optional<Teacher> teacherRequest = this.teacherRepository.findById(teacherCode);
-        if(teacherRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.teacher.id", teacherCode);
-        List<Schedule> schedules = this.scheduleRepository.findAllByCourseTeacher(teacherRequest.get());
-        return schedules.stream()
-                .map(schedule -> {
-                    ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
-                    return scheduleResponseDTO;
-                })
-                .collect(Collectors.toList());
-    }
+//    @Override
+//    public List<ScheduleResponseDTO> getAllByTeacher(String teacherCode) {
+//        Optional<Teacher> teacherRequest = this.teacherRepository.findById(teacherCode);
+//        if(teacherRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.teacher.id", teacherCode);
+//        List<Schedule> schedules = this.scheduleRepository.findAllByCourseTeacher(teacherRequest.get());
+//        return schedules.stream()
+//                .map(schedule -> {
+//                    ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
+//                    scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+//                    return scheduleResponseDTO;
+//                })
+//                .collect(Collectors.toList());
+//    }
     @Override
     public ScheduleResponseDTO getScheduleById(Long code){
         try {

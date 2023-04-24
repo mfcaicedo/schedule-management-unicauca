@@ -13,6 +13,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class Teacher {
+
     @Id
     @Column(length = 45)
     private String teacherCode;
@@ -27,8 +28,8 @@ public class Teacher {
     @JoinColumn(name = "program_id")
     private Program program;
 
-    @OneToMany(mappedBy = "teacher")
-    private Set<Course> courses;
-
-
+//    @OneToMany(mappedBy = "teacher")
+//    private Set<Course> courses;
+    @ManyToMany(mappedBy = "profesoresAsignados", fetch = FetchType.LAZY)
+    private Set<Course> cursosAsignados;
 }

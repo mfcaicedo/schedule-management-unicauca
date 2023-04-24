@@ -54,9 +54,9 @@ public class CourseBusinessImpl implements ICourseBusiness {
         logger.debug("Init createCourse Business Course: {}", courseDTO.toString());
         Response<CourseDTO> response = new Response<>();
 
-        if(!iTeacherRepository.existsById(courseDTO.getTeacherCode())){
-            throw new ScheduleBadRequestException("bad.request.teacher.id", courseDTO.getTeacherCode());
-        }
+//        if(!iTeacherRepository.existsById(courseDTO.getTeacherCode())){
+//            throw new ScheduleBadRequestException("bad.request.teacher.id", courseDTO.getTeacherCode());
+//        }
 
         if(!iSubjectRepository.existsById(courseDTO.getSubjectCode())){
             throw new ScheduleBadRequestException("bad.request.subject.id", courseDTO.getSubjectCode());

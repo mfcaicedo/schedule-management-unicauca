@@ -18,20 +18,17 @@ public class FileUtils {
 
         List<FileRow> fileRows = new ArrayList<>();
 
-
         InputStream fileExcel = file.getInputStream();
 
-
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);
-
 
         XSSFSheet sheet = book.getSheetAt(0);
 
         int rowNum = sheet.getLastRowNum();
 
-        System.out.println(rowNum);
+        System.out.println("FILAS EXCEL: " + rowNum);
 
-        for (int i = 1; i <= rowNum;i++){
+        for (int i = 1; i <= rowNum; i++) {
             List<Cell> cells = new ArrayList<>();
             System.out.println("Registro numero: " + i);
 
@@ -39,7 +36,7 @@ public class FileUtils {
 
             int columnNum = row.getLastCellNum();
 
-            for (int j = 0; j < columnNum ; j++){
+            for (int j = 0; j < columnNum; j++) {
                 cells.add(row.getCell(j));
             }
 
@@ -48,25 +45,25 @@ public class FileUtils {
 
         }
 
-
         return fileRows;
     }
 
-
-    private static FileRow convertCellsToFileRow(List<Cell> cells){
+    private static FileRow convertCellsToFileRow(List<Cell> cells) {
         FileRow fileRow = new FileRow();
 
         fileRow.setPeriod(cells.get(0).getStringCellValue());
         fileRow.setProgram(cells.get(1).getStringCellValue());
-        fileRow.setSemester((int)cells.get(2).getNumericCellValue());
+        fileRow.setSemester((int) cells.get(2).getNumericCellValue());
         fileRow.setSubjectCode(cells.get(3).getStringCellValue());
         fileRow.setSubjectName(cells.get(4).getStringCellValue());
-        fileRow.setDailyOverload((int)cells.get(5).getNumericCellValue());
-        fileRow.setWeeklyOverload((int)cells.get(6).getNumericCellValue());
+        fileRow.setDailyOverload((int) cells.get(5).getNumericCellValue());
+        fileRow.setWeeklyOverload((int) cells.get(6).getNumericCellValue());
         fileRow.setGroup(cells.get(7).getStringCellValue());
-        fileRow.setCapacity((int)cells.get(8).getNumericCellValue());
+        fileRow.setCapacity((int) cells.get(8).getNumericCellValue());
         fileRow.setEnvironment(cells.get(9).getStringCellValue());
-        fileRow.setTeacherCode(String.valueOf((int)cells.get(10).getNumericCellValue()));
+        // EL TIPO DE DATO ERA NUMERICO (Codigo Docente), AHORA ES UN STRING (Varios codigos separados por comas)
+//        fileRow.setTeacherCode(String.valueOf((int)cells.get(10).getNumericCellValue()));
+        fileRow.setTeacherCode(cells.get(10).getStringCellValue());
         fileRow.setDescription(cells.get(11).getStringCellValue());
         fileRow.setDepartment(cells.get(12).getStringCellValue());
 

@@ -42,10 +42,17 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
+    
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "teacher_code")
+//    private Teacher teacher;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "teacher_code")
-    private Teacher teacher;
+    @ManyToMany
+    @JoinTable(
+            name = "course_teacher",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
+    private Set<Teacher> profesoresAsignados;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;
