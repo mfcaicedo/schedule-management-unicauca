@@ -101,6 +101,7 @@ export class EnvironmentService {
   }
   updateEnvironment(environment: Environment) {
     //llamar a actualizar ambiente
+    console.log("ENTRAAAAAA ")
     console.log(environment)
     return this.http.post<any>(this.endPoint + '', environment, this.httpOptions)
       .pipe(
