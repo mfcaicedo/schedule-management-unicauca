@@ -53,7 +53,7 @@ public class ScheduleServiceImpl implements IScheduleService{
         if(this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
         if(this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(), saveRequest.getEndingTime(),saveRequest.getDay(),environmentOptRequest.get())) throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment", environmentOptRequest.get().getName());
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
-        if(differenceHours>courseDb.getRemainingHours()) throw new ScheduleBadRequestException("bad.request.schedule.hours",courseDb.getId().toString());
+        if(differenceHours>courseDb.getRemainingHours() || differenceHours<2) throw new ScheduleBadRequestException("bad.request.schedule.hours",courseDb.getId().toString());
         Schedule requestSchedule = Schedule
                 .builder()
                 .startingTime(saveRequest.getStartingTime())
@@ -79,7 +79,7 @@ public class ScheduleServiceImpl implements IScheduleService{
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
         Course concreteCourse = courseOptRequest.get();
-        //if(this.scheduleRepository.existsByCourseAndDay(concreteCourse, updateRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
+        if(this.scheduleRepository.existsByCourseAndDay(concreteCourse, updateRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(updateRequest.getEnvironmentId());
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", updateRequest.getEnvironmentId().toString());
         int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(), updateRequest.getEndingTime());
