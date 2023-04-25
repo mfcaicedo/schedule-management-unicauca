@@ -20,9 +20,11 @@ public class Teacher {
     @Column(name = "full_name", length = 80)
     private String fullName;
 
-
-    @OneToMany(mappedBy = "teacher")
-    private Set<Course> courses;
+    //@OneToMany(mappedBy = "teacher")
+    //private Set<Course> courses;
+    //Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
+    @ManyToMany(mappedBy = "profesoresAsignados", fetch = FetchType.LAZY)
+    private Set<Course> cursosAsignados;
 
     //Relacion muchos a 1 con Department Descripcion: indica que un profesor pertenece a un departamento
     @ManyToOne(fetch = FetchType.EAGER)

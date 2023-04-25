@@ -129,12 +129,17 @@ public class ScheduleServiceImpl implements IScheduleService{
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+                    //scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+                    scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     return scheduleResponseDTO;
                 })
                 .collect(Collectors.toList());
     }
 
+    /**
+     *
+     * Necesario que se plantee una solucion diferente debido a que la relacion con profesor es de muchos a muchos.
+     *
     @Override
     public List<ScheduleResponseDTO> getAllByTeacher(String teacherCode) {
         Optional<Teacher> teacherRequest = this.teacherRepository.findById(teacherCode);
@@ -148,6 +153,7 @@ public class ScheduleServiceImpl implements IScheduleService{
                 })
                 .collect(Collectors.toList());
     }
+      */
     @Override
     public ScheduleResponseDTO getScheduleById(Long code){
         try {
