@@ -119,6 +119,18 @@ export class EnvironmentService {
       })
     );
   }
+  //Eliminar ambiente
+  deleteEnvironment(environmentId:number){
+    return this.http.delete<any>(this.endPoint+`?id=${environmentId}`).pipe(
+      catchError((e) => {
+
+        console.log('Error eliminando el ambiente', e.error.mensaje, 'error');
+        return throwError(e);
+
+      })
+    );
+  }
+
   getEnvironmentsByEnvironmentId(environmentId:number){
 
     console.log("consumiendo ",this.endPoint+`/${environmentId}`)

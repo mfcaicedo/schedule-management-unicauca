@@ -75,4 +75,10 @@ public class EnvironmentController {
     public List<EnvironmentTypeEnumeration> findAllTypes(){
         return this.environmentService.findAllTypesEnvironment();
     }
+
+    @DeleteMapping("/delete/{environmentId}")
+    public void deleteEnvironment(@PathVariable Integer environmentId){
+        System.out.println("id"+environmentId);
+        this.environmentService.deleteById(environmentId);
+    }
 }

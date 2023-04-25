@@ -112,6 +112,11 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     }
 
     @Override
+    public void deleteById(Integer environmentId) {
+       this.environmentRepository.deleteById(environmentId);
+    }
+
+    @Override
     public Response<Boolean> addResourceToEnvironment(ResourceList resourceList, Integer environmentId) {
         if(!this.environmentRepository.existsById(environmentId)) throw  new ScheduleBadRequestException("bad.request.environment.id", Integer.toString(environmentId));
         Environment environment = this.environmentRepository.findById(environmentId).get();
@@ -213,4 +218,5 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         List<EnvironmentDTO> environmentDTOS = environmentsPage.stream().map(x->modelMapper.map(x, EnvironmentDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(environmentsPage, environmentDTOS);
     }
+
 }
