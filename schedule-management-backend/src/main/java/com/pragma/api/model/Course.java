@@ -43,6 +43,7 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
+    //realacion de muchos a muchos con Teacher
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_code")
     private Teacher teacher;

@@ -24,8 +24,14 @@ public class Department {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    //relacion 1 a muchos con Teacher Descripcion: indica que un departamento tiene muchos profesores
     @OneToMany(mappedBy = "department")
     private Set<Teacher> teachers;
+
+    //relacion de muchos a 1 con Department Descripcion: Relacion que un profesor es jefe de uno o varios departamentos
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "teacher_code")
+    private Teacher teacher;
 
     @OneToMany(mappedBy = "department")
     private Set<Program> programs;
