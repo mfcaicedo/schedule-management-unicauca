@@ -129,6 +129,7 @@ public class ScheduleServiceImpl implements IScheduleService{
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
+                    scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     //scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
                     scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     return scheduleResponseDTO;

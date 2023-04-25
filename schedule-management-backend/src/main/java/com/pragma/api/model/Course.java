@@ -34,7 +34,7 @@ public class Course {
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
         this.description = description;
-        this.profesoresAsignados = new HashSet<>();
+        //this.profesoresAsignados = new HashSet<>();
     }
 
     @ManyToOne
@@ -45,16 +45,15 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    //@ManyToOne(fetch = FetchType.EAGER)
-    //@JoinColumn(name = "teacher_code")
-    //private Teacher teacher;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "teacher_code")
+//    private Teacher teacher;
 
-    //realacion de muchos a muchos con Teacher. Descripcion: indica que un curso puede ser dictado por 1 o varios profesores
     @ManyToMany
     @JoinTable(
             name = "course_teacher",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_code"))
+            inverseJoinColumns = @JoinColumn(name = "teacher_id"))
     private Set<Teacher> profesoresAsignados;
 
     @OneToMany(mappedBy = "course")

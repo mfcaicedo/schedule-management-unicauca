@@ -13,16 +13,23 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 public class Teacher {
-
     @Id
     @Column(length = 45)
     private String teacherCode;
     @Column(name = "full_name", length = 80)
     private String fullName;
 
-    //@OneToMany(mappedBy = "teacher")
-    //private Set<Course> courses;
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private Program program;
+
     //Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
+//    @OneToMany(mappedBy = "teacher")
+//    private Set<Course> courses;
     @ManyToMany(mappedBy = "profesoresAsignados", fetch = FetchType.LAZY)
     private Set<Course> cursosAsignados;
 
@@ -31,18 +38,7 @@ public class Teacher {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    //Relacion 1 a muchos con Department Descripcion: indica que un profesor puede ser jefe de 1 o varios departamentos
-    @OneToMany(mappedBy = "teacher")
-    private Set<Department> departments;
-
-    //Relacion Muchos a uno con Program Descripcion: indica que un profesor da clases a un programa
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "program_id")
-    private Program program;
-
     //Relacion de 1 a muchos con Program Descripcion: indica que un profesor coordina a 1 o varios programas
     @OneToMany(mappedBy = "teacher")
     private Set<Course> programs;
-
-
 }
