@@ -74,25 +74,39 @@ public class ScheduleServiceImpl implements IScheduleService{
 
     @Override
     public ScheduleResponseDTO updateSchedule(final Long code, final ScheduleRequestDTO updateRequest) {
+
         Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
+
         if(scheduleOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
+        
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
+        
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
+        
         Course concreteCourse = courseOptRequest.get();
+        
         if(this.scheduleRepository.existsByCourseAndDay(concreteCourse, updateRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
+        
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(updateRequest.getEnvironmentId());
+        
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", updateRequest.getEnvironmentId().toString());
+        
         int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(), updateRequest.getEndingTime());
+        
         int oldScheduleDifferenceHours = (int) getDifferenceHours(scheduleOptRequest.get().getStartingTime(),scheduleOptRequest.get().getEndingTime());
+        
         if(concreteCourse.equals(scheduleOptRequest.get().getCourse())){
             concreteCourse.setRemainingHours(concreteCourse.getRemainingHours()+oldScheduleDifferenceHours);
         }
+        
         if(differenceHours>concreteCourse.getRemainingHours()) throw new ScheduleBadRequestException("bad.request.schedule.hours",courseOptRequest.get().getId().toString());
+        
         if (!concreteCourse.equals(scheduleOptRequest.get().getCourse())){
             Course oldCourse = scheduleOptRequest.get().getCourse();
             oldCourse.setRemainingHours(oldCourse.getRemainingHours()+oldScheduleDifferenceHours);
             this.courseRepository.save(scheduleOptRequest.get().getCourse());
         }
+        
         Schedule scheduleDb = scheduleOptRequest.get();
         scheduleDb.setCourse(courseOptRequest.get());
         scheduleDb.setEnvironment(environmentOptRequest.get());
