@@ -20,18 +20,12 @@ public class Teacher {
     private String fullName;
 
     @ManyToOne
-    @JoinColumn(name = "department_id")
-    private Department department;
-
-    @ManyToOne
     @JoinColumn(name = "program_id")
     private Program program;
 
     //Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
-//    @OneToMany(mappedBy = "teacher")
-//    private Set<Course> courses;
-    @ManyToMany(mappedBy = "profesoresAsignados", fetch = FetchType.LAZY)
-    private Set<Course> cursosAsignados;
+    @ManyToMany(mappedBy = "assignedTeachers", fetch = FetchType.LAZY)
+    private Set<Course> assignedSubjects;
 
     //Relacion muchos a 1 con Department Descripcion: indica que un profesor pertenece a un departamento
     @ManyToOne(fetch = FetchType.EAGER)
@@ -40,5 +34,5 @@ public class Teacher {
 
     //Relacion de 1 a muchos con Program Descripcion: indica que un profesor coordina a 1 o varios programas
     @OneToMany(mappedBy = "teacher")
-    private Set<Course> programs;
+    private Set<Program> programs;
 }

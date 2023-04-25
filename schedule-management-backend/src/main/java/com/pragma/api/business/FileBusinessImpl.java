@@ -105,7 +105,7 @@ public class FileBusinessImpl implements IFileBusiness {
                 for (int i = 0; i < teacherCodeArray.length; i++) {
                     teacherCode = teacherCodeArray[i].trim();
                     teacher = iTeacherRepository.findById(teacherCode).get();
-                    course.getProfesoresAsignados().add(teacher);
+                    course.getAssignedTeachers().add(teacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());
