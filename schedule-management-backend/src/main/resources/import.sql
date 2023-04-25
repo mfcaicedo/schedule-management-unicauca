@@ -908,6 +908,7 @@ VALUES (NULL, 'Video Beam', 'TECNOLOGICO');
 INSERT INTO `resource` (`id`, `name`, `resource_type`)
 VALUES (NULL, 'Televisor', 'TECNOLOGICO');
 --Resource environment
+<<<<<<< HEAD
 INSERT INTO `available_resources` (`environment_id`, `resource_id`)
 VALUES (1, 1);
 --course
@@ -951,6 +952,15 @@ VALUES (
 		'ESTR1',
 		'1062'
 	);
+=======
+INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
+
+
+--resource course
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_02', 'PO', '1061');
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('2', '13', 'A', 'dad','4','2022_01', 'POO', '1061');
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('3', '20', 'B', 'asd','4','2022_02', 'ESTR1', '1062');
+>>>>>>> af076ea9de4429ec206638452d0835ee1818a88d
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`)
 VALUES ('1', 'ROLE_ADMIN');
