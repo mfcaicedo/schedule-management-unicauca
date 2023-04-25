@@ -102,8 +102,11 @@ INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Televisor'
 --Resource environment
 INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
 
- --INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `period_periodId`, `subject_code`, `teacher_code`, `remaining_hours`) VALUES ('1', '13', 'A', '2021_02', 'POO', '1061', '4');
- --INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `period_periodId`, `subject_code`, `teacher_code`, `remaining_hours`) VALUES ('2', '20', 'B', '2021_02', 'ESTR1', '1062', '4');
+
+--resource course
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_02', 'PO', '1061');
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('2', '13', 'A', 'dad','4','2022_01', 'POO', '1061');
+INSERT INTO `course` (`course_id`, `course_capacity`,`course_group`,`description`,`remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('3', '20', 'B', 'asd','4','2022_02', 'ESTR1', '1062');
 --Resource environment
 
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
