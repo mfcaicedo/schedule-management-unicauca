@@ -46,12 +46,15 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    @ManyToMany
+    /*@ManyToMany
     @JoinTable(
-            name = "course_teacher",
+            name = "CourseTeacher",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_code"))
-    private Set<Teacher>  assignedTeachers;
+            inverseJoinColumns = @JoinColumn(name = "teacher_code"),
+    )
+    private Set<Teacher>  assignedTeachers; */
+    @OneToMany(mappedBy = "course")
+    private Set<CourseTeacher> assignedTeachers;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;

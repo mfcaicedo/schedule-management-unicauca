@@ -1,9 +1,6 @@
 package com.pragma.api.business;
 
-import com.pragma.api.model.Course;
-import com.pragma.api.model.Period;
-import com.pragma.api.model.Subject;
-import com.pragma.api.model.Teacher;
+import com.pragma.api.model.*;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
 import com.pragma.api.repository.*;
 import com.pragma.api.util.file.templateclasses.FileRow;
@@ -54,6 +51,7 @@ public class FileBusinessImpl implements IFileBusiness {
 
             Subject subject = null;
             Teacher teacher = null;
+            CourseTeacher courseTeacher = null;
             Period period = null;
 
             System.out.println(log.getTeacherCode());
@@ -105,7 +103,8 @@ public class FileBusinessImpl implements IFileBusiness {
                 for (int i = 0; i < teacherCodeArray.length; i++) {
                     teacherCode = teacherCodeArray[i].trim();
                     teacher = iTeacherRepository.findById(teacherCode).get();
-                    course.getAssignedTeachers().add(teacher);
+                    //course.getAssignedTeachers().add(teacher);
+                    course.getAssignedTeachers().add(courseTeacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());

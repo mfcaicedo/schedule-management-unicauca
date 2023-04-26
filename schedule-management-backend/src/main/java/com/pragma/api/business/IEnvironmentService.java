@@ -19,6 +19,15 @@ public interface IEnvironmentService {
     public Response<EnvironmentDTO> createEnvironment(EnvironmentDTO environmentDTO);
 
     /**
+     * Metodo que permite actualizar un registro en base de datos, sobre la tabla Environment,
+     * actualizando la informacion del ambiente que se pasa por parametro.
+     * @param environmentDTO objero con la informacion a actualizar del ambiente
+     * @return {@link Response} Objeto de respuesta para el servicio, el cual contiene la informacion sobre el resultado de la actualizacion
+     */
+    public Response<EnvironmentDTO> updateEnvironment(EnvironmentDTO environmentDTO);
+
+
+    /**
      * Método que permite consultar la información de una materia mediante su codigo
      *
      * @param code
@@ -61,4 +70,5 @@ public interface IEnvironmentService {
     Environment findById(final Integer id);
 
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
+
 }

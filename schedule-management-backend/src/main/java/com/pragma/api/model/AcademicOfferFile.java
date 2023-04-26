@@ -23,8 +23,8 @@ public class AcademicOfferFile {
     private Integer dateRegisterFile;
     @Column(name = "state_file", nullable = false)
     private Integer stateFile;
-    //relacion 1 a 1 con Program
-    @OneToOne
+    //relacion * a 1 con Program
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
 

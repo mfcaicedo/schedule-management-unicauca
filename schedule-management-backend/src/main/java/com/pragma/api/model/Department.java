@@ -28,8 +28,8 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private Set<Teacher> teachers;
 
-    //relacion de muchos a 1 con Department Descripcion: Relacion que un profesor es jefe de uno o varios departamentos
-    @ManyToOne(fetch = FetchType.EAGER)
+    //relacion de 1 a 1 con Department Descripcion: Relacion que un profesor es jefe de un departamento
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "teacher_code")
     private Teacher teacher;
 
