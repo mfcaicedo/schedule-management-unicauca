@@ -20,7 +20,6 @@ public class Period {
     @Enumerated(EnumType.STRING)
     private PeriodStateEnumeration state;
 
-
     public Period(String periodId, PeriodStateEnumeration state) {
         this.periodId = periodId;
         this.state = state;

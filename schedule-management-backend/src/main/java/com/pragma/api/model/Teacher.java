@@ -24,9 +24,8 @@ public class Teacher {
     private Program program;
 
     /*
-    //Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
-    @ManyToMany(mappedBy = "assignedTeachers", fetch = FetchType.LAZY)
-    private Set<Course> assignedSubjects; */
+    * Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
+    */
     @OneToMany(mappedBy = "teacher")
     private Set<CourseTeacher> assignedSubjects;
 
