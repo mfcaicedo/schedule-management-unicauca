@@ -9,7 +9,6 @@ public class CourseTeacherKey implements Serializable {
     @Column(name = "teacher_code")
     private String teacherCode;
 
-
     public CourseTeacherKey() {
     }
     public CourseTeacherKey(Integer courseId, String teacherCode) {

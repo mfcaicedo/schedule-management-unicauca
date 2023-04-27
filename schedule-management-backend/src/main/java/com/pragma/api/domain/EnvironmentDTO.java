@@ -22,8 +22,7 @@ public class EnvironmentDTO {
     private String location;
     private Integer capacity;
     private EnvironmentTypeEnumeration environmentType;
-
     private String facultyId;
-
+    private FacultyDTO facultyDTO;
     private Set<ResourceDTO> availableResources;
 }
