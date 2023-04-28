@@ -70,5 +70,5 @@ public interface IEnvironmentService {
     Environment findById(final Integer id);
 
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
-
+    public void deleteById(Integer environmentId);
 }

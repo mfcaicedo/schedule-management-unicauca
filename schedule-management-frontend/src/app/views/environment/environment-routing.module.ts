@@ -1,9 +1,9 @@
-import { NgModule } from '@angular/core';
+import { NgModule, importProvidersFrom } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { EnvironmentsComponent } from './environments/environments.component';
 import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
-import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component';
+import { EnvironmentDeleteComponent} from './environment-delete/environment-delete.component';
 const routes: Routes = [
   {
     path: '',
@@ -50,6 +50,13 @@ const routes: Routes = [
         component: EnvironmentUploadComponent,
         data: {
           title: 'Cargar ambiente'
+        }
+      },
+      {
+        path: 'delete/:environmentId',
+        component:EnvironmentDeleteComponent,
+        data:{
+          title: 'Eliminar'
         }
       }
     ]
