@@ -27,7 +27,7 @@ export class EnvironmentService {
     },
   ]
 
-  environmentTypes = ['all', 'AUDITORIO', 'LABORATORIO', 'SALON'];
+  environmentTypes = ['TODOS', 'AUDITORIO', 'LABORATORIO', 'SALON'];
   facultys = ["FIET", "Ciencias"];
   endPoint: String = environment.urlEnv
   // endPoint:String = 'api/environment'
