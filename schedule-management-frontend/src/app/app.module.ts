@@ -1,9 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HashLocationStrategy, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 import {
@@ -44,13 +45,14 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
-  PaginationModule
+  PaginationModule, 
+
 
 } from '@coreui/angular';
 
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import {TokenInterceptor} from 'src/app/interceptors/token.interceptor'
-
+import { InterceptorService } from './services/spinner/interceptor.service';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -92,11 +94,11 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    PaginationModule
+    PaginationModule, 
+    NgxSpinnerModule
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[
-
-
   ],
   providers: [
     {
@@ -111,6 +113,11 @@ const APP_CONTAINERS = [
       provide :HTTP_INTERCEPTORS,
       useClass:TokenInterceptor,
       multi:true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true
     },
     IconSetService,
     Title
