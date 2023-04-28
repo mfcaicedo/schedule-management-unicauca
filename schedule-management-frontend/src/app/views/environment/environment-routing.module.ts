@@ -4,6 +4,7 @@ import { EnvironmentsComponent } from './environments/environments.component';
 import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
 import { EnvironmentDeleteComponent} from './environment-delete/environment-delete.component';
+// import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component';
 const routes: Routes = [
   {
     path: '',
@@ -47,7 +48,7 @@ const routes: Routes = [
       },
       {
         path: 'upload-env',
-        component: EnvironmentUploadComponent,
+        // component: EnvironmentUploadComponent,
         data: {
           title: 'Cargar ambiente'
         }
