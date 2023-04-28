@@ -48,6 +48,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
     @Override
     public List<String> processFile(List<FileRowEnvironment> logs) {
         List<String> infoLogs = new ArrayList<>();
+        int limit=0;
 
         for(FileRowEnvironment log:logs){
 
@@ -79,17 +80,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                 String[] words = log.getAvailableResources().split(",");
                 String[] wordsFormat = wordFormat(words);
 
-                for (int i = 0; i < resourcesDb.size(); i++) {
-                    if(i!=wordsFormat.length-1){
-                        if(resourcesDb.get(i).getName().toUpperCase().trim().equals(wordsFormat[i])){
-                            Resource resource = resourcesDb.get(i);
-                            resources.add(resource);
-
-                        }
-                    }
-                }
-
-                environment.setAvailableResources(resources);
+                environment.setAvailableResources(verifyResources(wordsFormat,resourcesDb));
                 environment.setFaculty(faculty);
                 environmentRepository.save(environment);
 
@@ -106,5 +97,19 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
             words[i] = words[i].toUpperCase().trim();
         }
         return words;
+    }
+
+    private Set<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
+        Set<Resource> resources = new HashSet<>();
+        for (int i = 0; i < wordsFormat.length; i++) {
+            for (int j=0 ;j < resourcesDb.size(); j++) {
+                if (resourcesDb.get(j).getName().toUpperCase().trim().equals(wordsFormat[i])) {
+                    Resource resource = resourcesDb.get(j);
+                    resources.add(resource);
+                    break;
+                }
+            }
+        }
+        return resources;
     }
 }
