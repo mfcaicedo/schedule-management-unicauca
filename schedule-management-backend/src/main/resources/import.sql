@@ -104,8 +104,8 @@ INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1)
 
 
 --course 
-INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_02', 'POO', '1061');
-INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`, `teacher_code`) VALUES ('2', '30', 'automatica', 'prueba ', '4', '2021_01', 'POO', '1064');
+INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_02', 'POO');
+INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`) VALUES ('2', '30', 'automatica', 'prueba ', '4', '2021_01', 'POO');
 --Resource environment
 
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
