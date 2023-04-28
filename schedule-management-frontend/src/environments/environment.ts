@@ -8,7 +8,8 @@ export const environment = {
     urlRsc: 'http://localhost:8081/api/resource',
     urlCrs: 'http://localhost:8081/api/course',
     urlEnv: 'http://localhost:8081/api/environment',
-    urlAuth: 'http://localhost:8081/api/auth'
+    urlAuth: 'http://localhost:8081/api/auth', 
+    urlAcadOffer: 'http://localhost:8081/api/file', 
 };
 
 /*

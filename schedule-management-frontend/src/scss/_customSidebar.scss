@@ -1,0 +1,9 @@
+// sidebar styles
+.sidebar{
+    // background: #0A266F !important;
+    background: $primary !important;
+}
+.sidebar-brand {
+    justify-content: start;
+    padding-left: 22px;
+}
