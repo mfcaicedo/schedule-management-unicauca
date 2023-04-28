@@ -36,7 +36,10 @@
             ],
             "styles": [
               "src/scss/styles.scss",
-              "node_modules/@coreui/icons/css/all.css"
+              "node_modules/@coreui/icons/css/all.css", 
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
+              "node_modules/ngx-spinner/animations/ball-beat.css",
+              "node_modules/ngx-spinner/animations/square-jelly-box.css"
             ],
             "scripts": [],
             "allowedCommonJsDependencies": [
@@ -108,7 +111,10 @@
               "src/assets"
             ],
             "styles": [
-              "src/scss/styles.scss"
+              "src/scss/styles.scss", 
+              "node_modules/ngx-spinner/animations/ball-scale-multiple.css", 
+              "node_modules/ngx-spinner/animations/ball-beat.css" 
+
             ],
             "scripts": []
           }

@@ -31,7 +31,7 @@ const routes: Routes = [
     component: DefaultLayoutComponent,
     canActivate:[OpenSesionGuard],
     data: {
-      title: 'Home'
+      title: 'Inicio'
     },
     children: [
       {

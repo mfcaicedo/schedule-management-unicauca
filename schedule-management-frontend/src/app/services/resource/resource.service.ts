@@ -100,7 +100,11 @@ export class ResourceService {
 
   }
 
+  // saveResource(resource:Resource): Observable<any>{
   saveResource(resource:Resource): Observable<any>{
+    console.log("llego al servicio",resource);
+    console.log("llego al servicio",this.endPoint);
+
     return this.http.post<Resource>(this.endPoint+'',resource,this.httpOptions)
     .pipe(
       catchError((e) => {

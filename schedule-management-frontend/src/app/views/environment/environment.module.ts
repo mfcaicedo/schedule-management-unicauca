@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { EnvironmentRoutingModule } from './environment-routing.module';
 import { EnvironmentsComponent } from './environments/environments.component';
@@ -22,7 +23,7 @@ import {
   PlaceholderModule,
   PopoverModule,
   ProgressModule,
-
+  SharedModule,
   SpinnerModule,
   TableModule,
   TabsModule,
@@ -37,6 +38,7 @@ import { DocsComponentsModule } from '@docs-components/docs-components.module';
 import { EnvironmentFormComponent } from './environment-form/environment-form.component';
 import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
+import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component'
 import { FormsModule } from '@angular/forms';
 
 import { ResourceModule } from '../resource/resource.module';
@@ -47,8 +49,8 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     EnvironmentsComponent,
     EnvironmentFormComponent,
     EnvironmentDetailComponent,
-    EnvironmentEditComponent
-
+    EnvironmentEditComponent,
+    EnvironmentUploadComponent,
 
   ],
   imports: [
@@ -84,7 +86,8 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     TableModule,
     TabsModule,
     TooltipModule,
-    UtilitiesModule
+    UtilitiesModule,
+    NgxSpinnerModule,
   ]
 })
 export class EnvironmentModule { }

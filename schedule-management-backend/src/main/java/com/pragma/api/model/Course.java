@@ -6,9 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name= "course")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -33,6 +35,7 @@ public class Course {
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
         this.description = description;
+        //this.profesoresAsignados = new HashSet<>();
     }
 
     @ManyToOne
@@ -43,9 +46,15 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "teacher_code")
-    private Teacher teacher;
+    /*@ManyToMany
+    @JoinTable(
+            name = "CourseTeacher",
+            joinColumns = @JoinColumn(name = "course_id"),
+            inverseJoinColumns = @JoinColumn(name = "teacher_code"),
+    )
+    private Set<Teacher>  assignedTeachers; */
+    @OneToMany(mappedBy = "course")
+    private Set<CourseTeacher> assignedTeachers;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;
