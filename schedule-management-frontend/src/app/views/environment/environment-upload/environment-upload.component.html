@@ -1,21 +1,32 @@
 <c-card>
   <c-card-header>
-    <strong>Ambiente</strong>
+    <strong class="titulo">Ambiente</strong>
   </c-card-header>
 
   <c-card-body>
     <div class="container">
       <div class="centrado">
-        <h5>Cargar ambiente </h5>
+        <h5>Cargar Ambiente al sistema </h5>
         <!-- <p>
           <input type="file" (change)="onUpload($event)">
           <img *ngIf="imgRta" [src]="imgRta" alt="" width="100px">
         </p> -->
-        <label for="file-environment-offer" class="drop-container">
+        <div class="drop-container">
+          <label for="file-academic-offer">
+            <span class="btn-upload-file">
+              <i class="cilCloudUpload"></i>
+              <svg cIcon name="cilCloudUpload" size="xl"></svg>
+              Cargar archivo
+            </span>
+            <input type="file" class="file-academic-offer" id="file-academic-offer" accept=".xlsx"
+              (change)="onUpload($event)" required>
+          </label>
+        </div>
+        <!-- <label for="file-environment-offer" class="drop-container">
           <span class="drop-title">Arrastra un archivo aquí</span>
           <span class="drop-message">o haz clic para seleccionar un archivo</span>
           <input type="file" id="file-environment-offer" accept=".xlsx" (change)="onUpload($event)" required>
-        </label>
+        </label> -->
 
       </div>
 
