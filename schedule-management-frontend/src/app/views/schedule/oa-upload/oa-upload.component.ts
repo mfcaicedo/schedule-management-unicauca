@@ -39,7 +39,20 @@ export class OaUploadComponent implements OnInit {
             });
             //borro el archivo cargado si se subio correctamente
             element.value = '';
-          })
+          },
+            error => {
+              Swal.fire({
+                title: 'Error!',
+                text: `Error subiendo el archivo`,
+                icon: 'error',
+                confirmButtonText: 'Aceptar',
+                confirmButtonColor: '#0A266F',
+                }
+              );
+              //borro el archivo cargado así no se haya cargado
+              element.value = '';
+            });
+
       }
     } else {
       Swal.fire({

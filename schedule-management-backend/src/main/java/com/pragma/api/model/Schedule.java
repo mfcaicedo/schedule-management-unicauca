@@ -52,6 +52,7 @@ public class Schedule {
     @JoinColumn(name = "course_id",nullable = true)
     private Course course;
     @ManyToOne
+    @JoinColumn(name = "environment_id")
     private Environment environment;
 
 }

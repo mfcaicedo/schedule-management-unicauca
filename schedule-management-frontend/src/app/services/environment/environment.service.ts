@@ -27,7 +27,7 @@ export class EnvironmentService {
     },
   ]
 
-  environmentTypes = ['all', 'AUDITORIO', 'LABORATORIO', 'SALON'];
+  environmentTypes = ['TODOS', 'AUDITORIO', 'LABORATORIO', 'SALON'];
   facultys = ["FIET", "Ciencias"];
   endPoint: String = environment.urlEnv
   // endPoint:String = 'api/environment'
@@ -123,6 +123,17 @@ export class EnvironmentService {
 
         })
       );
+  }
+  //Eliminar ambiente
+  deleteEnvironment(environmentId:number){
+    return this.http.delete<any>(this.endPoint+`?id=${environmentId}`).pipe(
+      catchError((e) => {
+
+        console.log('Error eliminando el ambiente', e.error.mensaje, 'error');
+        return throwError(e);
+
+      })
+    );
   }
   getEnvironmentsByEnvironmentId(environmentId: number) {
 
