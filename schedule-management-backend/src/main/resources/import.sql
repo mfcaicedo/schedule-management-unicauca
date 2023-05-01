@@ -103,11 +103,12 @@ INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Televisor'
 INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
 
 
---course 
-INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_02', 'POO');
-INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `description`, `remaining_hours`, `period_periodId`, `subject_code`) VALUES ('2', '30', 'automatica', 'prueba ', '4', '2021_01', 'POO');
---Resource environment
+--resource course
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_01', 'PO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('2', '13', 'A', 'dad','4','2022_01', 'PO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('3', '20', 'B', 'asd','4','2022_02', 'ESTR1');
 
+--Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 
