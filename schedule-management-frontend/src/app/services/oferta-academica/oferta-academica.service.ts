@@ -28,7 +28,7 @@ export class OfertaAcademicaService {
     console.log("llego al servicio endpoint ",this.endPoint);
     const dto =  new FormData();
     dto.append('file',file);
-    return this.http.post<File>(this.endPoint+'/upload',dto,{
+    return this.http.post<File>(this.endPoint+'/uploadFile',dto,{
       // headers:{
       //   'Content-type':"multipart/form-data"
       // }

@@ -1,18 +1,19 @@
-*{
+* {}
 
-}
 // .pendientes{
 //   border-top-color: #CC0000;
 //   border-right-color: blue;
 //   border-bottom-color: #00FF00;
 //   border-left-color: #CCC;
 // }
-c-card{
-  align-self : center;
+c-card {
+  align-self: center;
 }
-.centrado{
-  align-self : center;
+
+.centrado {
+  align-self: center;
 }
+
 // .container{
 //   display: grid;
 //   grid-template-columns: 1fr auto;
@@ -65,10 +66,12 @@ c-card{
   transition: color .2s ease-in-out;
 }
 
-.file-academic-offer{
+
+.file-academic-offer {
   display: none;
 }
-.btn-upload-file{
+
+.btn-upload-file {
   padding: 15px 25px;
   background-color: #0A266F;
   color: #ffffff;
@@ -77,19 +80,22 @@ c-card{
   cursor: pointer;
 
 }
-.btn-upload-file:hover{
+
+.btn-upload-file:hover {
   background-color: #3e4ecc;
   // background-color: #a80000;
   transition: all 0.3s ease-in-out 0s;
 }
-.centrado h5{
+
+.centrado h5 {
   color: #a80000;
   font-weight: bold;
 }
 
-.flex-row-1{
+.flex-row-1 {
   margin-inline: 10px;
 }
-.titulo{
+
+.titulo {
   color: #800000;
 }
