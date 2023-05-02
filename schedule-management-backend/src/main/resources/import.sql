@@ -43,8 +43,9 @@ INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('108
 
 
 --Period
-INSERT INTO `period` (`periodId`, `state`) VALUES ('2021_02', 'FINISHED');
-INSERT INTO `period` (`periodId`, `state`) VALUES ('2022_01', 'FINISHED');
+INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2021-2', '2021-11-30 23:59:59', '2021-07-01 00:00:00','FINISHED');
+INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-1', '2022-06-30 23:59:59', '2022-02-01 00:00:00','FINISHED');
+INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-2', '2022-11-30 23:59:59', '2022-07-01 00:00:00','ACTIVE');
 
 
 
@@ -102,10 +103,13 @@ INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Televisor'
 --Resource environment
 INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
 
- --INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `period_periodId`, `subject_code`, `teacher_code`, `remaining_hours`) VALUES ('1', '13', 'A', '2021_02', 'POO', '1061', '4');
- --INSERT INTO `course` (`course_id`, `course_capacity`, `course_group`, `period_periodId`, `subject_code`, `teacher_code`, `remaining_hours`) VALUES ('2', '20', 'B', '2021_02', 'ESTR1', '1062', '4');
---Resource environment
 
+--resource course
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_01', 'PO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('2', '13', 'A', 'dad','4','2022_01', 'PO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('3', '20', 'B', 'asd','4','2022_02', 'ESTR1');
+
+--Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 

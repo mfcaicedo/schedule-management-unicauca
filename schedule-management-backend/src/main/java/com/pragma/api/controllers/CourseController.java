@@ -45,4 +45,5 @@ public class CourseController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
         return this.courseBusiness.findAll(pageable);
     }
+
 }

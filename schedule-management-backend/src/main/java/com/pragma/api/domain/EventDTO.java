@@ -1,6 +1,5 @@
 package com.pragma.api.domain;
 
-
 import java.io.Serializable;
 
 import javax.persistence.EnumType;
