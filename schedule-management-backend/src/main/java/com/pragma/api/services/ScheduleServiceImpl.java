@@ -4,11 +4,16 @@ import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.util.exception.ScheduleIntegrityException;
+
+//import antlr.debug.Event;
+
 import com.pragma.api.model.Course;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Schedule;
+import com.pragma.api.model.Event;
 import com.pragma.api.repository.ICourseRepository;
 import com.pragma.api.repository.IEnvironmentRepository;
+import com.pragma.api.repository.IEventRepository;
 import com.pragma.api.repository.IScheduleRepository;
 import com.pragma.api.repository.ITeacherRepository;
 import org.modelmapper.ModelMapper;
@@ -32,14 +37,18 @@ public class ScheduleServiceImpl implements IScheduleService{
     private final ICourseRepository courseRepository;
 
     private final ITeacherRepository teacherRepository;
+    // reporsitorio de eventos // parte nueva 
+    private final IEventRepository eventRepository;
 
-    public ScheduleServiceImpl(ModelMapper modelMapper, IEnvironmentRepository environmentRepository, IScheduleRepository scheduleRepository, ICourseRepository courseRepository, ITeacherRepository teacherRepository) {
+    public ScheduleServiceImpl(ModelMapper modelMapper, IEnvironmentRepository environmentRepository, IScheduleRepository scheduleRepository, ICourseRepository courseRepository, ITeacherRepository teacherRepository, IEventRepository eventRepository) {
         this.modelMapper = modelMapper;
         this.environmentRepository = environmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.courseRepository = courseRepository;
         this.teacherRepository = teacherRepository;
-    }
+        //nuevo
+        this.eventRepository = eventRepository;
+        }
 
 
     @Override
@@ -47,7 +56,10 @@ public class ScheduleServiceImpl implements IScheduleService{
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(saveRequest.getEnvironmentId());
+        //request de event
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", saveRequest.getEnvironmentId().toString());
+        Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        if(eventOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         Course courseDb = courseOptRequest.get();
         if(this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
         if(this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(), saveRequest.getEndingTime(),saveRequest.getDay(),environmentOptRequest.get())) throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment", environmentOptRequest.get().getName());

@@ -5,6 +5,8 @@ import com.pragma.api.model.Course;
 import com.pragma.api.model.Schedule;
 import com.pragma.api.model.enums.DaysEnumeration;
 import lombok.*;
+
+import java.sql.Date;
 import java.time.LocalTime;
 
 @Builder
@@ -16,9 +18,13 @@ import java.time.LocalTime;
 public class ScheduleResponseDTO {
     private Long id;
     private DaysEnumeration day;
-    private LocalTime startingTime;
     private LocalTime endingTime;
+    private Date endingDate;
+    private boolean isReserv;
+    private Date startinDate;
+    private LocalTime startingTime;
     private CourseDTO course;
     private String color;
     private EnvironmentDTO environment;
+    private EventDTO event;
 }
