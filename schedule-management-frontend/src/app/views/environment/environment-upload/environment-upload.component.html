@@ -7,47 +7,18 @@
     <div class="container">
       <div class="centrado">
         <h5>Cargar Ambiente al sistema </h5>
-        <!-- <p>
-          <input type="file" (change)="onUpload($event)">
-          <img *ngIf="imgRta" [src]="imgRta" alt="" width="100px">
-        </p> -->
         <div class="drop-container">
-          <label for="file-academic-offer">
+          <label for="file-environment">
             <span class="btn-upload-file">
               <i class="cilCloudUpload"></i>
               <svg cIcon name="cilCloudUpload" size="xl"></svg>
               Cargar archivo
             </span>
-            <input type="file" class="file-academic-offer" id="file-academic-offer" accept=".xlsx"
+            <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
               (change)="onUpload($event)" required>
           </label>
         </div>
-        <!-- <label for="file-environment-offer" class="drop-container">
-          <span class="drop-title">Arrastra un archivo aquí</span>
-          <span class="drop-message">o haz clic para seleccionar un archivo</span>
-          <input type="file" id="file-environment-offer" accept=".xlsx" (change)="onUpload($event)" required>
-        </label> -->
-
       </div>
-
-      <!-- <br> -->
-      <!-- <div class="centrado">
-        <c-card cBorder="danger" textColor="danger">
-          <c-card-header>
-            <strong>Cola de pendientes</strong>
-          </c-card-header>
-          <c-card-body>
-
-            <div class="pendientes">
-              <ul>
-                <li *ngFor="let pendiente of colaPendientes"> <a href="">{{pendiente}}</a> </li>
-              </ul>
-            </div>
-
-          </c-card-body>
-        </c-card>
-      </div> -->
-
       <!-- Snipper -->
       <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
         <p style="color: white">

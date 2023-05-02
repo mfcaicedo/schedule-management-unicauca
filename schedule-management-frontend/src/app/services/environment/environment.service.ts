@@ -219,11 +219,11 @@ export class EnvironmentService {
   }
 
   uploadFile(file: Blob) {
-    console.log("llego al servicio", file);
+    console.log("llego al servicio de environment", file);
     console.log("llego al servicio endpoint ", this.endPoint);
     const dto = new FormData();
     dto.append('file', file);
-    return this.http.post<File>(this.endPoint + '/upload', dto, {
+    return this.http.post<File>(this.endPoint + '/uploadFile', dto, {
       // headers:{
       //   'Content-type':"multipart/form-data"
       // }

@@ -65,7 +65,7 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     ReactiveFormsModule,
     FormsModule,
     ModalModule,
-
+    IconModule,
     ResourceModule,
     ToshareModule,
 
