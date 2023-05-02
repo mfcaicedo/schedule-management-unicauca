@@ -1,12 +1,21 @@
 package com.pragma.api.repository;
 
-import com.pragma.api.model.Event;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-/**
- * Repository de Spring para las operaciones CRUD sobre la tabla EVENT.
- */
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.pragma.api.model.Event;
 @Repository
-public interface IEventRepository extends JpaRepository<Event, Integer> {
+public interface IEventRepository extends JpaRepository<Event,Integer> {
+
+    @Query(value = "SELECT * FROM event u WHERE u.event_name = :event_name", 
+    nativeQuery = true)
+    Event findByEventName(@Param("event_name") String event_name);
+    boolean existsEventByEventName(String eventName);
+    boolean existsEventByEventManagerName(String EventManagerName);
+    List<Event> findAllByEventManagerName(String eventManagerName);
+  
+  
 }
