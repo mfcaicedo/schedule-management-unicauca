@@ -1,23 +1,30 @@
 package com.pragma.api.domain;
 
-import com.pragma.api.model.Department;
-import com.pragma.api.model.Subject;
-import lombok.*;
+import java.io.Serializable;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.util.Set;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
-@Builder
-@Getter
+import com.pragma.api.model.enums.EventTypeEnumeration;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EventDTO {
-    private int eventId;
-    private String eventManagerName;
+public class EventDTO  {
+    
+    private Integer event_id;
     private String eventName;
+    private String eventManagerName;
     private String description;
-    private String programId;
-    private String teacherId;
+    private ProgramDTO program;
+    private TeacherDTO teacher;
+    @Enumerated(EnumType.STRING)
+    private EventTypeEnumeration eventType;
+    
 }

@@ -16,6 +16,6 @@ public interface IEventRepository extends JpaRepository<Event,Integer> {
     boolean existsEventByEventName(String eventName);
     boolean existsEventByEventManagerName(String EventManagerName);
     List<Event> findAllByEventManagerName(String eventManagerName);
-  
-  
+
+
 }

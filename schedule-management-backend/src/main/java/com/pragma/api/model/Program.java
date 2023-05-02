@@ -39,8 +39,4 @@ public class Program {
     @JoinColumn(name = "teacher_code")
     private Teacher teacher;
 
-    //Relacion de 1 a muchos con Teacher Descripcion: indica que un programa tiene muchos profesores
-    @OneToMany(mappedBy = "program")
-    private Set<Teacher> teachers;
-
 }
