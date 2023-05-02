@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class AcademicOfferFile {
     @Column(name = "date_register_file", nullable = false)
     private Integer dateRegisterFile;
     @Column(name = "state_file", nullable = false)
-    private Integer stateFile;
+    private StateAcOfferFileEnumeration stateFile;
     //relacion * a 1 con Program
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
