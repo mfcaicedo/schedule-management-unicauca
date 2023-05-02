@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.pragma.api.model.Event;
-@Repository
 public interface IEventRepository extends JpaRepository<Event,Integer> {
 
     @Query(value = "SELECT * FROM event u WHERE u.event_name = :event_name", 
