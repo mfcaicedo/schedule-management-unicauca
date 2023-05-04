@@ -1,6 +1,8 @@
 package com.pragma.api.util.file;
 
+import ch.qos.logback.core.joran.action.IADataForComplexProperty;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
+import net.bytebuddy.asm.Advice;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -17,6 +19,7 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
     public List<FileRowEnvironment> getLogs(MultipartFile file) throws IOException {
         List<FileRowEnvironment> fileRows = new ArrayList<>();
 
+        boolean cellEmpty=false;
 
         InputStream fileExcel = file.getInputStream();
 
@@ -30,10 +33,9 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
 
         System.out.println(rowNum);
 
-        //VERIFICAR EL INICIO DE ESTE FOR
         for (int i = 1; i <= rowNum;i++) {
             List<Cell> cells = new ArrayList<>();
-            System.out.println("Registro numero: " + i);
+            System.out.println("Columna: " + i);
 
             Row row = sheet.getRow(i);
 
@@ -44,25 +46,51 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
             }
 
             FileRowEnvironment fileRow = convertCellsToFileRow(cells);
+
+            if (fileRow==null){
+                cellEmpty=true;
+                break;
+            }
+
             fileRows.add(fileRow);
 
         }
 
+        if (cellEmpty){
+            return null;
+        }
         return fileRows;
     }
 
     @Override
     public FileRowEnvironment convertCellsToFileRow(List<Cell> cells) {
-        FileRowEnvironment fileRow = new FileRowEnvironment();
-        fileRow.setName(cells.get(0).getStringCellValue());
-        fileRow.setLocation(cells.get(1).getStringCellValue());
-        fileRow.setCapacity((int)cells.get(2).getNumericCellValue());
-        fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
-        fileRow.setFaculty(cells.get(4).getStringCellValue());
-        fileRow.setAvailableResources(cells.get(5).getStringCellValue());
+        //DUDA ASIGNACION DE MEMORIA (RETORNO NULL)
+        if(!verifyCellEmpty(cells)){
+            FileRowEnvironment fileRow = new FileRowEnvironment();
 
+            fileRow.setName(cells.get(0).getStringCellValue());
+            fileRow.setLocation(cells.get(1).getStringCellValue());
+            fileRow.setCapacity((int)cells.get(2).getNumericCellValue());
+            fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
+            fileRow.setFaculty(cells.get(4).getStringCellValue());
+            fileRow.setAvailableResources(cells.get(5).getStringCellValue());
 
+            return fileRow;
+        }else{
+            System.out.println("Campo vacio, Verifique el archivo");
+        }
+        return null;
 
-        return fileRow;
+    }
+
+    //Verifica campos vacios en la columna
+    private boolean verifyCellEmpty(List<Cell> cells){
+        boolean cellEmpty=false;
+        for (int i=0; i<cells.size();i++){
+            if(cells.get(i)==null){
+                cellEmpty=true;
+            }
+        }
+        return cellEmpty;
     }
 }

@@ -20,7 +20,6 @@ import java.util.*;
 @Service
 public class FileEnvironmentImpl implements IFileEnvironmentService{
 
-    //VERIFICAAAAR
 
     private IEnvironmentRepository environmentRepository;
 
@@ -40,6 +39,11 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
     public List<String> uploadFile(MultipartFile file) throws IOException {
         FileEnvironment fileEnvironment = new FileEnvironment();
         List<FileRowEnvironment> logs = fileEnvironment.getLogs(file);
+        if(logs==null){
+            List<String> infoLogs = new ArrayList<>();
+            infoLogs.add("empty field, check the file");
+            return infoLogs;
+        }
         return processFile(logs);
 
     }
@@ -73,16 +77,19 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                         break;
                 }
 
-                List<Resource> resourcesDb = this.resourceRepository.findAll();
-                String[] words = log.getAvailableResources().split(",");
-                String[] wordsFormat = wordFormat(words); //formatear palabras
-                // agrega los recursos disponibles
-                environment.setAvailableResources(verifyResources(wordsFormat, resourcesDb));
+                if(!log.getAvailableResources().toUpperCase().trim().equals("POR DEFINIR")){
+                    List<Resource> resourcesDb = this.resourceRepository.findAll();
+                    String[] words = log.getAvailableResources().split(",");
+                    String[] wordsFormat = wordFormat(words); //formatear palabras
+                    // agrega los recursos disponibles
+                    environment.setAvailableResources(verifyResources(wordsFormat, resourcesDb));
+                }
+
                 environment.setFaculty(faculty);
                 environmentRepository.save(environment);
-                infoLogs.add("Course Created succesfully!");
+                infoLogs.add("Environment Created succesfully!");
             }else{
-                infoLogs.add("Course NOT Created");
+                infoLogs.add("Environment NOT Created, verify fields");
             }
         }
         return infoLogs;
