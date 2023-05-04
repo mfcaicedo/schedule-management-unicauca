@@ -6,7 +6,7 @@ import com.pragma.api.model.Schedule;
 import com.pragma.api.model.enums.DaysEnumeration;
 import lombok.*;
 
-import java.sql.Date;
+import java.util.Date;
 import java.time.LocalTime;
 
 @Builder
