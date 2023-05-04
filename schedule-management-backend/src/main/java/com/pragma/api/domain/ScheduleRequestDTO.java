@@ -6,9 +6,13 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalTime;
-import java.sql.Date;
+import java.util.Date;
 
-@Builder @Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScheduleRequestDTO {
 
     @NotNull
