@@ -1,10 +1,12 @@
 package com.pragma.api.services;
 
+import java.util.List;
+
 import com.pragma.api.domain.EnvironmentDTO;
 
-public class IReportService {
+public interface IReportService {
     
     List<EnvironmentDTO> findAllEnvironment();
 
-    EnviromentDTO findById(String id);
+    EnvironmentDTO findById(String id);
 }
