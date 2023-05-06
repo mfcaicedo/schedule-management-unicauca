@@ -36,4 +36,5 @@ public class Teacher {
     //Relacion de 1 a 1 con Department Descripcion: Relacion que un profesor es jefe de un departamento
     @OneToOne(mappedBy = "teacher")
     private Department departmentHead;
+
 }
