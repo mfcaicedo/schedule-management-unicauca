@@ -19,10 +19,6 @@ public class Teacher {
     @Column(name = "full_name", length = 80)
     private String fullName;
 
-    @ManyToOne
-    @JoinColumn(name = "program_id")
-    private Program program;
-
     /*
     * Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
     */

@@ -20,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.springframework.boot:spring-boot-devtools") //recargue solo
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
     implementation 'org.mapstruct:mapstruct:1.4.2.Final'

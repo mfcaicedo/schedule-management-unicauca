@@ -5,6 +5,9 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.time.LocalTime;
 import java.util.Date;
@@ -28,8 +31,25 @@ public class Schedule {
     private LocalTime startingTime;
     @Column(name = "ending_time")
     private LocalTime endingTime;
+    ////////////////////////////
+    //se añadio esta parte 
+    @Column(name = "starting_Date")
+    private Date startingDate;
+
+    @Column(name = "ending_Date")
+    private Date endingDate;
+    
+    @Column(name ="is_reserve")
+    @ColumnDefault("false")
+    private boolean isReserve;
+
     @ManyToOne
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "event_id", nullable = true)
+    private Event event;
+    //
+    ////////////////////////////
+    @ManyToOne
+    @JoinColumn(name = "course_id",nullable = true)
     private Course course;
     @ManyToOne
     @JoinColumn(name = "environment_id")

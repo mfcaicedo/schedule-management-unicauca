@@ -19,6 +19,7 @@ public class ScheduleController {
     public ScheduleController(IScheduleService scheduleService) {
         this.scheduleService = scheduleService;
     }
+
     @PostMapping
     public ResponseEntity<ScheduleResponseDTO> saveSchedule(@Valid @RequestBody ScheduleRequestDTO scheduleRequest) {
         return ResponseEntity.ok(this.scheduleService.saveSchedule(scheduleRequest));
@@ -35,7 +36,8 @@ public class ScheduleController {
 //    }
 
     @PutMapping
-    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@RequestParam Long scheduleId, @Valid @RequestBody ScheduleRequestDTO scheduleRequest) {
+    public ResponseEntity<ScheduleResponseDTO> updateSchedule(@RequestParam Long scheduleId,
+            @Valid @RequestBody ScheduleRequestDTO scheduleRequest) {
         return ResponseEntity.ok(this.scheduleService.updateSchedule(scheduleId, scheduleRequest));
     }
 
@@ -46,7 +48,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.scheduleService.getScheduleById(id));
     }
 

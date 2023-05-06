@@ -39,6 +39,8 @@ import { EnvironmentFormComponent } from './environment-form/environment-form.co
 import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
 import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component'
+import { EnvironmentDeleteComponent } from './environment-delete/environment-delete.component';
+
 import { FormsModule } from '@angular/forms';
 
 import { ResourceModule } from '../resource/resource.module';
@@ -49,8 +51,11 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     EnvironmentsComponent,
     EnvironmentFormComponent,
     EnvironmentDetailComponent,
-    EnvironmentEditComponent,
     EnvironmentUploadComponent,
+    EnvironmentEditComponent,
+    EnvironmentDeleteComponent
+
+
 
   ],
   imports: [
@@ -60,7 +65,7 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     ReactiveFormsModule,
     FormsModule,
     ModalModule,
-
+    IconModule,
     ResourceModule,
     ToshareModule,
 
