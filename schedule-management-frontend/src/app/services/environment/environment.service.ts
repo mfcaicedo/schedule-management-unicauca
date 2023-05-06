@@ -101,6 +101,7 @@ export class EnvironmentService {
   }
   updateEnvironment(environment: Environment) {
     //llamar a actualizar ambiente
+    console.log("ENTRAAAAAA ")
     console.log(environment)
     return this.http.post<any>(this.endPoint + '', environment, this.httpOptions)
       .pipe(
@@ -122,6 +123,17 @@ export class EnvironmentService {
 
         })
       );
+  }
+  //Eliminar ambiente
+  deleteEnvironment(environmentId:number){
+    return this.http.delete<any>(this.endPoint+`?id=${environmentId}`).pipe(
+      catchError((e) => {
+
+        console.log('Error eliminando el ambiente', e.error.mensaje, 'error');
+        return throwError(e);
+
+      })
+    );
   }
   getEnvironmentsByEnvironmentId(environmentId: number) {
 
@@ -207,11 +219,11 @@ export class EnvironmentService {
   }
 
   uploadFile(file: Blob) {
-    console.log("llego al servicio", file);
+    console.log("llego al servicio de environment", file);
     console.log("llego al servicio endpoint ", this.endPoint);
     const dto = new FormData();
     dto.append('file', file);
-    return this.http.post<File>(this.endPoint + '/upload', dto, {
+    return this.http.post<File>(this.endPoint + '/uploadFile', dto, {
       // headers:{
       //   'Content-type':"multipart/form-data"
       // }
