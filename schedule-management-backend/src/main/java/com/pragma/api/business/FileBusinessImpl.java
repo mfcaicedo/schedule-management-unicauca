@@ -63,7 +63,7 @@ public class FileBusinessImpl implements IFileBusiness {
              */
 //            if (iTeacherRepository.existsById(log.getTeacherCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
             Boolean errorSubjectCode = false;
-            if (iSubjectRepository.existsById(log.getSubjectCode())) {
+            if (!iSubjectRepository.existsById(log.getSubjectCode())) {
                 infoLogs.add("CODIGO MATERIA NO EXISTE: " + log.getSubjectCode());
                 errorSubjectCode = true;
             }
@@ -113,11 +113,13 @@ public class FileBusinessImpl implements IFileBusiness {
 //                    teacher.getCourses().add(course);
 //                    subject.getCourses().add(course);
 //                    period.getCourses().add(course);
-//***                iCourseRepository.save(course);
+                iCourseRepository.save(course);
 //                    iTeacherRepository.save(teacher);
 //                    iSubjectRepository.save(subject);
 //                    iPeriodRepository.save(period);
-                infoLogs.add("Course Created succesfully!");
+                infoLogs.add("CURSO REGISTRADO EN SISTEMA");
+            } else {
+                infoLogs.add("CURSO NO REGISTRADO EN SISTEMA");
             }
         }
         return infoLogs;

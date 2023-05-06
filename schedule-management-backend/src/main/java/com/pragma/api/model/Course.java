@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import java.util.HashSet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
@@ -33,6 +35,7 @@ public class Course {
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
         this.description = description;
+        this.profesoresAsignados = new HashSet<>();
     }
 
     @ManyToOne
@@ -42,11 +45,10 @@ public class Course {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
-    
+
 //    @ManyToOne(fetch = FetchType.EAGER)
 //    @JoinColumn(name = "teacher_code")
 //    private Teacher teacher;
-
     @ManyToMany
     @JoinTable(
             name = "course_teacher",
