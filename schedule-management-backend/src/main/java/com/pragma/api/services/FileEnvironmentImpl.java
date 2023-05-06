@@ -83,11 +83,16 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                     String[] wordsFormat = wordFormat(words); //formatear palabras
                     // agrega los recursos disponibles
                     environment.setAvailableResources(verifyResources(wordsFormat, resourcesDb));
+                    if(warningForResources(verifyResources(wordsFormat,resourcesDb),wordsFormat)){
+                        infoLogs.add("Warning, not all needed resources are added");
+                    }else{
+                        infoLogs.add("successful, all resources added");
+                    }
                 }
 
                 environment.setFaculty(faculty);
                 environmentRepository.save(environment);
-                infoLogs.add("Environment Created succesfully!");
+                infoLogs.add("Environment Created ");
             }else{
                 infoLogs.add("Environment NOT Created, verify fields");
             }
@@ -103,16 +108,26 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
     }
 
     private Set<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
+
         Set<Resource> resources = new HashSet<>();
         for (int i = 0; i < wordsFormat.length; i++) {
             for (int j=0 ;j < resourcesDb.size(); j++) {
                 if (resourcesDb.get(j).getName().toUpperCase().trim().equals(wordsFormat[i])) {
                     Resource resource = resourcesDb.get(j);
                     resources.add(resource);
+
                     break;
                 }
             }
         }
+
         return resources;
+    }
+
+    private boolean warningForResources(Set<Resource> resources, String[] wordsFormat){
+        if(resources.size() != wordsFormat.length){
+            return true;
+        }
+        return false;
     }
 }
