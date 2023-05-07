@@ -4,6 +4,7 @@ import ch.qos.logback.core.joran.action.IADataForComplexProperty;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 import net.bytebuddy.asm.Advice;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -70,7 +71,13 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
 
             fileRow.setName(cells.get(0).getStringCellValue());
             fileRow.setLocation(cells.get(1).getStringCellValue());
-            fileRow.setCapacity((int)cells.get(2).getNumericCellValue());
+            //OJOOOOOOOO
+            if(cells.get(2).getCellType().equals(CellType.NUMERIC)){
+                fileRow.setCapacity((int)cells.get(2).getNumericCellValue());
+            }else{
+                return null;
+            }
+
             fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
             fileRow.setFaculty(cells.get(4).getStringCellValue());
             fileRow.setAvailableResources(cells.get(5).getStringCellValue());
@@ -93,4 +100,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment>{
         }
         return cellEmpty;
     }
+
+
 }
