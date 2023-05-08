@@ -1,32 +1,32 @@
 package com.pragma.api.model;
 
-import com.pragma.api.model.enums.TeacherCategoryEnumeration;
+import com.pragma.api.model.enums.PersonCategoryEnumeration;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "course_teacher")
+@Table(name = "course_person")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseTeacher {
+public class CoursePerson {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_teacher_id")
+    @Column(name = "course_person_id")
     private Integer id;
 
-    @Column(name = "teacher_category")
-    private TeacherCategoryEnumeration teacherCategory;
+    @Column(name = "person_category")
+    private PersonCategoryEnumeration personCategory;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "teacherCode")
-    private Teacher teacher;
+    @JoinColumn(name = "personCode")
+    private Person person;
 
 }
