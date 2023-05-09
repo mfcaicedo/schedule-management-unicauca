@@ -82,7 +82,7 @@ numeroDia?: number;
     //   this.child.callWithData(this.horariosAmbiente)
 
     // });
-    this.scheduleService.getTakenProfessorSchedule(this.profesor.teacherCode).subscribe((response) =>{
+    this.scheduleService.getTakenProfessorSchedule(this.profesor.personCode).subscribe((response) =>{
       console.log("Responseee ",response)
       this.horariosProfesorColor = response as ScheduleColor[]
       //this.callWithData(this.horariosAmbiente)
