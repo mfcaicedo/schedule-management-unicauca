@@ -21,7 +21,7 @@ public class ScheduleResponseDTO {
     private LocalTime endingTime;
     private Date endingDate;
     private boolean isReserv;
-    private Date startinDate;
+    private Date startingDate;
     private LocalTime startingTime;
     private CourseDTO course;
     private String color;

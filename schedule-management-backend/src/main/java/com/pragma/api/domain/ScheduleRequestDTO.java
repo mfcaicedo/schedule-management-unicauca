@@ -26,7 +26,7 @@ public class ScheduleRequestDTO {
     @NotNull
     private boolean isReserv;
     @NotNull
-    private Date startinDate;
+    private Date startingDate;
     @NotNull
     private LocalTime startingTime;
     @NotNull

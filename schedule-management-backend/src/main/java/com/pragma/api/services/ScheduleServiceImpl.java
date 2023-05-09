@@ -55,12 +55,12 @@ public class ScheduleServiceImpl implements IScheduleService{
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
+        Course courseDb = courseOptRequest.get();
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(saveRequest.getEnvironmentId());
         //request de event
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", saveRequest.getEnvironmentId().toString());
         Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
         if(eventOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
-        Course courseDb = courseOptRequest.get();
         if(this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
         if(this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(), saveRequest.getEndingTime(),saveRequest.getDay(),environmentOptRequest.get())) throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment", environmentOptRequest.get().getName());
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
@@ -68,6 +68,9 @@ public class ScheduleServiceImpl implements IScheduleService{
         if(differenceHours>courseDb.getRemainingHours() || differenceHours<2 ) throw new ScheduleBadRequestException("bad.request.schedule.hours",courseDb.getId().toString());
         Schedule requestSchedule = Schedule
                 .builder()
+                .isReserve(saveRequest.isReserv())
+                .startingDate(saveRequest.getStartingDate())
+                .endingDate(saveRequest.getEndingDate())
                 .startingTime(saveRequest.getStartingTime())
                 .endingTime(saveRequest.getEndingTime())
                 .day(saveRequest.getDay())
@@ -76,6 +79,7 @@ public class ScheduleServiceImpl implements IScheduleService{
         requestSchedule.setCourse(courseDb);
         courseDb.setRemainingHours((courseDb.getRemainingHours()-differenceHours));
         this.courseRepository.save(courseDb);
+        requestSchedule.setEvent(eventOptRequest.get());
         return modelMapper.map(this.scheduleRepository.save(requestSchedule), ScheduleResponseDTO.class);
     }
 
