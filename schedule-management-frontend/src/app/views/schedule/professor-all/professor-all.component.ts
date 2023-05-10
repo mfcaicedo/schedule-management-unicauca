@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import{Professor} from 'src/app/models/professor.model'
-import { Teacher } from 'src/app/models/teacher.model';
+import { Person } from 'src/app/models/person.model';
 import { ScheduleProfessorService } from 'src/app/services/schedule-professor/schedule-professor.service';
 
 @Component({
@@ -12,8 +12,8 @@ import { ScheduleProfessorService } from 'src/app/services/schedule-professor/sc
 export class ProfessorAllComponent implements OnInit{
 
 
-  professors:Teacher[]=[];
-  professor!:Teacher;
+  professors:Person[]=[];
+  professor!:Person;
   isDisabled:boolean=false;
   showSelectedProfessor:boolean=false;
   //emitir el profesor al padre cuando haya checkeado en una casilla
@@ -34,7 +34,7 @@ export class ProfessorAllComponent implements OnInit{
   ngOnInit(): void{
     this.professorService.getAllProfessorsPage(1,5).subscribe((response)=>{
       console.log("Data : ",response)
-      this.professors = response.elements as Teacher[]
+      this.professors = response.elements as Person[]
       this.totalItems=response.pagination.totalNumberElements as number
       this.totalNumberPage=response.pagination.totalNumberPage as number
     })

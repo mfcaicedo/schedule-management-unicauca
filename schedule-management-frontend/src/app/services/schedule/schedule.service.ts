@@ -4,7 +4,7 @@ import { Environment } from 'src/app/models/environment.model';
 import { Period } from 'src/app/models/period.model';
 import { Schedule, ScheduleColor, ScheduleDTO } from 'src/app/models/schedule.model';
 import { Program } from 'src/app/models/program.model';
-import { Teacher } from 'src/app/models/teacher.model';
+import { Person } from 'src/app/models/person.model';
 import { Subject } from 'src/app/models/subject.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, throwError } from 'rxjs';
@@ -19,10 +19,10 @@ export class ScheduleService {
   period:Period={'periodId':'2022.2','state':'true'}
   program:Program={programId:'PIS',name:'INGENIERIA DE SISTEMAS',department_id:'1'}
   subject:Subject={'subjectCode':'1','name':'Programacion orientada a objetos','weeklyOverload':6,'timeBlock':true,'semester':2,'program':this.program}
-  teacher:Teacher={'teacherCode':'104618021314','fullName':'PPC','department':[]}
+  person:Person={'personCode':'104618021314','fullName':'PPC','department':[]}
   curso:Course={
     'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,
-    'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode,'remainingHours':2}
+    'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode,'remainingHours':2}
   course!: Course;
   envi!:Environment;
   schedule:Schedule[]=[
@@ -141,11 +141,11 @@ export class ScheduleService {
     return this.schedule;
   }
 
-  getTakenProfessorSchedule(teacherCode: string){
+  getTakenProfessorSchedule(personCode: string){
     //TODO consumir servicio para obtener el horario ocupado del profesor
-    // http://localhost:8081/api/schedule/byTeacher?teacherCode=1
+    // http://localhost:8081/api/schedule/byPerson?personCode=1
 
-    return this.http.get<any>(this.endPoint+`/byTeacher?teacherCode=${teacherCode}`,this.httpOptions)
+    return this.http.get<any>(this.endPoint+`/byPerson?personCode=${personCode}`,this.httpOptions)
     .pipe(
       catchError((e) => {
 
@@ -167,9 +167,9 @@ export class ScheduleService {
       })
     )
   }
-  fillTakenProfessorSchedule(teacherCode:string):Observable<Schedule[]>{
+  fillTakenProfessorSchedule(personCode:string):Observable<Schedule[]>{
     let takenProfessorSchedules : Schedule[]= []
-    this.getTakenProfessorSchedule(teacherCode).subscribe((response) =>{
+    this.getTakenProfessorSchedule(personCode).subscribe((response) =>{
     // console.log("Response de takenprofesor" ,response)
       takenProfessorSchedules = response as Schedule[]
 
@@ -378,7 +378,7 @@ export class ScheduleService {
       day:'',
       startingTime:'',
       endingTime:'',
-      course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','teacherCode':'','remainingHours':0},
+      course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0},
       environment: {
         id: 0,
         name: '',

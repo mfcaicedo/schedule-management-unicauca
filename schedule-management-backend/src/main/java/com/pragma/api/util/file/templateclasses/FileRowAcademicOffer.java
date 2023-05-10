@@ -27,7 +27,7 @@ public class FileRowAcademicOffer {
 
     private String environment;
 
-    private String teacherCode;
+    private String personCode;
 
     private String description;
 
