@@ -30,17 +30,17 @@ public class CourseServiceImpl implements ICourseService {
 
     private final ICourseRepository iCourseRepository;
 
-    private final ITeacherRepository iTeacherRepository;
+    private final IPersonRepository iPersonRepository;
 
     private final ISubjectRepository iSubjectRepository;
 
     private final IPeriodRepository iPeriodRepository;
 
     private final IProgramRepository programRepository;
-    public CourseServiceImpl(ModelMapper modelMapper, ICourseRepository iCourseRepository, ITeacherRepository iTeacherRepository, ISubjectRepository iSubjectRepository, IPeriodRepository iPeriodRepository, IProgramRepository programRepository) {
+    public CourseServiceImpl(ModelMapper modelMapper, ICourseRepository iCourseRepository, IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository, IPeriodRepository iPeriodRepository, IProgramRepository programRepository) {
         this.modelMapper = modelMapper;
         this.iCourseRepository = iCourseRepository;
-        this.iTeacherRepository = iTeacherRepository;
+        this.iPersonRepository = iPersonRepository;
         this.iSubjectRepository = iSubjectRepository;
         this.iPeriodRepository = iPeriodRepository;
         this.programRepository = programRepository;
@@ -52,8 +52,8 @@ public class CourseServiceImpl implements ICourseService {
         logger.debug("Init createCourse Business Course: {}", courseDTO.toString());
         Response<CourseDTO> response = new Response<>();
 
-//        if(!iTeacherRepository.existsById(courseDTO.getTeacherCode())){
-//            throw new ScheduleBadRequestException("bad.request.teacher.id", courseDTO.getTeacherCode());
+//        if(!iPersonRepository.existsById(courseDTO.getPersonCode())){
+//            throw new ScheduleBadRequestException("bad.request.person.id", courseDTO.getPersonCode());
 //        }
 
         if(!iSubjectRepository.existsById(courseDTO.getSubjectCode())){

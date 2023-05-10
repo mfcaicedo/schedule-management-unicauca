@@ -5,7 +5,7 @@ import { Course } from 'src/app/models/course.model';
 import { Period } from 'src/app/models/period.model';
 import { Program } from 'src/app/models/program.model';
 import { Subject } from 'src/app/models/subject.model';
-import { Teacher } from 'src/app/models/teacher.model';
+import { Person } from 'src/app/models/person.model';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -15,18 +15,18 @@ export class CourseService {
   period:Period={'periodId':'2022.2','state':'true'}
   program:Program={programId:'PIS',name:'INGENIERIA DE SISTEMAS',department_id:'1'}
   subject:Subject={'subjectCode':'1','name':'Programacion orientada a objetos','weeklyOverload':6,'timeBlock':true,'semester':2,'program':this.program}
-  teacher:Teacher={'teacherCode':'104618021314','fullName':'PPC','department':[]}
+  person:Person={'personCode':'104618021314','fullName':'PPC','department':[]}
   // courses:Course[]=[
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
-  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'teacherCode':this.teacher.teacherCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
+  //   {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':this.period.periodId,'subjectCode':this.subject.subjectCode,'personCode':this.person.personCode},
 
   // ]
 
