@@ -52,7 +52,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
             Subject subject = null;
             Person person = null;
-            CoursePerson coursePerson = null;
+            CourseTeacher courseTeacher = null;
             Period period = null;
 
             System.out.println(log.getPersonCode());
@@ -105,7 +105,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     personCode = personCodeArray[i].trim();
                     person = iPersonRepository.findById(personCode).get();
                     //course.getAssignedPersons().add(person);
-                    course.getAssignedPersons().add(coursePerson);
+                    course.getAssignedPersons().add(courseTeacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());

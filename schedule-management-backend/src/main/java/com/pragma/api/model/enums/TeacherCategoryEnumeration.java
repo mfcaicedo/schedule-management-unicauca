@@ -1,5 +1,5 @@
 package com.pragma.api.model.enums;
 
-public enum PersonCategoryEnumeration {
+public enum TeacherCategoryEnumeration {
     PRIMARY, SECONDARY, OTHER
 }

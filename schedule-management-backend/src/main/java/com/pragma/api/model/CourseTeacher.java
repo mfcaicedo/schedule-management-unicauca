@@ -1,6 +1,6 @@
 package com.pragma.api.model;
 
-import com.pragma.api.model.enums.PersonCategoryEnumeration;
+import com.pragma.api.model.enums.TeacherCategoryEnumeration;
 import lombok.*;
 
 import javax.persistence.*;
@@ -12,14 +12,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CoursePerson {
+public class CourseTeacher {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "course_person_id")
+    @Column(name = "course_teacher_id")
     private Integer id;
 
-    @Column(name = "person_category")
-    private PersonCategoryEnumeration personCategory;
+    @Column(name = "teacher_category")
+    private TeacherCategoryEnumeration teacherCategory;
 
     @ManyToOne
     @JoinColumn(name = "course_id")

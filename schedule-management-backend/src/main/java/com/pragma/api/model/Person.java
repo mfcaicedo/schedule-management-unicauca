@@ -26,7 +26,7 @@ public class Person {
     * Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
     */
     @OneToMany(mappedBy = "person")
-    private Set<CoursePerson> assignedSubjects;
+    private Set<CourseTeacher> assignedSubjects;
 
     //Relacion muchos a 1 con Department Descripcion: indica que un profesor pertenece a un departamento
     @ManyToOne(fetch = FetchType.EAGER)
