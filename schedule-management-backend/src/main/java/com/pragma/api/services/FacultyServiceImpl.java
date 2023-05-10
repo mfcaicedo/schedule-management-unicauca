@@ -47,7 +47,7 @@ public class FacultyServiceImpl implements IFacultyService{
         response.setStatus(200);
         response.setUserMessage("Faculty Finded successfully");
         response.setDeveloperMessage("Faculty Finded successfully");
-        response.setMoreInfo("localhost:8080/api/faculty(toDO)");
+        response.setMoreInfo("localhost:8081/api/faculty(toDO)");
         response.setErrorCode("");
         response.setData(facultyDTO1);
         return response;
