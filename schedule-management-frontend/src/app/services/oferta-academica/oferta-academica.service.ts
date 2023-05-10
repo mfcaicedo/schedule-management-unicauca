@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import{File} from 'src/app/models/file.model'; 
+import{File} from 'src/app/models/file.model';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 @Injectable({
@@ -28,7 +28,7 @@ export class OfertaAcademicaService {
     console.log("llego al servicio endpoint ",this.endPoint);
     const dto =  new FormData();
     dto.append('file',file);
-    return this.http.post<File>(this.endPoint+'/upload',dto,{
+    return this.http.post<File>(this.endPoint+'/uploadFile',dto,{
       // headers:{
       //   'Content-type':"multipart/form-data"
       // }

@@ -19,13 +19,13 @@ export const navItems: INavData[] = [
   {
     name: 'Oferta académica',
     url: '/schedule',
-    iconComponent: { name: 'cilBook' }, 
+    iconComponent: { name: 'cilBook' },
     children: [
       {
         name: 'Subir oferta',
         url: '/schedule/upload-oa',
         iconComponent: { name: 'cilCloudUpload' }
-      }, 
+      },
       {
         name: 'Descargar oferta',
         url: '/schedule/view-oa',
@@ -36,59 +36,59 @@ export const navItems: INavData[] = [
   {
     name:'Ambientes',
     url:'/environment',
-    iconComponent:{name:'cilRoom'},
+    iconComponent:{name:'cilBuilding'},
     children:[
       {
-        name:'Crear ambiente',
-        url:'/environment/create', 
+        name: 'Crear ambiente',
+        url: '/environment/create',
         iconComponent: { name: 'cilPlus' }
       },
       {
-        name:'Cargar ambientes',
-        url:'/environment/create', //se debe cambiar por la ruta de carga de ambientes
+        name: 'Cargar ambientes',
+        url: '/environment/upload-env',
         iconComponent: { name: 'cilCloudUpload' }
       },
       {
         name: 'Ver ambientes',
-        url: '/environment/all', 
+        url: '/environment/all',
         iconComponent: { name: 'cilMagnifyingGlass' }
       },
     ]
   },
   {
-    name:'Recursos',
-    url:'/resource',
-    iconComponent:{name:'cilDevices'},
-    children:[
+    name: 'Recursos',
+    url: '/resource',
+    iconComponent: { name: 'cilDevices' },
+    children: [
       {
-        name:'Crear recurso',
-        url:'/resource/create', 
+        name: 'Crear recurso',
+        url: '/resource/create',
         iconComponent: { name: 'cilPlus' }
       },
       {
-        name:'Ver recursos',
-        url:'/resource/all', 
+        name: 'Ver recursos',
+        url: '/resource/all',
         iconComponent: { name: 'cilMagnifyingGlass' }
         // iconComponent: { name: 'cilMediaPlay' }
       },
     ]
   },
   {
-    name:'Schedule',
-    url:'/schedule',
-    iconComponent:{name:'cil-puzzle'},
-    children:[
+    name: 'Schedule',
+    url: '/schedule',
+    iconComponent: { name: 'cil-puzzle' },
+    children: [
       {
-        name:'Create schedule',
-        url:'/schedule/create'
+        name: 'Create schedule',
+        url: '/schedule/create'
       },
       {
-        name:'Detail Environment',
-        url:'/schedule/detail'
+        name: 'Detail Environment',
+        url: '/schedule/detail'
       },
       {
-        name:'Detail Professor',
-        url:'/schedule/detailprofessor'
+        name: 'Detail Professor',
+        url: '/schedule/detailprofessor'
       }
     ]
   },

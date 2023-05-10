@@ -3,7 +3,7 @@
 
    <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentId">
-      Id
+      Id:
     </label>
     <div class="col-sm-10">
       <input formControlName="id"  type="text" value="" id="environmentId" readonly="true"/>
@@ -11,7 +11,7 @@
   </c-row>
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentName" >
-      Nombre
+      Nombre:
     </label>
     <div class="col-sm-10">
       <input formControlName="name" id="environmentName" type="text"  required />
@@ -24,20 +24,20 @@
   </c-row>
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentLocation" >
-      Ubicación
+      Ubicación:
     </label>
     <div class="col-sm-10">
       <input formControlName="location" id="environmentLocation" type="text"  required/>
     </div>
     <div class="alert alert-danger" *ngIf="isLocationInvalid">
       <div *ngIf="location?.hasError('required')">
-        Ubicacion es requerido
+        Ubicación es requerido
       </div>
     </div>
   </c-row>
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentCapacity">
-      Capacidad
+      Capacidad:
     </label>
     <div class="col-sm-10">
       <input formControlName="capacity" id="environmentCapacity" type="number"  required />
@@ -53,7 +53,7 @@
   </c-row>
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentType">
-      Tipo ambiente
+      Tipo ambiente:
     </label>
 
     <c-col md="5">
@@ -77,7 +77,7 @@
   </c-row>
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="environmentFaculty">
-      Facultad
+      Facultad:
     </label>
 
     <c-col md="5">
