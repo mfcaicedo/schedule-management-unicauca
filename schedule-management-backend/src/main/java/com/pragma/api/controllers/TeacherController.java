@@ -18,7 +18,6 @@ public class TeacherController {
     private final ITeacherService iTeacherService;
 
     @Autowired
-
     public TeacherController(ITeacherService iTeacherService) {
         this.iTeacherService = iTeacherService;
     }
