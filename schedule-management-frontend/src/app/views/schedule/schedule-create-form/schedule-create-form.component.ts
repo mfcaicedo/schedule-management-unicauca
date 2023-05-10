@@ -32,7 +32,7 @@ export class ScheduleCreateFormComponent {
   ){
 
   }
-  courseSelected: Course = {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','teacherCode':'','remainingHours':0}
+  courseSelected: Course = {'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0}
   environmentSelected: Environment  = {'id':0,
   'name':'',
   'location':'',
@@ -46,7 +46,7 @@ export class ScheduleCreateFormComponent {
     day:'',
     startingTime:'',
     endingTime:'',
-    course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','teacherCode':'','remainingHours':0},
+    course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0},
     environment: {
       id: 0,
       name: '',
@@ -159,7 +159,7 @@ export class ScheduleCreateFormComponent {
   }
   fillTakenProfessorSchedule(){
 
-    this.scheduleService.getTakenProfessorSchedule(this.courseSelected.teacherCode).subscribe((response) =>{
+    this.scheduleService.getTakenProfessorSchedule(this.courseSelected.personCode).subscribe((response) =>{
       // console.log("Response de takenprofesor create form" ,response)
         this.takenProfessorSchedules = response as Schedule[]
 

@@ -45,8 +45,8 @@ public class Event {
     private Program program;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "teacher_code")
-    private Teacher teacher;
+    @JoinColumn(name = "person_code")
+    private Person person;
 
     @OneToMany(mappedBy = "event")
     private Set<Schedule> schedules;

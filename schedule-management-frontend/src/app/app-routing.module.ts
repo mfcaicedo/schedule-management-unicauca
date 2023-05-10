@@ -7,7 +7,7 @@ import { Page500Component } from './views/pages/page500/page500.component';
 import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 import { ScheduleModule } from './views/schedule/schedule.module';
-import {ToshareModule} from './views/toshare/toshare.module';
+import { ToshareModule } from './views/toshare/toshare.module';
 
 import { OpenSesionGuard } from './guards/open-sesion.guard'
 import { CloseSessionGuard } from './guards/close-session.guard'
@@ -29,30 +29,35 @@ const routes: Routes = [
   {
     path: '',
     component: DefaultLayoutComponent,
-    canActivate:[OpenSesionGuard],
+    canActivate: [OpenSesionGuard],
     data: {
       title: 'Inicio'
     },
     children: [
       {
-        path:'environment',
+        path: 'teacher',
         loadChildren: () =>
-        import('./views/environment/environment.module').then(m => m.EnvironmentModule)
+          import('./views/teacher/teacher.module').then(m => m.TeacherModule)
       },
       {
-        path:'resource',
-        loadChildren: ()=>
-        import('./views/resource/resource.module').then(m=>m.ResourceModule)
+        path: 'environment',
+        loadChildren: () =>
+          import('./views/environment/environment.module').then(m => m.EnvironmentModule)
       },
       {
-        path:'schedule',
-        loadChildren:()=>
-        import('./views/schedule/schedule.module').then(m => m.ScheduleModule)
+        path: 'resource',
+        loadChildren: () =>
+          import('./views/resource/resource.module').then(m => m.ResourceModule)
       },
       {
-        path:'toshare',
-        loadChildren:()=>
-        import('./views/toshare/toshare.module').then(m => m.ToshareModule)
+        path: 'schedule',
+        loadChildren: () =>
+          import('./views/schedule/schedule.module').then(m => m.ScheduleModule)
+      },
+      {
+        path: 'toshare',
+        loadChildren: () =>
+          import('./views/toshare/toshare.module').then(m => m.ToshareModule)
       },
       {
         path: 'dashboard',
@@ -135,7 +140,7 @@ const routes: Routes = [
       title: 'Register Page'
     }
   },
-  {path: '**', redirectTo: 'login'}
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -50,11 +49,11 @@ public class Course {
     @JoinTable(
             name = "CourseTeacher",
             joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_code"),
+            inverseJoinColumns = @JoinColumn(name = "person_code"),
     )
-    private Set<Teacher>  assignedTeachers; */
+    private Set<Person>  assignedPersons; */
     @OneToMany(mappedBy = "course")
-    private Set<CourseTeacher> assignedTeachers;
+    private Set<CourseTeacher> assignedPersons;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;
