@@ -34,10 +34,10 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name:'Ambientes',
-    url:'/environment',
-    iconComponent:{name:'cilBuilding'},
-    children:[
+    name: 'Ambientes',
+    url: '/environment',
+    iconComponent: { name: 'cilBuilding' },
+    children: [
       {
         name: 'Crear ambiente',
         url: '/environment/create',
@@ -70,6 +70,23 @@ export const navItems: INavData[] = [
         url: '/resource/all',
         iconComponent: { name: 'cilMagnifyingGlass' }
         // iconComponent: { name: 'cilMediaPlay' }
+      },
+    ]
+  },
+  {
+    name: 'Profesores',
+    url: '/teacher',
+    iconComponent: { name: 'cil-people' },
+    children: [
+      {
+        name: 'Cargar profesores',
+        url: '/teacher/upload-teacher',
+        iconComponent: { name: 'cilCloudUpload' }
+      },
+      {
+        name: 'Ver profesores',
+        url: '/teacher/all',
+        iconComponent: { name: 'cilMagnifyingGlass' }
       },
     ]
   },
