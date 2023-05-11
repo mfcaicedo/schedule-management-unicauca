@@ -9,4 +9,5 @@ public interface IFacultyService {
     List<FacultyDTO> findAllByFaculty();
     //Buscar por id de facultad
     public Response<FacultyDTO> findByFacultyId(String facultyId);
+    public Response<List<FacultyDTO>> findAllFaculty();
 }
