@@ -35,6 +35,11 @@ const routes: Routes = [
     },
     children: [
       {
+        path:'subject',
+        loadChildren: () =>
+        import('./views/subject/subject.module').then(m => m.SubjectModule)
+      },
+      {
         path:'environment',
         loadChildren: () =>
         import('./views/environment/environment.module').then(m => m.EnvironmentModule)

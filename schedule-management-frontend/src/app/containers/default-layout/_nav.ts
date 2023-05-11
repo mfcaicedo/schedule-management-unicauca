@@ -74,6 +74,18 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Asignaturas',
+    url: '/subject',
+    iconComponent: { name: 'cilNotes' },
+    children: [
+      {
+        name: 'Cargar asignaturas',
+        url: '/subject/upload-sub',
+        iconComponent: { name: 'cilCloudUpload' }
+      },      
+    ]
+  },
+  {
     name: 'Schedule',
     url: '/schedule',
     iconComponent: { name: 'cil-puzzle' },

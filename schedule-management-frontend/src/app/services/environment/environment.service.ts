@@ -126,7 +126,7 @@ export class EnvironmentService {
   }
   //Eliminar ambiente
   deleteEnvironment(environmentId:number){
-    return this.http.delete<any>(this.endPoint+`?id=${environmentId}`).pipe(
+    return this.http.delete<any>(this.endPoint+'/delete' +`/${environmentId}`).pipe(
       catchError((e) => {
 
         console.log('Error eliminando el ambiente', e.error.mensaje, 'error');
