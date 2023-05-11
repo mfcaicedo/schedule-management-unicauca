@@ -72,4 +72,7 @@ public interface IEnvironmentService {
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
     public void deleteById(Integer environmentId);
 
+    //Metodo para consultar todos los edificio, trayendolos por id de facultad
+    public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId);
+
 }

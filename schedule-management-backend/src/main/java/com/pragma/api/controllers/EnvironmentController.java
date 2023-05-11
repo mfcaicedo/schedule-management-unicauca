@@ -5,6 +5,7 @@ import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
 import com.pragma.api.domain.Response;
+import com.pragma.api.model.Environment;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.services.IFileEnvironmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,10 @@ public class EnvironmentController {
         this.environmentService.deleteById(environmentId);
     }
 
-
-
+    //metodo para consultar todos los edificios a partir de un id facultad 
+    @GetMapping("/consultBuildingsByFacultyId/{id}")
+    public Response<List<EnvironmentDTO>> consultBuildingsByFacultyId(@PathVariable String id) {
+        return this.environmentService.findAllBuildings(id);
+    }
 
 }
