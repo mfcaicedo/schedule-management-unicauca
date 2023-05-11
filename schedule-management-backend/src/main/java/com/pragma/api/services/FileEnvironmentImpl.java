@@ -20,8 +20,6 @@ import java.util.*;
 @Service
 public class FileEnvironmentImpl implements IFileEnvironmentService{
 
-    //VERIFICAAAAR
-
     private IEnvironmentRepository environmentRepository;
 
     private IFacultyRepository facultyRepository;
@@ -40,6 +38,11 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
     public List<String> uploadFile(MultipartFile file) throws IOException {
         FileEnvironment fileEnvironment = new FileEnvironment();
         List<FileRowEnvironment> logs = fileEnvironment.getLogs(file);
+        if(logs==null){
+            List<String> infoLogs = new ArrayList<>();
+            infoLogs.add("empty field, check the file");
+            return infoLogs;
+        }
         return processFile(logs);
 
     }
@@ -68,21 +71,43 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                     case "SALON":
                         environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
                         break;
+                    case "EDIFICIO":
+                        environment.setEnvironmentType(EnvironmentTypeEnumeration.EDIFICIO);
+                        break;
                     default:
                         environment.setEnvironmentType(EnvironmentTypeEnumeration.DEFAULT);
                         break;
                 }
+                if(log.getAvailableResources().equals("no aplica")){
+                    environment.setAvailableResources(null);
+                }else{
+                //if(!log.getAvailableResources().toUpperCase().trim().equals("POR DEFINIR")){
+                    List<Resource> resourcesDb = this.resourceRepository.findAll();
+                    String[] words = log.getAvailableResources().split(",");
+                    String[] wordsFormat = wordFormat(words); //formatear palabras
+                    // agrega los recursos disponibles
+                    environment.setAvailableResources(verifyResources(wordsFormat, resourcesDb));
+                    if(warningForResources(verifyResources(wordsFormat,resourcesDb),wordsFormat)){
+                        infoLogs.add("Warning, not all needed resources are added");
+                    }else{
+                        infoLogs.add("successful, all resources added");
+                    }
+                }
+                //}
 
-                List<Resource> resourcesDb = this.resourceRepository.findAll();
-                String[] words = log.getAvailableResources().split(",");
-                String[] wordsFormat = wordFormat(words); //formatear palabras
-                // agrega los recursos disponibles
-                environment.setAvailableResources(verifyResources(wordsFormat, resourcesDb));
                 environment.setFaculty(faculty);
+                if(log.getLocation().equals(null)){
+                    environment.setParentEnvironment(null);
+                }else{
+                    List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                    environment.setParentEnvironment(selectParent(log.getLocation().toString(),enviromentsDb));
+                }
+                //environment.setParentEnvironment();
                 environmentRepository.save(environment);
-                infoLogs.add("Course Created succesfully!");
+                infoLogs.add("Environment Created ");
+
             }else{
-                infoLogs.add("Course NOT Created");
+                infoLogs.add("Environment NOT Created, verify fields");
             }
         }
         return infoLogs;
@@ -96,6 +121,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
     }
 
     private Set<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
+
         Set<Resource> resources = new HashSet<>();
         for (int i = 0; i < wordsFormat.length; i++) {
             for (int j=0 ;j < resourcesDb.size(); j++) {
@@ -107,5 +133,24 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
             }
         }
         return resources;
+    }
+
+    private Environment selectParent(String ubicacion, List<Environment> environmentsDb) {
+
+        Environment environmentP = null;
+        for (int i = 0; i < environmentsDb.size(); i++) {
+            if(environmentsDb.get(i).getName().equals(ubicacion)){
+                environmentP = environmentsDb.get(i);
+            }
+        }
+
+        return environmentP;
+    }
+
+    private boolean warningForResources(Set<Resource> resources, String[] wordsFormat){
+        if(resources.size() != wordsFormat.length){
+            return true;
+        }
+        return false;
     }
 }
