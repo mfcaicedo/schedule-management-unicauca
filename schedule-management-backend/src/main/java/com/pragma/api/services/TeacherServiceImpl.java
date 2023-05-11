@@ -6,23 +6,28 @@ import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Teacher;
 import com.pragma.api.repository.ITeacherRepository;
 import com.pragma.api.util.PageableUtils;
+import com.pragma.api.util.file.FileTeachers;
+import com.pragma.api.util.file.templateclasses.FileRowTeacher;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
 
-    private final ITeacherRepository iTeacherRepository;
+    private  ITeacherRepository iTeacherRepository;
 
-    private final ModelMapper modelMapper;
+    private  ModelMapper modelMapper;
 
-    @Autowired
+
     public TeacherServiceImpl(ITeacherRepository iTeacherRepository, ModelMapper modelMapper) {
         this.iTeacherRepository = iTeacherRepository;
         this.modelMapper = modelMapper;
@@ -34,7 +39,6 @@ public class TeacherServiceImpl implements ITeacherService {
         if(teacherPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.teacher.empty", "");
         return this.validatePageList(teacherPage);
     }
-
 
 
     private GenericPageableResponse validatePageList(Page<Teacher> teachersPage){

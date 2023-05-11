@@ -21,10 +21,10 @@ public class Environment {
     @Column(length = 45)
     private String name;
     @Column(length = 60)
-    private String location;
+    private String location;  //cambiar a llave foranea a ella misma
     private Integer capacity;
     @Enumerated(EnumType.STRING)
-    private EnvironmentTypeEnumeration environmentType;
+    private EnvironmentTypeEnumeration environmentType;  //añadir tipo "edificio"
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
