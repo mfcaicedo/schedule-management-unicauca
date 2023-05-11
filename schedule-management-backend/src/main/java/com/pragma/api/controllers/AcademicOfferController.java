@@ -1,6 +1,8 @@
 package com.pragma.api.controllers;
 
+import com.pragma.api.domain.TemplateFileDTO;
 import com.pragma.api.services.IFileAcademicOffer;
+import com.pragma.api.services.ITemplateFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +19,24 @@ public class AcademicOfferController {
 
     private final IFileAcademicOffer iFileAcademicOffer;
 
+    private final ITemplateFileService iTemplateFileService;
+
     @Autowired
-    public AcademicOfferController(IFileAcademicOffer iFileAcademicOffer) {
+    public AcademicOfferController(IFileAcademicOffer iFileAcademicOffer, ITemplateFileService iTemplateFileService) {
         this.iFileAcademicOffer = iFileAcademicOffer;
+        this.iTemplateFileService = iTemplateFileService;
     }
+
+
 
     @PostMapping("/uploadFile")
     ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.iFileAcademicOffer.uploadFile(file), HttpStatus.OK);
+    }
+
+    @PostMapping("/uploadTemplate")
+    ResponseEntity<TemplateFileDTO> uploadTemplate(@RequestParam("file") MultipartFile file) throws IOException{
+        return new ResponseEntity<>(this.iTemplateFileService.uploadTemplateFile(file),HttpStatus.OK);
     }
 
 

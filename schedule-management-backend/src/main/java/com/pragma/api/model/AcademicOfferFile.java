@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "academic_offer_file")
@@ -22,10 +23,16 @@ public class AcademicOfferFile {
     @Column(name = "name_file", nullable = false, length = 80)
     private String nameFile;
     @Column(name = "date_register_file", nullable = false)
-    private Integer dateRegisterFile;
+    private Date dateRegisterFile;
     @Column(name = "state_file", nullable = false)
     private StateAcOfferFileEnumeration stateFile;
-    //relacion * a 1 con Program
+
+
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "template_file_id" )
+    private TemplateFile templateFile;
+
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
