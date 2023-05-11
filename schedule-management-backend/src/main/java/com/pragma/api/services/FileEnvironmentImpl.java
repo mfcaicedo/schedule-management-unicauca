@@ -20,7 +20,6 @@ import java.util.*;
 @Service
 public class FileEnvironmentImpl implements IFileEnvironmentService{
 
-
     private IEnvironmentRepository environmentRepository;
 
     private IFacultyRepository facultyRepository;
@@ -72,12 +71,17 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                     case "SALON":
                         environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
                         break;
+                    case "EDIFICIO":
+                        environment.setEnvironmentType(EnvironmentTypeEnumeration.EDIFICIO);
+                        break;
                     default:
                         environment.setEnvironmentType(EnvironmentTypeEnumeration.DEFAULT);
                         break;
                 }
-
-                if(!log.getAvailableResources().toUpperCase().trim().equals("POR DEFINIR")){
+                if(log.getAvailableResources().equals("no aplica")){
+                    environment.setAvailableResources(null);
+                }else{
+                //if(!log.getAvailableResources().toUpperCase().trim().equals("POR DEFINIR")){
                     List<Resource> resourcesDb = this.resourceRepository.findAll();
                     String[] words = log.getAvailableResources().split(",");
                     String[] wordsFormat = wordFormat(words); //formatear palabras
@@ -89,10 +93,19 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                         infoLogs.add("successful, all resources added");
                     }
                 }
+                //}
 
                 environment.setFaculty(faculty);
+                if(log.getLocation().equals(null)){
+                    environment.setParentEnvironment(null);
+                }else{
+                    List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                    environment.setParentEnvironment(selectParent(log.getLocation().toString(),enviromentsDb));
+                }
+                //environment.setParentEnvironment();
                 environmentRepository.save(environment);
                 infoLogs.add("Environment Created ");
+
             }else{
                 infoLogs.add("Environment NOT Created, verify fields");
             }
@@ -115,13 +128,23 @@ public class FileEnvironmentImpl implements IFileEnvironmentService{
                 if (resourcesDb.get(j).getName().toUpperCase().trim().equals(wordsFormat[i])) {
                     Resource resource = resourcesDb.get(j);
                     resources.add(resource);
-
                     break;
                 }
             }
         }
-
         return resources;
+    }
+
+    private Environment selectParent(String ubicacion, List<Environment> environmentsDb) {
+
+        Environment environmentP = null;
+        for (int i = 0; i < environmentsDb.size(); i++) {
+            if(environmentsDb.get(i).getName().equals(ubicacion)){
+                environmentP = environmentsDb.get(i);
+            }
+        }
+
+        return environmentP;
     }
 
     private boolean warningForResources(Set<Resource> resources, String[] wordsFormat){
