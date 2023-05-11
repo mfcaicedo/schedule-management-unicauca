@@ -1,5 +1,7 @@
 package com.pragma.api.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,5 +25,11 @@ public class FacultyController {
     @GetMapping("/consultById/{id}")
     public Response<FacultyDTO> consultFacultyById(@PathVariable String id) {
         return this.facultyService.findByFacultyId(id);
+    }
+
+    //consultar todas las facultades
+    @GetMapping("/consultAllFaculty")
+    public Response<List<FacultyDTO>> consultAllFaculty() {
+        return this.facultyService.findAllFaculty();
     }
 }

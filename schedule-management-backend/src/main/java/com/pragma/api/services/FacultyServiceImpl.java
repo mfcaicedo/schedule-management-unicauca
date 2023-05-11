@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.FacultyDTO;
 import com.pragma.api.domain.Response;
 import com.pragma.api.model.Faculty;
@@ -38,10 +39,11 @@ public class FacultyServiceImpl implements IFacultyService{
         
     }
 
+    
     @Override
     public Response<FacultyDTO> findByFacultyId(String facultyId) {
     
-        if(!this.facultyRepository.existsAnyFaculty()) throw  new ScheduleBadRequestException("bad.request.faculty.faculty_id","");     
+        if(!this.facultyRepository.existsFacultyByFacultyId(facultyId)) throw  new ScheduleBadRequestException("bad.request.faculty.faculty_id","");     
         Faculty faculty = this.facultyRepository.findByFacultyId(facultyId);
         FacultyDTO facultyDTO1 = modelMapper.map(faculty,FacultyDTO.class);
         Response<FacultyDTO> response = new Response<>();
@@ -54,25 +56,21 @@ public class FacultyServiceImpl implements IFacultyService{
         return response;
     }
 
+    //Buscar todas las facultades
     @Override
-    public List<FacultyDTO> findAllFaculty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAllFaculty'");
-    }
-
     public Response<List<FacultyDTO>> findAllFaculty() {
         
-        if(!this.facultyRepository.existsEventByEventManagerName(eventManagerName)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        if(!this.facultyRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
-        List<Event> event = this.eventRepository.findAllByEventManagerName(eventManagerName);
-        List<EventDTO> eventDTOlist = modelMapper.map(event,new TypeToken<List<EventDTO>>() {}.getType());
-        Response<List<EventDTO>> response = new Response<>();
+        List<Faculty> faculty = this.facultyRepository.findAll();
+        List<FacultyDTO> facultyDTOlist = modelMapper.map(faculty,new TypeToken<List<FacultyDTO>>() {}.getType());
+        Response<List<FacultyDTO>> response = new Response<>();
         response.setStatus(200);
-        response.setUserMessage("List of Events Finded successfully");
-        response.setDeveloperMessage("List of Events Finded successfully");
-        response.setMoreInfo("localhost:8080/api/event(toDO)");
+        response.setUserMessage("List of facultys Finded successfully");
+        response.setDeveloperMessage("List of facultys Finded successfully");
+        response.setMoreInfo("localhost:8081/api/faculty(toDO)");
         response.setErrorCode("");
-        response.setData(eventDTOlist);
+        response.setData(facultyDTOlist);
         return response;
     }
     

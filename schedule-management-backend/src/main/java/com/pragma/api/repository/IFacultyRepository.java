@@ -16,10 +16,10 @@ public interface IFacultyRepository extends JpaRepository<Faculty, String> {
     boolean existsFacultyByFacultyId(String faculty_id);
 
     //contar si existe almenos una facultad en la base de datos
-    boolean existsAnyFaculty();
+    boolean existsBy();
 
     //Traer el listado de todos las facultades
-    List<Faculty> findAllFaculty();
+    List<Faculty> findAll();
 
     Faculty findByFacultyIdIs(String name);
 }
