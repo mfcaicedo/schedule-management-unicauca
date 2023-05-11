@@ -41,7 +41,7 @@ public class FacultyServiceImpl implements IFacultyService{
     @Override
     public Response<FacultyDTO> findByFacultyId(String facultyId) {
     
-        if(!this.facultyRepository.existsFacultyByFacultyId(facultyId)) throw  new ScheduleBadRequestException("bad.request.faculty.faculty_id","");     
+        if(!this.facultyRepository.existsAnyFaculty()) throw  new ScheduleBadRequestException("bad.request.faculty.faculty_id","");     
         Faculty faculty = this.facultyRepository.findByFacultyId(facultyId);
         FacultyDTO facultyDTO1 = modelMapper.map(faculty,FacultyDTO.class);
         Response<FacultyDTO> response = new Response<>();
@@ -51,6 +51,28 @@ public class FacultyServiceImpl implements IFacultyService{
         response.setMoreInfo("localhost:8081/api/faculty(toDO)");
         response.setErrorCode("");
         response.setData(facultyDTO1);
+        return response;
+    }
+
+    @Override
+    public List<FacultyDTO> findAllFaculty() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAllFaculty'");
+    }
+
+    public Response<List<FacultyDTO>> findAllFaculty() {
+        
+        if(!this.facultyRepository.existsEventByEventManagerName(eventManagerName)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Event> event = this.eventRepository.findAllByEventManagerName(eventManagerName);
+        List<EventDTO> eventDTOlist = modelMapper.map(event,new TypeToken<List<EventDTO>>() {}.getType());
+        Response<List<EventDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of Events Finded successfully");
+        response.setDeveloperMessage("List of Events Finded successfully");
+        response.setMoreInfo("localhost:8080/api/event(toDO)");
+        response.setErrorCode("");
+        response.setData(eventDTOlist);
         return response;
     }
     

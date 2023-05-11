@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface IFacultyRepository extends JpaRepository<Faculty, String> {
     //boolean findByFacultyNameEquals(String name);
     @Query(value = "SELECT * FROM faculty f WHERE f.faculty_id = :faculty_id", nativeQuery = true)
@@ -12,5 +14,12 @@ public interface IFacultyRepository extends JpaRepository<Faculty, String> {
     Faculty findByFacultyId(@Param("faculty_id") String faculty_id);
     //Verificar si existe la facultad antes de proceder a buscar
     boolean existsFacultyByFacultyId(String faculty_id);
+
+    //contar si existe almenos una facultad en la base de datos
+    boolean existsAnyFaculty();
+
+    //Traer el listado de todos las facultades
+    List<Faculty> findAllFaculty();
+
     Faculty findByFacultyIdIs(String name);
 }
