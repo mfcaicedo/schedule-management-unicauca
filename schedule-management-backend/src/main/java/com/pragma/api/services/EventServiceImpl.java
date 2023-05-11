@@ -65,7 +65,7 @@ public class EventServiceImpl implements IEventService {
         response.setStatus(200);
         response.setUserMessage("Event created successfully");
         response.setDeveloperMessage("Event created successfully");
-        response.setMoreInfo("localhost:8080/api/event(toDO)");
+        response.setMoreInfo("localhost:808/api/event(toDO)");
         response.setErrorCode("");
         response.setData(eventDTO);
         return response;

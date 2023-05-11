@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -39,15 +40,29 @@ public class FacultyServiceImpl implements IFacultyService{
 
     @Override
     public Response<FacultyDTO> findByFacultyId(String facultyId) {
+        // Agregar un alto e impresión aquí
+    Scanner scanner = new Scanner(System.in);
+    
         if(!this.facultyRepository.existsFacultyByFacultyId(facultyId)) throw  new ScheduleBadRequestException("bad.request.faculty.faculty_id","");
+        
+        System.out.println("Paso por aqui si existe la facultad");
+        System.out.println("Presione enter para continuar...");
+        scanner.nextLine();
 
         Faculty faculty = this.facultyRepository.findByFacultyId(facultyId);
+
+        System.out.println("Presione enter para continuar...");
+        scanner.nextLine();
+
         FacultyDTO facultyDTO1 = modelMapper.map(faculty,FacultyDTO.class);
+        System.out.println("Paso por aqui modelo la facultad");
+        System.out.println("Presione enter para continuar...");
+        scanner.nextLine();
         Response<FacultyDTO> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Faculty Finded successfully");
         response.setDeveloperMessage("Faculty Finded successfully");
-        response.setMoreInfo("localhost:8080/api/faculty(toDO)");
+        response.setMoreInfo("localhost:8081/api/faculty(toDO)");
         response.setErrorCode("");
         response.setData(facultyDTO1);
         return response;

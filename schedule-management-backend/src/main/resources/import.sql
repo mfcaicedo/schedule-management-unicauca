@@ -40,8 +40,6 @@ INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('108
 
 
 
-
-
 --Period
 INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2021-2', '2021-11-30 23:59:59', '2021-07-01 00:00:00','FINISHED');
 INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-1', '2022-06-30 23:59:59', '2022-02-01 00:00:00','FINISHED');
