@@ -1,9 +1,9 @@
 package com.pragma.api.controllers;
-
+import com.pragma.api.services.IFileEnvironmentService;
+import com.pragma.api.services.IPersonService;
 import com.pragma.api.services.IFileEnvironmentService;
 import com.pragma.api.services.IFileTeachersService;
 import com.pragma.api.domain.GenericPageableResponse;
-import com.pragma.api.services.ITeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,24 +17,25 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/teacher")
+@RequestMapping("/person")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
-public class TeacherController {
+public class PersonController {
 
-    private final ITeacherService iTeacherService;
+    private final IPersonService iPersonService;
 
     private final IFileTeachersService fileTeachersService;
 
     @Autowired
-    public TeacherController(ITeacherService iTeacherService, IFileTeachersService fileTeachersService) {
-        this.iTeacherService = iTeacherService;
+
+    public PersonController(IPersonService iPersonService,IFileTeachersService fileTeachersService) {
+        this.iPersonService = iPersonService;
         this.fileTeachersService = fileTeachersService;
     }
 
     @GetMapping
-    public ResponseEntity<GenericPageableResponse> getAllTeacher(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order) {
+    public ResponseEntity<GenericPageableResponse> getAllPerson(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
-        return ResponseEntity.status(HttpStatus.OK).body(this.iTeacherService.findAllTeacher(pageable));
+        return ResponseEntity.status(HttpStatus.OK).body(this.iPersonService.findAllPerson(pageable));
     }
 
     @PostMapping("/uploadFile")

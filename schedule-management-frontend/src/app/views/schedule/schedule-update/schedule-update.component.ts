@@ -25,7 +25,7 @@ export class ScheduleUpdateComponent {
   updateIsSelected=false;
   curso:Course={
     'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'',
-    'subjectCode':'','teacherCode':'','remainingHours':2}
+    'subjectCode':'','personCode':'','remainingHours':2}
   environment:Environment={id:1,name:'Salon fundador',location:'Bloque C',capacity:30,environmentType:'SALON',facultyId:"FIET",availableResources:[]};
   schedule: Schedule ={id:1,day:"LUNES",startingTime:'07:00:00',endingTime:'09:00:00',course:this.curso,environment:this.environment};
   constructor(
@@ -59,7 +59,7 @@ export class ScheduleUpdateComponent {
           this.scheduleService.getScheduleById(this.scheduleId).subscribe(response=>{
             console.log("response de sheduleby id ",response)
             this.schedule = response as Schedule
-            this.fillTakenProfessorSchedule(this.schedule.course.teacherCode);
+            this.fillTakenProfessorSchedule(this.schedule.course.personCode);
           })
 
 
@@ -81,7 +81,7 @@ export class ScheduleUpdateComponent {
       this.scheduleSelectedUpdate.environment=this.environment
       console.log("Updated schedule es ",schedule)
       this.updateIsSelected=true
-      //this.fillTakenProfessorSchedule(this.scheduleSelectedUpdate.course.teacherCode);
+      //this.fillTakenProfessorSchedule(this.scheduleSelectedUpdate.course.personCode);
     }else{
 
 
@@ -103,10 +103,10 @@ export class ScheduleUpdateComponent {
   }
 
 
-  fillTakenProfessorSchedule(teacherCode:string){
+  fillTakenProfessorSchedule(personCode:string){
 
-    console.log("llega el teacher code ",teacherCode)
-    this.scheduleService.getTakenProfessorSchedule(teacherCode).subscribe((response) =>{
+    console.log("llega el person code ",personCode)
+    this.scheduleService.getTakenProfessorSchedule(personCode).subscribe((response) =>{
     console.log("Response de takenprofesor detail Envi" ,response)
       this.takenProfessorSchedules = response as Schedule[]
       this.showAvailable=true

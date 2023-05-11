@@ -59,7 +59,7 @@ export class EnvironmentsComponent {
 
   updateTableEnvironments(type:string){
 
-    if(type == 'all'){
+    if(type == 'TODOS'){
       this.isTypeSelected=false
     }else{
       this.isTypeSelected=true
