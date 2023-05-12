@@ -29,4 +29,14 @@ public class Program {
 
     @OneToMany(mappedBy = "program")
     private Set<Subject> subjects;
+
+    //relacion 1 a * con AcademicOfferFile
+    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
+    private Set<AcademicOfferFile> academicOfferFile;
+
+    //Relacion de muchos a 1 con Teacher Descripcion: indica que un departamento es coordinado por un profesor
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "teacher_code")
+    private Teacher teacher;
+
 }

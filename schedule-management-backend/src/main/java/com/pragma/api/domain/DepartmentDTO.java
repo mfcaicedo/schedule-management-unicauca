@@ -17,4 +17,5 @@ public class DepartmentDTO {
     @NonNull
     @NotBlank
     private String departmentName;
+
 }

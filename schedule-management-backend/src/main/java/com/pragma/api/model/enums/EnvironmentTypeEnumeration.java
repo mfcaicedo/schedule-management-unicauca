@@ -1,5 +1,5 @@
 package com.pragma.api.model.enums;
 
 public enum EnvironmentTypeEnumeration {
-    AUDITORIO, LABORATORIO, SALON
+    AUDITORIO, LABORATORIO, SALON, EDIFICIO, DEFAULT
 }

@@ -5,3 +5,9 @@
   will-change: auto;
   @include transition(padding .15s);
 }
+
+@media (max-width: 640px) {
+  .body{
+      margin-inline: 5px !important;
+  }
+}

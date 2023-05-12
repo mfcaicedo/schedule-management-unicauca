@@ -1,0 +1,32 @@
+<c-card>
+  <c-card-header>
+    <strong class="titulo">Ambiente</strong>
+  </c-card-header>
+
+  <c-card-body>
+    <div class="container">
+      <div class="centrado">
+        <h5>Cargar Ambiente al sistema </h5>
+        <div class="drop-container">
+          <label for="file-environment">
+            <span class="btn-upload-file">
+              <i class="cilCloudUpload"></i>
+              <svg cIcon name="cilCloudUpload" size="xl"></svg>
+              Cargar archivo
+            </span>
+            <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+              (change)="onUpload($event)" required>
+          </label>
+        </div>
+      </div>
+      <!-- Snipper -->
+      <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+        <p style="color: white">
+          Cargando ambiente...
+        </p>
+      </ngx-spinner>
+
+    </div>
+  </c-card-body>
+
+</c-card>
