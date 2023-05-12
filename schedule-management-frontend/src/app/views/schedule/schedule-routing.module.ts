@@ -5,8 +5,7 @@ import { ScheduleCreateComponent } from './schedule-create/schedule-create.compo
 import { ScheduleDetailComponent } from './schedule-detail/schedule-detail.component';
 import {ScheduleProfessorDetailComponent} from './schedule-professor-detail/schedule-professor-detail.component';
 import { ScheduleUpdateComponent } from './schedule-update/schedule-update.component';
-import { ScheduleReserveComponent } from './schedule-reserve/schedule-reserve.component';
-
+import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
 const routes: Routes = [
   {
     path: '',
@@ -36,7 +35,7 @@ const routes: Routes = [
       },
       {
         path:'reserve',
-        component:ScheduleReserveComponent,
+        component:ScheduleReserveCreateComponent,
         data:{
           title:'reserve'
         }
