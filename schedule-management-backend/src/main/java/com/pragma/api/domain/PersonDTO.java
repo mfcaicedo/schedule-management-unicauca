@@ -1,5 +1,7 @@
 package com.pragma.api.domain;
 
+import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -19,6 +21,6 @@ public class PersonDTO {
     @NonNull
     private DepartmentDTO department;
 
-
+    private PersonTypeEnumeration personType;
 
 }
