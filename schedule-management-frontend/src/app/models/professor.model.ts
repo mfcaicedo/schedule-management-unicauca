@@ -1,8 +1,8 @@
 import { Department } from "./department.model";
 
 export interface Professor{
-  // TODO atributos de teacher
-  teacherCode:string;
+  // TODO atributos de person
+  personCode:string;
   fullName: string;
   department:Department[];
 

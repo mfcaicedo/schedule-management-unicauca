@@ -33,7 +33,7 @@ export class ScheduleCreateComponent {
   showSelectedProgramAndSemester:boolean=false;
   showScheduleView:boolean=false;
   semester:number=0;
-  course:Course={'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','teacherCode':'','remainingHours':0}
+  course:Course={'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0}
   environmentSelected!: Environment;
   scheduleToCreate!:Schedule;
   continueCreatingSchedule:boolean = false

@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -47,7 +46,7 @@ public class Course {
     private Subject subject;
 
     @OneToMany(mappedBy = "course")
-    private Set<CourseTeacher> assignedTeachers;
+    private Set<CourseTeacher> assignedPersons;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;

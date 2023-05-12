@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface IProgramRepository extends JpaRepository<Program, String> {
+    Program findByProgramId(String name);
 }
