@@ -92,4 +92,31 @@ export const navItems: INavData[] = [
       }
     ]
   },
+  {
+    name: 'Reportes',
+    url: '/Reportes',
+    iconComponent: { name: 'cilBook' },
+    children: [
+      {
+        name: 'Reporte por Facultad',
+        url: '/Reportes/Report_faculty'
+      },
+      {
+        name: 'Reporte por Programa',
+        url: '/Reportes/Report_program'
+      },
+      {
+        name: 'Reporte por semestre',
+        url: '/Reportes/Report_semestre'
+      },
+      {
+        name: 'Reporte por Professor',
+        url: '/Reportes/Report_teacher'
+      },
+      {
+        name: 'Reporte por salon',
+        url: '/Reportes/Report_Room'
+      }
+    ]
+  },
 ];
