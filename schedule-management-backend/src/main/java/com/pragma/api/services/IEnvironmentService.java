@@ -75,4 +75,7 @@ public interface IEnvironmentService {
     //Metodo para consultar todos los edificio, trayendolos por id de facultad
     public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId);
 
+    //Metodo para realizar el listado de ambientes y que pueden ser seleccionados por su tipo
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId);
+
 }

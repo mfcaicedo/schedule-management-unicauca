@@ -106,4 +106,9 @@ public class EnvironmentController {
         return this.environmentService.findAllBuildings(id);
     }
 
+    //Metodo para obtener todos los ambientes para ser listados, junto con su id, name y type
+    @GetMapping("/consultEnvironmentsByFacultyId/{id}")
+    public Response<List<EnvironmentDTO>> consultEnvironmentsByFacultyId(@PathVariable String id) {
+        return this.environmentService.findAllEnvironmentByIdFacultyAndBuilding(id);
+    }
 }

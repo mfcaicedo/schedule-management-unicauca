@@ -290,6 +290,43 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         return response;
     }
 
+
+    //Metodo  para listar los ambientes por id facultad, edificio, mostrando el tipo que deberia ser pasado
+    @Override
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
+
+        List<EnvironmentDTO> EnvironmentDTOList = new ArrayList<>();
+        for (Object[] environment : environmentsForType) {
+        Integer environmentId = (Integer) environment[0];
+        String environmentName = (String) environment[1];
+        String environmentTypeString = (String) environment[2];
+        EnvironmentTypeEnumeration environmentType = EnvironmentTypeEnumeration.valueOf(environmentTypeString);
+        EnvironmentDTO environmentDTO = new EnvironmentDTO(environmentId, environmentName, environmentType);
+        EnvironmentDTOList.add(environmentDTO);
+        }
+
+        //String environmentTypeString = "AUDITORIO"; // Supongamos que esta es la cadena que representa el tipo de ambiente
+//EnvironmentTypeEnumeration environmentType = EnvironmentTypeEnumeration.valueOf(environmentTypeString);
+
+        //List<EnvironmentDTO> EnvironmentDTOList = environmentsForType.stream()
+        //map(environmentData -> modelMapper.map(environmentData, EnvironmentDTO.class))
+        //collect(Collectors.toList());
+        //List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+
+        Response<List<EnvironmentDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOList);
+        return response;
+    }
+
     
     
 
