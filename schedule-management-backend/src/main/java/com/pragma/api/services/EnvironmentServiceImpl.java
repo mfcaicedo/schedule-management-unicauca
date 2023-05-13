@@ -309,18 +309,11 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         EnvironmentDTOList.add(environmentDTO);
         }
 
-        //String environmentTypeString = "AUDITORIO"; // Supongamos que esta es la cadena que representa el tipo de ambiente
-//EnvironmentTypeEnumeration environmentType = EnvironmentTypeEnumeration.valueOf(environmentTypeString);
-
-        //List<EnvironmentDTO> EnvironmentDTOList = environmentsForType.stream()
-        //map(environmentData -> modelMapper.map(environmentData, EnvironmentDTO.class))
-        //collect(Collectors.toList());
-        //List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
 
         Response<List<EnvironmentDTO>> response = new Response<>();
         response.setStatus(200);
-        response.setUserMessage("List of buildings Finded successfully");
-        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setUserMessage("List of Environments Finded successfully");
+        response.setDeveloperMessage("List of Environments Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOList);
