@@ -42,7 +42,13 @@ export class TeacherService {
     //TODO agregar autorizacion
     // localhost:8081/api/environment/byEnvironmentType?page=0&size=10&sort=id&order=ASC&environmentType=LABORATORIO
     //{ headers: this.userServie.agregarAuthorizationHeader() }
-    return this.http.get<any>(this.endPoint + '/byPersonType' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&personType=${type}`).pipe(
+    console.log('ver este: ', this.endPoint)
+    console.log('ver este: ', page)
+    console.log('ver este: ', pageSize) 
+
+    return this.http.get<any>(
+      this.endPoint + '/byPersonType' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&personType=${type}`)
+      .pipe(
       catchError((e) => {
         // this.router.navigate(['/documentos']);
 

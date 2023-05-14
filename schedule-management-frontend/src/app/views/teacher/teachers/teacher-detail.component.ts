@@ -45,10 +45,13 @@ export class TeachersComponent {
 
       //this.teacherService.getAllTeachersPage(1, 5).subscribe(response =>
 
-      console.log("Dataaaa : ", response)
-      this.departmentName = response.elements[0].department.departmentName;
+      console.log("Dataaadsddddda : ", response)
+      // this.departmentName = response.elements[0].department.departmentName;
+      console.log("la otroa linea ");
       // console.log("depa name: ", this.departmentName)
-      this.person = response.elements as Person[]
+      this.person = response.elements as Person[] //esta estaba cuando llegué 
+      this.person = response.data.elements as Person[] //esta fue la solucion que encontré
+      console.log("que tiene person: ", this.person)
       // console.log("teacheeer", this.teacher)
       this.totalItems = response.pagination.totalNumberElements as number
       this.totalNumberPage = response.pagination.totalNumberPage as number
@@ -78,13 +81,17 @@ export class TeachersComponent {
     let pageSize: number = args[1]
     if (!pageSolicitud) {
       pageSolicitud = 0;
+      console.log('entro a pageSolicitud');
     }
     if (!pageSize) {
       pageSize = 10
+      console.log('entro a pageSize');
     }
     else {
+      console.log('entro a else');
       this.teacherService.getAllPersonByPersonTypePage(this.personType, pageSolicitud, pageSize).subscribe((response) => {
         this.person = response.data.elements as Person[]
+        console.log("que tiene person : ", this.person)
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
 
