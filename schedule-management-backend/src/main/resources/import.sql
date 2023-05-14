@@ -99,6 +99,7 @@ INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `nam
 --Resource
 INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Video Beam', 'TECNOLOGICO');
 INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Televisor', 'TECNOLOGICO');
+INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Computador', 'TECNOLOGICO');
 
 --Resource environment
 INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);

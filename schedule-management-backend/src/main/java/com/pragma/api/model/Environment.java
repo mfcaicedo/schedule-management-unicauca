@@ -32,12 +32,14 @@ public class Environment {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
+    /*
     @ManyToMany
     @JoinTable(
             name = "available_resources",
             joinColumns = @JoinColumn(name = "environment_id"),
             inverseJoinColumns = @JoinColumn(name = "resource_id"))
     private Set<Resource> availableResources;
+    */
 
     @OneToMany(mappedBy = "environment", fetch = FetchType.LAZY)
     private Set<Schedule> schedules;
@@ -47,7 +49,5 @@ public class Environment {
     private Environment parentEnvironment;
     @OneToMany(mappedBy = "parentEnvironment", fetch = FetchType.LAZY)
     private Set<Environment> subEnvironments;
-
-
 
 }

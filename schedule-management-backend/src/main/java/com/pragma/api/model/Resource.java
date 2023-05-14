@@ -24,6 +24,8 @@ public class Resource {
     @Column(name = "resource_type")
     @Enumerated(EnumType.STRING)
     private ResourceTypeEnumeration resourceType;
+    /*
     @ManyToMany(mappedBy = "availableResources", fetch = FetchType.LAZY)
     private Set<Environment> resourceLocations;
+     */
 }
