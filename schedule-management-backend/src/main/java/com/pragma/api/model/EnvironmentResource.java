@@ -13,21 +13,29 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Builder
 public class EnvironmentResource {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "environment_resource_id")
     private Integer id;
 
-    @Column (name = "resource_total")
-    private Integer resourceTotal;
+    @Column (name = "resource_quantity")
+    private Integer resourceQuantity;
 
 
     @ManyToOne
     @JoinColumn(name = "environment_id")
-    private Course course;
+    private Environment environment;
 
     @ManyToOne
-    @JoinColumn(name = "resourceCode")
-    private Teacher teacher;
+    @JoinColumn(name = "resource_id")
+    private Resource resource;
+
+    public EnvironmentResource(Integer resourceQuantity,Environment environment,Resource resource){
+        this.resourceQuantity = resourceQuantity;
+        this.environment = environment;
+        this.resource = resource;
+    }
 
 }

@@ -3,6 +3,8 @@ package com.pragma.api.util.file.templateclasses;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,4 +17,7 @@ public class FileRowEnvironment {
     private String availableResources;
     private String environmentType;
     private String faculty;
+
+    private List<Integer> quantity;
+
 }
