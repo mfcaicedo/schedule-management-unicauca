@@ -41,9 +41,9 @@ public class AcademicOfferController {
         return new ResponseEntity<>(this.iTemplateFileService.uploadTemplateFile(file),HttpStatus.OK);
     }
 
-    @GetMapping("/downloadTemplate")
-    String downloadTemplate() throws IOException {
-        return this.iTemplateFileService.processFile();
+    @GetMapping("/downloadTemplate/{programId}")
+    ResponseEntity<Resource> downloadTemplate(@PathVariable String programId) throws IOException {
+        return this.iTemplateFileService.donwloadTemplateFile(programId);
     }
 
 }

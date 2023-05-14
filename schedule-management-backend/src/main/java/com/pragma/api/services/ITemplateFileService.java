@@ -14,6 +14,6 @@ import java.util.List;
 public interface ITemplateFileService  {
     public TemplateFileDTO uploadTemplateFile(MultipartFile file) throws IOException;
 
-    public String processFile() throws IOException;
+    public ResponseEntity<Resource> donwloadTemplateFile(String programId) throws IOException;
 
 }
