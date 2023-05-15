@@ -235,7 +235,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     @Override
     public Response<GenericPageableResponse> findAllByFacultyId(Pageable pageable, String facultyId) {
 
-        Page<Environment> environmentPage = this.environmentRepository.findAllByFacultyFacultyId(facultyId, pageable);
+        Page<Environment> environmentPage = this.environmentRepository.findAllByFacultyId(facultyId, pageable);
         if(environmentPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
 
         Response<GenericPageableResponse> response = new Response<>();
@@ -250,8 +250,10 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     }
 
     @Override
-    public Response<GenericPageableResponse> findAllByEnvironmentType(Pageable pageable, EnvironmentTypeEnumeration environmentType) {
-        Page<Environment> environmentPage = this.environmentRepository.findAllByEnvironmentType(environmentType, pageable);
+    public Response<GenericPageableResponse> findAllByEnvironmentTypeAndParentId(Pageable pageable,
+     EnvironmentTypeEnumeration environmentType, Integer parentId) {
+        Page<Environment> environmentPage = this.environmentRepository.findAllByParentIdAndEnvironmentType(parentId,
+        environmentType, pageable);
         if(environmentPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
 
         Response<GenericPageableResponse> response = new Response<>();
@@ -273,7 +275,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
     ////Metodo para consultar todos los edificio, trayendolos por id de facultad
     @Override
-    public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId) {
+    public Response<List<EnvironmentDTO>> findAllBuildingsByFacultyId(String facultyId) {
         
         //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
         if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
@@ -293,11 +295,12 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
     //Metodo  para listar los ambientes por id facultad, edificio, mostrando el tipo que deberia ser pasado
     @Override
-    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByParentIdAndType(EnvironmentTypeEnumeration type,
+     Integer parentId) {
         //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
         if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
-        List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
+        List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByParentIdAndType(parentId, type);
 
         List<EnvironmentDTO> EnvironmentDTOList = new ArrayList<>();
         for (Object[] environment : environmentsForType) {
