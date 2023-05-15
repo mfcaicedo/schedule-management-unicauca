@@ -92,7 +92,13 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                 fileRow.setAvailableResources(null);
             }
 
-            if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))){
+            if(cells.get(6).getCellType() == CellType.NUMERIC){
+
+                int onequantity = Double.valueOf(cells.get(6).toString()).intValue();
+                List<Integer> listaint = new ArrayList<>();
+                listaint.add(onequantity);
+                fileRow.setQuantity(listaint);
+            }else if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))){
                 String lista = cells.get(6).getStringCellValue();
                 String[] lista2 = lista.split(",");
                 List<Integer> listaint = new ArrayList<>();
