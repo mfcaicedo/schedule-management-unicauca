@@ -20,11 +20,13 @@ public class Environment {
     private Integer id;
     @Column(length = 45)
     private String name;
-    @Column(length = 60)
-    private String location;  //cambiar a llave foranea a ella misma
+    @Column(length = 60, nullable = true)
+    private String location;
+    @Column(nullable = true)
     private Integer capacity;
     @Enumerated(EnumType.STRING)
-    private EnvironmentTypeEnumeration environmentType;  //añadir tipo "edificio"
+    @Column(nullable = true)
+    private EnvironmentTypeEnumeration environmentType;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
@@ -39,4 +41,13 @@ public class Environment {
 
     @OneToMany(mappedBy = "environment", fetch = FetchType.LAZY)
     private Set<Schedule> schedules;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Environment parentEnvironment;
+    @OneToMany(mappedBy = "parentEnvironment", fetch = FetchType.LAZY)
+    private Set<Environment> subEnvironments;
+
+
+
 }
