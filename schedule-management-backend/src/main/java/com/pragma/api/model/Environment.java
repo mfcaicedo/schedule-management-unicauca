@@ -48,6 +48,11 @@ public class Environment {
     @OneToMany(mappedBy = "parentEnvironment", fetch = FetchType.LAZY)
     private Set<Environment> subEnvironments;
 
-    
+    //Constructor personalizado para poder realizar la consulta y cargar el tipo de ambiente
+    public Environment(Integer id, String name, EnvironmentTypeEnumeration environmentType) {
+        this.id = id;
+        this.name = name;
+        this.environmentType = environmentType;
+    }
 
 }

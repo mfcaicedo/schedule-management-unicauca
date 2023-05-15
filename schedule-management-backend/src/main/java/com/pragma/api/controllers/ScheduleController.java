@@ -25,7 +25,8 @@ public class ScheduleController {
         return ResponseEntity.ok(this.scheduleService.saveSchedule(scheduleRequest));
     }
 
-    @GetMapping
+    //Buscar los calendarios por ambiente (Salon, lab, auditorio) -> El calendario contiene la informacion necesaria para hacer el reporte
+    @GetMapping("/byEnvironment")
     public ResponseEntity<List<ScheduleResponseDTO>> getAllByEnvironment(@RequestParam Integer environmentId) {
         return ResponseEntity.ok(this.scheduleService.getAllByEnvironment(environmentId));
     }
@@ -51,5 +52,7 @@ public class ScheduleController {
     public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.scheduleService.getScheduleById(id));
     }
+
+
 
 }

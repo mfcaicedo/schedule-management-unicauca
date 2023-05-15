@@ -1,5 +1,7 @@
 package com.pragma.api.services;
 
+import com.google.common.reflect.TypeToken;
+import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
@@ -17,6 +19,7 @@ import com.pragma.api.repository.IEventRepository;
 import com.pragma.api.repository.IScheduleRepository;
 import com.pragma.api.repository.ITeacherRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -179,5 +182,22 @@ public class ScheduleServiceImpl implements IScheduleService{
         }catch (Exception e){
             throw new ScheduleIntegrityException(e.getMessage(),"");
         }
+    }
+
+
+    @Override
+    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer environmentId) {
+
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        List<Schedule> scheduleList = this.scheduleRepository.findAllByEnvironmentId(environmentId);
+        List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(scheduleList,new TypeToken<List<ScheduleResponseDTO>>() {}.getType());
+        Response<List<ScheduleResponseDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of schedules Finded successfully");
+        response.setDeveloperMessage("List of schedules Finded successfully");
+        response.setMoreInfo("localhost:8081/api/scheduleResponse(toDO)");
+        response.setErrorCode("");
+        response.setData(ScheduleDTOlist);
+        return response;
     }
 }

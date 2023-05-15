@@ -6,6 +6,8 @@ import com.pragma.api.model.Schedule;
 import com.pragma.api.model.Teacher;
 import com.pragma.api.model.enums.DaysEnumeration;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalTime;
 import java.util.List;
@@ -15,4 +17,9 @@ public interface IScheduleRepository extends JpaRepository<Schedule, Long> {
     Boolean existsByCourseAndDay(Course course, DaysEnumeration day);
     List<Schedule>findAllByEnvironment(Environment environment);
 //    List<Schedule>findAllByCourseTeacher(Teacher teacher);
+// lista de calendarios encontrados por salón
+@Query(value = "SELECT * FROM environment as e WHERE e.environment_id = :environment_id", nativeQuery = true)
+//Se realiza busqueda de facultad mediante id para traer los edificios
+List<Schedule> findAllByEnvironmentId(@Param("environment_id") Integer environment_id);
+
 }
