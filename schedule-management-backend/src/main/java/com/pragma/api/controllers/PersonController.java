@@ -25,8 +25,6 @@ public class PersonController {
 
     private final IFileTeachersService fileTeachersService;
 
-    @Autowired
-
     public PersonController(IPersonService iPersonService,IFileTeachersService fileTeachersService) {
         this.iPersonService = iPersonService;
         this.fileTeachersService = fileTeachersService;
@@ -42,7 +40,6 @@ public class PersonController {
     ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.print("SE VA A CREAR");
         return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
-        //return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
     }
 
 }

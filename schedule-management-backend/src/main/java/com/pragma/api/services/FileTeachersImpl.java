@@ -1,14 +1,11 @@
 package com.pragma.api.services;
 
 import com.pragma.api.model.Department;
-import com.pragma.api.model.Environment;
-import com.pragma.api.model.Faculty;
-import com.pragma.api.model.Teacher;
+import com.pragma.api.model.Person;
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 import com.pragma.api.repository.IDeparmentRepository;
-import com.pragma.api.repository.IFacultyRepository;
-import com.pragma.api.repository.ITeacherRepository;
+import com.pragma.api.repository.IPersonRepository;
 import com.pragma.api.util.file.FileTeachers;
-import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowTeacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +19,7 @@ import java.util.List;
 public class FileTeachersImpl implements IFileTeachersService {
 
     @Autowired
-    private ITeacherRepository teacherRepository;
+    private IPersonRepository personRepository;
 
     @Autowired
     private IDeparmentRepository deparmentRepository;
@@ -48,11 +45,12 @@ public class FileTeachersImpl implements IFileTeachersService {
             Department department =  deparmentRepository.findDepartmentByDepartmentName(log.getName_department().trim());
             if(department != null){
 
-                Teacher teacher = new Teacher();
-                teacher.setTeacherCode(log.getCode_teacher().toString());
-                teacher.setFullName(log.getName_teacher());
-                teacher.setDepartment(department);
-                teacherRepository.save(teacher);
+                Person person = new Person();
+                person.setPersonCode(log.getCode_teacher().toString());
+                person.setFullName(log.getName_teacher());
+                person.setDepartment(department);
+                person.setPersonType(PersonTypeEnumeration.TEACHER);
+                personRepository.save(person);
                 infoLogs.add("Teacher Created succesfully!");
             }else{
                 infoLogs.add("Teacher NOT Created");
