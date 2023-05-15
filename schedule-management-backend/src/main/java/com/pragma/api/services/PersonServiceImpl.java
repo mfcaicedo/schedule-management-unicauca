@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +36,17 @@ public class PersonServiceImpl implements IPersonService {
         return this.validatePageList(personPage);
     }
 
+    @Override
+    public PersonDTO findByCode(String code) {
+        Optional<Person> person = this.iPersonRepository.findById(code);
+
+        PersonDTO personDTO = new PersonDTO();
+
+        personDTO = modelMapper.map(person,PersonDTO.class);
+
+        return  personDTO;
+
+    }
 
 
     private GenericPageableResponse validatePageList(Page<Person> personsPage){

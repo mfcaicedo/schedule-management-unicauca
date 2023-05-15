@@ -9,6 +9,7 @@ import lombok.*;
 @ToString
 public class FileRowTeacher {
 
+    private Integer rowNum;
     private Integer code_teacher;
     private String name_teacher;
     private String name_department;
