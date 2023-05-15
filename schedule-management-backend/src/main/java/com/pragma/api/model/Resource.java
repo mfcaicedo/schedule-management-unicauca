@@ -15,15 +15,20 @@ import java.util.Set;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Resource {
+public class Resource{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "resource_id")
     private Integer id;
     @Column(length = 40)
     private String name;
     @Column(name = "resource_type")
     @Enumerated(EnumType.STRING)
     private ResourceTypeEnumeration resourceType;
+    /*
     @ManyToMany(mappedBy = "availableResources", fetch = FetchType.LAZY)
     private Set<Environment> resourceLocations;
+     */
+    @OneToMany(mappedBy = "resource")
+    private Set<EnvironmentResource> resourceLocations;
 }

@@ -15,7 +15,7 @@ public class ResponseFile {
     //ERRORES GENERALES DE LA CLASE ESPECIFICA
     private List<String> logsGeneric;
 
+    public ResponseFile() {
 
-
-
+    }
 }

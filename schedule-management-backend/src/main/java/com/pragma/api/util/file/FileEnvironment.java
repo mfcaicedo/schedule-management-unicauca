@@ -92,6 +92,27 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                 fileRow.setAvailableResources(null);
             }
 
+            if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))){
+                String lista = cells.get(6).getStringCellValue();
+                String[] lista2 = lista.split(",");
+                List<Integer> listaint = new ArrayList<>();
+                for (int i = 0; i < lista2.length; i++) {
+                    listaint.add(Integer.parseInt(lista2[i]));
+                }
+
+                fileRow.setQuantity(listaint);
+
+
+            }else{
+                fileRow.setAvailableResources(null);
+            }
+
+            //if(!(cells.get(6)==null)){
+
+            //}else{
+              //  fileRow.setAvailableResources(null);
+            //}
+
             //condicional
             //cojo ubicacion y diferente de null
 
