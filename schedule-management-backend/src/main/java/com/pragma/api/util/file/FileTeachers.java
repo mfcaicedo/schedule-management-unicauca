@@ -23,7 +23,6 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         XSSFSheet sheet = book.getSheetAt(0);  //cargamos la hoja que vamos a tratar
         int rowNum = sheet.getLastRowNum();
         System.out.println("FILAS EXCEL: " + rowNum);
-
         for (int i = 1; i <= rowNum; i++) {
             List<Cell> cells = new ArrayList<>();
             System.out.println("Registro numero: " + i);
@@ -42,6 +41,7 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
     public FileRowTeacher convertCellsToFileRow(List<Cell> cells) {
 
         FileRowTeacher fileRow = new FileRowTeacher();
+        fileRow.setRowNum(cells.get(0).getRowIndex());
         fileRow.setCode_teacher((int) cells.get(0).getNumericCellValue());
         fileRow.setName_teacher(cells.get(1).getStringCellValue());
         //fileRow.setCode_department((int) cells.get(2).getNumericCellValue());
