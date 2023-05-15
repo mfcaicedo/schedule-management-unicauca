@@ -104,6 +104,7 @@ public class EnvironmentController {
     @GetMapping("/consultBuildingsByFacultyId/{id}")
     public Response<List<EnvironmentDTO>> consultBuildingsByFacultyId(@PathVariable String id) {
         return this.environmentService.findAllBuildings(id);
+
     }
 
 }
