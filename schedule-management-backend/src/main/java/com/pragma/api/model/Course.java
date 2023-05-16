@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name= "course")
+@Table(name = "course")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -35,7 +35,7 @@ public class Course {
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
         this.description = description;
-        //this.profesoresAsignados = new HashSet<>();
+        // this.profesoresAsignados = new HashSet<>();
     }
 
     @ManyToOne
@@ -46,13 +46,16 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    /*@ManyToMany
-    @JoinTable(
-            name = "CourseTeacher",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_code"),
-    )
-    private Set<Teacher>  assignedTeachers; */
+    /*
+     * @ManyToMany
+     * 
+     * @JoinTable(
+     * name = "CourseTeacher",
+     * joinColumns = @JoinColumn(name = "course_id"),
+     * inverseJoinColumns = @JoinColumn(name = "teacher_code"),
+     * )
+     * private Set<Teacher> assignedTeachers;
+     */
     @OneToMany(mappedBy = "course")
     private Set<CourseTeacher> assignedTeachers;
 
