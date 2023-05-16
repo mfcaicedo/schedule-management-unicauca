@@ -20,8 +20,8 @@ export class TeachersComponent {
   person: Person[] = [];
   columns: string[] = ['código', 'Nombre completo', 'Departamento'];
   //REVISAR
-  environmentTypes: string[] = [];
-  environmentType!: string;
+  personTypes: string[] = [];
+  // personType!: string;
   isTypeSelected: boolean = false
   //
   totalItems: number = 0;
@@ -46,13 +46,13 @@ export class TeachersComponent {
       //this.teacherService.getAllTeachersPage(1, 5).subscribe(response =>
 
       console.log("Dataaaa : ", response)
-      this.departmentName = response.elements[0].department.departmentName;
+      //this.departmentName = response.elements[0].department.departmentName;
       // console.log("depa name: ", this.departmentName)
       this.person = response.elements as Person[]
       // console.log("teacheeer", this.teacher)
-      this.totalItems = response.pagination.totalNumberElements as number
-      this.totalNumberPage = response.pagination.totalNumberPage as number
-      this.pageSize = response.pagination.size as number
+      this.totalItems = response.data.pagination.totalNumberElements as number
+      this.totalNumberPage = response.data.pagination.totalNumberPage as number
+      this.pageSize = response.data.pagination.size as number
     })
   }
 
@@ -63,7 +63,7 @@ export class TeachersComponent {
       this.isTypeSelected = false
     } else {
       this.isTypeSelected = true
-      this.environmentType = type
+      this.personType = type
     }
     this.loadTableTeachers([1, 5])
   }
@@ -84,9 +84,12 @@ export class TeachersComponent {
     }
     else {
       this.teacherService.getAllPersonByPersonTypePage(this.personType, pageSolicitud, pageSize).subscribe((response) => {
-        this.person = response.data.elements as Person[]
-        this.totalItems = response.data.pagination.totalNumberElements as number
-        this.totalNumberPage = response.data.pagination.totalNumberPage as number
+        console.log("Data en load Type: ", response)
+
+        this.person = response.elements as Person[]
+        this.totalItems = response.pagination.totalNumberElements as number
+        this.totalNumberPage = response.pagination.totalNumberPage as number
+        this.pageSize = response.pagination.size as number
 
       });
     }

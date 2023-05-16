@@ -27,7 +27,7 @@ export class TeacherService {
     //TODO agregar autorizacion
     //{ headers: this.userServie.agregarAuthorizationHeader() }
     console.log('ver este: ', this.endPoint)
-    return this.http.get<any>(this.endPoint + '/byEnvironmentType' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC`).pipe(
+    return this.http.get<any>(this.endPoint + '/byPersonType' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC`).pipe(
       catchError((e) => {
         // this.router.navigate(['/documentos']);
 
