@@ -23,7 +23,6 @@ public class ScheduleRequestDTO {
     private Date endingDate;
     @NotNull
     private LocalTime endingTime;
-    @NotNull
     private boolean isReserv;
     @NotNull
     private Date startingDate;

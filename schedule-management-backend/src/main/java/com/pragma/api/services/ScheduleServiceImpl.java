@@ -54,12 +54,18 @@ public class ScheduleServiceImpl implements IScheduleService{
     @Override
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
-        if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
-        Course courseDb = courseOptRequest.get();
+        Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(saveRequest.getEnvironmentId());
         //request de event
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", saveRequest.getEnvironmentId().toString());
-        Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        System.out.println("comprobacion de enviroment"+environmentOptRequest.isEmpty());
+        System.out.println("comprobacion de event"+environmentOptRequest.isEmpty());
+        System.out.println("compribacion curso:"+courseOptRequest.isEmpty());
+        System.out.println("dia, fechainicio, curso id:"+saveRequest.getDay()+saveRequest.getStartingDate()+"id course"+saveRequest.getCourseId());
+        if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
+        Course courseDb = courseOptRequest.get();
+        //Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
         if(eventOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         if(this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay())) throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
         if(this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(), saveRequest.getEndingTime(),saveRequest.getDay(),environmentOptRequest.get())) throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment", environmentOptRequest.get().getName());
