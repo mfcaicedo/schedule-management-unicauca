@@ -7,6 +7,9 @@ import com.pragma.api.model.enums.DaysEnumeration;
 import lombok.*;
 
 import java.util.Date;
+
+import org.springframework.lang.Nullable;
+
 import java.time.LocalTime;
 
 @Builder
@@ -14,7 +17,6 @@ import java.time.LocalTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ScheduleResponseDTO {
     private Long id;
     private DaysEnumeration day;
@@ -23,8 +25,10 @@ public class ScheduleResponseDTO {
     private boolean isReserv;
     private Date startingDate;
     private LocalTime startingTime;
+    @Nullable
     private CourseDTO course;
     private String color;
     private EnvironmentDTO environment;
+    @Nullable
     private EventDTO event;
 }

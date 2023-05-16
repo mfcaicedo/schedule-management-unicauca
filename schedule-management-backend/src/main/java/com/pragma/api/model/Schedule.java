@@ -32,25 +32,26 @@ public class Schedule {
     @Column(name = "ending_time")
     private LocalTime endingTime;
     ////////////////////////////
-    //se añadio esta parte 
+    // se añadio esta parte
     @Column(name = "starting_Date")
     private Date startingDate;
 
     @Column(name = "ending_Date")
     private Date endingDate;
-    
-    @Column(name ="is_reserve")
+
+    @Column(name = "is_reserve")
     @ColumnDefault("false")
     private boolean isReserve;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id", nullable = true)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "event_id")
     private Event event;
     //
     ////////////////////////////
-    @ManyToOne
-    @JoinColumn(name = "course_id",nullable = true)
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "course_id")
     private Course course;
+
     @ManyToOne
     @JoinColumn(name = "environment_id")
     private Environment environment;

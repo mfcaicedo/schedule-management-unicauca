@@ -51,8 +51,8 @@ public class Event {
     @OneToMany(mappedBy = "event")
     private Set<Schedule> schedules;
 
-    @Column(name = "event_type",nullable = false)
+    @Column(name = "event_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private EventTypeEnumeration eventType;
-    
+
 }

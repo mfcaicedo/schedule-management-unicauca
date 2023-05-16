@@ -54,7 +54,12 @@ public class ScheduleServiceImpl implements IScheduleService {
     @Override
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
-        Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        Optional<Event> eventOptRequest;
+        if (saveRequest.isReserv()) {
+            eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        } else {
+            eventOptRequest = null;
+        }
         // Event eventoDb = eventOptRequest.get();
         Optional<Environment> environmentOptRequest = this.environmentRepository
                 .findById(saveRequest.getEnvironmentId());
@@ -62,21 +67,12 @@ public class ScheduleServiceImpl implements IScheduleService {
         if (environmentOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.environment.id",
                     saveRequest.getEnvironmentId().toString());
-        System.out
-                .println("----------------------------------------------------######################################3");
-        System.out.println("comprobacion de enviroment" + environmentOptRequest.isEmpty());
-        System.out.println("comprobacion de event" + environmentOptRequest.isEmpty());
-        // System.out.println(eventoDb);
-        System.out.println(" evento:" + eventOptRequest.get().getDescription());
-        System.out.println("compribacion curso:" + courseOptRequest.isEmpty());
-        System.out.println("dia, fechainicio, curso id:" + saveRequest.getDay() + saveRequest.getStartingDate()
-                + "id course" + saveRequest.getCourseId());
-        if (courseOptRequest.isEmpty())
+        if (courseOptRequest.isEmpty() && !saveRequest.isReserv())
             throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
         Course courseDb = courseOptRequest.get();
         // Optional<Event> eventOptRequest =
         // this.eventRepository.findById(saveRequest.getEventId());
-        if (eventOptRequest.isEmpty())
+        if (eventOptRequest.isEmpty() && saveRequest.isReserv())
             throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         if (this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
@@ -102,7 +98,7 @@ public class ScheduleServiceImpl implements IScheduleService {
         requestSchedule.setCourse(courseDb);
         courseDb.setRemainingHours((courseDb.getRemainingHours() - differenceHours));
         this.courseRepository.save(courseDb);
-        if (requestSchedule.isReserve() == true) {
+        if (saveRequest.isReserv()) {
             requestSchedule.setEvent(eventOptRequest.get());
         }
         return modelMapper.map(this.scheduleRepository.save(requestSchedule), ScheduleResponseDTO.class);
