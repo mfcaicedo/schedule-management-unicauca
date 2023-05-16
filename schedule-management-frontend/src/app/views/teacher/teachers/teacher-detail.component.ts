@@ -39,62 +39,66 @@ export class TeachersComponent {
     private route: ActivatedRoute
   ) { }
   ngOnInit(): void {
-    //obteniendo el id de la url debe llamarse igual que en el app-routing
-    // this.environments=this.environmentService.getAllEnvironments();
+    //llamado del servicio para obtener los docentes
     this.teacherService.getAllPersonByPersonTypePage(this.personType, 1, 5).subscribe(response => {
 
-      //this.teacherService.getAllTeachersPage(1, 5).subscribe(response =>
+      //guardo los datos de la respuesta en el arreglo de docentes
+      this.person = response.data.elements as Person[]
+      this.totalItems = response.pagination.totalNumberElements as number
+      this.totalNumberPage = response.pagination.totalNumberPage as number
+      this.pageSize = response.pagination.size as number
 
-      console.log("Dataaaa : ", response)
-      //this.departmentName = response.elements[0].department.departmentName;
-      // console.log("depa name: ", this.departmentName)
-      this.person = response.elements as Person[]
-      // console.log("teacheeer", this.teacher)
-      this.totalItems = response.data.pagination.totalNumberElements as number
-      this.totalNumberPage = response.data.pagination.totalNumberPage as number
-      this.pageSize = response.data.pagination.size as number
     })
   }
 
-  // //REVISAR
-  updateTableTeachers(type: string) {
+  //Aquí se debe modificar para poder hacer el filtro por departamento ----> REVISAR
+  /**
+   * Metodo que actualiza la tabla de docentes cuando se selecciona un departamento
+   * @param departmentId id del departamento seleccionado (PUEDES USAR EL ID PARA HACER EL FILTRO O
+   *                     PUEDES USAR EL NOMBRE DEL DEPARTAMENTO)--> Lo que te sea mas facil
+   */
+  updateTableTeachers(departmentId: string) {
 
-    if (type == 'all') {
-      this.isTypeSelected = false
+    if (departmentId == 'all') { //esta validación es para cuando no se filtra por departamento, lo lo tanto muestra todos los docentes
+      this.isTypeSelected = false //Esta variable debe llamarse por ejemplo isDepartmentSelected
     } else {
-      this.isTypeSelected = true
-      this.personType = type
+      this.isTypeSelected = true  //Esto es necesario porque establece que se está haciendo un filtro por departamento
+      // this.environmentType = type // dedes asignar el id del departamento o el nombre del departamento aquí
     }
-    this.loadTableTeachers([1, 5])
+    this.loadTableTeachers([1, 5]) //este metodo carga la tabla de docentes, se le está pasando los argumentos de paginación
   }
-  //
-
-  // aqui viene el numero de pagina solicitada y el tamaño que debe tener
+  /**
+   * Metodo que carga la tabla de docentes
+   * @param args argumentos para la paginacion
+   */
   loadTableTeachers(args: number[]) {
-    console.log('entro a load table');
-    //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
-    //this.http.get(this.endPoint+`?page=${page}&size=${this.itemsPerPage}`)
+
     let pageSolicitud: number = args[0];
     let pageSize: number = args[1]
+
     if (!pageSolicitud) {
       pageSolicitud = 0;
     }
+
     if (!pageSize) {
       pageSize = 10
     }
-    else {
-      this.teacherService.getAllPersonByPersonTypePage(this.personType, pageSolicitud, pageSize).subscribe((response) => {
-        console.log("Data en load Type: ", response)
 
-        this.person = response.elements as Person[]
-        this.totalItems = response.pagination.totalNumberElements as number
-        this.totalNumberPage = response.pagination.totalNumberPage as number
-        this.pageSize = response.pagination.size as number
+    else {
+
+      this.teacherService.getAllPersonByPersonTypePage(this.personType, pageSolicitud, pageSize).subscribe((response) => {
+        this.person = response.data.elements as Person[]
+        this.totalItems = response.data.pagination.totalNumberElements as number
+        this.totalNumberPage = response.data.pagination.totalNumberPage as number
 
       });
     }
 
   }
+  /**
+   * Metodo que se ejecuta cuando se cambia de pagina
+   * @param event evento de cambio de pagina
+   */
   onPageChange(event: any) {
 
   }

@@ -36,6 +36,7 @@ public class PersonController {
 
     @GetMapping("/byPersonType")
     public Response<GenericPageableResponse> findAllByPersonType(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String personType){
+        System.out.println("al menos llega aqui al servicio");
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
         return this.iPersonService.findAllByPersonType(pageable, personType);
     }
