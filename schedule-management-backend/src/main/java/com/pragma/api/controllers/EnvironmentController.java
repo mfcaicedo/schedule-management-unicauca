@@ -110,6 +110,9 @@ public class EnvironmentController {
         return this.environmentService.findAllBuildingsByFacultyId(id);
 =======
         return this.environmentService.findAllBuildings(id);
+<<<<<<< HEAD
+>>>>>>> parent of ffa8ba9 (commit 7, Se añadio pruebas a las consultas: ambiente tipo y lista)
+=======
 >>>>>>> parent of ffa8ba9 (commit 7, Se añadio pruebas a las consultas: ambiente tipo y lista)
     }
  /* 
