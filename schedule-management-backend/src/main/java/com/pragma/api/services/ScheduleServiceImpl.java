@@ -214,27 +214,7 @@ public class ScheduleServiceImpl implements IScheduleService {
      *           }
      */
     @Override
-<<<<<<< HEAD
     public ScheduleResponseDTO getScheduleById(Long code) {
-=======
-
-    public List<ScheduleResponseDTO> getAllByPerson(String personCode) {
-        Optional<Person> personRequest = this.personRepository.findById(personCode);
-        if (personRequest.isEmpty())
-            throw new ScheduleBadRequestException("bad.request.person.id", personCode);
-        List<Schedule> schedules = this.scheduleRepository.findAllByCoursePerson(personRequest.get());
-        return schedules.stream()
-                .map(schedule -> {
-                    ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
-                    return scheduleResponseDTO;
-                })
-                .collect(Collectors.toList());
-    }*/
-
-    @Override
-    public ScheduleResponseDTO getScheduleById(Long code){
->>>>>>> adaa67fbdf4e138ae780f8059961eee610fc336c
         try {
             Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
             if (scheduleOptRequest.isEmpty())
