@@ -15,7 +15,7 @@ import com.pragma.api.repository.ICourseRepository;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IEventRepository;
 import com.pragma.api.repository.IScheduleRepository;
-import com.pragma.api.repository.ITeacherRepository;
+import com.pragma.api.repository.IPersonRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -36,16 +36,16 @@ public class ScheduleServiceImpl implements IScheduleService{
 
     private final ICourseRepository courseRepository;
 
-    private final ITeacherRepository teacherRepository;
+    private final IPersonRepository personRepository;
     // reporsitorio de eventos // parte nueva 
     private final IEventRepository eventRepository;
 
-    public ScheduleServiceImpl(ModelMapper modelMapper, IEnvironmentRepository environmentRepository, IScheduleRepository scheduleRepository, ICourseRepository courseRepository, ITeacherRepository teacherRepository, IEventRepository eventRepository) {
+    public ScheduleServiceImpl(ModelMapper modelMapper, IEnvironmentRepository environmentRepository, IScheduleRepository scheduleRepository, ICourseRepository courseRepository, IPersonRepository personRepository, IEventRepository eventRepository) {
         this.modelMapper = modelMapper;
         this.environmentRepository = environmentRepository;
         this.scheduleRepository = scheduleRepository;
         this.courseRepository = courseRepository;
-        this.teacherRepository = teacherRepository;
+        this.personRepository = personRepository;
         //nuevo
         this.eventRepository = eventRepository;
         }
@@ -152,7 +152,7 @@ public class ScheduleServiceImpl implements IScheduleService{
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
                     scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
-                    //scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+                    //scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
                     scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     return scheduleResponseDTO;
                 })
@@ -164,14 +164,14 @@ public class ScheduleServiceImpl implements IScheduleService{
      * Necesario que se plantee una solucion diferente debido a que la relacion con profesor es de muchos a muchos.
      *
     @Override
-    public List<ScheduleResponseDTO> getAllByTeacher(String teacherCode) {
-        Optional<Teacher> teacherRequest = this.teacherRepository.findById(teacherCode);
-        if(teacherRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.teacher.id", teacherCode);
-        List<Schedule> schedules = this.scheduleRepository.findAllByCourseTeacher(teacherRequest.get());
+    public List<ScheduleResponseDTO> getAllByPerson(String personCode) {
+        Optional<Person> personRequest = this.personRepository.findById(personCode);
+        if(personRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.person.id", personCode);
+        List<Schedule> schedules = this.scheduleRepository.findAllByCoursePerson(personRequest.get());
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getTeacher().getProgram().getColor());
+                    scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
                     return scheduleResponseDTO;
                 })
                 .collect(Collectors.toList());
