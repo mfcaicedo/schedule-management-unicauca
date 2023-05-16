@@ -78,13 +78,10 @@ public class EnvironmentController {
         return this.environmentService.findAllByFacultyId(pageable, facultyId);
     }
 
-    @GetMapping("/byEnvironmentTypeAndParentId")
-    public Response<GenericPageableResponse> findAllByEnvironmentTypeAndParentId(@RequestParam Integer page,
-     @RequestParam Integer size, @RequestParam String sort, @RequestParam String order,
-      @RequestParam EnvironmentTypeEnumeration environmentType, @RequestParam Integer parentId){
+    @GetMapping("/byEnvironmentType")
+    public Response<GenericPageableResponse> findAllByEnvironmentType(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam EnvironmentTypeEnumeration environmentType){
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
-        return this.environmentService.findAllByEnvironmentTypeAndParentId(pageable,
-        environmentType, parentId);
+        return this.environmentService.findAllByEnvironmentType(pageable, environmentType);
     }
 
     @GetMapping("/{id}")
@@ -106,11 +103,12 @@ public class EnvironmentController {
     //metodo para consultar todos los edificios a partir de un id facultad 
     @GetMapping("/consultBuildingsByFacultyId/{id}")
     public Response<List<EnvironmentDTO>> consultBuildingsByFacultyId(@PathVariable String id) {
-        return this.environmentService.findAllBuildingsByFacultyId(id);}
- /* 
-    //Esto quedo redundante, lo comento por si acaso
-    @GetMapping("/consultEnvironmentsByParentId/{id}")
+        return this.environmentService.findAllBuildings(id);
+    }
+
+    //Metodo para obtener todos los ambientes para ser listados, junto con su id, name y type
+    @GetMapping("/consultEnvironmentsByFacultyId/{id}")
     public Response<List<EnvironmentDTO>> consultEnvironmentsByFacultyId(@PathVariable String id) {
         return this.environmentService.findAllEnvironmentByIdFacultyAndBuilding(id);
-    } */
+    }
 }

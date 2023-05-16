@@ -1,6 +1,5 @@
 package com.pragma.api.services;
 
-import com.pragma.api.domain.*;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 
@@ -18,7 +17,4 @@ public interface IScheduleService {
     List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId);
 //    List<ScheduleResponseDTO> getAllByTeacher(String teacherCode);
     ScheduleResponseDTO getScheduleById(Long id);
-
-// Metodo para regresar la lista de calendarios que tengan en comun un ambiente(salon, lab, auditorio)
-public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer EnvironmentId);
 }

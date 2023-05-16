@@ -65,8 +65,7 @@ public interface IEnvironmentService {
 
     public Response<GenericPageableResponse> findAllByFacultyId(Pageable pageable, String facultyId);
 
-    public Response<GenericPageableResponse> findAllByEnvironmentTypeAndParentId(Pageable pageable,
-     EnvironmentTypeEnumeration environmentType, Integer parentId);
+    public Response<GenericPageableResponse> findAllByEnvironmentType(Pageable pageable, EnvironmentTypeEnumeration environmentType);
 
     Environment findById(final Integer id);
 
@@ -74,10 +73,9 @@ public interface IEnvironmentService {
     public void deleteById(Integer environmentId);
 
     //Metodo para consultar todos los edificio, trayendolos por id de facultad
-    public Response<List<EnvironmentDTO>> findAllBuildingsByFacultyId(String facultyId);
+    public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId);
 
     //Metodo para realizar el listado de ambientes y que pueden ser seleccionados por su tipo
-    public Response<List<EnvironmentDTO>> findAllEnvironmentByParentIdAndType(EnvironmentTypeEnumeration type,
-     Integer parentId);
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId);
 
 }
