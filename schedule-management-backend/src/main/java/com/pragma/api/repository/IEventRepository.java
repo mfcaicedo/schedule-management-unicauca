@@ -11,10 +11,12 @@ public interface IEventRepository extends JpaRepository<Event,Integer> {
 
     @Query(value = "SELECT * FROM event u WHERE u.event_name = :event_name", 
     nativeQuery = true)
-    Event findByEventName(@Param("event_name") String event_name);
+    List<Event> findAllByEventName(@Param("event_name") String event_name);
     boolean existsEventByEventName(String eventName);
     boolean existsEventByEventManagerName(String EventManagerName);
     List<Event> findAllByEventManagerName(String eventManagerName);
+    List<Event> findByEventId(Long id);
+    boolean existsByEventId(long id);
 
 
 }

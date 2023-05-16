@@ -23,7 +23,7 @@ export class ScheduleDetailComponent {
     day:'',
     startingTime:'',
     endingTime:'',
-    course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','teacherCode':'','remainingHours':0},
+    course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0},
     environment: {
       id: 0,
       name: '',
@@ -70,7 +70,7 @@ export class ScheduleDetailComponent {
       this.scheduleSelected=schedule;
       console.log("schedule seleccionaod ",this.scheduleSelected)
       this.showBtnAccion=true
-      // this.fillTakenProfessorSchedule(this.scheduleSelected.course.teacherCode);
+      // this.fillTakenProfessorSchedule(this.scheduleSelected.course.personCode);
     }else{
 
       this.showBtnAccion=false
@@ -86,7 +86,7 @@ export class ScheduleDetailComponent {
       this.scheduleSelectedUpdate.environment=this.ambiente
       console.log("Updated schedule es ",schedule)
       this.showBtnAccion=true
-      // this.fillTakenProfessorSchedule(this.scheduleSelectedUpdate.course.teacherCode);
+      // this.fillTakenProfessorSchedule(this.scheduleSelectedUpdate.course.personCode);
     }else{
 
       this.showBtnAccion=false
@@ -136,10 +136,10 @@ export class ScheduleDetailComponent {
   //   // console.log("Emitiendo schedule ",scheduleCreated)
   //   return scheduleCreated
   // }
-  // fillTakenProfessorSchedule(teacherCode:string){
+  // fillTakenProfessorSchedule(personCode:string){
 
 
-  //     this.scheduleService.getTakenProfessorSchedule(teacherCode).subscribe((response) =>{
+  //     this.scheduleService.getTakenProfessorSchedule(personCode).subscribe((response) =>{
   //     console.log("Response de takenprofesor detail Envi" ,response)
   //       this.takenProfessorSchedules = response as Schedule[]
 

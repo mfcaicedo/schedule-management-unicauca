@@ -14,9 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICourseRepository extends JpaRepository<Course, Integer> {
     Page<Course> findAllBySubject_ProgramAndSubject_Semester(Program program,Integer semester, Pageable pageable);
-
     Page<Course> findAllBySubject_ProgramAndSubject_SemesterAndRemainingHoursGreaterThan(Program program,Integer semester,Integer remainingHours, Pageable pageable);
-
-
 
 }

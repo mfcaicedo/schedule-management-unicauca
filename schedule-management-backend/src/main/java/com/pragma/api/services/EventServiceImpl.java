@@ -23,13 +23,28 @@ public class EventServiceImpl implements IEventService {
     private IEventRepository eventRepository;
 
     @Override
-    public Response<EventDTO> findByeventName(String eventName) {
+    public Response<List<EventDTO>> findAllByeventName(String eventName) {
         
         if(!this.eventRepository.existsEventByEventName(eventName)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
-        Event event = this.eventRepository.findByEventName(eventName);
-        EventDTO eventDTO1 = modelMapper.map(event,EventDTO.class);
-        Response<EventDTO> response = new Response<>();
+        List<Event> event = this.eventRepository.findAllByEventName(eventName);
+        List<EventDTO> eventDTO1 = modelMapper.map(event,new TypeToken<List<EventDTO>>() {}.getType());
+        Response<List<EventDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("Event Finded successfully");
+        response.setDeveloperMessage("Event Finded successfully");
+        response.setMoreInfo("localhost:8080/api/event(toDO)");
+        response.setErrorCode("");
+        response.setData(eventDTO1);
+        return response;
+    }
+    @Override
+    public Response<List<EventDTO>> findByEventId(Long id){
+        if(!this.eventRepository.existsByEventId(id)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Event> event = this.eventRepository.findByEventId(id);
+        List<EventDTO> eventDTO1 = modelMapper.map(event,new TypeToken<List<EventDTO>>() {}.getType());
+        Response<List<EventDTO>> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Event Finded successfully");
         response.setDeveloperMessage("Event Finded successfully");
@@ -40,7 +55,7 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public Response<List<EventDTO>> findByeventManagerName(String eventManagerName) {
+    public Response<List<EventDTO>> findAllByeventManagerName(String eventManagerName) {
         
         if(!this.eventRepository.existsEventByEventManagerName(eventManagerName)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 

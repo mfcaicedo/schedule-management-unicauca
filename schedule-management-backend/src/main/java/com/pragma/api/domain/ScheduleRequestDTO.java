@@ -5,6 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
+
+import org.springframework.lang.Nullable;
+
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -23,10 +27,9 @@ public class ScheduleRequestDTO {
     private Date endingDate;
     @NotNull
     private LocalTime endingTime;
-    @NotNull
     private boolean isReserv;
     @NotNull
-    private Date startinDate;
+    private Date startingDate;
     @NotNull
     private LocalTime startingTime;
     @NotNull

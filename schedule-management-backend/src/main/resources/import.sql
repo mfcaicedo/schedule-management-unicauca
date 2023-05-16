@@ -8,35 +8,35 @@ INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-sky');
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-orange');
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-orange');
---Teacher
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1061', 'DANIEL PAZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1063', 'MARTIN ALONSO MUÑOZ MEDINA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1064', 'JUAN CARLOS NARVAEZ NARVAEZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1065', 'FRANCISCO FRANCO OBANDO DIAZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1066', 'VICTOR HUGO MOSQUERA LEYTON', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1067', 'LAURA ANDREA BERMUDEZ CORDOBA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1068', 'GUSTAVO ADOLFO GOMEZ AGREDO', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1069', 'CATALINA   MUÑOZ COLLAZOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1070', 'MANUEL SANIN BENAVIDES PIAMBA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1071', 'KARIN   CORREA ARANA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1072', 'JESUS MAURICIO RAMIREZ VIAFARA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1073', 'MODESTO FAJARDO ', '1',);
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1074', 'FULVIO YESID VIVAS CANTERO', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1075', 'FABIO HERNAN REALPE MARTINEZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1076', 'JHON EDER MASSO DAZA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1077', 'RENE FABIAN ZUÑIGA MUÑOZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1078', 'FLOR DE MARIA HERNANDEZ PEREZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1079', 'JIMENA ADRIANA TIMANA PEÑA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1080', 'CARLOS ALBERTO ARDILA ALBARRACIN', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1081', 'RICARDO ANTONIO ZAMBRANO SEGURA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1082', 'ERWIN   MEZA VEGA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1083', 'FRANCISCO JAVIER OBANDO VIDAL', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1084', 'LISETH VIVIANA CAMPO ARCOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1085', 'GINETH MAGALY CERON RIOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1086', 'JUAN DAVID YIP HERRERA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1087', 'IVAN EDUARDO HERNANDEZ DELGADO', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1088', 'LISETH VIVIANA CAMPO ARCOS', '1');
+--Person
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1061', 'DANIEL PAZ', '1');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1063', 'MARTIN ALONSO MUÑOZ MEDINA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1064', 'JUAN CARLOS NARVAEZ NARVAEZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1065', 'FRANCISCO FRANCO OBANDO DIAZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1066', 'VICTOR HUGO MOSQUERA LEYTON', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1067', 'LAURA ANDREA BERMUDEZ CORDOBA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1068', 'GUSTAVO ADOLFO GOMEZ AGREDO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1069', 'CATALINA   MUÑOZ COLLAZOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1070', 'MANUEL SANIN BENAVIDES PIAMBA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1071', 'KARIN   CORREA ARANA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1072', 'JESUS MAURICIO RAMIREZ VIAFARA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1073', 'MODESTO FAJARDO ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1074', 'FULVIO YESID VIVAS CANTERO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1075', 'FABIO HERNAN REALPE MARTINEZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1076', 'JHON EDER MASSO DAZA', '1','ADMINISTRATIVE');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1077', 'RENE FABIAN ZUÑIGA MUÑOZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1078', 'FLOR DE MARIA HERNANDEZ PEREZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1079', 'JIMENA ADRIANA TIMANA PEÑA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1080', 'CARLOS ALBERTO ARDILA ALBARRACIN', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1081', 'RICARDO ANTONIO ZAMBRANO SEGURA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1082', 'ERWIN   MEZA VEGA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1083', 'FRANCISCO JAVIER OBANDO VIDAL', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1084', 'LISETH VIVIANA CAMPO ARCOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1085', 'GINETH MAGALY CERON RIOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1086', 'JUAN DAVID YIP HERRERA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1087', 'IVAN EDUARDO HERNANDEZ DELGADO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1088', 'LISETH VIVIANA CAMPO ARCOS', '1','TEACHER');
 
 
 
@@ -113,3 +113,5 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 
+-----event
+INSERT INTO `event`(`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`, `program_id`) VALUES ('1','SEMINARIO','AAA','AAA','CLASE','1062','PIS')
