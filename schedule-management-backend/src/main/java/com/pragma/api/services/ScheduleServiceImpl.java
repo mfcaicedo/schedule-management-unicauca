@@ -11,6 +11,7 @@ import com.pragma.api.model.Course;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Schedule;
 import com.pragma.api.model.Event;
+import com.pragma.api.model.Person;
 import com.pragma.api.repository.ICourseRepository;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IEventRepository;
