@@ -32,7 +32,7 @@ import {
   TabsModule,
   TooltipModule,
   UtilitiesModule,
-  AlertModule, 
+  AlertModule,
 
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
@@ -51,6 +51,7 @@ import { ScheduleRowComponent } from './schedule-row/schedule-row.component';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { ScheduleUpdateComponent } from './schedule-update/schedule-update.component';
 import { OaUploadComponent } from './oa-upload/oa-upload.component';
+import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
 @NgModule({
   declarations: [
     ScheduleCreateComponent,
@@ -67,7 +68,8 @@ import { OaUploadComponent } from './oa-upload/oa-upload.component';
     ScheduleRowComponent,
     ScheduleListComponent,
     ScheduleUpdateComponent,
-    OaUploadComponent
+    OaUploadComponent,
+    ScheduleReserveCreateComponent
   ],
   imports: [
     CommonModule,
@@ -99,7 +101,7 @@ import { OaUploadComponent } from './oa-upload/oa-upload.component';
     DropdownModule,
     PaginationModule,
     PopoverModule,
-    TableModule, 
+    TableModule,
     NgxSpinnerModule,
   ]
 })
