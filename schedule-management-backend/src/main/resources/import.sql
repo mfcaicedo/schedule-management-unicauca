@@ -21,7 +21,7 @@ INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('106
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1070', 'MANUEL SANIN BENAVIDES PIAMBA', '1');
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1071', 'KARIN   CORREA ARANA', '1');
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1072', 'JESUS MAURICIO RAMIREZ VIAFARA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1073', 'MODESTO FAJARDO ', '1',);
+INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1073', 'MODESTO FAJARDO ', '1');
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1074', 'FULVIO YESID VIVAS CANTERO', '1');
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1075', 'FABIO HERNAN REALPE MARTINEZ', '1');
 INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1076', 'JHON EDER MASSO DAZA', '1');
