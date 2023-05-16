@@ -113,3 +113,5 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 
+-----event
+INSERT INTO `event`(`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`, `program_id`) VALUES ('1','SEMINARIO','AAA','AAA','CLASE','1062','PIS')

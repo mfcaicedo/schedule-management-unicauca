@@ -38,6 +38,21 @@ public class EventServiceImpl implements IEventService {
         response.setData(eventDTO1);
         return response;
     }
+    @Override
+    public Response<List<EventDTO>> findByEventId(Long id){
+        if(!this.eventRepository.existsByEventId(id)) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Event> event = this.eventRepository.findByEventId(id);
+        List<EventDTO> eventDTO1 = modelMapper.map(event,new TypeToken<List<EventDTO>>() {}.getType());
+        Response<List<EventDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("Event Finded successfully");
+        response.setDeveloperMessage("Event Finded successfully");
+        response.setMoreInfo("localhost:8080/api/event(toDO)");
+        response.setErrorCode("");
+        response.setData(eventDTO1);
+        return response;
+    }
 
     @Override
     public Response<List<EventDTO>> findAllByeventManagerName(String eventManagerName) {

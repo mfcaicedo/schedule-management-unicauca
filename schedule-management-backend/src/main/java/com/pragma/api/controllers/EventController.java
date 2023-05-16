@@ -39,5 +39,10 @@ public class EventController {
     public Response<List<EventDTO>> consultByManagerName(@PathVariable String name) {
         return this.eventService.findAllByeventManagerName(name);
     }
+
+    @GetMapping("/consultByEventId/{id}")
+    public Response<List<EventDTO>> consultByEventId(@PathVariable Long id) {
+        return this.eventService.findByEventId(id);
+    }
     
 }

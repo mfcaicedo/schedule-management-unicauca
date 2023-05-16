@@ -55,12 +55,15 @@ public class ScheduleServiceImpl implements IScheduleService{
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
         Optional<Event> eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
-        
+        //Event eventoDb = eventOptRequest.get();
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(saveRequest.getEnvironmentId());
         //request de event
         if(environmentOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", saveRequest.getEnvironmentId().toString());
+        System.out.println("----------------------------------------------------######################################3");
         System.out.println("comprobacion de enviroment"+environmentOptRequest.isEmpty());
         System.out.println("comprobacion de event"+environmentOptRequest.isEmpty());
+        //System.out.println(eventoDb);
+        System.out.println(" evento:"+eventOptRequest.get().getDescription());
         System.out.println("compribacion curso:"+courseOptRequest.isEmpty());
         System.out.println("dia, fechainicio, curso id:"+saveRequest.getDay()+saveRequest.getStartingDate()+"id course"+saveRequest.getCourseId());
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
@@ -85,7 +88,9 @@ public class ScheduleServiceImpl implements IScheduleService{
         requestSchedule.setCourse(courseDb);
         courseDb.setRemainingHours((courseDb.getRemainingHours()-differenceHours));
         this.courseRepository.save(courseDb);
-        requestSchedule.setEvent(eventOptRequest.get());
+        if(requestSchedule.isReserve()==true){
+            requestSchedule.setEvent(eventOptRequest.get());
+        }
         return modelMapper.map(this.scheduleRepository.save(requestSchedule), ScheduleResponseDTO.class);
     }
 
