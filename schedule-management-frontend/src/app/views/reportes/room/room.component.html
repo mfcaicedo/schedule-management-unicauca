@@ -1,0 +1,89 @@
+
+<c-card>
+  <c-card-header>
+    <strong class="titulo">Reporte Ambientes</strong>
+  </c-card-header>
+
+  <c-card-body>
+    <strong class="cuerpo">seleccione la facultad :</strong>
+        <br>
+        <c-row class="mb-3">
+
+            <c-col md="10">
+                <c-dropdown>
+                  <button cButton cDropdownToggle color="light">
+                    Filtrar Facultad
+                  </button>
+                  <ul cDropdownMenu>
+                    <li><h6 cDropdownHeader>Facultades</h6></li>
+                    
+          
+                  </ul>
+                </c-dropdown>
+            </c-col>  
+
+        </c-row>
+        
+        <br>
+    <strong class="cuerpo">seleccione la Edificio :</strong>
+        <br>
+        <c-row class="mb-3">
+            <c-col md="10">
+                <c-dropdown>
+                  <button cButton cDropdownToggle color="light">
+                    Filtrar Edificio
+                  </button>
+                  <ul cDropdownMenu>
+                    <li><h6 cDropdownHeader>Edificios</h6></li>
+                    
+          
+                  </ul>
+                </c-dropdown>
+            </c-col>
+        </c-row>
+          
+        <br>
+    <strong class="cuerpo">Tipo de Ambiente :</strong>
+        <br>
+        <div class="radio">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input " type="radio" id="radio1" value="Salon" name="Salon">
+                <label class="form-check-label" for="inlineRadio1"> Salon </label>
+            </div>      
+            <div class="form-check form-check-inline">
+                <input class="form-check-input " type="radio" id="radio1" value="Auditorio" name="Auditorio">
+                <label class="form-check-label" for="inlineRadio1"> Auditorio </label>
+            </div>    
+            <div class="form-check form-check-inline">
+                <input class="form-check-input " type="radio" id="radio1" value="Laboratorio" name="Laboratorio">
+                <label class="form-check-label" for="inlineRadio1"> Laboratorio </label>
+            </div> 
+        </div>
+    <strong class="cuerpo">Listado segundo filtro seleccionado :</strong>  
+    <br>
+    <br>
+    
+    <table cTable  >
+        <thead cTableColor="dark">
+        <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr *ngFor="let item of data; let i = index" >
+            <td>{{item.id}} </td>
+            <td>{{item.tipo}} </td>
+            <td>{{item.numero}} </td>
+            <td>{{item.ubicacion}}</td>
+            <td>{{item.capacidad}} </td>
+            <td>{{item.facultad}} </td>     
+            <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">  </td>     
+        </tr>
+        </tbody>
+  
+    </table>
+      
+      
+  </c-card-body>
+
+</c-card>

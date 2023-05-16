@@ -95,7 +95,7 @@ export const navItems: INavData[] = [
   {
     name: 'Reportes',
     url: '/Reportes',
-    iconComponent: { name: 'cilBook' },
+    iconComponent: { name: 'cilPrint' },
     children: [
       {
         name: 'Reporte por Facultad',
@@ -115,7 +115,7 @@ export const navItems: INavData[] = [
       },
       {
         name: 'Reporte por salon',
-        url: '/Reportes/Report_Room'
+        url: '/reportes/salon'
       }
     ]
   },

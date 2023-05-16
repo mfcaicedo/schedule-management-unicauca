@@ -45,6 +45,11 @@ const routes: Routes = [
         import('./views/resource/resource.module').then(m=>m.ResourceModule)
       },
       {
+        path:'reportes',
+        loadChildren: ()=>
+        import('./views/reportes/reportes.module').then(m=>m.ReportesModule)
+      },
+      {
         path:'schedule',
         loadChildren:()=>
         import('./views/schedule/schedule.module').then(m => m.ScheduleModule)
