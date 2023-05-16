@@ -42,10 +42,6 @@ public class PersonServiceImpl implements IPersonService {
     public List<PersonDTO> findAllPersonByTypeTeacher() {
 
         List<Person> teachers = this.iPersonRepository.findAllByPersonType(PersonTypeEnumeration.TEACHER);
-        System.out.println("que saleeeee: " + teachers.get(0).getPersonType());
-        System.out.println(teachers.get(0).getFullName());
-        System.out.println(teachers.get(0).getDepartment().getDepartmentName());
-
         List<PersonDTO> personsDTO = new ArrayList<>();
         personsDTO = teachers.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
         return personsDTO;

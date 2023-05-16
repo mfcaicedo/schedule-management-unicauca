@@ -1,6 +1,6 @@
 package com.pragma.api.controllers;
 
-import com.pragma.api.services.ISubjectBusiness;
+import com.pragma.api.services.ISubjectService;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.SubjectDTO;
@@ -18,14 +18,14 @@ import javax.validation.Valid;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class SubjectController {
 
-    private final ISubjectBusiness subjectBusiness;
+    private final ISubjectService subjectBusiness;
 //    @GetMapping
 //    private Response<GenericPageableResponse> findAllByProgramAndSemester(@RequestParam String programId, @RequestParam Integer semester, @RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order){
 //        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
 //        return null;
 //    }
     @Autowired
-    public SubjectController(ISubjectBusiness subjectBusiness){
+    public SubjectController(ISubjectService subjectBusiness){
         this.subjectBusiness = subjectBusiness;
     }
 

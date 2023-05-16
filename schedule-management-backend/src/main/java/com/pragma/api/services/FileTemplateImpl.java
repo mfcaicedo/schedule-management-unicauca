@@ -1,8 +1,7 @@
 package com.pragma.api.services;
 
-import com.pragma.api.domain.PersonDTO;
-import com.pragma.api.domain.Response;
-import com.pragma.api.domain.TemplateFileDTO;
+import com.pragma.api.domain.*;
+import com.pragma.api.model.Program;
 import com.pragma.api.model.Subject;
 import com.pragma.api.model.TemplateFile;
 import com.pragma.api.repository.ITemplateFileRepository;
@@ -50,6 +49,9 @@ public class FileTemplateImpl implements ITemplateFileService{
 
     @Autowired
     private IProgramService iProgramService;
+
+    @Autowired
+    private ISubjectService iSubjectService;
 
     @Autowired
     public FileTemplateImpl(ITemplateFileRepository templateFileRepository) {
@@ -105,11 +107,15 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         //TODO 1. consultar los todos los profesores
         List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
-        //imprimamos para mirar que sale
-        teachers.forEach(teacher -> System.out.println("teacher: "+teacher.getFullName()));
 
-        //TODO 2. consultar todos las materias
+        //TODO 2. consultar todos las materias pertenecientes a un programa
+        //TODO 2.1 consultar el programa
+        Program program = modelMapper.map(iProgramService.findByProgramId(programId), Program.class);
 
+        //TODO 2.2 consultar las materias
+        List<SubjectDTO> subjects = iSubjectService.findAllByProgram(program);
+
+        //TODO 3. modificar el excel con los datos consultados de profesores y materias
         Workbook workbook = WorkbookFactory.create(new File(path));
         //obtengo la hoja 1 (PRINCIPAL)
         Sheet sheet = workbook.getSheetAt(0);
