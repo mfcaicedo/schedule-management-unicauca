@@ -106,7 +106,11 @@ public class EnvironmentController {
     //metodo para consultar todos los edificios a partir de un id facultad 
     @GetMapping("/consultBuildingsByFacultyId/{id}")
     public Response<List<EnvironmentDTO>> consultBuildingsByFacultyId(@PathVariable String id) {
+<<<<<<< HEAD
         return this.environmentService.findAllBuildingsByFacultyId(id);
+=======
+        return this.environmentService.findAllBuildings(id);
+>>>>>>> parent of ffa8ba9 (commit 7, Se añadio pruebas a las consultas: ambiente tipo y lista)
     }
  /* 
     //Esto quedo redundante, lo comento por si acaso
