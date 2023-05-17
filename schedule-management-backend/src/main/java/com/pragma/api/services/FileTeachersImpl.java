@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.PersonDTO;
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.model.Department;
 import com.pragma.api.model.Person;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
@@ -29,16 +30,18 @@ public class FileTeachersImpl implements IFileTeachersService {
     private IDeparmentRepository deparmentRepository;
 
     @Override
-    public List<String> uploadFile(MultipartFile file) throws IOException {
+    public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileTeachers fileTeachers = new FileTeachers();
         List<FileRowTeacher> logs = fileTeachers.getLogs(file);
         return processFile(logs);
     }
 
     @Override
-    public List<String> processFile(List<FileRowTeacher> logs) {
+    public ResponseFile processFile(List<FileRowTeacher> logs) {
         List<String> infoLogs = new ArrayList<>();
         List<String> infoErrores = new ArrayList<>();
+
+        ResponseFile responseFile = new ResponseFile();
 
         int contOk = 0;
         int contError = 0;
@@ -103,7 +106,10 @@ public class FileTeachersImpl implements IFileTeachersService {
         }
         infoLogs.add(1, "FILAS CON ERRORES: " + contError);
         infoLogs.add(2, "FILAS CORRECTAS: " + contOk);
-        return infoLogs;
+        //return infoLogs;
+
+        //crear seat and geteter de resposifile 
+        return responseFile;
     }
 
 }
