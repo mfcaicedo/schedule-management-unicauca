@@ -25,7 +25,7 @@ const routes: Routes = [
         path: 'upload-teacher',
         component: TeacherUploadComponent,
         data: {
-          title: 'Cargar profesores'
+          title: 'Cargar docentes'
         }
       }
 
