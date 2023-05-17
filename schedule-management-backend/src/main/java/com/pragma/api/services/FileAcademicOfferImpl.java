@@ -18,7 +18,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
     private ICourseRepository iCourseRepository;
 
-    private ITeacherRepository iTeacherRepository;
+    private IPersonRepository iPersonRepository;
 
     private ISubjectRepository iSubjectRepository;
 
@@ -27,9 +27,9 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
     private IPeriodRepository iPeriodRepository;
 
     @Autowired
-    public FileAcademicOfferImpl(ICourseRepository iCourseRepository, ITeacherRepository iTeacherRepository, ISubjectRepository iSubjectRepository, IEnvironmentRepository iEnvironmentRepository, IPeriodRepository iPeriodRepository) {
+    public FileAcademicOfferImpl(ICourseRepository iCourseRepository, IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository, IEnvironmentRepository iEnvironmentRepository, IPeriodRepository iPeriodRepository) {
         this.iCourseRepository = iCourseRepository;
-        this.iTeacherRepository = iTeacherRepository;
+        this.iPersonRepository = iPersonRepository;
         this.iSubjectRepository = iSubjectRepository;
         this.iEnvironmentRepository = iEnvironmentRepository;
         this.iPeriodRepository = iPeriodRepository;
@@ -51,41 +51,41 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         for (FileRowAcademicOffer log : logs) {
 
             Subject subject = null;
-            Teacher teacher = null;
+            Person person = null;
             CourseTeacher courseTeacher = null;
             Period period = null;
 
-            System.out.println(log.getTeacherCode());
+            System.out.println(log.getPersonCode());
 
             /*
             SE DEBE VALIDAR SOLO EL CODIGO DE LA MATERIA, YA QUE AL SER VARIOS PROFESORES
             LOS CODIGOS DEBEN SER VALIDADOS POR A PARTE
              */
-//            if (iTeacherRepository.existsById(log.getTeacherCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
+//            if (iPersonRepository.existsById(log.getPersonCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
             Boolean errorSubjectCode = false;
-            if (iSubjectRepository.existsById(log.getSubjectCode())) {
+            if (!iSubjectRepository.existsById(log.getSubjectCode())) {
                 infoLogs.add("CODIGO MATERIA NO EXISTE: " + log.getSubjectCode());
                 errorSubjectCode = true;
             }
 
             // SE SEPARAN LOS CODIGOS DE LOS PROFESORES
-            String teacherCode;
-            String[] teacherCodeArray = log.getTeacherCode().split(",");
-            Boolean errorTeacherCode = false;
-            for (int i = 0; i < teacherCodeArray.length; i++) {
-                teacherCode = teacherCodeArray[i].trim();
-                if (!iTeacherRepository.existsById(teacherCode)) {
-                    errorTeacherCode = true;
-                    infoLogs.add("CODIGO PROFESOR NO EXISTE: " + teacherCode);
+            String personCode;
+            String[] personCodeArray = log.getPersonCode().split(",");
+            Boolean errorPersonCode = false;
+            for (int i = 0; i < personCodeArray.length; i++) {
+                personCode = personCodeArray[i].trim();
+                if (!iPersonRepository.existsById(personCode)) {
+                    errorPersonCode = true;
+                    infoLogs.add("CODIGO PROFESOR NO EXISTE: " + personCode);
                 }
             }
 
             // SI ALGUNO DE LOS CODIGOS DE LOS PROFESORES O EL CODIGO DE LA MATERIA NO EXISTE NO SE CONTINUA CON EL PROCESO
-            if (!errorTeacherCode && !errorSubjectCode) { // Si no hay error se continua
+            if (!errorPersonCode && !errorSubjectCode) { // Si no hay error se continua
                 subject = iSubjectRepository.findById(log.getSubjectCode()).get();
 
                 // NO SE PUEDE INSTANCIA EL TEACHER AQUI
-//                    teacher = iTeacherRepository.findById(log.getTeacherCode()).get();
+//                    person = iPersonRepository.findById(log.getPersonCode()).get();
                 period = new Period(log.getPeriod(), PeriodStateEnumeration.IN_PROGRESS);
 
                 Course course = new Course(log.getGroup(), log.getCapacity(), log.getWeeklyOverload(), log.getDescription());
@@ -100,25 +100,27 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     INSTANCIANDO LOS OBJETOS TEACHER CON CADA UNO DE ESOS CODIGOS
                     CADA OBJETO TEACHER ES AGREGADO A LA LISTA DE PROFESORES DEL OBJETO CURSO
                  */
-//                    course.setTeacher(teacher);
-                for (int i = 0; i < teacherCodeArray.length; i++) {
-                    teacherCode = teacherCodeArray[i].trim();
-                    teacher = iTeacherRepository.findById(teacherCode).get();
-                    //course.getAssignedTeachers().add(teacher);
-                    course.getAssignedTeachers().add(courseTeacher);
+//                    course.setPerson(person);
+                for (int i = 0; i < personCodeArray.length; i++) {
+                    personCode = personCodeArray[i].trim();
+                    person = iPersonRepository.findById(personCode).get();
+                    //course.getAssignedPersons().add(person);
+                    course.getAssignedPersons().add(courseTeacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());
 
                 // SE REQUIERE UN FOR PARA ASIGNAR EL CURSO A LOS PROFESORES
-//                    teacher.getCourses().add(course);
+//                    person.getCourses().add(course);
 //                    subject.getCourses().add(course);
 //                    period.getCourses().add(course);
 //***                iCourseRepository.save(course);
-//                    iTeacherRepository.save(teacher);
+//                    iPersonRepository.save(person);
 //                    iSubjectRepository.save(subject);
 //                    iPeriodRepository.save(period);
-                infoLogs.add("Course Created succesfully!");
+                infoLogs.add("CURSO REGISTRADO EN SISTEMA");
+            } else {
+                infoLogs.add("CURSO NO REGISTRADO EN SISTEMA");
             }
         }
         return infoLogs;
