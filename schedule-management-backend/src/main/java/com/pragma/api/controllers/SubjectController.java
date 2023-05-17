@@ -4,6 +4,7 @@ import com.pragma.api.services.ISubjectBusiness;
 import com.pragma.api.services.IFileSubjectService;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.Response;
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.domain.SubjectDTO;
 import java.io.IOException;
 import java.util.List;
@@ -43,7 +44,7 @@ public class SubjectController {
         return this.subjectBusiness.createSubject(subjectDTO);
     }
     @PostMapping("/uploadFile")
-    ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.fileSubjectService.uploadFile(file), HttpStatus.OK);
     }
 

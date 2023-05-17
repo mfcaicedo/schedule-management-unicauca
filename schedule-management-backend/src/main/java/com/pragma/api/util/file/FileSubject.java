@@ -38,15 +38,33 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
 
     @Override
     public FileRowSubject convertCellsToFileRow(List<Cell> cells) {
-        FileRowSubject fileRow = new FileRowSubject();
-        fileRow.setRowNum(cells.get(0).getRowIndex());
-        fileRow.setSubjectCode(cells.get(0).getStringCellValue());
-        fileRow.setName(cells.get(1).getStringCellValue());
-        fileRow.setSemester((int) cells.get(2).getNumericCellValue());
-        fileRow.setInBlock(cells.get(3).getStringCellValue());
-        fileRow.setWeeklyOverload((int) cells.get(4).getNumericCellValue());
-        fileRow.setProgramWhitCode(cells.get(5).getStringCellValue());
-
+        System.out.println("CELLS SIZE: " + cells.size());
+//        System.out.println("COLUMNA 1: ." + cells.get(1) + ".");
+        FileRowSubject fileRow = new FileRowSubject(-1, "", "", -1, "", -1, "");
+        if (cells.get(0) != null) {
+            fileRow.setRowNum(cells.get(0).getRowIndex());
+            fileRow.setSubjectCode(cells.get(0).getStringCellValue());
+        }
+        if (cells.get(1) != null) {
+            fileRow.setRowNum(cells.get(1).getRowIndex());
+            fileRow.setName(cells.get(1).getStringCellValue());
+        }
+        if (cells.get(2) != null) {
+            fileRow.setRowNum(cells.get(2).getRowIndex());
+            fileRow.setSemester((int) cells.get(2).getNumericCellValue());
+        }
+        if (cells.get(3) != null) {
+            fileRow.setRowNum(cells.get(3).getRowIndex());
+            fileRow.setInBlock(cells.get(3).getStringCellValue());
+        }
+        if (cells.get(4) != null) {
+            fileRow.setRowNum(cells.get(4).getRowIndex());
+            fileRow.setWeeklyOverload((int) cells.get(4).getNumericCellValue());
+        }
+        if (cells.size() > 5 && cells.get(5) != null) {
+            fileRow.setRowNum(cells.get(5).getRowIndex());
+            fileRow.setProgramWhitCode(cells.get(5).getStringCellValue());
+        }
         return fileRow;
     }
 }
