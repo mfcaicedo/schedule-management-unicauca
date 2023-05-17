@@ -52,6 +52,21 @@ public class PersonServiceImpl implements IPersonService {
         return response;
     }
 
+    @Override
+    public Response<GenericPageableResponse> findAllByDepartmentId(Pageable pageable, String departmentId) {
+        Page<Person> personPage = this.iPersonRepository.findAllByDepartmetId(departmentId, pageable);
+        if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
+
+        Response<GenericPageableResponse> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("Departments found");
+        response.setDeveloperMessage("Departments found");
+        response.setErrorCode("");
+        response.setData(this.validatePageList(personPage));
+
+        return response;
+    }
+
     private GenericPageableResponse validatePageList(Page<Person> personsPage){
         List<PersonDTO> resourcesDTOS = personsPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(personsPage, resourcesDTOS);

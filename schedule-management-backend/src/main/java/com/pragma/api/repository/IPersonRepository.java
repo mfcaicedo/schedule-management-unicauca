@@ -16,4 +16,9 @@ public interface IPersonRepository extends JpaRepository<Person, String> {
     @Query(value = "SELECT * FROM person p WHERE p.person_type = :person_type",nativeQuery = true)
     Page<Person> findAllByPersonType(Pageable pageable, @Param("person_type") String person_type);
 
+    @Query(value = "SELECT * FROM person p WHERE p.department.departmentId = :departmentId",nativeQuery = true)
+    Page<Person> findAllByDepartmetId(@Param("departmentId") String departmentId, Pageable pageable);
+
+    //Page<Person> findAllByDepartmetId(String departmentId, Pageable pageable);
+
 }
