@@ -84,6 +84,14 @@ public class EnvironmentController {
         return this.environmentService.findAllByEnvironmentType(pageable, environmentType);
     }
 
+    //Consulta para buscar los salones/auditorios/laboratorios de un edificio en concreto
+    @GetMapping("/byTypeAndParentId/{environmentType}/{parentId}")
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(@PathVariable EnvironmentTypeEnumeration environmentType, @PathVariable Integer parentId){
+        //Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
+        //return this.environmentService.findAllByTypeAndParentId(EnvironmentTypeEnumeration.LABORATORIO, parentId);
+        return this.environmentService.findAllByTypeAndParentId(environmentType, parentId);
+    }
+
     @GetMapping("/{id}")
     public Response<EnvironmentDTO> findById(@PathVariable Integer id){
         return this.environmentService.getEnvironmentByCode(id);

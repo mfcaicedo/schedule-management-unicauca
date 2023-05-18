@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.google.common.reflect.TypeToken;
+import com.mysql.cj.protocol.Protocol.ProtocolEventListener.EventType;
 import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
@@ -319,6 +320,26 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         response.setData(EnvironmentDTOList);
         return response;
     }
+
+    //Busqueda para encontrar ambientes por tipo e id del padre
+    @Override
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(EnvironmentTypeEnumeration environmentType, Integer parentId) {
+        String environmentTypeString = environmentType.toString();
+        List<Environment> environmentPage = this.environmentRepository.findAllByTypeAndParentId(parentId, environmentTypeString);
+        if(environmentPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
+
+        Response<List<EnvironmentDTO>> response = new Response<>();                
+        
+        List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(environmentPage,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOlist);
+        return response;
+    }
+
 
     
     

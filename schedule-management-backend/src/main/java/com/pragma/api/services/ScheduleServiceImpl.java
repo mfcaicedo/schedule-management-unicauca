@@ -1,5 +1,7 @@
 package com.pragma.api.services;
 
+import com.google.common.reflect.TypeToken;
+import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
@@ -179,5 +181,23 @@ public class ScheduleServiceImpl implements IScheduleService{
         }catch (Exception e){
             throw new ScheduleIntegrityException(e.getMessage(),"");
         }
+    }
+
+
+    @Override
+    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer environmentId) {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.scheduleRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        //System.out.println("Esto ocurre en la implementacion de servicios"+environmentId);
+        List<Schedule> schedules = this.scheduleRepository.findAllByEnvironmentId(environmentId);
+        List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,new TypeToken<List<ScheduleResponseDTO>>() {}.getType());
+        Response<List<ScheduleResponseDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/schedule(toDO)");
+        response.setErrorCode("");
+        response.setData(ScheduleDTOlist);
+        return response;
     }
 }

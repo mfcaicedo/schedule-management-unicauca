@@ -67,6 +67,8 @@ public interface IEnvironmentService {
 
     public Response<GenericPageableResponse> findAllByEnvironmentType(Pageable pageable, EnvironmentTypeEnumeration environmentType);
 
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(EnvironmentTypeEnumeration environmentType, Integer parentId);
+
     Environment findById(final Integer id);
 
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
