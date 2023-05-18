@@ -111,6 +111,8 @@ c-card {
     margin-bottom: 1%;
     margin-left: 3%;
 }
+
+
 .radio {
     padding-left: 5%;
     margin-top: 1%;
@@ -121,4 +123,24 @@ c-card {
     margin-left: 5%;
     margin-top: 2%;
     margin-bottom: 2%;
+}
+
+.centrado {
+  align-self: center;
+}
+
+.btn-upload-file {
+  padding: 15px 25px;
+  background-color: #0A266F;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  
+}
+
+.btn-upload-file:hover {
+  background-color: #3e4ecc;
+  // background-color: #a80000;
+  transition: all 0.3s ease-in-out 0s;
 }
