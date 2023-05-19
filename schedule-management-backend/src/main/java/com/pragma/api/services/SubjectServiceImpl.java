@@ -93,7 +93,7 @@ public class SubjectServiceImpl implements ISubjectService {
 
     @Override
     public List<SubjectDTO> findAllByProgram(Program program) {
-        List<Subject> subjects = this.subjectRepository.findAllByProgram(program);
+        List<Subject> subjects = this.subjectRepository.findAllByProgramOrderBySemester(program);
         List<SubjectDTO> subjectsDTO = new ArrayList<>();
         subjectsDTO = subjects.stream().map(x->modelMapper.map(x, SubjectDTO.class)).collect(Collectors.toList());
         return subjectsDTO;

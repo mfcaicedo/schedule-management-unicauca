@@ -13,5 +13,5 @@ import java.util.List;
 @Repository
 public interface ISubjectRepository extends JpaRepository<Subject,String> {
 
-    public List<Subject> findAllByProgram(Program program);
+    public List<Subject> findAllByProgramOrderBySemester(Program program);
 }
