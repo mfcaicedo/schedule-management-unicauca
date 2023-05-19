@@ -29,6 +29,12 @@ public class CourseDTO {
     private Integer courseCapacity;
 
     /**
+     * Periodo del curso
+     */
+    @NotNull(message = "El periodo no puede ser vacio")
+    private String periodId;
+
+    /**
      * Codigo materia del curso
      */
     @NotNull(message = "El codigo de la materia no puede ser vacio")
