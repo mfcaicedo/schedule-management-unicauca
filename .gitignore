@@ -107,3 +107,5 @@ Thumbs.db
 
 # agregar archivo config.properties al gitignore
 schedule-management-backend/src/main/resources/application.properties
+
+.fake
