@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface IFileTeachersService {
 
-    ResponseFile uploadFile(MultipartFile file) throws IOException;
+    public ResponseFile uploadFile(MultipartFile file) throws IOException;
 
     public ResponseFile processFile(List<FileRowTeacher> logs);
 

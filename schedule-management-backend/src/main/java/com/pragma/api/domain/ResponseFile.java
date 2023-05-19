@@ -1,5 +1,6 @@
 package com.pragma.api.domain;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ResponseFile {

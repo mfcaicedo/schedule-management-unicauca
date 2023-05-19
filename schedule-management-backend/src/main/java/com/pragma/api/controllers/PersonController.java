@@ -38,11 +38,12 @@ public class PersonController {
     }
 
     @PostMapping("/uploadFile")
-    ResponseFile uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     //ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.print("SE VA A CREAR");
         //return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
-        return this.fileTeachersService.uploadFile(file);
+        //return this.fileTeachersService.uploadFile(file);
+        return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
     }
 
 }

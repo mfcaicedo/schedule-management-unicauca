@@ -40,12 +40,24 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
     @Override
     public FileRowTeacher convertCellsToFileRow(List<Cell> cells) {
 
-        FileRowTeacher fileRow = new FileRowTeacher();
-        fileRow.setRowNum(cells.get(0).getRowIndex());
-        fileRow.setCode_teacher((int) cells.get(0).getNumericCellValue());
-        fileRow.setName_teacher(cells.get(1).getStringCellValue());
-        //fileRow.setCode_department((int) cells.get(2).getNumericCellValue());
-        fileRow.setName_department(cells.get(2).getStringCellValue());
+        System.out.println("CELLS SIZE: " + cells.size());
+
+        //FileRowTeacher fileRow = new FileRowTeacher();
+        FileRowTeacher fileRow = new FileRowTeacher(-1,0,"","");
+
+        if (cells.get(0) != null) {
+            fileRow.setRowNum(cells.get(0).getRowIndex());
+            fileRow.setCode_teacher((int) cells.get(0).getNumericCellValue());
+        }
+
+        if (cells.get(1) != null) {
+            fileRow.setName_teacher(cells.get(1).getStringCellValue());
+        }
+
+        //if (cells.get(2) != null) {
+            fileRow.setName_department(cells.get(2).getStringCellValue());
+        //}
+
         return fileRow;
     }
 }

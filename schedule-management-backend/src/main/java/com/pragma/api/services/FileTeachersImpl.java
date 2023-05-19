@@ -40,6 +40,8 @@ public class FileTeachersImpl implements IFileTeachersService {
     public ResponseFile processFile(List<FileRowTeacher> logs) {
         List<String> infoLogs = new ArrayList<>();
         List<String> infoErrores = new ArrayList<>();
+        List<String> infoLogsVacias = new ArrayList<>();
+        List<String> infoErroresVacias = new ArrayList<>();
 
         ResponseFile responseFile = new ResponseFile();
 
@@ -50,6 +52,10 @@ public class FileTeachersImpl implements IFileTeachersService {
 
             int rowNum = log.getRowNum() + 1;
             infoErrores.clear();
+            infoErroresVacias.clear();
+
+            Boolean errorProgram = false;
+            Boolean errorVacias = false;
 
 
             System.out.println("NOMBRE PROFESOR" + log.getName_teacher());
@@ -57,44 +63,65 @@ public class FileTeachersImpl implements IFileTeachersService {
             System.out.println(log.getCode_teacher());
             System.out.println(log.getName_department());
 
-
-            //buscamos si existe la persona ya creada
-            PersonDTO personDTO = this.iPersonService.findByCode(String.valueOf(log.getCode_teacher()));
-
-            //verificamos que el profesor no se encuentre registrado
-            if(personDTO == null){
-
-                //buscamos el id del departamento
-                Department department =  deparmentRepository.findDepartmentByDepartmentName(log.getName_department().trim());
-                Boolean errorDepartamento = false;
-
-                if(department != null){
-
-                    Person person = new Person();
-                    person.setPersonCode(log.getCode_teacher().toString());
-                    person.setFullName(log.getName_teacher());
-                    person.setDepartment(department);
-                    person.setPersonType(PersonTypeEnumeration.TEACHER);
-                    personRepository.save(person);
-                    infoLogs.add("Teacher Created succesfully!");
-                }else{
-                    errorDepartamento = true;
-                    infoErrores.add(" - EL DEPARTAMENTO ASIGNADO AL PROFESOR NO SE ENCUENTRA REGISTRADO: " + log.getName_department().trim());
-                    infoLogs.add("Teacher NOT Created");
-                }
+            //Validacion nombre vacio
+            if(log.getName_teacher().trim().length() == 0){
+                infoErroresVacias.add(" - EL NOMBRE DEL PROFESOR ESTA VACIO (NOMBRE OBLIGATORIO)");
+                errorVacias = true;
+            }
 
 
-                if (!errorDepartamento) {
-                    infoLogs.add("[FILA " + rowNum + "] LISTA PARA SER REGISTRADA");
-                    contOk++;
-                } else {
-                    infoLogs.add("[FILA " + rowNum + "] CONTIENE ERRORES:");
-                    for (String infoError : infoErrores) {
-                        infoLogs.add(infoError);
+            //validacion de codigo de profesor
+            //if(log.getCode_teacher().equals(null)){
+            if(log.getCode_teacher() == 0){
+                infoErroresVacias.add(" - EL CODIGO DEL PROFESOR ESTA VACIO (CODIGO OBLIGATORIO)");
+                errorVacias = true;
+            }
+
+            if(log.getName_department().trim().length() == 0){
+                infoErroresVacias.add(" - EL DEPARTAMENTO DEL PROFESOR ESTA VACIO (DEPARTAMENTO OBLIGATORIO)");
+                errorVacias = true;
+            }
+
+            //si alguna fila esta con error no realiza el proceso de guardado
+            if(errorVacias == false){
+                //buscamos si existe la persona ya creada
+                PersonDTO personDTO = this.iPersonService.findByCode(String.valueOf(log.getCode_teacher()));
+
+                //verificamos que el profesor no se encuentre registrado
+                if(personDTO == null){
+
+                    //buscamos el id del departamento
+                    Department department =  deparmentRepository.findDepartmentByDepartmentName(log.getName_department().trim());
+                    Boolean errorDepartamento = false;
+
+                    if(department != null){
+
+                        Person person = new Person();
+                        person.setPersonCode(log.getCode_teacher().toString());
+                        person.setFullName(log.getName_teacher());
+                        person.setDepartment(department);
+                        person.setPersonType(PersonTypeEnumeration.TEACHER);
+                        personRepository.save(person);
+                        infoLogs.add("Teacher Created succesfully!");
+                    }else{
+                        errorDepartamento = true;
+                        infoErrores.add(" - EL DEPARTAMENTO ASIGNADO AL PROFESOR NO SE ENCUENTRA REGISTRADO: " + log.getName_department().trim());
+                        infoLogs.add("Teacher NOT Created");
                     }
-                    contError++;
-                }
 
+
+                    if (!errorDepartamento) {
+                        infoLogs.add("[FILA " + rowNum + "] LISTA PARA SER REGISTRADA");
+                        contOk++;
+                    } else {
+                        infoLogs.add("[FILA " + rowNum + "] CONTIENE ERRORES:");
+                        for (String infoError : infoErrores) {
+                            infoLogs.add(infoError);
+                        }
+                        contError++;
+                    }
+
+                }
             }
 
         }
@@ -108,7 +135,10 @@ public class FileTeachersImpl implements IFileTeachersService {
         infoLogs.add(2, "FILAS CORRECTAS: " + contOk);
         //return infoLogs;
 
-        //crear seat and geteter de resposifile 
+        //crear seat and geteter de resposifile
+        responseFile.setStatus(200);
+        responseFile.setLogsGeneric(infoLogs);
+        responseFile.setLogsEmptyFields(infoLogsVacias);
         return responseFile;
     }
 
