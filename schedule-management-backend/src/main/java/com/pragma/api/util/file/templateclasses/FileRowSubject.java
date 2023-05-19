@@ -15,5 +15,5 @@ public class FileRowSubject {
     private Integer semester;
     private String inBlock;
     private Integer weeklyOverload;
-    private String programWhitCode;
+    private String programCode;
 }
