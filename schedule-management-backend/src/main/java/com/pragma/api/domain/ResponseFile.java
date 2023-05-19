@@ -5,45 +5,70 @@ import java.util.List;
 
 public class ResponseFile {
 
-
-    private int status;
-    private String message;
-    private String TypeError;
+    private enumStatusFile statusFile;
+    private int contRows;
+    private int contErrorRows;
+    private int contSuccessRows;
+    private int contSaveRows;
     //ERRORES DE TIPO
     private List<String> logsType;
     //ERRORES DE CAMPOS
     private List<String> logsEmptyFields;
     //ERRORES GENERALES DE LA CLASE ESPECIFICA
     private List<String> logsGeneric;
+    //ERRORES GENERALES DE LA CLASE ESPECIFICA
+    private List<String> logsSuccess;
 
     public ResponseFile() {
+        this.statusFile = enumStatusFile.NO_PROCESS;
+        this.contRows = 0;
+        this.contErrorRows = 0;
+        this.contSuccessRows = 0;
+        this.contSaveRows = 0;
         this.logsType = new LinkedList();
         this.logsEmptyFields = new LinkedList();
         this.logsGeneric = new LinkedList();
+        this.logsSuccess = new LinkedList();
     }
 
-    public int getStatus() {
-        return status;
+    public enumStatusFile getStatusFile() {
+        return statusFile;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setStatusFile(enumStatusFile statusFile) {
+        this.statusFile = statusFile;
     }
 
-    public String getMessage() {
-        return message;
+    public int getContRows() {
+        return contRows;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setContRows(int contRows) {
+        this.contRows = contRows;
     }
 
-    public String getTypeError() {
-        return TypeError;
+    public int getContErrorRows() {
+        return contErrorRows;
     }
 
-    public void setTypeError(String TypeError) {
-        this.TypeError = TypeError;
+    public void setContErrorRows(int contErrorRows) {
+        this.contErrorRows = contErrorRows;
+    }
+
+    public int getContSuccessRows() {
+        return contSuccessRows;
+    }
+
+    public void setContSuccessRows(int contSuccessRows) {
+        this.contSuccessRows = contSuccessRows;
+    }
+
+    public int getContSaveRows() {
+        return contSaveRows;
+    }
+
+    public void setContSaveRows(int contSaveRows) {
+        this.contSaveRows = contSaveRows;
     }
 
     public List<String> getLogsType() {
@@ -68,6 +93,14 @@ public class ResponseFile {
 
     public void setLogsGeneric(List<String> logsGeneric) {
         this.logsGeneric = logsGeneric;
+    }
+
+    public List<String> getLogsSuccess() {
+        return logsSuccess;
+    }
+
+    public void setLogsSuccess(List<String> logsSuccess) {
+        this.logsSuccess = logsSuccess;
     }
 
 }
