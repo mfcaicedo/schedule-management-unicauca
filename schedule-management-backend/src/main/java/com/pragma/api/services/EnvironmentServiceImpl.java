@@ -1,5 +1,6 @@
 package com.pragma.api.services;
 
+import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
@@ -156,6 +157,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         enums.add(EnvironmentTypeEnumeration.AUDITORIO);
         enums.add(EnvironmentTypeEnumeration.LABORATORIO);
         enums.add(EnvironmentTypeEnumeration.SALON);
+        enums.add(EnvironmentTypeEnumeration.EDIFICIO);
 
         return enums;
     }
@@ -267,5 +269,58 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         List<EnvironmentDTO> environmentDTOS = environmentsPage.stream().map(x->modelMapper.map(x, EnvironmentDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(environmentsPage, environmentDTOS);
     }
+
+
+    ////Metodo para consultar todos los edificio, trayendolos por id de facultad
+    @Override
+    public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId) {
+        
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Environment> buildings = this.environmentRepository.findAllBuildings(facultyId);
+        List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+        Response<List<EnvironmentDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOlist);
+        return response;
+    }
+
+
+    //Metodo  para listar los ambientes por id facultad, edificio, mostrando el tipo que deberia ser pasado
+    @Override
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
+
+        List<EnvironmentDTO> EnvironmentDTOList = new ArrayList<>();
+        for (Object[] environment : environmentsForType) {
+        Integer environmentId = (Integer) environment[0];
+        String environmentName = (String) environment[1];
+        String environmentTypeString = (String) environment[2];
+        EnvironmentTypeEnumeration environmentType = EnvironmentTypeEnumeration.valueOf(environmentTypeString);
+        EnvironmentDTO environmentDTO = new EnvironmentDTO(environmentId, environmentName, environmentType);
+        EnvironmentDTOList.add(environmentDTO);
+        }
+
+
+        Response<List<EnvironmentDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of Environments Finded successfully");
+        response.setDeveloperMessage("List of Environments Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOList);
+        return response;
+    }
+
+    
+    
 
 }

@@ -18,7 +18,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
     private ICourseRepository iCourseRepository;
 
-    private IPersonRepository iPersonRepository;
+    private ITeacherRepository iTeacherRepository;
 
     private ISubjectRepository iSubjectRepository;
 
@@ -27,9 +27,9 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
     private IPeriodRepository iPeriodRepository;
 
     @Autowired
-    public FileAcademicOfferImpl(ICourseRepository iCourseRepository, IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository, IEnvironmentRepository iEnvironmentRepository, IPeriodRepository iPeriodRepository) {
+    public FileAcademicOfferImpl(ICourseRepository iCourseRepository, ITeacherRepository iTeacherRepository, ISubjectRepository iSubjectRepository, IEnvironmentRepository iEnvironmentRepository, IPeriodRepository iPeriodRepository) {
         this.iCourseRepository = iCourseRepository;
-        this.iPersonRepository = iPersonRepository;
+        this.iTeacherRepository = iTeacherRepository;
         this.iSubjectRepository = iSubjectRepository;
         this.iEnvironmentRepository = iEnvironmentRepository;
         this.iPeriodRepository = iPeriodRepository;
@@ -51,17 +51,17 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         for (FileRowAcademicOffer log : logs) {
 
             Subject subject = null;
-            Person person = null;
-            CoursePerson coursePerson = null;
+            Teacher teacher = null;
+            CourseTeacher courseTeacher = null;
             Period period = null;
 
-            System.out.println(log.getPersonCode());
+            System.out.println(log.getTeacherCode());
 
             /*
             SE DEBE VALIDAR SOLO EL CODIGO DE LA MATERIA, YA QUE AL SER VARIOS PROFESORES
             LOS CODIGOS DEBEN SER VALIDADOS POR A PARTE
              */
-//            if (iPersonRepository.existsById(log.getPersonCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
+//            if (iTeacherRepository.existsById(log.getTeacherCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
             Boolean errorSubjectCode = false;
             if (iSubjectRepository.existsById(log.getSubjectCode())) {
                 infoLogs.add("CODIGO MATERIA NO EXISTE: " + log.getSubjectCode());
@@ -69,23 +69,23 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             }
 
             // SE SEPARAN LOS CODIGOS DE LOS PROFESORES
-            String personCode;
-            String[] personCodeArray = log.getPersonCode().split(",");
-            Boolean errorPersonCode = false;
-            for (int i = 0; i < personCodeArray.length; i++) {
-                personCode = personCodeArray[i].trim();
-                if (!iPersonRepository.existsById(personCode)) {
-                    errorPersonCode = true;
-                    infoLogs.add("CODIGO PROFESOR NO EXISTE: " + personCode);
+            String teacherCode;
+            String[] teacherCodeArray = log.getTeacherCode().split(",");
+            Boolean errorTeacherCode = false;
+            for (int i = 0; i < teacherCodeArray.length; i++) {
+                teacherCode = teacherCodeArray[i].trim();
+                if (!iTeacherRepository.existsById(teacherCode)) {
+                    errorTeacherCode = true;
+                    infoLogs.add("CODIGO PROFESOR NO EXISTE: " + teacherCode);
                 }
             }
 
             // SI ALGUNO DE LOS CODIGOS DE LOS PROFESORES O EL CODIGO DE LA MATERIA NO EXISTE NO SE CONTINUA CON EL PROCESO
-            if (!errorPersonCode && !errorSubjectCode) { // Si no hay error se continua
+            if (!errorTeacherCode && !errorSubjectCode) { // Si no hay error se continua
                 subject = iSubjectRepository.findById(log.getSubjectCode()).get();
 
                 // NO SE PUEDE INSTANCIA EL TEACHER AQUI
-//                    person = iPersonRepository.findById(log.getPersonCode()).get();
+//                    teacher = iTeacherRepository.findById(log.getTeacherCode()).get();
                 period = new Period(log.getPeriod(), PeriodStateEnumeration.IN_PROGRESS);
 
                 Course course = new Course(log.getGroup(), log.getCapacity(), log.getWeeklyOverload(), log.getDescription());
@@ -100,22 +100,22 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     INSTANCIANDO LOS OBJETOS TEACHER CON CADA UNO DE ESOS CODIGOS
                     CADA OBJETO TEACHER ES AGREGADO A LA LISTA DE PROFESORES DEL OBJETO CURSO
                  */
-//                    course.setPerson(person);
-                for (int i = 0; i < personCodeArray.length; i++) {
-                    personCode = personCodeArray[i].trim();
-                    person = iPersonRepository.findById(personCode).get();
-                    //course.getAssignedPersons().add(person);
-                    course.getAssignedPersons().add(coursePerson);
+//                    course.setTeacher(teacher);
+                for (int i = 0; i < teacherCodeArray.length; i++) {
+                    teacherCode = teacherCodeArray[i].trim();
+                    teacher = iTeacherRepository.findById(teacherCode).get();
+                    //course.getAssignedTeachers().add(teacher);
+                    course.getAssignedTeachers().add(courseTeacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());
 
                 // SE REQUIERE UN FOR PARA ASIGNAR EL CURSO A LOS PROFESORES
-//                    person.getCourses().add(course);
+//                    teacher.getCourses().add(course);
 //                    subject.getCourses().add(course);
 //                    period.getCourses().add(course);
 //***                iCourseRepository.save(course);
-//                    iPersonRepository.save(person);
+//                    iTeacherRepository.save(teacher);
 //                    iSubjectRepository.save(subject);
 //                    iPeriodRepository.save(period);
                 infoLogs.add("Course Created succesfully!");

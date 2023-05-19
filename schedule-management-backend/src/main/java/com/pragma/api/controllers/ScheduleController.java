@@ -30,9 +30,9 @@ public class ScheduleController {
         return ResponseEntity.ok(this.scheduleService.getAllByEnvironment(environmentId));
     }
 
-//    @GetMapping("/byPerson")
-//    public ResponseEntity<List<ScheduleResponseDTO>> getAllByPerson(@RequestParam String personCode) {
-//        return ResponseEntity.ok(this.scheduleService.getAllByPerson(personCode));
+//    @GetMapping("/byTeacher")
+//    public ResponseEntity<List<ScheduleResponseDTO>> getAllByTeacher(@RequestParam String teacherCode) {
+//        return ResponseEntity.ok(this.scheduleService.getAllByTeacher(teacherCode));
 //    }
 
     @PutMapping

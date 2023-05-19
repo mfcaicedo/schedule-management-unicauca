@@ -34,9 +34,9 @@ public class Program {
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
     private Set<AcademicOfferFile> academicOfferFile;
 
-    //Relacion de muchos a 1 con Person Descripcion: indica que un departamento es coordinado por un profesor
+    //Relacion de muchos a 1 con Teacher Descripcion: indica que un departamento es coordinado por un profesor
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_code")
-    private Person person;
+    @JoinColumn(name = "teacher_code")
+    private Teacher teacher;
 
 }

@@ -23,7 +23,7 @@ public class EventDTO  {
     private String eventManagerName;
     private String description;
     private ProgramDTO program;
-    private PersonDTO person;
+    private TeacherDTO teacher;
     @Enumerated(EnumType.STRING)
     private EventTypeEnumeration eventType;
     

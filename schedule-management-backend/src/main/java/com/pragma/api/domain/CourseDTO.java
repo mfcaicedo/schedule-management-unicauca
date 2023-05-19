@@ -44,8 +44,8 @@ public class CourseDTO {
      * Codigo profesor del curso
      */
     //@NotNull(message = "El codigo del profesor no puede ser vacio")
-//    private String personCode;
-    private Set<PersonDTO> profesoresAsignados;
+//    private String teacherCode;
+    private Set<TeacherDTO> profesoresAsignados;
 
     @NotNull(message = "")
     private Integer remainingHours;
