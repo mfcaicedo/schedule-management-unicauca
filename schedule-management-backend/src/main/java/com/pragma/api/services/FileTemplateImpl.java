@@ -131,6 +131,7 @@ public class FileTemplateImpl implements ITemplateFileService{
         int indiceRow=3;
         int indiceAux=0;
         int semesterCurrent=1;
+
         while (subjects.size()!=0){
             Row row = sheetSubjects.getRow(indiceRow);
 
@@ -138,7 +139,6 @@ public class FileTemplateImpl implements ITemplateFileService{
                 indiceRow=3;
                 indiceAux=0;
                 semesterCurrent=subjects.get(0).getSemester();
-                System.out.println("entro if de continue");
                 continue;
             }
 
