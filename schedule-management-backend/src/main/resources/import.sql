@@ -43,9 +43,9 @@ INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) 
 
 
 --Period
-INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2021-2', '2021-11-30 23:59:59', '2021-07-01 00:00:00','FINISHED');
-INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-1', '2022-06-30 23:59:59', '2022-02-01 00:00:00','FINISHED');
-INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-2', '2022-11-30 23:59:59', '2022-07-01 00:00:00','ACTIVE');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2021-2', '2021-07-01 00:00:00', '2021-11-30 23:59:59','FINISHED');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2022-1', '2022-02-01 00:00:00', '2022-06-30 23:59:59','FINISHED');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2023-1', '2023-02-15 23:59:59', '2023-07-15 00:00:00','IN_PROGRESS');
 
 
 
@@ -112,4 +112,14 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
+
+--eventos
+INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`, `program_id`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062', 'PIS');
+
+
+--horario
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'MARTES', '2023-05-15', '09:00:00', 1, '2023-05-15', '07:00:00', NULL, 1, 1);
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'MIERCOLES', '2023-05-15', '11:00:00', 0, '2023-05-15', '09:00:00', 1, 1, NULL);
+
 
