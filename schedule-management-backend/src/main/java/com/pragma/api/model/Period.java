@@ -31,5 +31,5 @@ public class Period {
     }
 
     @OneToMany(mappedBy = "period")
-    private Set<Course> courses = new HashSet<>();
+    private Set<AcademicOfferFile> academicOfferFiles;
 }

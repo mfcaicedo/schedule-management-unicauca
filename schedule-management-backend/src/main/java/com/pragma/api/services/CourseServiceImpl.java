@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -116,6 +117,16 @@ public class CourseServiceImpl implements ICourseService {
         Program programDb = this.programRepository.findById(programId).orElseThrow(()->new ScheduleBadRequestException("bad.request.program.id", programId));
         Page<Course> coursePage = this.iCourseRepository.findAllBySubject_ProgramAndSubject_SemesterAndRemainingHoursGreaterThan(programDb, semester,0, pageable);
         return this.validatePageList(coursePage);
+    }
+
+    @Override
+    public CourseDTO findById(Integer id) {
+        System.out.println("llego al servicio con el id: "+id);
+        Optional<Course> course = this.iCourseRepository.findById(id);
+        System.out.println("id curso: "+course.get().getId());
+        System.out.println("id descripcion : "+course.get().getDescription());
+
+        return modelMapper.map(this.iCourseRepository.findById(id), CourseDTO.class);
     }
 
     private GenericPageableResponse validatePageList(Page<Course> coursesPage){

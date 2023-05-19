@@ -53,7 +53,11 @@ public class ScheduleServiceImpl implements IScheduleService{
 
     @Override
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
+        System.out.println("por que no aparece");
+        System.out.println("saveRequest: el iddddd " + saveRequest.getCourseId());
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
+        System.out.println("courseOptRequest: que tienen " + courseOptRequest.get().getDescription());
+        System.out.println("pasaaaaa");
         if(courseOptRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository.findById(saveRequest.getEnvironmentId());
         //request de event

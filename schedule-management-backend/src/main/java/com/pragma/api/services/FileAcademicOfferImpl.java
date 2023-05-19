@@ -89,7 +89,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                 period = new Period(log.getPeriod(), PeriodStateEnumeration.IN_PROGRESS);
 
                 Course course = new Course(log.getGroup(), log.getCapacity(), log.getWeeklyOverload(), log.getDescription());
-                course.setPeriod(period);
+//                course.setPeriod(period);
 
                 iPeriodRepository.save(period);
 
@@ -105,7 +105,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     personCode = personCodeArray[i].trim();
                     person = iPersonRepository.findById(personCode).get();
                     //course.getAssignedPersons().add(person);
-                    course.getAssignedPersons().add(courseTeacher);
+//                    course.getAssignedPersons().add(courseTeacher);
                 }
 
                 System.out.println("CURSO: " + course.toString());
