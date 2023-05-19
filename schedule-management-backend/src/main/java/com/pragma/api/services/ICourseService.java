@@ -39,7 +39,7 @@ public interface ICourseService {
     GenericPageableResponse findAllByAvailable(final String programId, final Integer semester, final Pageable pageable);
 
 
-
+    CourseDTO findById(final Integer id);
 
 
 }

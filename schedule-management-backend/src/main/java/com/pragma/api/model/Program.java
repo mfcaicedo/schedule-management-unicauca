@@ -9,11 +9,11 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "program")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Program")
 public class Program {
     @Id
     @Column(name = "program_id", length = 30)
@@ -31,8 +31,8 @@ public class Program {
     private Set<Subject> subjects;
 
     //relacion 1 a * con AcademicOfferFile
-    @OneToMany(mappedBy = "program", cascade = CascadeType.ALL)
-    private Set<AcademicOfferFile> academicOfferFile;
+    @OneToMany(mappedBy = "program")
+    private Set<AcademicOfferFile> academicOfferFiles;
 
     //Relacion de muchos a 1 con Person Descripcion: indica que un departamento es coordinado por un profesor
     @OneToOne(fetch = FetchType.EAGER)

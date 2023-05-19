@@ -38,26 +38,12 @@ public class Course {
         // this.profesoresAsignados = new HashSet<>();
     }
 
-    @ManyToOne
-    @JoinColumn()
-    private Period period;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    /*
-     * @ManyToMany
-     * 
-     * @JoinTable(
-     * name = "CoursePerson",
-     * joinColumns = @JoinColumn(name = "course_id"),
-     * inverseJoinColumns = @JoinColumn(name = "person_code"),
-     * )
-     * private Set<Person> assignedPersons;
-     */
     @OneToMany(mappedBy = "course")
-    private Set<CoursePerson> assignedPersons;
+    private Set<CoursePerson> assignedTeachers;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;
