@@ -54,9 +54,12 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
             fileRow.setName_teacher(cells.get(1).getStringCellValue());
         }
 
-        //if (cells.get(2) != null) {
+        try {
             fileRow.setName_department(cells.get(2).getStringCellValue());
-        //}
+        }
+        catch(Exception e) {
+            //  Block of code to handle errors
+        }
 
         return fileRow;
     }
