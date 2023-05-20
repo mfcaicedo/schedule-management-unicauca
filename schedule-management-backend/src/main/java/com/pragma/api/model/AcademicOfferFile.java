@@ -27,7 +27,12 @@ public class AcademicOfferFile {
     private StateAcOfferFileEnumeration stateFile;
     //relacion * a 1 con Program
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "periodId")
+    private Period period;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
+
 
 }

@@ -53,9 +53,9 @@ INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-
 
 
 --Subject
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'Programacion Orientada a Objetos', '2', false, '2', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'Programacion Orientada a Objetos', '1', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR1', 'Estructura de Datos', '2',false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR2', 'Estructura de Datos 2', '3', false, '2', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR2', 'Estructura de Datos 2', '2', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('SISDIS', 'Sistemas Distribuidos', '4',false, '4', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CALSOFT', 'Calidad de Software', '6', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INTRO1', 'Introduccion programacion', '1',false, '4', 'PIS');
@@ -105,9 +105,9 @@ INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1)
 
 
 --resource course
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', '2021_01', 'PO');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('2', '13', 'A', 'dad','4','2022_01', 'PO');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('3', '20', 'B', 'asd','4','2022_02', 'ESTR1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', 'POO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('2', '13', 'A', 'dad','4', 'POO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('3', '20', 'B', 'asd','4', 'ESTR1');
 
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');

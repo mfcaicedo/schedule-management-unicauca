@@ -54,25 +54,22 @@ public class ScheduleServiceImpl implements IScheduleService {
     @Override
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
-        Optional<Event> eventOptRequest;
-        if (saveRequest.isReserv()) {
-            eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
-        } else {
-            eventOptRequest = null;
-        }
-        // Event eventoDb = eventOptRequest.get();
+        if (courseOptRequest.isEmpty())
+            throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository
                 .findById(saveRequest.getEnvironmentId());
         // request de event
         if (environmentOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.environment.id",
                     saveRequest.getEnvironmentId().toString());
-        if (courseOptRequest.isEmpty() && !saveRequest.isReserv())
-            throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
+        Optional<Event> eventOptRequest = null;
+        if (saveRequest.isReserv()) {
+            eventOptRequest = this.eventRepository.findById(saveRequest.getEventId());
+        }
         Course courseDb = courseOptRequest.get();
         // Optional<Event> eventOptRequest =
         // this.eventRepository.findById(saveRequest.getEventId());
-        if (eventOptRequest.isEmpty() && saveRequest.isReserv())
+        if (eventOptRequest == null && saveRequest.isReserv())
             throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         if (this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
