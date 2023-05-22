@@ -61,6 +61,7 @@ public class FileSubjectImpl implements IFileSubjectService {
                 boolean errorVacias = false;
                 boolean errorTipos = false;
                 boolean errorRepetidos = false;
+
 //                System.out.println("CODIGO MATERIA: " + log.getSubjectCode());
                 if (log.getSubjectCode().trim().length() == 0) {
                     infoErroresVacias.add("[FILA " + rowNum + "]  EL CODIGO DE LA MATERIA ESTA VACIO (CODIGO OBLIGATORIO)");
@@ -77,6 +78,7 @@ public class FileSubjectImpl implements IFileSubjectService {
                         }
                     }
                 }
+
                 //--------------------------------------------------------------
                 if (log.getName().trim().length() == 0) {
                     infoErroresVacias.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA VACIO (NOMBRE MATERIA OBLIGATORIO)");

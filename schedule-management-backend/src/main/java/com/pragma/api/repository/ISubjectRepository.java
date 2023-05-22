@@ -14,6 +14,7 @@ public interface ISubjectRepository extends JpaRepository<Subject, String> {
 
     boolean existsByNameAndProgram_ProgramId(String name, String programId);
 
+
 //    @Query("SELECT CASE WHEN COUNT(s.subject_code) > 0 THEN true ELSE false END FROM subject s WHERE UPPER(s.name) LIKE UPPER(:name) AND UPPER(s.program_id) LIKE UPPER(:program_id)")
 //    boolean existsByNameAndProgram(@Param("name") String name, @Param("program_id") String program_id);
 }

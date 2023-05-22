@@ -10,12 +10,16 @@ public class ResponseFile {
     private int contErrorRows;
     private int contSuccessRows;
     private int contSaveRows;
+
     //ERRORES DE TIPO
     private List<String> logsType;
+
     //ERRORES DE CAMPOS
     private List<String> logsEmptyFields;
+
     //ERRORES GENERALES DE LA CLASE ESPECIFICA
     private List<String> logsGeneric;
+
     //ERRORES GENERALES DE LA CLASE ESPECIFICA
     private List<String> logsSuccess;
 

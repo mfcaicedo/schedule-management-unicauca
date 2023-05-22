@@ -55,4 +55,11 @@ public class Environment {
     @OneToMany(mappedBy = "parentEnvironment", fetch = FetchType.LAZY)
     private Set<Environment> subEnvironments;
 
+
+    public Environment(String name, String location, Integer capacity, Faculty faculty) {
+        this.name = name;
+        this.location = location;
+        this.capacity = capacity;
+        this.faculty = faculty;
+    }
 }
