@@ -11,7 +11,8 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
-  
+//#region  declaracionVariables
+
   data: any = [];
   isDisabled:boolean=false;
   showSelectedEnvironment:boolean=false;
@@ -43,7 +44,10 @@ export class RoomComponent implements OnInit {
   isFacSelected:boolean=false;   ///Variable bandera que indica si se ha seleccionado la facultad
   isBuildSelected:boolean=false; ///Variable bandera que indica si se ha seleccionado el edificio
 
+//#endregion declaracionVariables
   //-----------------------------CARGANDO LOS RECURSOS--------------------------------------------
+ 
+//#region constructores 
   constructor(
     private render2:Renderer2,
     private route : ActivatedRoute,
@@ -75,7 +79,10 @@ export class RoomComponent implements OnInit {
   alerta(msj:string){
     alert(msj);
   }
- //-----------------------------------LLENA DATOS--------------------------------------
+//#endregion constructores 
+  //-----------------------------------LLENA DATOS--------------------------------------
+
+//#region llenarListas 
   /**
    * Metodo que obtiene todos los edificios desde el id de una facultad 
    * y los almacena en la variable ${listaEdificios}
@@ -95,7 +102,10 @@ export class RoomComponent implements OnInit {
       }
     );
   }
+
+//#endregion llenarListas 
   //----------------------METODOS DISPARADOS POR EVENTOS DE SELECCION----------------------------------------
+ //#region  Metodos para enventos html
   /**
    * Este metodo se lanza cuando se selecciona la facultad
    * llama al metodo parallena los edificios
@@ -133,8 +143,10 @@ export class RoomComponent implements OnInit {
     alert("se selecciono"+(event.target as HTMLInputElement).value);
     //TODO:se debe filtrar por tipo la tabla al lanzarse este evento
   }
+  
+//#endregion Metodos para enventos html
 //------------------------------OTROS METODOS (NO USADOS ecepto los de la tabla)---------------------------------------------------
- 
+//#region otros 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['continueCreatingSchedule']){
       if(changes['continueCreatingSchedule'].currentValue == true){
@@ -207,4 +219,6 @@ export class RoomComponent implements OnInit {
     });
     
   }
+
+//#endregion otros 
 }
