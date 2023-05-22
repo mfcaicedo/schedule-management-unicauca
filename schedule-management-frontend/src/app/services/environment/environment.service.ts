@@ -5,6 +5,7 @@ import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -228,6 +229,16 @@ export class EnvironmentService {
       //   'Content-type':"multipart/form-data"
       // }
     });
+  }
+  getBuildingsByFac(fac:string): Observable<Environment[]> {
+    //alert("LA CADENA:"+(this.endPoint+"consultBuildingsByFacultyId/"+fac));
+    return this.http.get<any>(this.endPoint+"/consultBuildingsByFacultyId/"+fac).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 }
 

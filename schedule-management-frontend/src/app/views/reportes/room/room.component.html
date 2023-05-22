@@ -10,26 +10,41 @@
         <c-row class="mb-3">
 
             <c-col md="10">
-                <c-dropdown>
+              <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
+                <option value="{{valDefecto}}">Selecciona una Facultad</option>
+                <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+                class="uppercase-text" (click)="alerta(fac.facultyName)">
+                  {{fac.facultyName}} </option>
+              </select>
+                <!--<c-dropdown>
                   <button cButton cDropdownToggle color="light">
                     Filtrar Facultad
                   </button>
                   <ul cDropdownMenu>
-                    <li><h6 cDropdownHeader>Facultades</h6></li>
+                    <li *ngFor="let fac of listafacultades" (click)="alerta(fac.facultyName)" class="uppercase-text">
+                      {{fac.facultyName}}
+                    </li>
                     
           
                   </ul>
-                </c-dropdown>
+                </c-dropdown>-->
             </c-col>  
 
         </c-row>
         
         <br>
+  <span *ngIf="isFacSelected">
     <strong class="cuerpo">seleccione la Edificio :</strong>
         <br>
         <c-row class="mb-3">
             <c-col md="10">
-                <c-dropdown>
+              <select cSelect id="filtroEdificio"  (change)="onSelectedEdificio($event)"  >
+                <option value="{{valDefecto}}">Selecciona un Edificio</option>
+                <option *ngFor="let ed of listaEdificios" value="{{ed.id}}" 
+                class="uppercase-text" >
+                  {{ed.name}} </option>
+              </select>
+                <!--<c-dropdown>
                   <button cButton cDropdownToggle color="light">
                     Filtrar Edificio
                   </button>
@@ -38,7 +53,7 @@
                     
           
                   </ul>
-                </c-dropdown>
+                </c-dropdown>-->
             </c-col>
         </c-row>
           
@@ -46,53 +61,44 @@
     <strong class="cuerpo">Tipo de Ambiente :</strong>
         <br>
         <div class="radio">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input " type="radio" id="radio1" value="Salon" name="Salon">
-                <label class="form-check-label" for="inlineRadio1"> Salon </label>
-            </div>      
-            <div class="form-check form-check-inline">
-                <input class="form-check-input " type="radio" id="radio1" value="Auditorio" name="Auditorio">
-                <label class="form-check-label" for="inlineRadio1"> Auditorio </label>
-            </div>    
-            <div class="form-check form-check-inline">
-                <input class="form-check-input " type="radio" id="radio1" value="Laboratorio" name="Laboratorio">
-                <label class="form-check-label" for="inlineRadio1"> Laboratorio </label>
-            </div> 
+          <div class="form-check form-check-inline" *ngFor="let tipo of environmentTypes; let first = first;">
+              <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo" [checked]="first" (change)="onSelectedType($event)">
+              <label class="form-check-label" > {{tipo}} </label>
+          </div>
         </div>
-    <strong class="cuerpo">Listado segundo filtro seleccionado :</strong>  
-    <br>
-    <br>
-    
-    <table cTable  >
-        <thead cTableColor="dark">
-        <tr>
-            <th *ngFor="let c of columns">{{c}} </th>
-        </tr>
-        </thead>
-        <tbody >
-        <tr *ngFor="let item of data; let i = index" >
-            <td>{{item.id}} </td>
-            <td>{{item.tipo}} </td>
-            <td>{{item.numero}} </td>
-            <td>{{item.ubicacion}}</td>
-            <td>{{item.capacidad}} </td>
-            <td>{{item.facultad}} </td>     
-            <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">  </td>     
-        </tr>
-        </tbody>
-  
-    </table>
-
-    <br>
-
-    <div class="centrado">
-      <span class="btn-upload-file">
-        Generar Reporte
-      </span>
-    </div>
-    
-    <br>
+    <span  *ngIf="isBuildSelected">
+      <strong class="cuerpo">Listado segundo filtro seleccionado :</strong>  
+      <br>
+      <br>
       
+      <table cTable  >
+          <thead cTableColor="dark">
+          <tr>
+              <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+          </thead>
+          <tbody >
+          <tr *ngFor="let item of data; let i = index" >
+              <td>{{item.id}} </td>
+              <td>{{item.tipo}} </td>
+              <td>{{item.numero}} </td>
+              <td>{{item.ubicacion}}</td>
+              <td>{{item.capacidad}} </td>
+              <td>{{item.facultad}} </td>     
+              <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">  </td>     
+          </tr>
+          </tbody>
+    
+      </table>
+
+      <br>
+
+      <div class="centrado">
+        <input type="submit" class="btn-upload-file" value="Generar Reporte">      
+      </div>
+    </span>
+    <br>
+  </span>     
   </c-card-body>
 
   

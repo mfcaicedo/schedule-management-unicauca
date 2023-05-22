@@ -59,7 +59,7 @@ public class FacultyServiceImpl implements IFacultyService{
     //Buscar todas las facultades
     @Override
     public Response<List<FacultyDTO>> findAllFaculty() {
-        
+        System.out.println("Holaaa si llego");
         if(!this.facultyRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
         List<Faculty> faculty = this.facultyRepository.findAll();

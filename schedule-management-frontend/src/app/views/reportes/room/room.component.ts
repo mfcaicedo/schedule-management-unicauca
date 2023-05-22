@@ -1,6 +1,9 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Environment } from 'src/app/models/environment.model';
+import { Faculty } from 'src/app/models/faculty.model';
+import {FacultyService} from 'src/app/services/Faculty/faculty.service'
+import { EnvironmentService } from 'src/app/services/environment/environment.service';
 
 @Component({
   selector: 'app-room',
@@ -9,17 +12,27 @@ import { Environment } from 'src/app/models/environment.model';
 })
 export class RoomComponent implements OnInit {
   data: any = [];
+  readonly valDefecto:string="defecto";///valor por defecto que tiene una opcion del Formulario antes de ser seleccionada
+  
   environments:Environment[]=[];
   columns:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Seleccionar'];
-  environmentTypes:string[]=[];
-  environmentType!: string ;
+  
+  environmentTypes:string[]=[];   ///lista que contiene los tipos de ambientes definidos en el servicio y mostrados en los radios
+  environmentType!: string ;      ///indica que no puede ser nulo
+  listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
+  listaEdificios:Environment[]=[];///lista que contiene los edificios para llenar el desplegable en html
+
   isDisabled:boolean=false;
+
 
   showSelectedEnvironment:boolean=false;
   ambiente!:Environment;
 
+  isTypeSelected:boolean=false;  ///Variable bandera que indica si se ha seleccionado el tipo
+  isFacSelected:boolean=false;   ///Variable bandera que indica si se ha seleccionado la facultad
+  isBuildSelected:boolean=false; ///Variable bandera que indica si se ha seleccionado el edificio
 
-  isTypeSelected:boolean=false
+
   totalItems:number=0;
   totalNumberPage:number=1;
   paginadorEnvironment: any;
@@ -31,14 +44,81 @@ export class RoomComponent implements OnInit {
 
   constructor(
     private render2:Renderer2,
-    private route : ActivatedRoute
+    private route : ActivatedRoute,
+    private  facservice:FacultyService,   ///servicio encargado de traer las facultades
+    private envService:EnvironmentService ///servicio encargado de traer los edificios y ambientes filtrados
   ){}
-
+  //-------------------------------------------------------------------------
+/**
+ * Metodo Inicializador que usa los servicios inyectados para llenar facultades
+ * y ambientes
+ */
   ngOnInit(){
-    
+
+    //llenamos las Facultadas
+    this.facservice.getAllFaculty().subscribe(
+      (data: Faculty[]) => {
+        this.listafacultades = data as Faculty[]; // Asignar los datos emitidos a la variable listafacultades
+        //alert(this.listafacultades[0].facultyName);    
+      },
+      (error) => {
+       // alert("2.");
+        console.log('Error obteniendo todas las facultades', error);
+      }
+    );
+
+    //llena tipo Ambientes
+    this.environmentTypes=this.envService.getAllEnvironmentTypes();
     this.lista();
   }
-
+  /**
+   * Metodo que obtiene todos los edificios desde el id de una facultad 
+   * y los almacena en la variable ${listaEdificios}
+   * @param variableIdFac 
+   */
+  llenarEdificios(variableIdFac:string){
+    //llenamos los Edificios
+    this.envService.getBuildingsByFac(variableIdFac).subscribe(
+      (data: Environment[]) => {
+        this.listaEdificios = data as Environment[]; // Asignar los datos emitidos a la variable listaEdificios
+        //alert(this.listafacultades[0].facultyName);    
+        // Otro código que depende de this.listafacultades.length
+    
+      },
+      (error) => {
+       // alert("2.");
+        console.log('Error obteniendo todos Edificios', error);
+      }
+    );
+  }
+  /**muestra un mensaaje para saber que dato se selecciono */
+  alerta(msj:string){
+    alert(msj);
+  }
+  onSelectedFacultad(event:Event){
+    //this.alerta(((event.target as HTMLInputElement).value));
+    //comprueba que la facultad seleccionada no sea la agregada por defecto
+    if (((event.target as HTMLInputElement).value)!=this.valDefecto){
+      this.isFacSelected=true;//cambia el valor de esta variable para que se activen los otros campos
+      this.llenarEdificios(((event.target as HTMLInputElement).value));//llena la lista del desplegable
+    }else{this.isFacSelected=false;//al ser la por defecto opcion deshabilita
+    }
+    
+    //this.form.controls['environmentType'].setValue((event.target as HTMLInputElement).value);
+  }
+  onSelectedEdificio(event:Event){    
+    
+    if (((event.target as HTMLInputElement).value)!=this.valDefecto){
+      this.isBuildSelected=true;//cambia el valor de esta variable para que se activen los otros campos
+      
+      //TODO: falta llenar la tabla y comprobar si hay un tipo seleccionado
+    }else{this.isBuildSelected=false;//al ser la por defecto opcion deshabilita
+    }//alert("seleccionado");
+  }
+  onSelectedType(event:Event){    
+    alert("se selecciono"+(event.target as HTMLInputElement).value);
+    
+  }
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['continueCreatingSchedule']){
       if(changes['continueCreatingSchedule'].currentValue == true){
