@@ -54,8 +54,8 @@ public class ScheduleController {
     }
 
     //Consulta para buscar los calendarios en los que aparezca un salon en concreto
-    @GetMapping("/byEnviId")
-    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(@RequestParam Integer environmentId){
+    @GetMapping("/byEnvironmentId/{environmentId}")
+    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(@PathVariable Integer environmentId){
     //Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
     //return this.environmentService.findAllByTypeAndParentId(EnvironmentTypeEnumeration.LABORATORIO, parentId);
         //System.out.println("AQUUIIIIIIIIIIIIIIIIIIIIIIIIIII"+environmentId);
