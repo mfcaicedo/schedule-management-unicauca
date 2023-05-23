@@ -1,6 +1,7 @@
 import { NgModule, importProvidersFrom } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SubjectUploadComponent } from './subject-upload/subject-upload.component';
+import { SubjectAllComponent } from './subject-all/subject-all.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,13 @@ const routes: Routes = [
         path: '',
         redirectTo: '/all',
         pathMatch: 'full'
+      },
+      {
+        path: 'all',
+        component: SubjectAllComponent,
+        data: {
+          title: 'Todos',
+        }
       },
       {
         path: 'upload-sub',

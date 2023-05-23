@@ -22,8 +22,9 @@ export class SubjectService {
       subjectCode: '3', name: 'Sistemas distribuidos', weeklyOverload: 4, timeBlock: true, semester: 7, program:this.program
     },
   ]
-
-  programs = ["Ingeniería de sistemas", "Ingeniería electrónica"];
+  //Pruebaa
+  programs:string[]=['TODOS','PIS','PIET'];
+  //programs = ["Ingeniería de sistemas", "Ingeniería electrónica"];
   endPoint: String = environment.urlSub
   // endPoint:String = 'api/environment'
 
@@ -50,7 +51,9 @@ export class SubjectService {
       'program': '',
     }
   }
-
+  getAllPrograms(){
+    return this.programs;
+  }
   uploadFile(file: Blob) {
     console.log("llego al servicio de subject", file);
     console.log("llego al servicio endpoint ", this.endPoint);
@@ -61,6 +64,31 @@ export class SubjectService {
       //   'Content-type':"multipart/form-data"
       // }
     });
+  }
+
+  getAllSubjectsPage(page:number, pageSize:number):Observable<any>{
+    console.log("llegan page y size ",page, " ", pageSize)
+
+    return this.http.get<any>(this.endPoint+`?page=${page-1}&size=${pageSize}&sort=subjectCode&order=asc`).pipe(
+      catchError((e) => {
+
+        console.log('Error obteniendo todas las Asignaturas', e.error.mensaje, 'error');
+        return throwError(e);
+
+      })
+    );
+  }
+
+  getSubjectsByProgramId(programId:string,page:number, pageSize:number):Observable<any>{
+    return this.http.get<any>(this.endPoint+'/byProgramId'+`?program_id=${programId}&page=${page-1}&size=${pageSize}&sort=subjectCode&order=ASC`).pipe(
+      catchError((e) => {
+        // this.router.navigate(['/documentos']);
+
+        console.log('Error obteniendo todas las asignaturas por programa', e.error.mensaje, 'error');
+        return throwError(e);
+
+      })
+    );
   }
 }
 

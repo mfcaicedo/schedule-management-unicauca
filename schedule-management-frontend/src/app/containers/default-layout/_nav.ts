@@ -82,7 +82,12 @@ export const navItems: INavData[] = [
         name: 'Cargar asignaturas',
         url: '/subject/upload-sub',
         iconComponent: { name: 'cilCloudUpload' }
-      },      
+      },
+      {
+        name: 'Ver asignaturas',
+        url: '/subject/all',
+        iconComponent: { name: 'cilMagnifyingGlass' }
+      },          
     ]
   },
   {

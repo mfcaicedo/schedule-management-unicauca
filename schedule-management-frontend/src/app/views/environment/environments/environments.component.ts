@@ -79,6 +79,7 @@ export class EnvironmentsComponent {
     // `El ambiente : ${environmentId}  \nfue eliminado exitosamente`, 'success')
     this.routeNav.navigate(['//environment/all'])
     )
+    //this.routeNav.navigate(['//environment/all'])
   }
 
   // aqui viene el numero de pagina solicitada y el tamaño que debe tener

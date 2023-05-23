@@ -4,6 +4,7 @@ package com.pragma.api.services;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.SubjectDTO;
+import com.pragma.api.model.Program;
 import org.springframework.data.domain.Pageable;
 
 
@@ -38,5 +39,10 @@ public interface ISubjectBusiness {
      * @return {@link Response} Objeto de respuesta para el servicio, el cual contiene información sobre el resultado de la consulta,
      *         además de la información de las materias consultadas
      */
-    Response<GenericPageableResponse> findAll(final Pageable pageable);
+    //Response<GenericPageableResponse> findAll(final Pageable pageable);
+
+    GenericPageableResponse findAllSubject(Pageable pageable);
+
+    GenericPageableResponse findAllByProgramId(String program_id, Pageable pageable);
+
 }

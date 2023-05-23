@@ -13,7 +13,9 @@ c-card {
 .centrado {
   align-self: center;
 }
-
+.h3 {
+  font-size: 16 px;
+}
 // .container{
 //   display: grid;
 //   grid-template-columns: 1fr auto;
@@ -41,7 +43,7 @@ c-card {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  height: 300px;
   padding: 20px;
   border-radius: 10px;
   border: 2px dashed #111;
@@ -73,10 +75,11 @@ c-card {
 
 .btn-upload-file {
   padding: 15px 25px;
+  margin-left: 30px;
   background-color: #0A266F;
   color: #ffffff;
   border-radius: 10px;
-  font-weight: bold;
+  // font-weight: bold;
   cursor: pointer;
 
 }
@@ -99,3 +102,4 @@ c-card {
 .titulo {
   color: #800000;
 }
+

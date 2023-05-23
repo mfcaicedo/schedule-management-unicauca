@@ -4,6 +4,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { SubjectRoutingModule } from './subject-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgxFileDropModule } from 'ngx-file-drop';
 // CoreUI Modules
 import {
   AccordionModule,
@@ -39,11 +40,13 @@ import { FormsModule } from '@angular/forms';
 
 import { ResourceModule } from '../resource/resource.module';
 import { ToshareModule } from '../toshare/toshare.module';
+import { SubjectAllComponent } from './subject-all/subject-all.component';
 //import { ToshareModule } from 'src/app/views/toshare/toshare.module';
 
 @NgModule({
   declarations: [
     SubjectUploadComponent,
+    SubjectAllComponent,
 
   ],
   imports: [
@@ -81,6 +84,8 @@ import { ToshareModule } from '../toshare/toshare.module';
     TooltipModule,
     UtilitiesModule,
     NgxSpinnerModule,
+    FormsModule,
+    NgxFileDropModule
   ]
 })
 export class SubjectModule { }

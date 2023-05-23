@@ -7,8 +7,48 @@
     <div class="container">
       <div class="centrado">
         <h5>Cargar Asignaturas al sistema </h5>
-        <div class="drop-container">
-          <label for="file-environment">
+        <br>
+        <div class="center">
+          <ngx-file-drop [multiple]="true" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">            
+              <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                Suelta los archivos aquí o
+                <!-- <button type="button" (click)="openFileSelector()">Browse Files</button> -->
+                <label for="file-environment">
+                  <span class="btn-upload-file">
+                    <i class="cilCloudUpload"></i>
+                    <svg cIcon name="cilCloudUpload" size="xl"></svg>
+                    Carga el archivo
+                  </span>
+                  <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                  (click)="openFileSelector()" required>
+                </label>
+              </ng-template>
+          </ngx-file-drop>
+          <div class="upload-table">
+            <table class="table">
+              <thead>
+                  <tr>
+                      <th>Nombre del archivo</th>
+                  </tr>
+              </thead>
+              <tbody class="upload-name-style">
+                  <tr *ngFor="let item of files1; let i=index">
+                      <td><strong>{{ item.name }}</strong></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>  
+      </div>
+        <!-- <div class="drop-container" appDirectiveDropFile (fileDropped)="onUpload($event)">          
+            <input type="file" #fileDropRef id="fileDropRef" multiple hidden (change)="onUpload($any($event).target.files)" />
+
+            <img src="assets/img/svg/ic-upload-file.svg" alt="">
+            <h3>Arrastrar y soltar el archivo aquí</h3>
+            <br>
+            <label for="fileDropRef">Browse for file</label>
+            <label for="file-environment">
             <span class="btn-upload-file">
               <i class="cilCloudUpload"></i>
               <svg cIcon name="cilCloudUpload" size="xl"></svg>
@@ -16,9 +56,9 @@
             </span>
             <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
               (change)="onUpload($event)" required>
-          </label>
+            </label>
         </div>
-      </div>
+      </div> -->
       <!-- Snipper -->
       <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
         <p style="color: white">
