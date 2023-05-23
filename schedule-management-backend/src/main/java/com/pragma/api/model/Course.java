@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
@@ -34,7 +35,6 @@ public class Course {
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
         this.description = description;
-        //this.profesoresAsignados = new HashSet<>();
     }
 
     @ManyToOne
@@ -45,13 +45,6 @@ public class Course {
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    /*@ManyToMany
-    @JoinTable(
-            name = "CourseTeacher",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "person_code"),
-    )
-    private Set<Person>  assignedPersons; */
     @OneToMany(mappedBy = "course")
     private Set<CourseTeacher> assignedPersons;
 

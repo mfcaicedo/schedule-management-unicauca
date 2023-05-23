@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,6 +46,17 @@ public class PersonServiceImpl implements IPersonService {
         List<PersonDTO> personsDTO = new ArrayList<>();
         personsDTO = teachers.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
         return personsDTO;
+
+    }
+    @Override
+    public PersonDTO findByCode(String code) {
+        Optional<Person> person = this.iPersonRepository.findById(code);
+
+        PersonDTO personDTO = new PersonDTO();
+
+        personDTO = modelMapper.map(person,PersonDTO.class);
+
+        return  personDTO;
 
     }
 

@@ -4,6 +4,7 @@ import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
 import com.pragma.api.domain.Response;
+import com.pragma.api.model.EnvironmentResource;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Resource;
@@ -156,6 +157,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         enums.add(EnvironmentTypeEnumeration.AUDITORIO);
         enums.add(EnvironmentTypeEnumeration.LABORATORIO);
         enums.add(EnvironmentTypeEnumeration.SALON);
+        enums.add(EnvironmentTypeEnumeration.EDIFICIO);
 
         return enums;
     }
@@ -169,15 +171,21 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     public Response<Boolean> addResourceToEnvironment(ResourceList resourceList, Integer environmentId) {
         if(!this.environmentRepository.existsById(environmentId)) throw  new ScheduleBadRequestException("bad.request.environment.id", Integer.toString(environmentId));
         Environment environment = this.environmentRepository.findById(environmentId).get();
+/*
         for (int resourceId:resourceList.getResourceList()) {
             if(!this.resourceRepository.existsById(resourceId)) throw  new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));
-
             Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
-            environment.getAvailableResources().add(resourceToAdd);
+
+            EnvironmentResource environmentResource = new EnvironmentResource();
+            environmentResource.setResource(resourceToAdd);
+            environmentResource.setEnvironment(environment);
+            //environmentResource.setResourceQuantity();
+            environment.getAvailableResources().add(environmentResource);
         }
 
-        this.environmentRepository.save(environment);
+ */
 
+        this.environmentRepository.save(environment);
         Response<Boolean> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Resource added successfully");
@@ -193,13 +201,19 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     public Response<Boolean> updateResourceToEnvironment(ResourceList resourceList, Integer environmentId) {
         if(!this.environmentRepository.existsById(environmentId)) throw  new ScheduleBadRequestException("bad.request.environment.id", Integer.toString(environmentId));
         Environment environment = this.environmentRepository.findById(environmentId).get();
+        /*
         environment.getAvailableResources().clear();
         for (int resourceId:resourceList.getResourceList()) {
             if(!this.resourceRepository.existsById(resourceId)) throw  new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));
 
-            Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
-            environment.getAvailableResources().add(resourceToAdd);
-        }
+            //Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
+            //EnvironmentResource environmentResource = new EnvironmentResource();
+            //environmentResource.setResource(resourceToAdd);
+            //environmentResource.setEnvironment(environment);
+            //environment.getAvailableResources().add(environmentResource);
+           }
+         */
+
 
         this.environmentRepository.save(environment);
 
