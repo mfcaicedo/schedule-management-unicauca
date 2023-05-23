@@ -14,14 +14,14 @@
   </c-col>
  </c-row>
  <c-row class="mb-3">
-   <label cLabel class="col-sm-2 col-form-label" for="enventName" >
+   <label cLabel class="col-sm-2 col-form-label" for="eventName">
      Nombre del evento:
    </label>
    <div class="col-sm-10">
-     <input formControlName="name" id="eventName" type="text"  required />
+     <input formControlName="eventName" id="eventName" type="text"  required />
    </div>
-   <div class="alert alert-danger" *ngIf="isNameInvalid">
-     <div *ngIf="name?.hasError('required')">
+   <div class="alert alert-danger" *ngIf="isEventNameInvalid">
+     <div *ngIf="eventName?.hasError('required')">
        Nombre del evento es requerido
      </div>
    </div>
@@ -31,10 +31,10 @@
      Nombre del encargado:
    </label>
    <div class="col-sm-10">
-     <input formControlName="Encargado" id="eventEncargado" type="text"  required/>
+     <input formControlName="eventEncargado" id="eventEncargado" type="text"  required />
    </div>
-   <div class="alert alert-danger" *ngIf="isLocationInvalid">
-     <div *ngIf="location?.hasError('required')">
+   <div class="alert alert-danger" *ngIf="isEventEncargadoInvalid">
+     <div *ngIf="eventEncargado?.hasError('required')">
        Nombre del encargado es requerido
      </div>
    </div>
@@ -44,10 +44,10 @@
      Cedula del encargado:
    </label>
    <div class="col-sm-10">
-     <input formControlName="Cedula" id="cedulaEncargado" type="number"  required />
+     <input formControlName="cedulaEncargado" id="cedulaEncargado" type="number"  required />
    </div>
-   <div class="alert alert-danger" *ngIf="isCapacityInvalid">
-     <div *ngIf="capacity?.hasError('required')">
+   <div class="alert alert-danger" *ngIf="isCedulaEncargadoInvalid">
+     <div *ngIf="cedulaEncargado?.hasError('required')">
        Cedula es requerido
      </div>
      <!--<div *ngIf="capacity?.hasError('min')">
@@ -58,13 +58,13 @@
 
  <c-row class="mb-3">
   <label cLabel class="col-sm-2 col-form-label" for="descripcion">
-    descripcion:
+    Descripcion:
   </label>
   <div class="col-sm-10">
     <input formControlName="descripcion" id="descripcionEvento" type="text"  required />
   </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
+  <div class="alert alert-danger" *ngIf="isDescripcionInvalid">
+    <div *ngIf="descripcion?.hasError('required')">
       La descripcion es requerida
     </div>
   </div>
@@ -79,8 +79,8 @@
   <div class="col-sm-10">
     <input formControlName="fechaInicio" id="fechasInicio" type="text"  required />
   </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
+  <div class="alert alert-danger" *ngIf="isFechaInicioInvalid">
+    <div *ngIf="fechaInicio?.hasError('required')">
       La fecha inicio es requerida
     </div>
   </div>
@@ -93,17 +93,53 @@
   <div class="col-sm-10">
     <input formControlName="fechaFin" id="fechaFin" type="text"  required />
   </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
+  <div class="alert alert-danger" *ngIf="isFechaFinInvalid">
+    <div *ngIf="fechaFin?.hasError('required')">
       La fecha fin es requerida
     </div>
   </div>
  </c-row>
 
+ <div>
+  
  <c-row class="mb-3">
-  <label cLabel class="col-sm-2 col-form-label" for="Recurrencia">
+  <label cLabel class="col-sm-2 col-form-label" for="horaInicio">
+    Hora Inicio:
+  </label>
+  <div class="col-sm-10">
+    <input formControlName="horaInicio" id="horaInicio" type="text"  required />
+  </div>
+  <div class="alert alert-danger" *ngIf="isHoraInicioInvalid">
+    <div *ngIf="horaInicio?.hasError('required')">
+      La hora Inicio es requerida
+    </div>
+  </div>
+ </c-row>
+
+ <c-row class="mb-3">
+  <label cLabel class="col-sm-2 col-form-label" for="horaFin">
+    Hora Fin:
+  </label>
+  <div class="col-sm-10">
+    <input formControlName="horaFin" id="horaFin" type="text"  required />
+  </div>
+  <div class="alert alert-danger" *ngIf="isHoraFinInvalid">
+    <div *ngIf="horaFin?.hasError('required')">
+      La hora fin es requerida
+    </div>
+  </div>
+ </c-row>
+
+ <c-row class="mb-3">
+  <label cLabel class="col-sm-2 col-form-label" for="recurrencia">
     Recurrencia:
   </label>
+  <div class="alert alert-danger" *ngIf="isRecurrenciaInvalid">
+    <div *ngIf="recurrencia?.hasError('required')">
+      La recurrencia es requerida
+    </div>
+  </div>
+ </c-row>
 
   <c-col md="5">
     <select cSelect id="validationCustom04"  (change)="onSelectedValue($event)" >
@@ -112,26 +148,28 @@
     </select>
     <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
   </c-col>
+  
+  
   <c-col md="4">
     <!-- <input formControlName="environmentType"  required type="text" readonly="true" [value]="selectedValueType" [hidden]="!isEdit"/> -->
     <input formControlName="environmentType"   touched type="text" readonly="true" [hidden]="!isEdit" required/>
     <div class="alert alert-danger" *ngIf="isEnvironmentTypeInvalid">
-      <div *ngIf="environmentType?.hasError('required')">
+      <div *ngIf="recurrencia?.hasError('required')">
        La recurrencia es requerida
       </div>
     </div>
     <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
-  </c-col>
+  </c-col> 
 
 
-
-</c-row>
+  <button cButton color="primary" size="lg" [disabled]= "" (click)="getInfo()">
+    Consultar Ambientes disponibles
+  </button>
 
  <br>
  <div class="d-grid gap-2 ">
-   <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="form.invalid" (click)="showResource()">Consultar disponibiliad de ambientes</button>
  </div>
-
+</div>
  <c-col xs="12">
   <c-card class="mb-4">
     <c-card-header>
@@ -162,21 +200,24 @@
 
       <!-- Tabla para visualizar los ambientes -->
 
+     
 
       <table cTable [responsive]="true">
         <thead cTableColor="primary">
         <tr>
-          <th *ngFor="let c of columns">{{c}} </th>
+          <th *ngFor="let c of columnsEnvironments">{{c}} </th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let ambiente of environments">
           <td>{{ambiente.id}} </td>
-          <td>{{ambiente.environmentType}} </td>
-          <td>{{ambiente.name}} </td>
-          <td>{{ambiente.location}}</td>
-          <td>{{ambiente.capacity}} </td>
-          <td>{{ambiente.facultyId}} </td>
+            <td>{{ambiente.environmentType}} </td>
+            <td>{{ambiente.name}} </td>
+            <td>{{ambiente.location}}</td>
+            <td>{{ambiente.capacity}} </td>
+            <td>{{ambiente.facultyId}} </td>
+         
+
           <td>
             <!-- <a [routerLink]="['../edit',ambiente.id]">
 
@@ -207,6 +248,8 @@
     </c-card-body>
   </c-card>
 </c-col>
-
+<button cButton color="primary" size="lg" [disabled]= "" (click)="getInfo()">
+  Guardar este Evento
+</button>
 
 </form>

@@ -14,14 +14,20 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
 })
 export class ScheduleReserveCreateComponent {
 
+  reserveEnvironments:reserveEnvironment[]=[];
+  columns:string[]=['Tipo de evento','nombre','Nombre del encargado',
+  'Cedula del encargado','Descripcion','Fecha Inicio','Recurrencia','Hora Inicio','Hora Fin'];
   environments:Environment[]=[];
-  columns:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Opciones'];
-  environmentTypesTabla:string[]=[];
+  columnsEnvironments:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Opciones'];
+  reserveEnvironmentTypesTabla:string[]=[];
+  reserveEnvironmentTypeTabla!: string ;
+  ennvironmentTypesTabla:string[]=[];
   environmentTypeTabla!: string ;
   isTypeSelected:boolean=false
   totalItems:number=0;
   totalNumberPage:number=1;
   pageSize:number=0;
+  
 
   form!: FormGroup;
   //si vamos a editar un ambiente el input de ese id deberia ser readonly=true osea is edit=true
@@ -29,9 +35,9 @@ export class ScheduleReserveCreateComponent {
 
   //obtener el ambiente cuando me llega de edit
 
-  @Input('environment')environment!:Environment;
+  //@Input('environment')environment!:Environment;
 
-  //@Input('environment')environment!:reserveEnvironment;
+  @Input('environment')environment!:reserveEnvironment;
 
   @Input('isSent') isSent!:boolean;
   //obtener el ambiente del form cuando lo va a crear
@@ -42,12 +48,12 @@ export class ScheduleReserveCreateComponent {
 
   //emitir al padre el abiente creado en el emmiter form
 
-  @Output()emitterForm= new EventEmitter<Environment>();
+  //@Output()emitterForm= new EventEmitter<Environment>();
 
-  //@Output()emitterForm= new EventEmitter<reserveEnvironment>();
+  @Output()emitterForm= new EventEmitter<reserveEnvironment>();
 
   //variable para recolectar info del formulario
-  /*formEnvironment:reserveEnvironment={
+  formEnvironment:reserveEnvironment={
     'availableResources':[],
 
     'tipoEvento':"",
@@ -57,11 +63,11 @@ export class ScheduleReserveCreateComponent {
     'recurrencia':"",
     'descripcion':"",
     'fechaInicio':'12-1-23',
-    'horaInicio': ,
-    'horaFin':
+    'horaInicio': '12-1-23',
+    'horaFin': "00:00"
 
-  };*/
-
+  };
+/*
   formEnvironment:Environment={
     'id':0,
     'name':'',
@@ -71,7 +77,7 @@ export class ScheduleReserveCreateComponent {
     'facultyId':'',
     'availableResources':[]
   };
-
+*/
   environmentTypes:string[]=[]
   eventTypes:string[]=[]
   recurrenciaTypes:string[]=[]
@@ -101,30 +107,36 @@ export class ScheduleReserveCreateComponent {
     // this.fillForm();
 
   }
-  private fillForm(environment:Environment){
+  private fillForm(reserveEnvironment:reserveEnvironment){
 
     if(this.isEdit==true){
 
       const environmentFill={
-        'id' :environment.id,
-        'name':environment.name,
-        'location':environment.location,
-        'capacity':environment.capacity,
-        'environmentType':environment.environmentType,
-        'faculty':environment.facultyId
+        'tipoEvento' :reserveEnvironment.tipoEvento,
+        'eventName' :reserveEnvironment.nombreEvento,
+        'eventEncargado' :reserveEnvironment.nombreEncargado,
+        'cedulaEncargado' :reserveEnvironment.cedulaEncargado,
+        'descripcion' :reserveEnvironment.descripcion,
+        'fechaInicio' :reserveEnvironment.fechaInicio,
+        'recurrencia' :reserveEnvironment.recurrencia,
+        'horaInicio' :reserveEnvironment.horaInicio,
+        'horaFin' :reserveEnvironment.horaFin
       }
-      console.log("name en fill ",environmentFill.name)
+      console.log("name en fill ",environmentFill.eventName)
       this.form.patchValue(environmentFill);
     }
   }
   private buildForm(){
     this.form = this.formBuilder.group({
-      id: ['', []],
-      name: ['', [Validators.required]],
-      location: ['',[Validators.required]],
-      capacity: ['', [Validators.required, Validators.min(2)]],
-      environmentType: ['', [Validators.required]],
-      faculty:['',[Validators.required]],
+      tipoEvento: ['', []],
+      eventName: ['', [Validators.required]],
+      eventEncargado: ['',[Validators.required]],
+      cedulaEncargado: ['',[Validators.required]],
+      descripcion: ['',[Validators.required]],
+      fechaInicio: ['',[Validators.required]],
+      recurrencia:['',[Validators.required]],
+      horaInicio: ['',[Validators.required]],
+      horaFin: ['',[Validators.required]]
     });
   }
 
@@ -137,7 +149,7 @@ export class ScheduleReserveCreateComponent {
     this.form.controls['faculty'].setValue((event.target as HTMLInputElement).value);
   }
 
-
+ /*
   setValues(){
     // console.log("entra a set values ")
     this.formEnvironment.id=this.form.get('id')?.value;
@@ -151,6 +163,20 @@ export class ScheduleReserveCreateComponent {
 
 
   }
+  */
+ setValues(){
+  // console.log("entra a set values ")
+  this.formEnvironment.tipoEvento = this.form.get('tipoEvento')?.value;
+  this.formEnvironment.nombreEvento = this.form.get('eventName')?.value;
+  this.formEnvironment.nombreEncargado = this.form.get('eventEncargado')?.value;
+  this.formEnvironment.cedulaEncargado = this.form.get('cedulaEncargado')?.value;
+  this.formEnvironment.descripcion = this.form.get('descripcion')?.value;
+  this.formEnvironment.fechaInicio = this.form.get('fechaInicio')?.value;
+  this.formEnvironment.recurrencia = this.form.get('recurrencia')?.value;
+  this.formEnvironment.horaInicio = this.form.get('horaInicio')?.value;
+  this.formEnvironment.horaFin = this.form.get('horaFin')?.value;
+
+ }
   showResource(){
     this.setValues();
     this.showAddResource.emit(true);
@@ -172,7 +198,18 @@ export class ScheduleReserveCreateComponent {
     }
 
   }
+  /*
+  updateTableEnvironments(type:string){
 
+    if(type == 'all'){
+      this.isTypeSelected=false
+    }else{
+      this.isTypeSelected=true
+      this.reserveEnvironmentTypeTabla=type
+    }
+    this.loadTableEnvironments([1,5])
+  }
+  */
   updateTableEnvironments(type:string){
 
     if(type == 'all'){
@@ -184,7 +221,8 @@ export class ScheduleReserveCreateComponent {
     this.loadTableEnvironments([1,5])
 
   }
-
+  
+/*
   loadTableEnvironments(args: number[]) {
     //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
     //this.http.get(this.endPoint+`?page=${page}&size=${this.itemsPerPage}`)
@@ -199,15 +237,15 @@ export class ScheduleReserveCreateComponent {
     if(!this.isTypeSelected){
       this.environmentService.getAllEnvironmentsPage(pageSolicitud,pageSize).subscribe((response) =>{
 
-        this.environments = response.data.elements as Environment[]
+        this.reserveEnvironments = response.data.elements as reserveEnvironment[]
         this.totalItems=response.data.pagination.totalNumberElements as number
         this.totalNumberPage=response.data.pagination.totalNumberPage as number
 
       });
     }else{
-      this.environmentService.getAllEnvironmentsByEnvironmentTypePage(this.environmentTypeTabla,pageSolicitud,pageSize).subscribe(response =>{
+      this.environmentService.getAllEnvironmentsByEnvironmentTypePage(this.reserveEnvironmentTypeTabla,pageSolicitud,pageSize).subscribe(response =>{
         console.log("Data en load Type: ",response)
-        this.environments=response.data.elements as Environment[]
+        this.reserveEnvironments=response.data.elements as reserveEnvironment[]
         this.totalItems=response.data.pagination.totalNumberElements as number
         this.totalNumberPage=response.data.pagination.totalNumberPage as number
 
@@ -216,35 +254,130 @@ export class ScheduleReserveCreateComponent {
     }
 
   }
+*/
 
-  get name(){
-    return this.form.get("name")
+loadTableEnvironments(args: number[]) {
+  //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
+  //this.http.get(this.endPoint+`?page=${page}&size=${this.itemsPerPage}`)
+  let pageSolicitud:number = args[0];
+  let pageSize: number = args[1]
+    if(!pageSolicitud){
+      pageSolicitud = 0;
+    }
+    if(!pageSize){
+      pageSize=10
+    }
+  if(!this.isTypeSelected){
+    this.environmentService.getAllEnvironmentsPage(pageSolicitud,pageSize).subscribe((response) =>{
+
+      this.environments = response.data.elements as Environment[]
+      this.totalItems=response.data.pagination.totalNumberElements as number
+      this.totalNumberPage=response.data.pagination.totalNumberPage as number
+
+    });
+  }else{
+    this.environmentService.getAllEnvironmentsByEnvironmentTypePage(this.environmentTypeTabla,pageSolicitud,pageSize).subscribe(response =>{
+      console.log("Data en load Type: ",response)
+      this.environments=response.data.elements as Environment[]
+      this.totalItems=response.data.pagination.totalNumberElements as number
+      this.totalNumberPage=response.data.pagination.totalNumberPage as number
+
+
+    })
   }
-  get location(){
-    return this.form.get("location")
+
+}
+
+  get tipoEvento(){
+    return this.form.get("tipoEvento")
   }
-  get capacity(){
-    return this.form.get("capacity");
+  get eventName(){
+    return this.form.get("eventName")
   }
-  get environmentType(){
-    return this.form.get("environmentType")
+  get eventEncargado(){
+    return this.form.get("eventEncargado");
   }
-  get faculty(){
-    return this.form.get("faculty")
+  get cedulaEncargado(){
+    return this.form.get("cedulaEncargado")
   }
-  get isNameInvalid(){
-    return  this.name?.touched && this.name?.invalid
+  get descripcion(){
+    return this.form.get("descripcion")
   }
-  get isLocationInvalid(){
-    return  this.location?.touched && this.location?.invalid
+
+  get fechaInicio(){
+    return this.form.get("fechaInicio")
   }
-  get isCapacityInvalid(){
-    return  this.capacity?.touched && this.capacity?.invalid
+
+  get fechaFin(){
+    return this.form.get("fechaFin")
   }
+
+  get horaInicio(){
+    return this.form.get("horaInicio")
+  }
+
+  get horaFin(){
+    return this.form.get("horaFin")
+  }
+  
+  get recurrencia(){
+    return this.form.get("recurrencia")
+  }
+
+  getInfo(){
+    this
+  }
+
+  get isEventNameInvalid(){
+    return  this.eventName?.touched && this.eventName?.invalid
+  }
+  get isTipoEventoInvalid(){
+    return  this.tipoEvento?.touched && this.tipoEvento?.invalid
+  }
+  get isEventEncargadoInvalid(){
+    return  this.eventEncargado?.touched && this.eventEncargado?.invalid
+  }
+  get isCedulaEncargadoInvalid(){
+    return  this.cedulaEncargado?.touched && this.cedulaEncargado?.invalid
+  }
+  get isDescripcionInvalid(){
+    return  this.descripcion?.touched && this.descripcion?.invalid
+  }
+  get isFechaInicioInvalid(){
+    return  this.fechaInicio?.touched && this.fechaInicio?.invalid
+  }
+
+  get isFechaFinInvalid(){
+    return  this.fechaFin?.touched && this.fechaFin?.invalid
+  }
+
+  get isHoraInicioInvalid(){
+    return this.horaInicio?.touched && this.horaInicio?.invalid
+  }
+
+  get isHoraFinInvalid(){
+    return this.horaFin?.touched && this.horaFin?.invalid
+  }
+
+  get isRecurrenciaInvalid(){
+    return this.recurrencia?.touched && this.recurrencia?.invalid
+  }
+
+  
   get isEnvironmentTypeInvalid(){
-    return  this.environmentType?.touched && this.environmentType?.invalid
+    return this.recurrencia?.touched && this.recurrencia?.invalid
   }
-  get isFacultyInvalid(){
-    return  this.faculty?.touched && this.faculty?.invalid
+
+ 
+
+  get materiaSelected(){
+    return this.tipoEvento?.value == "Academico"
   }
+  get eventoSelected(){
+    return this.tipoEvento?.value == "Administrativo"
+  }
+
+  
+
+
 }

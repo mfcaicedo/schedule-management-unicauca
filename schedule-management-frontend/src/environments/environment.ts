@@ -9,7 +9,8 @@ export const environment = {
     urlCrs: 'http://localhost:8081/api/course',
     urlEnv: 'http://localhost:8081/api/environment',
     urlAuth: 'http://localhost:8081/api/auth', 
-    urlAcadOffer: 'http://localhost:8081/api/academicOffer', 
+    urlAcadOffer: 'http://localhost:8081/api/academicOffer',
+    urlReserve : 'http://localhost:8081/api/reserveEnvironment'
 };
 
 /*
