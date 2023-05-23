@@ -11,6 +11,8 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class FileRowEnvironment {
+
+    private Integer rowNum;
     private String name;
     private String location;
     private Integer capacity;

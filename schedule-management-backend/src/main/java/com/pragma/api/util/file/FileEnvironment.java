@@ -67,45 +67,125 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
     @Override
     public FileRowEnvironment convertCellsToFileRow(List<Cell> cells) {
 
-        FileRowEnvironment fileRow = new FileRowEnvironment();
-
-
+        FileRowEnvironment fileRow = new FileRowEnvironment(-1,"","",-1,"","","",new ArrayList<>());
         //if (!verifyCellEmpty(cells)) {
 
 
-            fileRow.setName(cells.get(0).getStringCellValue());
-            fileRow.setLocation(cells.get(1).getStringCellValue());
-            //OJOOOOOOOO
+        if (cells.size() > 0 && cells.get(0) != null) {
+            if (cells.get(0).getCellType().equals(CellType.STRING)) {
+                String name = cells.get(0).getStringCellValue().trim();
+                if (name.length() > 0) {
+                    fileRow.setRowNum(cells.get(0).getRowIndex());
+                    fileRow.setName(name.toUpperCase());
+                }
+            }
+        }
+            /*if(cells.get(0)==null){
+                fileRow.setName("");
+                System.out.println("-----Entra aqui vacio nombre");
+            }else{
+                fileRow.setName(cells.get(0).getStringCellValue());
+            }*/
+        if (cells.size() > 1 && cells.get(1) != null) {
+            if (cells.get(1).getCellType().equals(CellType.STRING)) {
+                String location = cells.get(1).getStringCellValue().trim();
+                if (location.length() > 0) {
+                    fileRow.setRowNum(cells.get(1).getRowIndex());
+                    fileRow.setLocation(location.toUpperCase());
+                }
+            }
+        }
+            /*if(cells.get(1)==null){
+                fileRow.setLocation("");
+                System.out.println("-----Entra aqui vacio ubicacion");
+            }else{
+                fileRow.setLocation(cells.get(1).getStringCellValue());
+            }*/
 
-          if (!cells.get(2).getCellType().equals(CellType.NUMERIC)) {
-              fileRow.setCapacity(null);
+        if (cells.size() > 2 && cells.get(2) != null) {
+            if (cells.get(2).getCellType().equals(CellType.NUMERIC)) {
+                fileRow.setRowNum(cells.get(2).getRowIndex());
+                fileRow.setCapacity((int) cells.get(2).getNumericCellValue());
+            } else {
+                fileRow.setCapacity(-2);
+            }
+        }
+
+          /*if (!cells.get(2).getCellType().equals(CellType.NUMERIC)) {
+              fileRow.setCapacity(0);
            } else {
             fileRow.setCapacity((int) cells.get(2).getNumericCellValue());
-           }
-            fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
-            fileRow.setFaculty(cells.get(4).getStringCellValue());
+           }*/
 
-            if(!(cells.get(5) == null)){
+        if (cells.size() > 3 && cells.get(3) != null) {
+            if (cells.get(3).getCellType().equals(CellType.STRING)) {
+                String environmentType = cells.get(3).getStringCellValue().trim();
+                if (environmentType.length() > 0) {
+                    fileRow.setRowNum(cells.get(3).getRowIndex());
+                    fileRow.setEnvironmentType(environmentType.toUpperCase());
+                }
+            }
+        }
+
+          //fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
+
+        if (cells.size() > 4 && cells.get(4) != null) {
+            if (cells.get(4).getCellType().equals(CellType.STRING)) {
+                String faculty = cells.get(4).getStringCellValue().trim();
+                if (faculty.length() > 0) {
+                    fileRow.setRowNum(cells.get(4).getRowIndex());
+                    fileRow.setFaculty(faculty.toUpperCase());
+                }
+            }
+        }
+
+          //fileRow.setFaculty(cells.get(4).getStringCellValue());
+
+        if (cells.size() > 5 && cells.get(5) != null) {
+            if (cells.get(5).getCellType().equals(CellType.STRING)) {
+                String availableResources = cells.get(5).getStringCellValue().trim();
+                if (availableResources.length() > 0) {
+                    fileRow.setRowNum(cells.get(5).getRowIndex());
+                    fileRow.setAvailableResources(availableResources.toUpperCase());
+                }
+            }
+        }
+
+
+            /*if(!(cells.get(5) == null)){
                 fileRow.setAvailableResources(cells.get(5).getStringCellValue());
             }else{
 
                 fileRow.setAvailableResources(null);
-            }
-
-            if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))){
-                String lista = cells.get(6).getStringCellValue();
-                String[] lista2 = lista.split(",");
-                List<Integer> listaint = new ArrayList<>();
-                for (int i = 0; i < lista2.length; i++) {
-                    listaint.add(Integer.parseInt(lista2[i]));
+            }*/
+            if(cells.size() > 6 && cells.get(6) != null){
+                //String Cant = cells.get(6).toString();
+                if(cells.get(6).getCellType() == CellType.NUMERIC){
+                    int onequantity = Double.valueOf(cells.get(6).toString()).intValue();
+                    List<Integer> listaint = new ArrayList<>();
+                    listaint.add(onequantity);
+                    //for one
+                    fileRow.setQuantity(listaint);
+                }else if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))) {
+                    String lista = cells.get(6).getStringCellValue();
+                    String[] lista2 = lista.split(",");
+                    List<Integer> listaint = new ArrayList<>();
+                    //para varios
+                    for (int i = 0; i < lista2.length; i++) {
+                        listaint.add(Integer.parseInt(lista2[i]));
+                    }
+                    fileRow.setQuantity(listaint);
+                }else if(cells.get(6).getStringCellValue().equals("no aplica")){
+                    fileRow.setQuantity(new ArrayList<>());
                 }
 
-                fileRow.setQuantity(listaint);
-
-
+                //}else if(cells.get(6).toString().length()==0){
             }else{
-                fileRow.setAvailableResources(null);
+                fileRow.setQuantity(null);
             }
+
+
+
 
             //if(!(cells.get(6)==null)){
 

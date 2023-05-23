@@ -52,6 +52,7 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
 //        System.out.println("COLUMNA 1: ." + cells.get(0) + ".");
         FileRowSubject fileRow = new FileRowSubject(-1, "", "", -1, "", -1, "");
         fileRow.setProgramCode(this.programCode);
+
         if (cells.size() > 0 && cells.get(0) != null) {
             if (cells.get(0).getCellType().equals(CellType.STRING)) {
                 String subjectCode = cells.get(0).getStringCellValue().trim();
