@@ -1,10 +1,7 @@
 package com.pragma.api.controllers;
 
+import com.pragma.api.domain.*;
 import com.pragma.api.services.IEnvironmentService;
-import com.pragma.api.domain.EnvironmentDTO;
-import com.pragma.api.domain.GenericPageableResponse;
-import com.pragma.api.domain.ResourceList;
-import com.pragma.api.domain.Response;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.services.IFileEnvironmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,9 +36,10 @@ public class EnvironmentController {
         return this.environmentService.createEnvironment(environmentDTO);
     }
     @PostMapping("/uploadFile")
-    ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.fileEnvironmentService.uploadFile(file), HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH, produces = "application/json")
     @ResponseBody

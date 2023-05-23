@@ -74,18 +74,35 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Profesores',
+    name: 'Docentes',
     url: '/teacher',
     iconComponent: { name: 'cil-people' },
     children: [
       {
-        name: 'Cargar profesores',
+        name: 'Cargar docentes',
         url: '/teacher/upload-teacher',
         iconComponent: { name: 'cilCloudUpload' }
       },
       {
-        name: 'Ver profesores',
+        name: 'Ver docentes',
         url: '/teacher/all',
+        iconComponent: { name: 'cilMagnifyingGlass' }
+      },
+    ]
+  },
+  {
+    name: 'Asignaturas',
+    url: '/subject',
+    iconComponent: { name: 'cilNotes' },
+    children: [
+      {
+        name: 'Cargar asignaturas',
+        url: '/subject/upload-sub',
+        iconComponent: { name: 'cilCloudUpload' }
+      },
+      {
+        name: 'Ver asignaturas',
+        url: '/subject/all',
         iconComponent: { name: 'cilMagnifyingGlass' }
       },
     ]
