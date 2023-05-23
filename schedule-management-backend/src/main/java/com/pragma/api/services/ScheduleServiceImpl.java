@@ -82,14 +82,21 @@ public class ScheduleServiceImpl implements IScheduleService {
             throw new ScheduleBadRequestException("bad.request.schedule.hours", courseDb.getId().toString());
         Schedule requestSchedule = Schedule
                 .builder()
+                .startingDate(saveRequest.getStartinDate())
+                .endingDate(saveRequest.getEndingDate())
                 .startingTime(saveRequest.getStartingTime())
                 .endingTime(saveRequest.getEndingTime())
+                .isReserve(saveRequest.isReserv())
                 .day(saveRequest.getDay())
                 .build();
         requestSchedule.setEnvironment(environmentOptRequest.get());
         requestSchedule.setCourse(courseDb);
         courseDb.setRemainingHours((courseDb.getRemainingHours() - differenceHours));
         this.courseRepository.save(courseDb);
+        if(saveRequest.isReserv()){
+            requestSchedule.setEvent(eventOptRequest.get());
+        }
+        
         return modelMapper.map(this.scheduleRepository.save(requestSchedule), ScheduleResponseDTO.class);
     }
 
@@ -103,6 +110,7 @@ public class ScheduleServiceImpl implements IScheduleService {
         Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
         if (scheduleOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
+        
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
         if (courseOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
@@ -145,12 +153,17 @@ public class ScheduleServiceImpl implements IScheduleService {
             Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
             if (scheduleOptRequest.isEmpty())
                 throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
-            Course courseDb = scheduleOptRequest.get().getCourse();
-            int differenceHours = (int) getDifferenceHours(scheduleOptRequest.get().getStartingTime(),
-                    scheduleOptRequest.get().getEndingTime());
-            courseDb.setRemainingHours((courseDb.getRemainingHours() + differenceHours));
+            Course courseDb2 = null;
+            if(!scheduleOptRequest.get().isReserve()){
+                Course courseDb = scheduleOptRequest.get().getCourse();
+                int differenceHours = (int) getDifferenceHours(scheduleOptRequest.get().getStartingTime(),
+                      scheduleOptRequest.get().getEndingTime());
+                courseDb.setRemainingHours((courseDb.getRemainingHours() + differenceHours));
+                courseDb2=courseDb;
+            }
             this.scheduleRepository.deleteById(code);
-            this.courseRepository.save(courseDb);
+            if(!scheduleOptRequest.get().isReserve())
+             this.courseRepository.save(courseDb2);
             return true;
         } catch (Exception e) {
             throw new ScheduleIntegrityException(e.getMessage(), "");
