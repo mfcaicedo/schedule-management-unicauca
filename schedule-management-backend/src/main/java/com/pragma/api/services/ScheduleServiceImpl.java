@@ -27,6 +27,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Null;
+
 @Service
 public class ScheduleServiceImpl implements IScheduleService{
 
@@ -134,10 +136,10 @@ public class ScheduleServiceImpl implements IScheduleService{
             throw new ScheduleIntegrityException(e.getMessage(),"");
         }
     }
-
+/* 
     @Override
     public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
-        Optional<Environment> environmentRequest = this.environmentRepository.findById(environmentId);
+        /*Optional<Environment> environmentRequest = this.environmentRepository.findById(environmentId);
         if(environmentRequest.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.id", environmentId.toString());
         List<Schedule> schedules = this.scheduleRepository.findAllByEnvironment(environmentRequest.get());
         return schedules.stream()
@@ -148,8 +150,9 @@ public class ScheduleServiceImpl implements IScheduleService{
                     scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                     return scheduleResponseDTO;
                 })
-                .collect(Collectors.toList());
-    }
+                .collect(Collectors.toList());*/
+    //            return ;
+  //  }
 
     /**
      *
@@ -193,11 +196,18 @@ public class ScheduleServiceImpl implements IScheduleService{
         List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,new TypeToken<List<ScheduleResponseDTO>>() {}.getType());
         Response<List<ScheduleResponseDTO>> response = new Response<>();
         response.setStatus(200);
-        response.setUserMessage("List of buildings Finded successfully");
-        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setUserMessage("List of schedules Finded successfully");
+        response.setDeveloperMessage("List of schedules Finded successfully");
         response.setMoreInfo("localhost:8081/api/schedule(toDO)");
         response.setErrorCode("");
         response.setData(ScheduleDTOlist);
         return response;
+    }
+
+
+    @Override
+    public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getAllByEnvironment'");
     }
 }
