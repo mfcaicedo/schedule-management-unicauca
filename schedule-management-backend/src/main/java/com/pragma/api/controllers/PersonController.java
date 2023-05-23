@@ -1,4 +1,8 @@
 package com.pragma.api.controllers;
+
+import com.pragma.api.domain.Response;
+import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.services.IFileEnvironmentService;
 import com.pragma.api.services.IPersonService;
@@ -44,6 +48,13 @@ public class PersonController {
         //return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
         //return this.fileTeachersService.uploadFile(file);
         return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
+    }
+
+    @GetMapping("/byPersonType")
+    public Response<GenericPageableResponse> findAllByPersonType(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String personType){
+        System.out.println("al menos llega aqui al servicio");
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
+        return this.iPersonService.findAllByPersonType(pageable, personType);
     }
 
 }
