@@ -10,7 +10,8 @@ export const environment = {
   urlEnv: 'http://localhost:8081/api/environment',
   urlAuth: 'http://localhost:8081/api/auth',
   urlAcadOffer: 'http://localhost:8081/api/academicOffer',
-  urlPerson: 'http://localhost:8081/api/person', //acomodar
+  urlPerson: 'http://localhost:8081/api/person',
+  urlSub: 'http://localhost:8081/api/subject',
 };
 
 /*

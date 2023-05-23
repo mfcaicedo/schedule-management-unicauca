@@ -95,7 +95,8 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     PaginationModule, 
-    NgxSpinnerModule
+    NgxSpinnerModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[

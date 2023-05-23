@@ -1,9 +1,11 @@
 import { Component, OnInit,Input} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
 
 import {Environment} from 'src/app/models/environment.model'
 import {EnvironmentService} from 'src/app/services/environment/environment.service'
+import Swal from 'sweetalert2';
+
 import { HttpClient } from '@angular/common/http';
 import { ignoreElements } from 'rxjs';
 
@@ -32,6 +34,7 @@ export class EnvironmentsComponent {
 
   constructor(
     private environmentService : EnvironmentService,
+    private routeNav : Router,
     private route : ActivatedRoute
   ) { }
   ngOnInit(): void {
@@ -67,6 +70,16 @@ export class EnvironmentsComponent {
     }
     this.loadTableEnvironments([1,5])
 
+  }
+
+  onDeleteEnvironment(environmentId:number){
+    console.log("entra a eliminar")
+    this.environmentService.deleteEnvironment(environmentId).subscribe(() => 
+    //   Swal.fire('Ambiente eliminado',
+    // `El ambiente : ${environmentId}  \nfue eliminado exitosamente`, 'success')
+    this.routeNav.navigate(['//environment/all'])
+    )
+    //this.routeNav.navigate(['//environment/all'])
   }
 
   // aqui viene el numero de pagina solicitada y el tamaño que debe tener
