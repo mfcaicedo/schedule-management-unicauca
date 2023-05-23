@@ -67,6 +67,8 @@ public interface IEnvironmentService {
 
     public Response<GenericPageableResponse> findAllByEnvironmentType(Pageable pageable, EnvironmentTypeEnumeration environmentType);
 
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(EnvironmentTypeEnumeration environmentType, Integer parentId);
+
     Environment findById(final Integer id);
 
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
@@ -77,5 +79,6 @@ public interface IEnvironmentService {
 
     //Metodo para realizar el listado de ambientes y que pueden ser seleccionados por su tipo
     public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId);
+
 
 }

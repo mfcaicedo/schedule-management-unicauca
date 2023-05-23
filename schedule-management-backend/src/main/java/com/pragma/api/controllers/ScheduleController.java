@@ -1,6 +1,7 @@
 package com.pragma.api.controllers;
 
 import com.pragma.api.services.IScheduleService;
+import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ScheduleController {
         return ResponseEntity.ok(this.scheduleService.saveSchedule(scheduleRequest));
     }
 
-    @GetMapping
+    @GetMapping("/byEnvironment")
     public ResponseEntity<List<ScheduleResponseDTO>> getAllByEnvironment(@RequestParam Integer environmentId) {
         return ResponseEntity.ok(this.scheduleService.getAllByEnvironment(environmentId));
     }
@@ -50,6 +51,15 @@ public class ScheduleController {
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.scheduleService.getScheduleById(id));
+    }
+
+    //Consulta para buscar los calendarios en los que aparezca un salon en concreto
+    @GetMapping("/byEnviId")
+    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(@RequestParam Integer environmentId){
+    //Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
+    //return this.environmentService.findAllByTypeAndParentId(EnvironmentTypeEnumeration.LABORATORIO, parentId);
+        //System.out.println("AQUUIIIIIIIIIIIIIIIIIIIIIIIIIII"+environmentId);
+        return this.scheduleService.findAllByEnvironmentId(environmentId);
     }
 
 }

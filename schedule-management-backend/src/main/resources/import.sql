@@ -110,7 +110,8 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 
 
---resource event
+--resource event 
+>>>>>>> origin/grupo-4-backend-wcaicedo-acuatindioy-mlopez
 INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `program_id`, `teacher_code`)VALUES ('2', 'conferencia', 'conferencia', 'conferenciado', 'conferenciaa', 'PIS', '1061');
 --resource Schedule
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES ('1', 'Lunes', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:19:18', '1', '25', '1');
