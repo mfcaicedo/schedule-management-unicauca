@@ -9,7 +9,7 @@ INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES (
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-orange');
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-orange');
 --Person
-INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1061', 'DANIEL PAZ', '1');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1061', 'DANIEL PAZ', '1', 'TEACHER');
 INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1','TEACHER');
 INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1063', 'MARTIN ALONSO MUÑOZ MEDINA', '1','TEACHER');
 INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1064', 'JUAN CARLOS NARVAEZ NARVAEZ', '1','TEACHER');
@@ -102,7 +102,7 @@ INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'T
 INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'Computador', 'TECNOLOGICO');
 
 --Resource environment
-INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
+--INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
 
 
 --resource course
@@ -113,4 +113,3 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
-

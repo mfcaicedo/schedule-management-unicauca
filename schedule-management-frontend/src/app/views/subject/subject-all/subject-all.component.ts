@@ -9,7 +9,7 @@ import { SubjectService } from 'src/app/services/subject/subject.service';
 })
 export class SubjectAllComponent implements OnInit {
 
-  columns:string[]=['Código','Nombre','Semestre','Tiempo del bloque', 'Horas semanales'];
+  columns:string[]=['Código','Nombre','Semestre','En Bloque', 'Horas semanales'];
   subjects:Subject[]=[];
   programs:string[]=[]
   totalItems:number=1
