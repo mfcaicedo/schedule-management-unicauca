@@ -1,28 +1,34 @@
 <c-card>
   <c-card-header>
-    <strong class="titulo">Profesores</strong>
+    <strong class="titulo">Docentes</strong>
   </c-card-header>
 
   <c-card-body>
     <div class="container">
       <div class="centrado">
-        <h5>Cargar Profesores al sistema </h5>
-        <div class="drop-container">
-          <label for="file-environment">
-            <span class="btn-upload-file">
-              <i class="cilCloudUpload"></i>
-              <svg cIcon name="cilCloudUpload" size="xl"></svg>
-              Cargar archivo
-            </span>
-            <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
-              (change)="onUpload($event)" required>
-          </label>
-        </div>
-      </div>
+        <h5>Cargar Docentes al sistema </h5>
+          <div class="drop-container" appDirectiveDropFile (fileDropped)="onUpload($event)">
+            <!-- <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowseHandler($event.target.files)" /> -->
+
+            <img src="assets/img/svg/ic-upload-file.svg" alt="">
+            <h3>Arrastrar y soltar el archivo aquí</h3>
+            <br>
+            <label for="file-environment">
+              <span class="btn-upload-file">
+                <i class="cilCloudUpload"></i>
+                <svg cIcon name="cilCloudUpload" size="xl"></svg>
+                Cargar archivo
+              </span>
+              <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                (change)="onUpload($event)" required>
+            </label>
+          </div>
+        </div> 
+       
       <!-- Snipper -->
       <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
         <p style="color: white">
-          Cargando profesores...
+          Cargando Docentes...
         </p>
       </ngx-spinner>
 

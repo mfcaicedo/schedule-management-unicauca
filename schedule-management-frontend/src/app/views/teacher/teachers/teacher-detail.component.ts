@@ -20,16 +20,17 @@ export class TeachersComponent {
   person: Person[] = [];
   columns: string[] = ['código', 'Nombre completo', 'Departamento'];
   //REVISAR
-  environmentTypes: string[] = [];
-  environmentType!: string;
+  personTypes: string[] = [];
+  personType: string = 'TEACHER';
+  departmentIds: string[] = [];
+  departmentId!: string;
   isTypeSelected: boolean = false
-  //
+
+  // personType!: string;
   totalItems: number = 0;
   totalNumberPage: number = 1;
   pageSize: number = 0;
-  departmentName: String = '';
-  personType: string = 'TEACHER';
-
+  // departmentName: String = '';
 
   @Input('fromResource') fromResource: boolean = false;
   @Input('resourceId') resourceId: number = 0;
@@ -41,7 +42,7 @@ export class TeachersComponent {
   ngOnInit(): void {
     //llamado del servicio para obtener los docentes
     this.teacherService.getAllPersonByPersonTypePage(this.personType, 1, 5).subscribe(response => {
-      
+
       //guardo los datos de la respuesta en el arreglo de docentes
       this.person = response.data.elements as Person[]
       this.totalItems = response.pagination.totalNumberElements as number
@@ -49,21 +50,23 @@ export class TeachersComponent {
       this.pageSize = response.pagination.size as number
 
     })
+    //TODO todos  los departamentos
+    this.departmentIds = this.teacherService.getDepartmentsName();
   }
 
   //Aquí se debe modificar para poder hacer el filtro por departamento ----> REVISAR
   /**
    * Metodo que actualiza la tabla de docentes cuando se selecciona un departamento
-   * @param departmentId id del departamento seleccionado (PUEDES USAR EL ID PARA HACER EL FILTRO O 
-   *                     PUEDES USAR EL NOMBRE DEL DEPARTAMENTO)--> Lo que te sea mas facil 
+   *  id del departamento seleccionado (PUEDES USAR EL ID PARA HACER EL FILTRO O
+   *                     PUEDES USAR EL NOMBRE DEL DEPARTAMENTO)--> Lo que te sea mas facil
    */
   updateTableTeachers(departmentId: string) {
 
     if (departmentId == 'all') { //esta validación es para cuando no se filtra por departamento, lo lo tanto muestra todos los docentes
-      this.isTypeSelected = false //Esta variable debe llamarse por ejemplo isDepartmentSelected 
+      this.isTypeSelected = false //Esta variable debe llamarse por ejemplo isDepartmentSelected
     } else {
       this.isTypeSelected = true  //Esto es necesario porque establece que se está haciendo un filtro por departamento
-      // this.environmentType = type // dedes asignar el id del departamento o el nombre del departamento aquí
+      this.departmentId = departmentId // this.environmentType = type // dedes asignar el id del departamento o el nombre del departamento aquí
     }
     this.loadTableTeachers([1, 5]) //este metodo carga la tabla de docentes, se le está pasando los argumentos de paginación
   }
@@ -84,9 +87,16 @@ export class TeachersComponent {
       pageSize = 10
     }
 
-    else {
-
+    if (!this.isTypeSelected) {
       this.teacherService.getAllPersonByPersonTypePage(this.personType, pageSolicitud, pageSize).subscribe((response) => {
+        this.person = response.data.elements as Person[]
+        this.totalItems = response.data.pagination.totalNumberElements as number
+        this.totalNumberPage = response.data.pagination.totalNumberPage as number
+
+      });
+    } else {
+
+      this.teacherService.findAllByDepartmetId(this.departmentId, pageSolicitud, pageSize).subscribe((response) => {
         this.person = response.data.elements as Person[]
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number

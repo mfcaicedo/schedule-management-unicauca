@@ -53,6 +53,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import {TokenInterceptor} from 'src/app/interceptors/token.interceptor'
 import { InterceptorService } from './services/spinner/interceptor.service';
+import { DirectiveDropFileDirective } from './directives/directive-drop-file.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
@@ -65,7 +66,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS],
+  declarations: [AppComponent, ...APP_CONTAINERS, DirectiveDropFileDirective],
   imports: [
     HttpClientModule,
     BrowserModule,
