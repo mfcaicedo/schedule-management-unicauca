@@ -2,8 +2,10 @@ import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, 
 import { ActivatedRoute } from '@angular/router';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
+import { Schedule } from 'src/app/models/schedule.model';
 import {FacultyService} from 'src/app/services/Faculty/faculty.service'
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
+import { ScheduleService } from 'src/app/services/schedule/schedule.service';
 
 @Component({
   selector: 'app-room',
@@ -29,7 +31,9 @@ export class RoomComponent implements OnInit {
   @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
 
   //DATOS REPORTE
-  seleccionados: number[] = [];
+  seleccionados: string[] = [];
+  columnsReporte:string[]=['Id','day','startingTime','endingTime','course','environment'];
+  esquemas: Schedule[][] = [];
 
   //Constante
   readonly valDefecto:string="defecto";///valor por defecto que tiene una opcion del Formulario antes de ser seleccionada
@@ -60,8 +64,9 @@ export class RoomComponent implements OnInit {
   constructor(
     private render2:Renderer2,
     private route : ActivatedRoute,
-    private  facservice:FacultyService,   ///servicio encargado de traer las facultades
-    private envService:EnvironmentService ///servicio encargado de traer los edificios y ambientes filtrados
+    private  facservice:FacultyService,    ///servicio encargado de traer las facultades
+    private envService:EnvironmentService, ///servicio encargado de traer los edificios y ambientes filtrados
+    private SchedService :ScheduleService  ///servicio que se ejecuta al generar el reporte
   ){}
 
 /**
@@ -194,10 +199,26 @@ export class RoomComponent implements OnInit {
       if (index !== -1) {
         this.seleccionados.splice(index, 1);
       }
-    }this.seleccionados.forEach((seleccionado) => {
-      alert(seleccionado);
+    }
+  }
+  GenerarReporte(){
+    this.esquemas = [];
+    this.seleccionados.forEach((id) => {
+      this.alerta("PREPARANDONOS PARA :"+id);
+      this.SchedService.getScheduleByEnviroment(id).subscribe(
+        (data: Schedule[]) => {
+          const esquema = data as Schedule[]; // Asignar los datos emitidos a la variable esquema
+  
+          // Agregar el esquema al arreglo esquemas
+          this.esquemas.push(esquema);
+        },
+        (error) => {
+          console.log('Error obteniendo los esquemas', error);
+        }
+      );
     });
   }
+
   resetearTabla(){    
     this.listaAmbienteHijos=[];
     this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
