@@ -6,6 +6,7 @@ import { Faculty } from 'src/app/models/faculty.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { reserveEnvironment } from '../models/reserve-environment.model';
+import { availabilityEnvironment } from '../models/availabilityEnvironment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -36,11 +37,11 @@ ngOnInit() {
   //this.loadEnvironmentTypes();
 }
 
-postAllEnvironmentsByEnvironmentTypePage(reserveEnviromentDTO : reserveEnvironment): Observable<any> {
+postAllEnvironmentsByEnvironmentTypePage(availabilityEnvironmentDTO : availabilityEnvironment): Observable<any> {
   //TODO agregar autorizacion
   // localhost:8081/api/environment/byEnvironmentType?page=0&size=10&sort=id&order=ASC&environmentType=LABORATORIO
   //{ headers: this.userServie.agregarAuthorizationHeader() }
-  return this.http.post<any>(` ${this.endPoint}` ,reserveEnviromentDTO).pipe(
+  return this.http.post<any>(` ${this.endPoint}` ,availabilityEnvironmentDTO).pipe(
     catchError((e) => {
       // this.router.navigate(['/documentos']);
 

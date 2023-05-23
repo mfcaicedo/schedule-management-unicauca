@@ -6,6 +6,7 @@ import { reserveEnvironment } from 'src/app/models/reserve-environment.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
+import { availabilityEnvironment } from 'src/app/models/availabilityEnvironment.model';
 
 @Component({
   selector: 'app-schedule-reserve-create',
@@ -15,6 +16,7 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
 export class ScheduleReserveCreateComponent {
 
   reserveEnvironments:reserveEnvironment[]=[];
+  avaibilityEnvironments:availabilityEnvironment[]=[];
   columns:string[]=['Tipo de evento','nombre','Nombre del encargado',
   'Cedula del encargado','Descripcion','Fecha Inicio','Recurrencia','Hora Inicio','Hora Fin'];
   environments:Environment[]=[];
@@ -54,8 +56,8 @@ export class ScheduleReserveCreateComponent {
 
   //variable para recolectar info del formulario
   formEnvironment:reserveEnvironment={
+    
     'availableResources':[],
-
     'tipoEvento':"",
     'nombreEvento':"",
     'nombreEncargado':"",
@@ -67,6 +69,16 @@ export class ScheduleReserveCreateComponent {
     'horaFin': "00:00"
 
   };
+
+  formEnvironmentAvailability:availabilityEnvironment={
+    'starting_date' :"",
+    'starting_time' :"",
+    'ending_time' : "",
+    'recurrence' : "",
+    'day': "1",
+    "weeks" : "2"
+  }
+
 /*
   formEnvironment:Environment={
     'id':0,
@@ -176,7 +188,14 @@ export class ScheduleReserveCreateComponent {
   this.formEnvironment.horaInicio = this.form.get('horaInicio')?.value;
   this.formEnvironment.horaFin = this.form.get('horaFin')?.value;
 
+  this.formEnvironmentAvailability.starting_date = this.form.get('fechaInicio')?.value;
+  this.formEnvironmentAvailability.starting_time = this.form.get('horaInicio')?.value;
+  this.formEnvironmentAvailability.ending_time = this.form.get('horaFin')?.value;
+  this.formEnvironmentAvailability.recurrence = this.form.get('recurrencia')?.value;
+
  }
+
+
   showResource(){
     this.setValues();
     this.showAddResource.emit(true);
@@ -308,8 +327,8 @@ loadTableEnvironments(args: number[]) {
     return this.form.get("fechaInicio")
   }
 
-  get fechaFin(){
-    return this.form.get("fechaFin")
+  get weeks(){
+    return this.form.get("weeks")
   }
 
   get horaInicio(){
@@ -347,8 +366,8 @@ loadTableEnvironments(args: number[]) {
     return  this.fechaInicio?.touched && this.fechaInicio?.invalid
   }
 
-  get isFechaFinInvalid(){
-    return  this.fechaFin?.touched && this.fechaFin?.invalid
+  get isWeeksInvalid(){
+    return  this.weeks?.touched && this.weeks?.invalid
   }
 
   get isHoraInicioInvalid(){
