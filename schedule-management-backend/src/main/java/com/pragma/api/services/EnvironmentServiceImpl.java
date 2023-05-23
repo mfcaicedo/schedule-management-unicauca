@@ -1,10 +1,9 @@
 package com.pragma.api.services;
 
 import com.google.common.reflect.TypeToken;
-<<<<<<< HEAD
-=======
+
 import com.mysql.cj.protocol.Protocol.ProtocolEventListener.EventType;
->>>>>>> origin/grupo-4-backend-wcaicedo-acuatindioy-mlopez
+
 import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;

@@ -62,7 +62,7 @@
         <br>
         <div class="radio">
           <div class="form-check form-check-inline" *ngFor="let tipo of environmentTypes; let first = first;">
-              <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo" [checked]="first" (change)="onSelectedType($event)">
+              <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo"  (change)="onSelectedType($event)" #radioInput>
               <label class="form-check-label" > {{tipo}} </label>
           </div>
         </div>
@@ -78,15 +78,16 @@
           </tr>
           </thead>
           <tbody >
-          <tr *ngFor="let item of data; let i = index" >
-              <td>{{item.id}} </td>
-              <td>{{item.tipo}} </td>
-              <td>{{item.numero}} </td>
-              <td>{{item.ubicacion}}</td>
-              <td>{{item.capacidad}} </td>
-              <td>{{item.facultad}} </td>     
-              <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">  </td>     
-          </tr>
+            <tr *ngFor="let item of listaAmbienteHijos; let i = index">
+              <td>{{item.id}}</td>
+              <td>{{item.name}}</td>
+              <td>{{item.location}}</td>
+              <td>{{item.environmentType}}</td>
+              <td>{{item.facultyId}}</td>  
+              <td>
+                <input [disabled]="isDisabled" #checkboxes id="{{item.id}}" type="checkbox" (click)="onSelectingEnvironment(item, $event)">
+              </td>     
+            </tr>
           </tbody>
     
       </table>

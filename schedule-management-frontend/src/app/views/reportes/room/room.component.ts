@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
@@ -12,6 +12,7 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
 })
 export class RoomComponent implements OnInit {
 //#region  declaracionVariables
+@ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
 
   data: any = [];
   isDisabled:boolean=false;
@@ -27,18 +28,26 @@ export class RoomComponent implements OnInit {
   @Output()isEnvironmentSelected = new EventEmitter<boolean>();
   @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
 
+  //DATOS REPORTE
+  seleccionados: number[] = [];
+
   //Constante
   readonly valDefecto:string="defecto";///valor por defecto que tiene una opcion del Formulario antes de ser seleccionada
   
-  //listas
-  environments:Environment[]=[];///TODO: cuando se tenga la consulta aqui guardar los ambientes filtrados
-  columns:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Seleccionar'];
+  //cadenas que contienen la seleccion del formulario
+  seleccionEdificio:string="";
+  seleccionTipo:string="";
+
+  //Encabezados de Tabla
+  columns:string[]=['Id','Nombre','Ubicacion','Tipo Ambiente','Facultad','Seleccionar'];
   
+  //listas
   environmentTypes:string[]=[];   ///lista que contiene los tipos de ambientes definidos en el servicio y mostrados en los radios
   environmentType!: string ;      ///indica que no puede ser nulo
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
   listaEdificios:Environment[]=[];///lista que contiene los edificios para llenar el desplegable en html
-  
+  listaAmbienteHijos: Environment[]=[];;
+
   //banderas
   isTypeSelected:boolean=false;  ///Variable bandera que indica si se ha seleccionado el tipo
   isFacSelected:boolean=false;   ///Variable bandera que indica si se ha seleccionado la facultad
@@ -102,7 +111,26 @@ export class RoomComponent implements OnInit {
       }
     );
   }
-
+  /**
+   * metodo que consulta todos los ambientes que se encuentren dentro de un Edificio
+   * desde el servicio de ambientes y para luego almacenarlo en ${listaAmbienteHijos}
+   */
+  llenarAmbientesDeEdificio(){
+    let paramTipo:string[]=[this.seleccionTipo];
+    if (paramTipo[0]=="TODOS"){
+      paramTipo=this.environmentTypes.slice(1);
+    }
+    paramTipo.forEach((tipo: string) => {
+      this.envService.getEnvironmentByBuildings(tipo,this.seleccionEdificio).subscribe(
+        (data: Environment[]) => {
+          this.listaAmbienteHijos = this.listaAmbienteHijos.concat(data); // Asignar los datos emitidos a la variable listafacultades        
+        },
+        (error) => {
+          console.log('Error obteniendo todas las ambientes', error);
+        }
+      );
+    });
+  }
 //#endregion llenarListas 
   //----------------------METODOS DISPARADOS POR EVENTOS DE SELECCION----------------------------------------
  //#region  Metodos para enventos html
@@ -114,6 +142,7 @@ export class RoomComponent implements OnInit {
    * @param event  contine el evento que disparo  la funcion
    */
   onSelectedFacultad(event:Event){
+    this.deselecciondeInputs();
     //this.alerta(((event.target as HTMLInputElement).value));
     //comprueba que la facultad seleccionada no sea la agregada por defecto
     if (((event.target as HTMLInputElement).value)!=this.valDefecto){
@@ -128,22 +157,57 @@ export class RoomComponent implements OnInit {
    * que se puede seguir al siguiente paso(seleccionar los ambientes que el edificio Contiene)
    * @param event  contine el evento que disparo  la funcion
    */
-  onSelectedEdificio(event:Event){    
-    if (((event.target as HTMLInputElement).value)!=this.valDefecto){
+  onSelectedEdificio(event:Event){
+    this.deselecciondeInputs();
+    this.seleccionEdificio= (event.target as HTMLInputElement).value
+    if ((this.seleccionEdificio)!=this.valDefecto){
       this.isBuildSelected=true;//cambia el valor de esta variable para que se activen los otros campos
-       //TODO: falta llenar la tabla y comprobar si hay un tipo seleccionado
+      
+      //TODO: falta llenar la tabla y comprobar si hay un tipo seleccionado
     }else{this.isBuildSelected=false;//al ser la por defecto opcion deshabilita
     }
   }
   /**
-   * Informa que se selecciono un tipo
+   * 
    * @param event 
    */
-  onSelectedType(event:Event){    
-    alert("se selecciono"+(event.target as HTMLInputElement).value);
+  onSelectedType(event:Event){  
+    this.resetearTabla(); 
+    this.seleccionTipo =(event.target as HTMLInputElement).value;
+    this.llenarAmbientesDeEdificio();
     //TODO:se debe filtrar por tipo la tabla al lanzarse este evento
   }
-  
+  /**
+   * este metodo se dispara al seleccionar los checkbox de la tabla de ambientes filtrados
+   * cuando el evento es de check se agrega a la lista 
+   * en caso contrario se saca y quita un indice y  desplaza la lisa una posicion 
+   * @param item 
+   * @param event 
+   */
+  onSelectingEnvironment(item: any, event: any): void {
+    if (event.target.checked) {
+      // Agrega el item.id a la lista de seleccionados
+      this.seleccionados.push(item.id);
+    } else {
+      // Remueve el item.id de la lista de seleccionados
+      const index = this.seleccionados.indexOf(item.id);
+      if (index !== -1) {
+        this.seleccionados.splice(index, 1);
+      }
+    }this.seleccionados.forEach((seleccionado) => {
+      alert(seleccionado);
+    });
+  }
+  resetearTabla(){    
+    this.listaAmbienteHijos=[];
+    this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
+  }
+  deselecciondeInputs(){  
+    if (this.radioInput) {
+    this.radioInput.nativeElement.checked = false;
+    }
+    this.resetearTabla();
+  }
 //#endregion Metodos para enventos html
 //------------------------------OTROS METODOS (NO USADOS ecepto los de la tabla)---------------------------------------------------
 //#region otros 
@@ -152,16 +216,6 @@ export class RoomComponent implements OnInit {
       if(changes['continueCreatingSchedule'].currentValue == true){
         this.changeSelectedEnvironment()
       }
-    }
-  }
-  onSelectingEnvironment(environment:Environment, e:Event){
-    const x = e.target as HTMLInputElement
-    if(x.checked){
-      this.ambiente=environment;
-      this.selectedEnvironment.emit(environment)
-      this.isEnvironmentSelected.emit(true)
-      this.isDisabled=true
-      this.showSelectedEnvironment=true;
     }
   }
  changeSelectedEnvironment(){
