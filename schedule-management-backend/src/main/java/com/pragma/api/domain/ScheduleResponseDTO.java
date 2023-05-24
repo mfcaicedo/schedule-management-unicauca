@@ -1,8 +1,7 @@
 package com.pragma.api.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pragma.api.model.Course;
-import com.pragma.api.model.Schedule;
+
 import com.pragma.api.model.enums.DaysEnumeration;
 import lombok.*;
 

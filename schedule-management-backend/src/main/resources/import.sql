@@ -71,7 +71,7 @@ INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1010A','Programación Orientada a Objetos', '2',false, '4', 'PIET');
 
 --Environment
-
+INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('4', '30', 'SALON', 'FIET', 'Salon 231', 'FIET', '4');
 
 --Resource
 INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Video Beam', 'TECNOLOGICO');

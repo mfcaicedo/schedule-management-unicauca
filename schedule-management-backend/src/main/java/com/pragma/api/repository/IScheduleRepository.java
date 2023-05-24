@@ -3,7 +3,6 @@ package com.pragma.api.repository;
 import com.pragma.api.model.Course;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Schedule;
-import com.pragma.api.model.Teacher;
 import com.pragma.api.model.enums.DaysEnumeration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
