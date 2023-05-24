@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
  * Repository de Spring para las operaciones CRUD.
  */
 @Repository
-public interface IReportRepository extends JpaRepository<Schedule, Long> {
+public interface IReportRepository extends JpaRepository<Report, Long> {
 
     boolean existsBy();
     //Query para traer todos los datos necesarios, de la tabla schedule, curso, programa, subject, environment
