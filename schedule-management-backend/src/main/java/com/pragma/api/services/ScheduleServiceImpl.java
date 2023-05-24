@@ -25,9 +25,7 @@ import java.time.Duration;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import javax.validation.constraints.Null;
 
 @Service
 public class ScheduleServiceImpl implements IScheduleService{
