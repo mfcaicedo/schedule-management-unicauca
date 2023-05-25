@@ -102,7 +102,8 @@
   </span>     
   </c-card-body>
 
-  <div *ngFor="let esquema of esquemas">
+  <div *ngFor="let esquema of esquemas;let i=index">
+    <h2> Esquema del ambiente del codigo:{{seleccionados[i]}}</h2>
     <table cTable  >
       <thead cTableColor="dark">
       <tr>

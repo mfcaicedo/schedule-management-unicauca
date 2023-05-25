@@ -13,6 +13,7 @@ import { ReportService } from 'src/app/services/report/report.service';
   styleUrls: ['./room.component.scss']
 })
 export class RoomComponent implements OnInit {
+  
 //#region  declaracionVariables
 @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
 
@@ -32,8 +33,8 @@ export class RoomComponent implements OnInit {
 
   //DATOS REPORTE
   seleccionados: string[] = [];
-  columnsReporte:string[]=['Id','day','startingTime','endingTime','startingDate','endingDate',
-  'environmentName','subjectName','programName', 'color'];
+  columnsReporte:string[]=['Id-sch','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin',
+  'Ambiente','Materia','Programa', 'color'];
   esquemas: ReportRoom[][] = [];
 
   //Constante
@@ -191,6 +192,7 @@ export class RoomComponent implements OnInit {
    * @param event 
    */
   onSelectingEnvironment(item: any, event: any): void {
+    this.esquemas=[];
     if (event.target.checked) {
       // Agrega el item.id a la lista de seleccionados que se encargara de mostrarlos en el Html
       this.seleccionados.push(item.id);

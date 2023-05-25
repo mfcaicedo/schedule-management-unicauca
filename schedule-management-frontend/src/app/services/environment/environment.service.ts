@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
