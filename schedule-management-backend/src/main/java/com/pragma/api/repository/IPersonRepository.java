@@ -23,6 +23,7 @@ public interface IPersonRepository extends JpaRepository<Person, String> {
     @Query(value = "SELECT * FROM person p WHERE p.department.departmentId = :departmentId",nativeQuery = true)
     Page<Person> findAllByDepartmetId(@Param("departmentId") String departmentId, Pageable pageable);
 
+    //Page<Person> findAllByPersonType_TeacherNotNull();
     //Page<Person> findAllByDepartmetId(String departmentId, Pageable pageable);
-
+//    Page<Person> findAllByPersonType_TeacherAndDepartment_DepartmentId(String departmentId, Pageable pageable);
 }
