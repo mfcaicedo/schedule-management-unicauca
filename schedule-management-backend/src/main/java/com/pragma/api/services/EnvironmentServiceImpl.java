@@ -191,7 +191,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
                 throw new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));
 
             Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
-            environment.getAvailableResources().add(resourceToAdd);
+//            environment.getAvailableResources().add(resourceToAdd);
         }
 
 
@@ -218,7 +218,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
                 throw new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));
 
             Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
-            environment.getAvailableResources().add(resourceToAdd);
+//            environment.getAvailableResources().add(resourceToAdd);
         }
 
         this.environmentRepository.save(environment);
