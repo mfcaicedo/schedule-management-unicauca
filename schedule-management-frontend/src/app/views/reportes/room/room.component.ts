@@ -1,11 +1,11 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
-import { Schedule } from 'src/app/models/schedule.model';
-import {FacultyService} from 'src/app/services/Faculty/faculty.service'
+import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
-import { ScheduleService } from 'src/app/services/schedule/schedule.service';
+import { ReportService } from 'src/app/services/report/report.service';
 
 @Component({
   selector: 'app-room',
@@ -32,8 +32,9 @@ export class RoomComponent implements OnInit {
 
   //DATOS REPORTE
   seleccionados: string[] = [];
-  columnsReporte:string[]=['Id','day','startingTime','endingTime','course','environment'];
-  esquemas: Schedule[][] = [];
+  columnsReporte:string[]=['Id','day','startingTime','endingTime','startingDate','endingDate',
+  'environmentName','subjectName','programName', 'color'];
+  esquemas: ReportRoom[][] = [];
 
   //Constante
   readonly valDefecto:string="defecto";///valor por defecto que tiene una opcion del Formulario antes de ser seleccionada
@@ -66,7 +67,7 @@ export class RoomComponent implements OnInit {
     private route : ActivatedRoute,
     private  facservice:FacultyService,    ///servicio encargado de traer las facultades
     private envService:EnvironmentService, ///servicio encargado de traer los edificios y ambientes filtrados
-    private SchedService :ScheduleService  ///servicio que se ejecuta al generar el reporte
+    private reportService :ReportService  ///servicio que se ejecuta al generar el reporte
   ){}
 
 /**
@@ -191,7 +192,7 @@ export class RoomComponent implements OnInit {
    */
   onSelectingEnvironment(item: any, event: any): void {
     if (event.target.checked) {
-      // Agrega el item.id a la lista de seleccionados
+      // Agrega el item.id a la lista de seleccionados que se encargara de mostrarlos en el Html
       this.seleccionados.push(item.id);
     } else {
       // Remueve el item.id de la lista de seleccionados
@@ -205,9 +206,9 @@ export class RoomComponent implements OnInit {
     this.esquemas = [];
     this.seleccionados.forEach((id) => {
       this.alerta("PREPARANDONOS PARA :"+id);
-      this.SchedService.getScheduleByEnviroment(id).subscribe(
-        (data: Schedule[]) => {
-          const esquema = data as Schedule[]; // Asignar los datos emitidos a la variable esquema
+      this.reportService.getReportRoom(id).subscribe(
+        (data: ReportRoom[]) => {
+          const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
@@ -296,4 +297,33 @@ export class RoomComponent implements OnInit {
   }
 
 //#endregion otros 
+////-------------------METODOS DE TABLA---------------------------
+/**
+ * se encarga de devolver de la base de datos un color  que cooresponda a css para podder usarlo
+ * @param programColor 
+ * @returns 
+ */
+getBackgroundColor(programColor: string) {
+  const colorMap: { [key: string]: string } = {
+    'bg-red': 'red',
+    'bg-orange': 'orange',
+    'bg-yellow': 'yellow',
+    'bg-blue': 'blue',
+    'bg-green': 'green',
+    'bg-purple': 'purple',
+    'bg-pink': 'pink',
+    'bg-teal': 'teal',
+    'bg-olive': 'olive',
+    'bg-lightblue': 'lightblue',
+    'bg-skyblue': 'skyblue',
+    'bg-navy': 'navy',
+    'bg-magenta': 'magenta',
+    'bg-gray': 'gray',
+    'bg-white': 'white',
+    'bg-black': 'black',
+  };
+
+  return colorMap[programColor] || 'white';
+}
+
 }

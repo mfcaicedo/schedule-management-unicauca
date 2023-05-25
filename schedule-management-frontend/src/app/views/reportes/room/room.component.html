@@ -110,13 +110,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of esquema; let i = index">
+      <tr *ngFor="let item of esquema; let i = index"
+      [ngStyle]="{'background-color': getBackgroundColor(item.programColor)}">
         <td>{{ item.id }}</td>
         <td>{{ item.day }}</td>
         <td>{{ item.startingTime }}</td>
         <td>{{ item.endingTime }}</td>
-        <td>{{ item.course }}</td>
-        <td>{{ item.environment }}</td>
+        <td>{{ item.startingDate }}</td>
+        <td>{{ item.endingDate }}</td>
+        <td>{{ item.environmentName }}</td>
+        <td>{{ item.subjectName }}</td>
+        <td>{{ item.programName }}</td>
+        <td>{{ item.programColor }}</td>
       </tr>
     </tbody>
   </table>

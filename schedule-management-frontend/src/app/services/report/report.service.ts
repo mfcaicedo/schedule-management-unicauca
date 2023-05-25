@@ -2,16 +2,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Environment } from 'src/app/models/environment.model';
-import { Faculty } from 'src/app/models/faculty.model';
-import { faculty } from 'src/faculty/faculty';
+import { ReportRoom } from 'src/app/models/ReportRoom.model';
+import { report } from 'src/report/report';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FacultyService {
-  environments: Environment[] = [];
-  endPoint: string = faculty.urlAllFac;
+export class ReportService {
+  report: ReportRoom[] = [];
+  endPoint: string = report.urlRep;
   // endPoint:String = 'api/environment'
 
   httpOptions = {
@@ -30,15 +29,19 @@ export class FacultyService {
     //this.loadEnvironmentTypes();
   }
 
-
-  getAllFaculty(): Observable<Faculty[]> {
-    return this.http.get<any>(this.endPoint).pipe(
+/**
+ * metodo usado para generar el reporte enciando una peticion get  con el id del ambiente 
+ * y resiviendo como respuesta los datos necesarios para el horario de ese
+ * @param idEnviroment  el id de ambientes
+ * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id 
+ */
+  getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
+    return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
       map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
       catchError((e) => {
-        console.log('Error obteniendo todos lasFac', e.error.mensaje, 'error');
+        console.log('Error obteniendo el horario del ambiente :' +idEnviroment, e.error.mensaje, 'error');
         return throwError(e);
       })
     );
   }
 }
-
