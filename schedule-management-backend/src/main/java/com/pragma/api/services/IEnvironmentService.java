@@ -2,9 +2,14 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Environment;
+import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
+
+
 import org.springframework.data.domain.Pageable;
 
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 public interface IEnvironmentService {
@@ -71,5 +76,16 @@ public interface IEnvironmentService {
 
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
     public void deleteById(Integer environmentId);
+
+    Response<List<EnvironmentDTO>> findAllByAvailabilityAndDayRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time);
+
+    Response<List<EnvironmentDTO>> findAllByAvailabilityAndWeekRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day,Integer weeks);
+
+    Response<List<EnvironmentDTO>> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day);
+
+
 
 }

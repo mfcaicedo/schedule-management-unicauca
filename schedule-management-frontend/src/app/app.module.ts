@@ -45,7 +45,7 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
-  PaginationModule, 
+  PaginationModule,
 
 
 } from '@coreui/angular';
@@ -53,6 +53,7 @@ import {
 import { IconModule, IconSetService } from '@coreui/icons-angular';
 import {TokenInterceptor} from 'src/app/interceptors/token.interceptor'
 import { InterceptorService } from './services/spinner/interceptor.service';
+import { ScheduleReserveComponent } from './src/app/views/schedule/schedule-reserve/schedule-reserve/schedule-reserve.component';
 import { DirectiveDropFileDirective } from './directives/directive-drop-file.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -66,7 +67,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, DirectiveDropFileDirective],
+  declarations: [AppComponent, ...APP_CONTAINERS, DirectiveDropFileDirective ,ScheduleReserveComponent],
   imports: [
     HttpClientModule,
     BrowserModule,
@@ -95,7 +96,7 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    PaginationModule, 
+    PaginationModule,
     NgxSpinnerModule,
 
   ],

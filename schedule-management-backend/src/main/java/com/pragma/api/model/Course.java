@@ -37,16 +37,12 @@ public class Course {
         this.description = description;
     }
 
-    @ManyToOne
-    @JoinColumn()
-    private Period period;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
     @OneToMany(mappedBy = "course")
-    private Set<CourseTeacher> assignedPersons;
+    private Set<CourseTeacher> assignedTeachers;
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;

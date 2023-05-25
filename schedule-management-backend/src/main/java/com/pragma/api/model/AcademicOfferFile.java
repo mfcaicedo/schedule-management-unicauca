@@ -34,7 +34,12 @@ public class AcademicOfferFile {
 
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "periodId")
+    private Period period;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
+
 
 }

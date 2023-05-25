@@ -29,6 +29,8 @@ export class EnvironmentService {
 
   environmentTypes = ['TODOS', 'AUDITORIO', 'LABORATORIO', 'SALON'];
   facultys = ["FIET", "Ciencias"];
+  EventTypes = ['Academico', 'Administrativo'];
+  recurrenciaTypes = ['Dia', 'Semana', 'Semestre'];
   endPoint: String = environment.urlEnv
   // endPoint:String = 'api/environment'
 
@@ -177,6 +179,14 @@ export class EnvironmentService {
 
   getAllEnvironmentTypes() {
     return this.environmentTypes;
+  }
+
+  getAllEventTypes(){
+    return this.EventTypes;
+  }
+
+  getAllRecurrenciaTypes(){
+    return this.recurrenciaTypes;
   }
 
   getAllFacultys() {
