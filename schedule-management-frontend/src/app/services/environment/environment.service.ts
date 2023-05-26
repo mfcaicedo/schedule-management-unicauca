@@ -264,5 +264,17 @@ export class EnvironmentService {
       })
     );
   }
+
+  getEnvironmentById(environmentId: string): Observable<Environment> {
+
+    alert("LA CADENA:"+(this.endPoint+"/"+parseInt(environmentId)));
+    return this.http.get<any>(this.endPoint+"/"+parseInt(environmentId)).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo el ambiente por id', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }
 }
 

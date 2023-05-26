@@ -103,7 +103,7 @@
   </c-card-body>
 
   <div *ngFor="let esquema of esquemas;let i=index">
-    <h2> Esquema del ambiente del codigo:{{seleccionados[i]}}</h2>
+    <h2> Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
     <table cTable  >
       <thead cTableColor="dark">
       <tr>
