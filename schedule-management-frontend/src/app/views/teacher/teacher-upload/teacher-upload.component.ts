@@ -50,20 +50,53 @@ export class TeacherUploadComponent implements OnInit {
             this.files1.push(file)
 
             this.teacherService.uploadFile(file)
-              .subscribe(rta => {
-                console.log("rtaaaaaaa: ", rta)
-                // rta.text.arguments.totalNumberElements.
-                //this.imgRta = rta.location;
-
-                Swal.fire({
-                  title: 'Éxito!',
-                  text: `Archivo subido correctamente`,
-                  icon: 'success',
-                  confirmButtonText: 'Aceptar',
-                  confirmButtonColor: '#0A266F',
-                });
+              .subscribe(data => {
+                let response = Object.values(data);
+                this.responseFile = {
+                  statusFile: response[0],
+                  contRows: response[1],
+                  contErrorRows: response[2],
+                  contSuccessRows: response[3],
+                  contSaveRows: response[4],
+                  logsType: response[5],
+                  logsEmptyFields: response[6],
+                  logsGeneric: response[7],
+                  logsSuccess: response[8],
+                };
+                if (this.responseFile.statusFile === 'ERROR') {
+                  Swal.fire({
+                    title: 'Hay errores en el archivo',
+                    html: `
+                <div style="text-align:center">
+                <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                        '<h5>Campos vacíos: </h5>' +
+                        this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
+                      }</p>
+                  <p>${this.responseFile.logsType.length === 0 ? '' :
+                        '<h5>Campos vacíos: </h5>' +
+                        this.responseFile.logsType.join('<br>').toLowerCase()
+                      }</p>
+                  <p>${this.responseFile.logsGeneric.length === 0 ? '' :
+                        '<h5>Campos vacíos: </h5>' +
+                        this.responseFile.logsGeneric.join('<br>').toLowerCase()
+                      }</p>
+                </div>
+                `,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#0A266F',
+                  });
+                } else {
+                  Swal.fire({
+                    title: 'Éxito!',
+                    text: `Archivo subido correctamente`,
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    confirmButtonColor: '#0A266F',
+                  });
+                }
                 //borro el archivo cargado si se subio correctamente
-                //element.value = '';
+                // element.value = '';
               })
           } else {
             Swal.fire({
@@ -95,7 +128,7 @@ export class TeacherUploadComponent implements OnInit {
       || file?.type === 'application/vnd.ms-excel') {
 
       if (file) {
-        this.oaService.uploadFile(file)
+        this.teacherService.uploadFile(file)
           .subscribe(data => {
             let response = Object.values(data);
             this.responseFile = {
@@ -114,19 +147,16 @@ export class TeacherUploadComponent implements OnInit {
                 title: 'Hay errores en el archivo',
                 html: `
                 <div style="text-align:center">
-                <p>${
-                  this.responseFile.logsEmptyFields.length === 0 ? '' :
-                  '<h5>Campos vacíos: </h5>'+
+                <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                    '<h5>Campos vacíos: </h5>' +
                     this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
                   }</p>
-                  <p>${
-                    this.responseFile.logsType.length === 0 ? '' :
-                    '<h5>Campos vacíos: </h5>'+
+                  <p>${this.responseFile.logsType.length === 0 ? '' :
+                    '<h5>Campos vacíos: </h5>' +
                     this.responseFile.logsType.join('<br>').toLowerCase()
                   }</p>
-                  <p>${
-                    this.responseFile.logsGeneric.length === 0 ? '':
-                    '<h5>Campos vacíos: </h5>'+
+                  <p>${this.responseFile.logsGeneric.length === 0 ? '' :
+                    '<h5>Campos vacíos: </h5>' +
                     this.responseFile.logsGeneric.join('<br>').toLowerCase()
                   }</p>
                 </div>
