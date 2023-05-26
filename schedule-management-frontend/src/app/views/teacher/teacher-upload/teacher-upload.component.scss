@@ -104,3 +104,25 @@ c-card {
 .titulo {
   color: #800000;
 }
+
+.drop-zone-style{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 250px;
+  width: 100%;
+  border: 2px dotted #0782d0;
+  border-radius: 30px;
+}
+.content-upload{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.drop-label{
+  text-align: center; 
+  font-size:1.3rem; 
+  font-weight:bold;
+}

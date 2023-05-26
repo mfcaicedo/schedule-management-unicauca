@@ -86,6 +86,8 @@ export class TeacherUploadComponent implements OnInit {
                     confirmButtonText: 'Aceptar',
                     confirmButtonColor: '#0A266F',
                   });
+                  //borro el archivo cargado porque tiene errores
+                  this.files1 = [];
                 } else {
                   Swal.fire({
                     title: 'Éxito!',
@@ -97,6 +99,8 @@ export class TeacherUploadComponent implements OnInit {
                 }
                 //borro el archivo cargado si se subio correctamente
                 // element.value = '';
+                // this.files1 = [];
+                
               })
           } else {
             Swal.fire({
