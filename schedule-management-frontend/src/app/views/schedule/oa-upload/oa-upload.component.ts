@@ -25,6 +25,7 @@ export class OaUploadComponent implements OnInit {
     logsGeneric: [],
     logsSuccess: [],
   };
+  programCode: string = '';
   constructor(
     private oaService: OfertaAcademicaService,
     private spinnerService: SpinnerService,
@@ -168,6 +169,22 @@ export class OaUploadComponent implements OnInit {
     }
 
   }
+
+    /**
+     * Metodo que invica al servicio para descargar el template de carga de oferta academica
+     */
+  downloadTemplate() {
+    this.programCode = 'PIS';
+    console.log("llega al metodo");
+    this.oaService.downloadTemplateService(this.programCode)
+      .subscribe(data => {
+        console.log("que llego; ", data);
+        let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        let url = window.URL.createObjectURL(blob);
+        window.open(url);
+      });
+  }
+
   public fileOver(event: Event) {
     console.log(event);
   }
