@@ -48,9 +48,9 @@ export class TeachersComponent {
 
       //guardo los datos de la respuesta en el arreglo de docentes
       this.person = response.data.elements as Person[]
-      this.totalItems = response.pagination.totalNumberElements as number
-      this.totalNumberPage = response.pagination.totalNumberPage as number
-      this.pageSize = response.pagination.size as number
+      this.totalItems = response.data.pagination.totalNumberElements as number
+      this.totalNumberPage = response.data.pagination.totalNumberPage as number
+      this.pageSize = response.data.pagination.size as number
 
     })
     //TODO todos  los departamentos

@@ -1,10 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
 import { EnvironmentRoutingModule } from './environment-routing.module';
 import { EnvironmentsComponent } from './environments/environments.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { IconModule } from '@coreui/icons-angular';
+import { DocsComponentsModule } from '@docs-components/docs-components.module';
+import { EnvironmentFormComponent } from './environment-form/environment-form.component';
+import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
+import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
+import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component'
+import { EnvironmentDeleteComponent } from './environment-delete/environment-delete.component';
+import { ResourceModule } from '../resource/resource.module';
+import { ToshareModule } from 'src/app/views/toshare/toshare.module';
+import { FormsModule } from '@angular/forms';
+import { NgxFileDropModule } from 'ngx-file-drop';
+
 // CoreUI Modules
 import {
   AccordionModule,
@@ -33,19 +44,6 @@ import {
 
 } from '@coreui/angular';
 
-import { IconModule } from '@coreui/icons-angular';
-import { DocsComponentsModule } from '@docs-components/docs-components.module';
-import { EnvironmentFormComponent } from './environment-form/environment-form.component';
-import { EnvironmentDetailComponent } from './environment-detail/environment-detail.component';
-import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
-import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component'
-import { EnvironmentDeleteComponent } from './environment-delete/environment-delete.component';
-
-import { FormsModule } from '@angular/forms';
-
-import { ResourceModule } from '../resource/resource.module';
-import { ToshareModule } from 'src/app/views/toshare/toshare.module';
-
 @NgModule({
   declarations: [
     EnvironmentsComponent,
@@ -54,22 +52,18 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     EnvironmentUploadComponent,
     EnvironmentEditComponent,
     EnvironmentDeleteComponent
-
-
-
   ],
   imports: [
     CommonModule,
     EnvironmentRoutingModule,
-
+    FormsModule,
     ReactiveFormsModule,
     FormsModule,
     ModalModule,
     IconModule,
     ResourceModule,
     ToshareModule,
-
-
+    NgxFileDropModule,
     AccordionModule,
     BadgeModule,
     BreadcrumbModule,
@@ -86,7 +80,6 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     PlaceholderModule,
     PopoverModule,
     ProgressModule,
-
     SpinnerModule,
     TableModule,
     TabsModule,
