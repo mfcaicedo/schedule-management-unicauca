@@ -77,8 +77,9 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Response<GenericPageableResponse> findAllByDepartmentId(Pageable pageable, String departmentId) {
-        Page<Person> personPage = this.iPersonRepository.findAllByDepartmetId(departmentId, pageable);
+    public Response<GenericPageableResponse> findAllByDepartmentId(Pageable pageable, String departmentId, String personType) {
+        //buscar el id del departamento y se le envia el nombre
+        Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(personType,departmentId, pageable);
         if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
 
         Response<GenericPageableResponse> response = new Response<>();
