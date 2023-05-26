@@ -6,6 +6,7 @@ import { Person } from 'src/app/models/person.model'
 import { TeacherService } from 'src/app/services/teacher/teacher.service'
 import { HttpClient } from '@angular/common/http';
 import { ignoreElements } from 'rxjs';
+import { Department } from 'src/app/models/department.model';
 
 // import '@coreui/icons/css/coreui-icons.min.css';
 
@@ -27,6 +28,8 @@ export class TeachersComponent {
   isTypeSelected: boolean = false
 
   // personType!: string;
+  department: Department[] = [];
+
   totalItems: number = 0;
   totalNumberPage: number = 1;
   pageSize: number = 0;
@@ -51,7 +54,7 @@ export class TeachersComponent {
 
     })
     //TODO todos  los departamentos
-    this.departmentIds = this.teacherService.getDepartmentsName();
+    //this.department = this.teacherService.getDepartmentsName();
   }
 
   //Aquí se debe modificar para poder hacer el filtro por departamento ----> REVISAR

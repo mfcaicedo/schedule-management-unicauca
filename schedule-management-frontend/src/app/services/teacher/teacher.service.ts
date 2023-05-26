@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class TeacherService {
 
   endPoint: String = environment.urlPerson
-  departmentIds = ['1', '2', '3'];
+  departments = [];
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -41,7 +41,7 @@ export class TeacherService {
 
 
   getDepartmentsName() {
-    return this.departmentIds;
+    return this;
   }
 
   getAllPersonByPersonTypePage(type: string, page: number, pageSize: number): Observable<any> {
