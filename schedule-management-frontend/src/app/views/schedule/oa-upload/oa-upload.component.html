@@ -7,11 +7,49 @@
     <div class="container">
       <div class="centrado">
         <h5>Cargar oferta académica al sistema </h5>
+        <br>
+        <div class="center">
+          <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="drop-zone-style" contentClassName="drop-content-style"  dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
+          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+              <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                <div class="content-upload">
+                  <div class="drop-label">
+                    Suelta los archivos aquí o
+                  </div>
+                  <div class="" style="margin-bottom:25px; text-align: center"> 
+                    <label for="file-environment">
+                      <span class="btn-upload-file">
+                        <i class="cilCloudUpload"></i>
+                        <svg cIcon name="cilCloudUpload" size="xl"></svg>
+                        Carga el archivo
+                      </span>
+                      <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                      (click)="openFileSelector()" required hidden>
+                    </label>
+                  </div>
+                </div>
+              </ng-template>
+          </ngx-file-drop>
+          <div class="upload-table">
+            <table class="table">
+              <thead>
+                  <tr>
+                      <th>Nombre del archivo</th>
+                  </tr>
+              </thead>
+              <tbody class="upload-name-style">
+                  <tr *ngFor="let item of files1; let i=index">
+                      <td><strong>{{ item.name }}</strong></td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
         <!-- <p>
           <input type="file" (change)="onUpload($event)">
           <img *ngIf="imgRta" [src]="imgRta" alt="" width="100px">
         </p> -->
-        <div class="drop-container">
+        <!-- <div class="drop-container">
           <label for="file-academic-offer">
             <span class="btn-upload-file">
               <i class="cilCloudUpload"></i>
@@ -21,7 +59,7 @@
             <input type="file" class="file-academic-offer" id="file-academic-offer" accept=".xlsx"
               (change)="onUpload($event)" required>
           </label>
-        </div>
+        </div> -->
         <!-- <label for="file-environment-offer" class="drop-container">
           <span class="drop-title">Arrastra un archivo aquí</span>
           <span class="drop-message">o haz clic para seleccionar un archivo</span>
