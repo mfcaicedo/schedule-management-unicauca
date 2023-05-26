@@ -7,6 +7,8 @@ import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
 import { availabilityEnvironment } from 'src/app/models/availabilityEnvironment.model';
+import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript/lib/tsserverlibrary';
+import {ReserveEnvironmentService} from "src/app/services/reserve-environment.service"
 
 @Component({
   selector: 'app-schedule-reserve-create',
@@ -29,7 +31,8 @@ export class ScheduleReserveCreateComponent {
   totalItems:number=0;
   totalNumberPage:number=1;
   pageSize:number=0;
-  
+  visible: boolean = false;
+
 
   form!: FormGroup;
   //si vamos a editar un ambiente el input de ese id deberia ser readonly=true osea is edit=true
@@ -56,7 +59,7 @@ export class ScheduleReserveCreateComponent {
 
   //variable para recolectar info del formulario
   formEnvironment:reserveEnvironment={
-    
+
     'availableResources':[],
     'tipoEvento':"",
     'nombreEvento':"",
@@ -100,7 +103,9 @@ export class ScheduleReserveCreateComponent {
     private formBuilder:FormBuilder,
     private router: Router,
     private environmentService:EnvironmentService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private reserveService:ReserveEnvironmentService
+
   ){
 
     this.buildForm();
@@ -148,13 +153,18 @@ export class ScheduleReserveCreateComponent {
       fechaInicio: ['',[Validators.required]],
       recurrencia:['',[Validators.required]],
       horaInicio: ['',[Validators.required]],
-      horaFin: ['',[Validators.required]]
+      horaFin: ['',[Validators.required]],
+      weeks: ['',[Validators.required]]
     });
   }
 
-  onSelectedValue(event:Event){
+  onSelectedEVENT(event:Event){
 
-    this.form.controls['environmentType'].setValue((event.target as HTMLInputElement).value);
+    this.form.controls['tipoEvento'].setValue((event.target as HTMLInputElement).value);
+  }
+  onSelectedValued(event:Event){
+
+    this.form.controls['recurrencia'].setValue((event.target as HTMLInputElement).value);
   }
   onSelectedFaculty(event:Event){
 
@@ -192,6 +202,27 @@ export class ScheduleReserveCreateComponent {
   this.formEnvironmentAvailability.starting_time = this.form.get('horaInicio')?.value;
   this.formEnvironmentAvailability.ending_time = this.form.get('horaFin')?.value;
   this.formEnvironmentAvailability.recurrence = this.form.get('recurrencia')?.value;
+  this.formEnvironmentAvailability.weeks = this.form.get('weeks')?.value;
+  //this.formEnvironmentAvailability.day = this.form.get('day')?.value;
+
+  console.log(this.formEnvironment);
+  console.log(this.formEnvironmentAvailability);
+
+  this.sendInfo();
+
+ }
+
+ sendInfo(){
+  this.formEnvironment;
+  this.formEnvironmentAvailability;
+  this.reserveService.postAllEnvironmentsByEnvironmentTypePage(this.formEnvironmentAvailability).subscribe((response)=>{
+
+      console.log(response)
+      this.environments = response.data.elements as Environment[]
+      //this.totalItems=response.data.pagination.totalNumberElements as number
+      //this.totalNumberPage=response.data.pagination.totalNumberPage as number
+      this.visible = true;
+    });
 
  }
 
@@ -240,7 +271,7 @@ export class ScheduleReserveCreateComponent {
     this.loadTableEnvironments([1,5])
 
   }
-  
+
 /*
   loadTableEnvironments(args: number[]) {
     //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
@@ -338,7 +369,7 @@ loadTableEnvironments(args: number[]) {
   get horaFin(){
     return this.form.get("horaFin")
   }
-  
+
   get recurrencia(){
     return this.form.get("recurrencia")
   }
@@ -382,12 +413,12 @@ loadTableEnvironments(args: number[]) {
     return this.recurrencia?.touched && this.recurrencia?.invalid
   }
 
-  
+
   get isEnvironmentTypeInvalid(){
     return this.recurrencia?.touched && this.recurrencia?.invalid
   }
 
- 
+
 
   get materiaSelected(){
     return this.tipoEvento?.value == "Academico"
@@ -396,7 +427,7 @@ loadTableEnvironments(args: number[]) {
     return this.tipoEvento?.value == "Administrativo"
   }
 
-  
+
 
 
 }

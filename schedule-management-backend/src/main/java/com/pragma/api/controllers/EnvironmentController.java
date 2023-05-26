@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import java.io.Console;
 import java.io.IOException;
 import java.util.List;
 
@@ -110,7 +112,7 @@ public class EnvironmentController {
         this.environmentService.deleteById(environmentId);
     }
 
-    @GetMapping("/findEnviromentAvailability")
+    @PostMapping("/findEnviromentAvailability")
     public Response<List<EnvironmentDTO>> findEnviromentAvailability(
             @Valid @RequestBody AvailabilityEnvironmentDTO environmentAvailabilityDTO) {
         if (environmentAvailabilityDTO.getRecurrence().equals(RecurrenceEnumeration.DIA)) {
@@ -130,6 +132,9 @@ public class EnvironmentController {
                     environmentAvailabilityDTO.getDay());
 
         }
+
+        System.out.println(environmentAvailabilityDTO);
+
         return null;
 
     }
