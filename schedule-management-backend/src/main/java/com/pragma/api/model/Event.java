@@ -40,9 +40,11 @@ public class Event {
     @Column(name = "description")
     private String description;
 
+    /* 
     @ManyToOne
     @JoinColumn(name = "program_id")
     private Program program;
+    */
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "person_code")

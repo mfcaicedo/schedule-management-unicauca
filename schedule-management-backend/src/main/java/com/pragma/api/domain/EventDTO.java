@@ -1,6 +1,6 @@
 package com.pragma.api.domain;
 
-import java.io.Serializable;
+
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,12 +18,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class EventDTO  {
     
-    private Integer event_id;
+    private Integer eventId;
     private String eventName;
     private String eventManagerName;
     private String description;
-    private ProgramDTO program;
-    private PersonDTO person;
+   // private ProgramDTO program;
+    private String person;
     @Enumerated(EnumType.STRING)
     private EventTypeEnumeration eventType;
     

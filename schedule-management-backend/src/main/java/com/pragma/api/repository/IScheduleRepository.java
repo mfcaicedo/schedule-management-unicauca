@@ -14,5 +14,6 @@ public interface IScheduleRepository extends JpaRepository<Schedule, Long> {
     Boolean existsByStartingTimeAndEndingTimeAndDayAndEnvironment(LocalTime startingTime, LocalTime endingTime, DaysEnumeration day, Environment environment);
     Boolean existsByCourseAndDay(Course course, DaysEnumeration day);
     List<Schedule>findAllByEnvironment(Environment environment);
+    
 //    List<Schedule>findAllByCoursePerson(Person person);
 }
