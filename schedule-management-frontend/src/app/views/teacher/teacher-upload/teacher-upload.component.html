@@ -8,7 +8,7 @@
         <h5>Cargar Docentes al sistema </h5>
         <br>
         <div class="center">
-          <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="drop-zone-style"
+          <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="" contentClassName="drop-content-style"
             dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
             (onFileLeave)="fileLeave($event)">
             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
@@ -16,7 +16,7 @@
                 <div class="drop-label">
                   Suelta los archivos aquí o
                 </div>
-                <div class="" style="margin-bottom:25px"> 
+                <div class="" style="margin-bottom:25px; text-align:center"> 
                   <label for="file-environment">
                     <span class="btn-upload-file">
                       <i class="cilCloudUpload"></i>
