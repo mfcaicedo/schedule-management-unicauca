@@ -100,3 +100,51 @@ c-card {
 .titulo {
   color: #800000;
 }
+.drop-zone-style{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  height: 250px;
+  width: 100%;
+  border: 2px dotted #0782d0;
+  border-radius: 30px;
+}
+.drop-label{
+  text-align: center; 
+  font-size:1.3rem; 
+  font-weight:bold;
+  color: #0782d0
+}
+
+.content-upload{
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  height: 200px;
+  width: 850px;
+  justify-content: center;
+  
+}
+// @media screen and (max-width: 768px){
+//   .content-upload{
+//     width: 430px;
+//   }
+// }
+
+// @media screen and (max-width: 920px){
+//   .content-upload{
+//     width: 600px;
+//   }
+// }
+// @media screen and (max-width: 1100px){
+//   .content-upload{
+//     width: 450px;
+//   }
+// }
+@media screen and (max-width: 1250px){
+  .content-upload{
+    width: 670px;
+  }
+}

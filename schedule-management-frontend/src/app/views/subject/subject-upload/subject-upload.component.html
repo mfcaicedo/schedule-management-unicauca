@@ -9,20 +9,25 @@
         <h5>Cargar Asignaturas al sistema </h5>
         <br>
         <div class="center">
-          <ngx-file-drop [multiple]="false" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+          <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="drop-zone-style" contentClassName="drop-content-style" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
           (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">            
               <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-                Suelta los archivos aquí o
-                <!-- <button type="button" (click)="openFileSelector()">Browse Files</button> -->
-                <label for="file-environment">
-                  <span class="btn-upload-file">
-                    <i class="cilCloudUpload"></i>
-                    <svg cIcon name="cilCloudUpload" size="xl"></svg>
-                    Carga el archivo
-                  </span>
-                  <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
-                  (click)="openFileSelector()" required>
-                </label>
+                <div class="content-upload">
+                  <div class="drop-label">
+                    Suelta los archivos aquí o
+                  </div>
+                  <div class="" style="margin-bottom:25px; text-align: center"> 
+                    <label for="file-environment">
+                      <span class="btn-upload-file">
+                        <i class="cilCloudUpload"></i>
+                        <svg cIcon name="cilCloudUpload" size="xl"></svg>
+                        Carga el archivo
+                      </span>
+                      <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                      (click)="openFileSelector()" required>
+                    </label>
+                  </div>
+                </div>
               </ng-template>
           </ngx-file-drop>
           <div class="upload-table">
