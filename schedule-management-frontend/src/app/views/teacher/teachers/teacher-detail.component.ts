@@ -20,6 +20,7 @@ export class TeachersComponent {
 
   person: Person[] = [];
   columns: string[] = ['código', 'Nombre completo', 'Departamento'];
+  paginadorResource:any;
   //REVISAR
   personTypes: string[] = [];
   personType: string = 'TEACHER';
@@ -95,7 +96,7 @@ export class TeachersComponent {
         this.person = response.data.elements as Person[]
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
-
+        this.paginadorResource = response;
       });
     } else {
 
@@ -103,7 +104,7 @@ export class TeachersComponent {
         this.person = response.data.elements as Person[]
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
-
+        this.paginadorResource = response;
       });
     }
 
