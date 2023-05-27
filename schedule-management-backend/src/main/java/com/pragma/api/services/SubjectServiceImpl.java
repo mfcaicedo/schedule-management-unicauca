@@ -1,8 +1,12 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.GenericPageableResponse;
+import com.pragma.api.domain.PersonDTO;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.SubjectDTO;
+import com.pragma.api.model.Person;
+import com.pragma.api.model.Program;
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Subject;
 import com.pragma.api.repository.IProgramRepository;
@@ -17,14 +21,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class SubjectBusinessImpl implements ISubjectBusiness {
+public class SubjectServiceImpl implements ISubjectService {
 
     /** Logger */
-    private static final Logger logger = LoggerFactory.getLogger(SubjectBusinessImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SubjectServiceImpl.class);
 
     @Autowired
     private ModelMapper modelMapper;
@@ -84,6 +89,14 @@ public class SubjectBusinessImpl implements ISubjectBusiness {
         response.setData(this.validatePageList(subjectPage));
         logger.debug("Finish findAllSubjects Business");
         return response;
+    }
+
+    @Override
+    public List<SubjectDTO> findAllByProgram(Program program) {
+        List<Subject> subjects = this.subjectRepository.findAllByProgramOrderBySemester(program);
+        List<SubjectDTO> subjectsDTO = new ArrayList<>();
+        subjectsDTO = subjects.stream().map(x->modelMapper.map(x, SubjectDTO.class)).collect(Collectors.toList());
+        return subjectsDTO;
     }
 
     private GenericPageableResponse validatePageList(Page<Subject> subjectsPage){

@@ -7,45 +7,47 @@ INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALU
 INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALUES ('3', 'Civil', 'FIC');
 --Program
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIS', 'INGENIERIA DE SISTEMAS', '1','bg-orange');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-yellow');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-blue');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-gray');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIC', 'INGENIERIA CIVIL', '3','bg-pink');
---Teacher
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1061', 'DANIEL PAZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1063', 'MARTIN ALONSO MUÑOZ MEDINA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1064', 'JUAN CARLOS NARVAEZ NARVAEZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1065', 'FRANCISCO FRANCO OBANDO DIAZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1066', 'VICTOR HUGO MOSQUERA LEYTON', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1067', 'LAURA ANDREA BERMUDEZ CORDOBA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1068', 'GUSTAVO ADOLFO GOMEZ AGREDO', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1069', 'CATALINA   MUÑOZ COLLAZOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1070', 'MANUEL SANIN BENAVIDES PIAMBA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1071', 'KARIN   CORREA ARANA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1072', 'JESUS MAURICIO RAMIREZ VIAFARA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1073', 'MODESTO FAJARDO ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1074', 'FULVIO YESID VIVAS CANTERO', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1075', 'FABIO HERNAN REALPE MARTINEZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1076', 'JHON EDER MASSO DAZA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1077', 'RENE FABIAN ZUÑIGA MUÑOZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1078', 'FLOR DE MARIA HERNANDEZ PEREZ', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1079', 'JIMENA ADRIANA TIMANA PEÑA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1080', 'CARLOS ALBERTO ARDILA ALBARRACIN', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1081', 'RICARDO ANTONIO ZAMBRANO SEGURA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1082', 'ERWIN   MEZA VEGA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1083', 'FRANCISCO JAVIER OBANDO VIDAL', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1084', 'LISETH VIVIANA CAMPO ARCOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1085', 'GINETH MAGALY CERON RIOS', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1086', 'JUAN DAVID YIP HERRERA', '1');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1087', 'IVAN EDUARDO HERNANDEZ DELGADO', '3');
-INSERT INTO `teacher` (`teacherCode`, `full_name`, `department_id`) VALUES ('1088', 'LISETH VIVIANA CAMPO ARCOS', '1');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-sky');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-orange');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-orange');
+--Person
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1061', 'DANIEL PAZ', '1');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1063', 'MARTIN ALONSO MUÑOZ MEDINA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1064', 'JUAN CARLOS NARVAEZ NARVAEZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1065', 'FRANCISCO FRANCO OBANDO DIAZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1066', 'VICTOR HUGO MOSQUERA LEYTON', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1067', 'LAURA ANDREA BERMUDEZ CORDOBA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1068', 'GUSTAVO ADOLFO GOMEZ AGREDO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1069', 'CATALINA   MUÑOZ COLLAZOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1070', 'MANUEL SANIN BENAVIDES PIAMBA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1071', 'KARIN   CORREA ARANA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1072', 'JESUS MAURICIO RAMIREZ VIAFARA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1073', 'MODESTO FAJARDO ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1074', 'FULVIO YESID VIVAS CANTERO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1075', 'FABIO HERNAN REALPE MARTINEZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1076', 'JHON EDER MASSO DAZA', '1','ADMINISTRATIVE');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1077', 'RENE FABIAN ZUÑIGA MUÑOZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1078', 'FLOR DE MARIA HERNANDEZ PEREZ', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1079', 'JIMENA ADRIANA TIMANA PEÑA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1080', 'CARLOS ALBERTO ARDILA ALBARRACIN', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1081', 'RICARDO ANTONIO ZAMBRANO SEGURA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1082', 'ERWIN   MEZA VEGA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1083', 'FRANCISCO JAVIER OBANDO VIDAL', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1084', 'LISETH VIVIANA CAMPO ARCOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1085', 'GINETH MAGALY CERON RIOS', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1086', 'JUAN DAVID YIP HERRERA', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1087', 'IVAN EDUARDO HERNANDEZ DELGADO', '1','TEACHER');
+INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1088', 'LISETH VIVIANA CAMPO ARCOS', '1','TEACHER');
+
+
 
 
 
 --Period
-INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-1', '2022-06-30 23:59:59', '2022-02-01 00:00:00','FINISHED');
-INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-2', '2022-11-30 23:59:59', '2022-07-01 00:00:00','IN_PROGRESS');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2021-2', '2021-07-01 00:00:00', '2021-11-30 23:59:59','FINISHED');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2022-1', '2022-02-01 00:00:00', '2022-06-30 23:59:59','FINISHED');
+INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2023-1', '2023-02-15 23:59:59', '2023-07-15 00:00:00','IN_PROGRESS');
 
 
 
@@ -53,9 +55,9 @@ INSERT INTO `period` (`periodId`, `endDate`, `initDate`, `state`) VALUES ('2022-
 
 
 --Subject
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'Programacion Orientada a Objetos', '2', false, '2', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'Programacion Orientada a Objetos', '1', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR1', 'Estructura de Datos', '2',false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR2', 'Estructura de Datos 2', '3', false, '2', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR2', 'Estructura de Datos 2', '2', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('SISDIS', 'Sistemas Distribuidos', '4',false, '4', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CALSOFT', 'Calidad de Software', '6', false, '2', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INTRO1', 'Introduccion programacion', '1',false, '4', 'PIS');
@@ -72,43 +74,57 @@ INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1008A','Circuitos  de corriente Directa', '2',false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1009A','Mecánica', '2',false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1010A','Programación Orientada a Objetos', '2',false, '4', 'PIET');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1011A','ARQUITECTURA', '2',false, '4', 'PIC');
+
+
 
 --Environment
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('4', '30', 'SALON', 'FIET', 'Salon 231', 'FIET', '4');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('5', NULL, 'EDIFICIO', 'no aplica', 'IPET', 'FIET', NULL);
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('6', '30', 'LABORATORIO', 'IPET', 'Sala 4', 'FIET', '5');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('7', '30', 'EDIFICIO', 'IPET', 'Sala 322', 'FIET', '5');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('8', '25', 'SALON', 'IPET', 'Salon 210', 'FIET', '5');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('9', NULL, 'EDIFICIO', 'no aplica', 'Geotecnia', 'FIET', NULL);
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('10', '30', 'LABORATORIO', 'Geotecnia', 'Sala 4', 'FIET', '9');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('12', '25', 'SALON', 'Geotecnia', 'Salon 210', 'FIET', '9');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('11', '30', 'EDIFICIO', 'Geotecnia', 'Sala 322', 'FIET', '9');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('13', NULL, 'EDIFICIO', 'no aplica', 'EFIC', 'FIC', NULL);
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('14', '30', 'SALON', 'FIC', 'Salon 322', 'FIC', '13');
-INSERT INTO `environment` (`id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES ('15', '30', 'LABORATORIO', 'FIC', 'Sala 003', 'FIC', '13');
-;
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 1', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 2', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 4', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 3', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 5', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'LABORATORIO', 'Edificio IPET FIET', 'Sala 6', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 201', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 101', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 102', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '40', 'SALON', 'Salon IPET FIET', 'Salon 102', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 110', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '35', 'SALON', 'Salon IPET FIET', 'Salon 202', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 203', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '35', 'SALON', 'Salon IPET FIET', 'Salon 204', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 220', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '35', 'SALON', 'Salon IPET FIET', 'Salon 222', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 231', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'SALON', 'Salon IPET FIET', 'Salon 331', 'FIET');
+INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`) VALUES (NULL, '30', 'AUDITORIO', 'Edificio IPET FIET', 'Aurditorio IPET', 'FIET');
 
 --Resource
-INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Video Beam', 'TECNOLOGICO');
-INSERT INTO `resource` (`id`, `name`, `resource_type`) VALUES (NULL, 'Televisor', 'TECNOLOGICO');
+INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'Video Beam', 'TECNOLOGICO');
+INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'Televisor', 'TECNOLOGICO');
+INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'Computador', 'TECNOLOGICO');
 
 --Resource environment
-INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
+--INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1);
 
 
 --resource course
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('2', '25', 'sistemas', 'pruebita ', '4', '2022-1', 'POO');
---INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('2', '13', 'A', 'dad','4','2022_1', 'PO');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('3', '20', 'B', 'asd','4','2022-2', 'ESTR1');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('4', '20', 'B', 'dsfaf','4','2022-2', '1009A');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('5', '20', 'B', 'sdfa','4','2022-2', '1003A');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('6', '20', 'B', 'sadfa','4','2022-2', '1004A');
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, period_periodId, subject_code) VALUES ('7', '20', 'A', 'Padf','4','2022-2', '1011A');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours,subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', 'POO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('2', '13', 'A', 'dad','4', 'POO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('3', '20', 'B', 'asd','4', 'ESTR1');
 
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
+
+--eventos
+INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`, `program_id`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062', 'PIS');
+
+
+--horario
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'MARTES', '2023-05-15', '09:00:00', 1, '2023-05-15', '07:00:00', NULL, 1, 1);
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'MIERCOLES', '2023-05-15', '11:00:00', 0, '2023-05-15', '09:00:00', 1, 1, NULL);
+
 
 
 --resource event

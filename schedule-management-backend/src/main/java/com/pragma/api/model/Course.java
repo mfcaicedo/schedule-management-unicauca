@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -38,21 +37,10 @@ public class Course {
         //this.profesoresAsignados = new HashSet<>();
     }
 
-    @ManyToOne
-    @JoinColumn()
-    private Period period;
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
 
-    /*@ManyToMany
-    @JoinTable(
-            name = "CourseTeacher",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_code"),
-    )
-    private Set<Teacher>  assignedTeachers; */
     @OneToMany(mappedBy = "course")
     private Set<CourseTeacher> assignedTeachers;
 

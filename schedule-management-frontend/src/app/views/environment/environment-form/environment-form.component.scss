@@ -22,3 +22,20 @@ input:focus {
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgb(50 31 219 / 25%);
 }
+
+.group-faculty-typeAmbient {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+}
+.group-faculty-typeAmbient > div{
+  width: 100%;
+}
+.group-field-text{
+  display: flex;
+  flex-direction: column;
+  gap: 0rem;
+  width: 100%;
+}

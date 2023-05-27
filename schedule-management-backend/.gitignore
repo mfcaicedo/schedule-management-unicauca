@@ -30,5 +30,5 @@ out/
 /nbdist/
 /.nb-gradle/
 
-### VS Code ###
+### VS Code EDITOR ###
 .vscode/
