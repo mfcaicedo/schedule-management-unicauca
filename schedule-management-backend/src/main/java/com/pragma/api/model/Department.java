@@ -24,14 +24,14 @@ public class Department {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    //relacion 1 a muchos con Teacher Descripcion: indica que un departamento tiene muchos profesores
+    //relacion 1 a muchos con Person Descripcion: indica que un departamento tiene muchos profesores
     @OneToMany(mappedBy = "department")
-    private Set<Teacher> teachers;
+    private Set<Person> persons;
 
     //relacion de 1 a 1 con Department Descripcion: Relacion que un profesor es jefe de un departamento
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "teacher_code")
-    private Teacher teacher;
+    @JoinColumn(name = "person_code")
+    private Person person;
 
     @OneToMany(mappedBy = "department")
     private Set<Program> programs;

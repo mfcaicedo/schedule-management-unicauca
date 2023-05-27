@@ -56,12 +56,12 @@ public class ScheduleServiceImpl implements IScheduleService {
     @Override
     public ScheduleResponseDTO saveSchedule(final ScheduleRequestDTO saveRequest) {
         Optional<Course> courseOptRequest = this.courseRepository.findById(saveRequest.getCourseId());
-        if (courseOptRequest.isEmpty())
+        if (courseOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.course.id", saveRequest.getCourseId().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository
                 .findById(saveRequest.getEnvironmentId());
         // request de event
-        if (environmentOptRequest.isEmpty())
+        if (environmentOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.environment.id",
                     saveRequest.getEnvironmentId().toString());
         Optional<Event> eventOptRequest = null;
@@ -103,17 +103,17 @@ public class ScheduleServiceImpl implements IScheduleService {
     @Override
     public ScheduleResponseDTO updateSchedule(final Long code, final ScheduleRequestDTO updateRequest) {
         Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
-        if (scheduleOptRequest.isEmpty())
+        if (scheduleOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
-        if (courseOptRequest.isEmpty())
+        if (courseOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
         Course concreteCourse = courseOptRequest.get();
         if (this.scheduleRepository.existsByCourseAndDay(concreteCourse, updateRequest.getDay()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
         Optional<Environment> environmentOptRequest = this.environmentRepository
                 .findById(updateRequest.getEnvironmentId());
-        if (environmentOptRequest.isEmpty())
+        if (environmentOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.environment.id",
                     updateRequest.getEnvironmentId().toString());
         int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(), updateRequest.getEndingTime());
@@ -145,7 +145,7 @@ public class ScheduleServiceImpl implements IScheduleService {
     public Boolean deleteSchedule(Long code) {
         try {
             Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
-            if (scheduleOptRequest.isEmpty())
+            if (scheduleOptRequest.isPresent())
                 throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
             Course courseDb = scheduleOptRequest.get().getCourse();
             int differenceHours = (int) getDifferenceHours(scheduleOptRequest.get().getStartingTime(),
@@ -162,7 +162,7 @@ public class ScheduleServiceImpl implements IScheduleService {
     @Override
     public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
         Optional<Environment> environmentRequest = this.environmentRepository.findById(environmentId);
-        if (environmentRequest.isEmpty())
+        if (environmentRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.environment.id", environmentId.toString());
         List<Schedule> schedules = this.scheduleRepository.findAllByEnvironment(environmentRequest.get());
         return schedules.stream()
@@ -204,7 +204,7 @@ public class ScheduleServiceImpl implements IScheduleService {
     public ScheduleResponseDTO getScheduleById(Long code) {
         try {
             Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
-            if (scheduleOptRequest.isEmpty())
+            if (scheduleOptRequest.isPresent())
                 throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
 
             return this.modelMapper.map(scheduleOptRequest.get(), ScheduleResponseDTO.class);
@@ -233,9 +233,9 @@ public class ScheduleServiceImpl implements IScheduleService {
     }
 
 
-    @Override
+/*    @Override
     public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAllByEnvironment'");
-    }
+    }*/
 }

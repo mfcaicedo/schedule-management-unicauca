@@ -124,8 +124,8 @@ export class ScheduleService {
   }
   iteradorColores: number = 1
   continueCreatingScheduleForCourse: boolean = false;
-  endPoint: String = 'api/schedule'
-  //EndPoint: string = schedule.urlSch ;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
+  // endPoint: String = 'api/schedule'
+  endPoint: string = schedule.urlSch ;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -404,7 +404,7 @@ export class ScheduleService {
  */
 getScheduleByEnviroment( idEnviroment:string): Observable<Schedule[]> {
   //alert("LA CADENA:"+(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio));
-  return this.http.get<any>(this.EndPoint+"/byEnvironmentId/"+idEnviroment).pipe(
+  return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
     map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
     catchError((e) => {
       console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');

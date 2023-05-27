@@ -18,7 +18,6 @@ import com.pragma.api.repository.IPeriodRepository;
 import com.pragma.api.repository.IResourceRepository;
 import com.pragma.api.util.PageableUtils;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
