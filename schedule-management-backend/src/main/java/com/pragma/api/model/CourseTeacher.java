@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "course_person")
+@Table(name = "course_teacher")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,7 +26,7 @@ public class CourseTeacher {
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "personCode")
-    private Person person;
+    @JoinColumn(name = "teacherCode")
+    private Teacher teacher;
 
 }

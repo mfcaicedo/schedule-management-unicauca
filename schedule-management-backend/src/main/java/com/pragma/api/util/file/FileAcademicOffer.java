@@ -64,8 +64,8 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         fileRow.setCapacity((int) cells.get(8).getNumericCellValue());
         fileRow.setEnvironment(cells.get(9).getStringCellValue());
         // EL TIPO DE DATO ERA NUMERICO (Codigo Docente), AHORA ES UN STRING (Varios codigos separados por comas)
-//        fileRow.setPersonCode(String.valueOf((int)cells.get(10).getNumericCellValue()));
-        fileRow.setPersonCode(cells.get(10).getStringCellValue());
+//        fileRow.setTeacherCode(String.valueOf((int)cells.get(10).getNumericCellValue()));
+        fileRow.setTeacherCode(cells.get(10).getStringCellValue());
         fileRow.setDescription(cells.get(11).getStringCellValue());
         fileRow.setDepartment(cells.get(12).getStringCellValue());
 

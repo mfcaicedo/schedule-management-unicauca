@@ -11,9 +11,9 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PersonDTO {
+public class TeacherDTO {
 
-    private String personCode;
+    private String teacherCode;
     @NotBlank
     @NonNull
     private String fullName;

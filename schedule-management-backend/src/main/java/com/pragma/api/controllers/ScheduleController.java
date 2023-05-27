@@ -1,6 +1,7 @@
 package com.pragma.api.controllers;
 
 import com.pragma.api.services.IScheduleService;
+import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
 import org.springframework.http.ResponseEntity;
@@ -25,14 +26,14 @@ public class ScheduleController {
         return ResponseEntity.ok(this.scheduleService.saveSchedule(scheduleRequest));
     }
 
-    @GetMapping
+    @GetMapping("/byEnvironment")
     public ResponseEntity<List<ScheduleResponseDTO>> getAllByEnvironment(@RequestParam Integer environmentId) {
         return ResponseEntity.ok(this.scheduleService.getAllByEnvironment(environmentId));
     }
 
-//    @GetMapping("/byPerson")
-//    public ResponseEntity<List<ScheduleResponseDTO>> getAllByPerson(@RequestParam String personCode) {
-//        return ResponseEntity.ok(this.scheduleService.getAllByPerson(personCode));
+//    @GetMapping("/byTeacher")
+//    public ResponseEntity<List<ScheduleResponseDTO>> getAllByTeacher(@RequestParam String teacherCode) {
+//        return ResponseEntity.ok(this.scheduleService.getAllByTeacher(teacherCode));
 //    }
 
     @PutMapping
@@ -50,6 +51,15 @@ public class ScheduleController {
     @GetMapping("/{id}")
     public ResponseEntity<ScheduleResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok(this.scheduleService.getScheduleById(id));
+    }
+
+    //Consulta para buscar los calendarios en los que aparezca un salon en concreto
+    @GetMapping("/byEnvironmentId/{environmentId}")
+    public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(@PathVariable Integer environmentId){
+    //Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
+    //return this.environmentService.findAllByTypeAndParentId(EnvironmentTypeEnumeration.LABORATORIO, parentId);
+        //System.out.println("AQUUIIIIIIIIIIIIIIIIIIIIIIIIIII"+environmentId);
+        return this.scheduleService.findAllByEnvironmentId(environmentId);
     }
 
 }

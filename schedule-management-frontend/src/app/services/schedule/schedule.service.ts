@@ -7,8 +7,9 @@ import { Program } from 'src/app/models/program.model';
 import { Person } from 'src/app/models/person.model';
 import { Subject } from 'src/app/models/subject.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, of, throwError } from 'rxjs';
+import { catchError,map, Observable, of,scheduled, throwError } from 'rxjs';
 import { ResponseData } from 'src/app/models/responseData.model'
+import { schedule } from 'src/schedule/schedule';
 import Swal from 'sweetalert2'
 @Injectable({
   providedIn: 'root'
@@ -124,6 +125,7 @@ export class ScheduleService {
   iteradorColores: number = 1
   continueCreatingScheduleForCourse: boolean = false;
   endPoint: String = 'api/schedule'
+  //EndPoint: string = schedule.urlSch ;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -391,6 +393,23 @@ export class ScheduleService {
         availableResources: []
       },
 
-    }
   }
+}
+//-------------------------------------------------------------/
+/**
+ * recupera el horario de un ambiente solicitado con el codigo y los lleva en un arreglo de tipo
+ * Schedule
+ * @param idEnviroment  id del ambiente que buscamos
+ * @returns  lista de esquemas para el horario
+ */
+getScheduleByEnviroment( idEnviroment:string): Observable<Schedule[]> {
+  //alert("LA CADENA:"+(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio));
+  return this.http.get<any>(this.EndPoint+"/byEnvironmentId/"+idEnviroment).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
 }
