@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, Renderer2, SimpleChanges, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Environment } from 'src/app/models/environment.model';
@@ -17,22 +17,23 @@ export class RoomComponent implements OnInit {
 //#region  declaracionVariables
 @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
 
-  data: any = [];
-  isDisabled:boolean=false;
-  showSelectedEnvironment:boolean=false;
-  ambiente!:Environment;
+  //data: any = [];
+  isDisabled:boolean=false;//usado en html para los checkbox
+  //showSelectedEnvironment:boolean=false;
+ // ambiente!:Environment;
   
-  totalItems:number=0;
-  totalNumberPage:number=1;
-  paginadorEnvironment: any;
-  pageSize:number=0;
-  @Input('continueCreatingSchedule')continueCreatingSchedule:boolean=false
-  @Output()selectedEnvironment = new EventEmitter<Environment|null>();
-  @Output()isEnvironmentSelected = new EventEmitter<boolean>();
-  @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
+  //totalItems:number=0;
+  //totalNumberPage:number=1;
+  //paginadorEnvironment: any;
+  //pageSize:number=0;
+  //@Input('continueCreatingSchedule')continueCreatingSchedule:boolean=false
+  //@Output()selectedEnvironment = new EventEmitter<Environment|null>();
+  //@Output()isEnvironmentSelected = new EventEmitter<boolean>();
+  //@ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
 
   //DATOS REPORTE
   seleccionados: string[] = [];
+  seleccionadoDic: Map<string, string> = new Map<string, string>();
   columnsReporte:string[]=['Id-sch','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin',
   'Ambiente','Materia','Programa', 'color'];
   esquemas: ReportRoom[][] = [];
@@ -88,7 +89,7 @@ export class RoomComponent implements OnInit {
     );
     //llena tipo Ambientes para cargarse desde el inicio del componente
     this.environmentTypes=this.envService.getAllEnvironmentTypes();
-    this.lista();
+    //this.lista();//COMENTADO DE METODOS YA NO USADOS 
   }
   //----------------------el siguiente es un metodo de PRUEBAS  se puede BORRAR---------------------------------------
   /**muestra un mensaaje para saber que dato se selecciono */
@@ -196,6 +197,7 @@ export class RoomComponent implements OnInit {
     if (event.target.checked) {
       // Agrega el item.id a la lista de seleccionados que se encargara de mostrarlos en el Html
       this.seleccionados.push(item.id);
+      this.seleccionadoDic.set(item.id, item.name);
     } else {
       // Remueve el item.id de la lista de seleccionados
       const index = this.seleccionados.indexOf(item.id);
@@ -207,7 +209,7 @@ export class RoomComponent implements OnInit {
   GenerarReporte(){
     this.esquemas = [];
     this.seleccionados.forEach((id) => {
-      this.alerta("PREPARANDONOS PARA :"+id);
+      //this.alerta("PREPARANDONOS PARA :"+id);
       this.reportService.getReportRoom(id).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
@@ -235,7 +237,9 @@ export class RoomComponent implements OnInit {
 //#endregion Metodos para enventos html
 //------------------------------OTROS METODOS (NO USADOS ecepto los de la tabla)---------------------------------------------------
 //#region otros 
-  ngOnChanges(changes: SimpleChanges): void {
+  
+/** 
+ * ngOnChanges(changes: SimpleChanges): void {
     if(changes['continueCreatingSchedule']){
       if(changes['continueCreatingSchedule'].currentValue == true){
         this.changeSelectedEnvironment()
@@ -252,7 +256,6 @@ export class RoomComponent implements OnInit {
     this.isEnvironmentSelected.emit(false)
     this.showSelectedEnvironment=false;
   }
-
   lista(){
     this.data = [
       {
@@ -297,13 +300,14 @@ export class RoomComponent implements OnInit {
     });
     
   }
-
+*/
 //#endregion otros 
 ////-------------------METODOS DE TABLA---------------------------
 /**
- * se encarga de devolver de la base de datos un color  que cooresponda a css para podder usarlo
- * @param programColor 
- * @returns 
+ * es un metodo usado den un atributo de tipongstyle 
+ * para poder cambiar el color segun el que se reciva
+ * @param programColor resive un color obtenido en formato de la base de datos
+ * @returns lo transforma en un color admitido por css
  */
 getBackgroundColor(programColor: string) {
   const colorMap: { [key: string]: string } = {
@@ -327,5 +331,25 @@ getBackgroundColor(programColor: string) {
 
   return colorMap[programColor] || 'white';
 }
-
+getNombreAmbientedesdeId(i:string): string | undefined {
+  /**let ambienteActual:Environment={
+    id: 0,
+    name:  "",
+    location: "",
+    capacity: 0,
+    environmentType: "",
+    facultyId: "",
+    availableResources:[]
+  };
+  this.envService.getEnvironmentById(i).subscribe(
+    (data: Environment) => {
+      ambienteActual= data as Environment; 
+    },
+    (error) => {
+      console.log('Error obteniendo el nombre para el ambiente de id '+i, error);
+    }
+  );
+ return ambienteActual.name+ ".";*/
+ return this.seleccionadoDic.get(i);
+}
 }
