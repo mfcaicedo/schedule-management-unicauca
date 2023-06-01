@@ -10,7 +10,7 @@ import { ReportService } from 'src/app/services/report/report.service';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrls: ['./room.component.scss']
+  styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
 export class RoomComponent implements OnInit {
   
