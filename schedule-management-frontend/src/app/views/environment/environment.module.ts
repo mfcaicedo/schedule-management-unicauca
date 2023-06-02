@@ -45,6 +45,8 @@ import { FormsModule } from '@angular/forms';
 
 import { ResourceModule } from '../resource/resource.module';
 import { ToshareModule } from 'src/app/views/toshare/toshare.module';
+import { EnvironmentListComponent } from './environmnet-list/environment-list/environment-list.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,8 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     EnvironmentDetailComponent,
     EnvironmentUploadComponent,
     EnvironmentEditComponent,
-    EnvironmentDeleteComponent
+    EnvironmentDeleteComponent,
+    EnvironmentListComponent
 
 
 
@@ -93,6 +96,8 @@ import { ToshareModule } from 'src/app/views/toshare/toshare.module';
     TooltipModule,
     UtilitiesModule,
     NgxSpinnerModule,
-  ]
+  ],
+
+  exports: [EnvironmentsComponent, EnvironmentListComponent]
 })
 export class EnvironmentModule { }

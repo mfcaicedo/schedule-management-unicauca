@@ -22,7 +22,7 @@ export class ScheduleReserveCreateComponent {
   columns:string[]=['Tipo de evento','nombre','Nombre del encargado',
   'Cedula del encargado','Descripcion','Fecha Inicio','Recurrencia','Hora Inicio','Hora Fin'];
   environments:Environment[]=[];
-  columnsEnvironments:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Opciones'];
+  columnsEnvironments:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad'];
   reserveEnvironmentTypesTabla:string[]=[];
   reserveEnvironmentTypeTabla!: string ;
   ennvironmentTypesTabla:string[]=[];
@@ -336,6 +336,13 @@ loadTableEnvironments(args: number[]) {
     })
   }
 
+}
+
+AmbientesChekeados: Environment[] = [];
+
+agregarAmbiente(Environment: Environment){
+  this.AmbientesChekeados.push(Environment);
+  console.log(this.AmbientesChekeados);
 }
 
   get tipoEvento(){

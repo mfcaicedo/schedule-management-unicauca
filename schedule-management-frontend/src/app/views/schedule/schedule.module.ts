@@ -52,6 +52,9 @@ import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { ScheduleUpdateComponent } from './schedule-update/schedule-update.component';
 import { OaUploadComponent } from './oa-upload/oa-upload.component';
 import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
+
+import {EnvironmentModule} from 'src/app/views/environment/environment.module';
+
 @NgModule({
   declarations: [
     ScheduleCreateComponent,
@@ -103,6 +106,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     PopoverModule,
     TableModule,
     NgxSpinnerModule,
+    EnvironmentModule,
   ]
 })
 export class ScheduleModule {
