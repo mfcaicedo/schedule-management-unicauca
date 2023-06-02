@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { readBuilderProgram } from 'typescript/lib/tsserverlibrary';
 import {Program} from 'src/app/models/program.model';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class ProgramService {
 
-  endPoint:string='api/program';
+  endPoint:String=environment.urlProg
   constructor(
     private http : HttpClient
   ) { }

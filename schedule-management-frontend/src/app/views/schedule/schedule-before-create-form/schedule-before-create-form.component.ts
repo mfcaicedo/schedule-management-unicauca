@@ -38,8 +38,7 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
   ngOnInit(){
 
     this.buildForm();
-    // this.programs= this.programService.getAllPrograms()
-    this.programService.getAllPrograms().subscribe(x=>{
+      this.programService.getAllPrograms().subscribe(x=>{
       this.programs = x
       console.log("Programas cargados ",this.programs)
     })
