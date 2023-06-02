@@ -53,7 +53,7 @@ export class RoomComponent implements OnInit {
   environmentType!: string ;      ///indica que no puede ser nulo
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
   listaEdificios:Environment[]=[];///lista que contiene los edificios para llenar el desplegable en html
-  listaAmbienteHijos: Environment[]=[];;
+  listaAmbienteHijos: Environment[]=[];
 
   //banderas
   isTypeSelected:boolean=false;  ///Variable bandera que indica si se ha seleccionado el tipo
