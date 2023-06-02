@@ -108,6 +108,14 @@ INSERT INTO `available_resources` (`environment_id`, `resource_id`) VALUES (1,1)
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours,subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', 'POO');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('2', '13', 'A', 'dad','4', 'POO');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('3', '20', 'B', 'asd','4', 'ESTR1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('4', '20', 'B', 'asd','4', 'ESTR2');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('5', '20', 'B', 'asd','4', 'SISDIS');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('6', '20', 'B', 'asd','4', 'CALSOFT');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('7', '20', 'B', 'asd','4', 'BD1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('8', '20', 'C', 'asd','4', 'BD1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('9', '20', 'A', 'asd','4', 'BD1');
+
+
 
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
