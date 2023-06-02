@@ -1,13 +1,51 @@
 <c-card>
   <c-card-header>
-    <strong class="titulo">Ambiente</strong>
+      <strong class="titulo">Ambientes</strong>
   </c-card-header>
-
   <c-card-body>
     <div class="container">
       <div class="centrado">
         <h5>Cargar Ambiente al sistema </h5>
-        <div class="drop-container">
+        <br>
+        <div class="center">
+          <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="" contentClassName="drop-content-style"
+          dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
+          (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+            <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+              <div class="content-upload">
+                <div class="drop-label">
+                  Suelta los archivos aquí o
+                </div>
+                <div class="" style="margin-bottom:25px;  text-align: center;"> 
+                  <label for="file-environment">
+                    <span class="btn-upload-file">
+                      <i class="cilCloudUpload"></i>
+                      <svg cIcon name="cilCloudUpload" size="xl"></svg>
+                        Carga el archivo
+                    </span>
+                    <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                    (click)="openFileSelector()" required>
+                  </label>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-file-drop>
+          <div class="upload-table">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre del archivo</th>
+                </tr>
+              </thead>
+              <tbody class="upload-name-style">
+                <tr *ngFor="let item of files1; let i=index">
+                  <td><strong>{{ item.name }}</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- <div class="drop-container">
           <label for="file-environment">
             <span class="btn-upload-file">
               <i class="cilCloudUpload"></i>
@@ -17,7 +55,7 @@
             <input type="file" class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
               (change)="onUpload($event)" required>
           </label>
-        </div>
+        </div> -->
       </div>
       <!-- Snipper -->
       <ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">

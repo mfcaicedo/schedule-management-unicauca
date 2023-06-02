@@ -43,6 +43,7 @@ public class AcademicOfferController {
 
     @GetMapping("/downloadTemplate/{programId}")
     ResponseEntity<Resource> downloadTemplate(@PathVariable String programId) throws IOException {
+        System.out.println("lleaga al controlador de descarga");
         return this.iTemplateFileService.donwloadTemplateFile(programId);
     }
 

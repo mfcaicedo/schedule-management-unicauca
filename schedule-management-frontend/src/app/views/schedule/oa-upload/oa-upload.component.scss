@@ -98,7 +98,7 @@ c-card {
 }
 
 .titulo {
-  color: #800000;
+  color: #a80000;
 }
 .drop-zone-style{
   display: flex;
@@ -147,4 +147,17 @@ c-card {
   .content-upload{
     width: 670px;
   }
+}
+
+.contentHead{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content-download-template {
+  color: #000000;
+  font-weight: bold;
+  font-size: 1rem;
+
 }
