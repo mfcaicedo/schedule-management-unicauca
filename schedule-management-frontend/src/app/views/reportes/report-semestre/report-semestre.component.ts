@@ -3,6 +3,7 @@ import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
+import { ProgramService } from 'src/app/services/program/program.service';
 
 @Component({
   selector: 'app-report-semestre',
@@ -16,8 +17,8 @@ export class ReportSemestreComponent {
   isDisabled:boolean=false;//usado en html para los checkbox
   
   //encabezados de tablas  
-  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Seleccionar'];//Encabezados de Tabla Programas
-  
+  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Id del Departamento','Seleccionar'];//Encabezados de Tabla Programas
+
   //Semestres ofrecidos
   semestres: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -40,7 +41,8 @@ export class ReportSemestreComponent {
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por semestre
 
   constructor(    
-    private  facservice:FacultyService    ///servicio encargado de traer las facultades
+    private  facservice:FacultyService,    ///servicio encargado de traer las facultades
+    private programService:ProgramService  ///servicio encargado de traer los programas de la facultad seleccionada
   ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
@@ -61,10 +63,11 @@ export class ReportSemestreComponent {
    *  que contiene la tabla de progrmas y el boton de generar el reporte
    */
   onSelectedFacultad(event:Event){
+    let valorseleccionadoEnFacultad=(event.target as HTMLInputElement).value;
     //comprueba que la facultad seleccionada no sea la agregada por defecto
-    if (((event.target as HTMLInputElement).value)!=this.valDefecto){
+    if ((valorseleccionadoEnFacultad)!=this.valDefecto){
       this.isFacSelected=true;//cambia el valor de esta variable para que se activen los otros campos
-      this.cargarProgramas();
+      this.cargarProgramas(valorseleccionadoEnFacultad);
     }else{this.isFacSelected=false;//al ser la por defecto opcion deshabilita
     } 
   }
@@ -72,8 +75,16 @@ export class ReportSemestreComponent {
     
   }
 
-  cargarProgramas(){
-
+  cargarProgramas(idFacultad:string){
+    this.programService.getProgramByFacultyId(idFacultad).subscribe(
+      (data: Program[]) => {
+        this.listasProgramas = data as Program[]; // Asignar los datos emitidos a la variable listafacultades
+        //alert(this.listafacultades[0].facultyName);    
+      },
+      (error) => {
+        console.log('Error cargando los programas de la facultad seleccionada', error);
+      }
+    );
   }
   GenerarReporte(){
     if (this.listaSemestres.length > 0) {

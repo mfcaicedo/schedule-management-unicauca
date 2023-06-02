@@ -43,12 +43,12 @@
               <tr *ngFor="let item of listasProgramas; let i = index">
                 <td>{{item.programId}}</td>
                 <td>{{item.name}}</td>
+                <td>{{item.department_id}}</td>
                 <td>
                   <input [disabled]="isDisabled" #checkboxes id="{{item.programId}}" type="checkbox" (click)="onSelectingPrograms(item, $event)">
                 </td>     
               </tr>
-            </tbody>
-      
+            </tbody>      
         </table>
           <div class="centrado">
             <input type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()">      
