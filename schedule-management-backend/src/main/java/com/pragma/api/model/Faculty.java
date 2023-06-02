@@ -8,8 +8,6 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.Set;
 
 @Entity
 @Setter
@@ -23,9 +21,9 @@ public class Faculty {
     @Column(name = "faculty_name", nullable = false, unique = true)
     private String facultyName;
 
-    @OneToMany(mappedBy = "faculty")
-    private Set<Department> departments;
+    //@OneToMany(mappedBy = "faculty")
+    //private Set<Department> departments;
 
-    @OneToMany(mappedBy = "faculty")
-    private Set<Environment> environments;
+    //@OneToMany(mappedBy = "faculty")
+    //private Set<Environment> environments;
 }

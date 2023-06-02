@@ -1,7 +1,5 @@
 package com.pragma.api.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
@@ -23,7 +21,7 @@ public class EventDTO  {
     private String eventManagerName;
     private String description;
     private ProgramDTO program;
-    private PersonDTO person;
+    private PersonDTO teacher;
     @Enumerated(EnumType.STRING)
     private EventTypeEnumeration eventType;
     

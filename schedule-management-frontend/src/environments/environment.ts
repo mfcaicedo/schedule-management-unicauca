@@ -12,6 +12,7 @@ export const environment = {
   urlAcadOffer: 'http://localhost:8081/api/academicOffer',
   urlPerson: 'http://localhost:8081/api/person',
   urlSub: 'http://localhost:8081/api/subject',
+  urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
 };
 
 /*
