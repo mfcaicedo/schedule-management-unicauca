@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.ProgramDTO;
+import com.pragma.api.domain.Response;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Program;
 import com.pragma.api.repository.IProgramRepository;
@@ -42,5 +43,20 @@ public class ProgramServiceImpl implements IProgramService {
         return  modelMapper.map(program.get(), ProgramDTO.class);
     }
 
+    @Override
+    public Response<List<ProgramDTO>> findAllByDepartmentId(Integer department_id){
+
+        Response<List<ProgramDTO>> response = new Response<>();
+        List<Program> programList = this.iProgramRepository.findByDepartmentId(department_id);
+        List<ProgramDTO> programDTOlist = modelMapper.map(programList, new org.modelmapper.TypeToken<List<ProgramDTO>>() {
+        }.getType());
+        response.setStatus(200);
+        response.setUserMessage("List of Availability Programs Finded successfully");
+        response.setDeveloperMessage("List of Availability Programs Finded successfully");
+        response.setMoreInfo("localhost:8080/api/program(toDO)");
+        response.setErrorCode("");
+        response.setData(programDTOlist);
+        return response;
+    }
 
 }
