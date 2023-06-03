@@ -2,6 +2,8 @@ import { Component, OnInit} from '@angular/core';
 import { SpinnerService } from 'src/app/services/spinner/spinner.service';
 import { SubjectService } from 'src/app/services/subject/subject.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
+import { ResponseFile } from 'src/app/models/response-file.model';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,6 +18,17 @@ export class SubjectUploadComponent implements OnInit {
 
   imgRta = '';
   colaPendientes: string[] = ['OA2022.2-Licenciatura en ingles', 'OA2022.2-Historia', 'OA2022.2-Humanidades'];
+  responseFile: ResponseFile = {
+    statusFile: '',
+    contRows: 0,
+    contErrorRows: 0,
+    contSuccessRows: 0,
+    contSaveRows: 0,
+    logsType: [],
+    logsEmptyFields: [],
+    logsGeneric: [],
+    logsSuccess: [],
+  };
   constructor(
     private subService: SubjectService,
     private spinnerService: SpinnerService,
@@ -72,24 +85,61 @@ export class SubjectUploadComponent implements OnInit {
         
         fileEntry.file((file: File) => {
         const nameFile = file.name
-        let dateAct = new Date()
           if (file?.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             || file?.type === 'application/vnd.ms-excel') {
               console.log(droppedFile.relativePath, file);
               this.files1.push(file)              
               
               this.subService.uploadFile(file)
-                .subscribe(rta => {
-                //this.imgRta = rta.location;
-                Swal.fire({
-                  title: 'Éxito!',
-                  text: `Archivo subido correctamente`,
-                  icon: 'success',
-                  confirmButtonText: 'Aceptar',
-                  confirmButtonColor: '#0A266F',
-                });
-                //borro el archivo cargado si se subio correctamente
-                //element.value = '';
+                .subscribe(data => {
+                  console.log("Data: ",data)
+                  let response = Object.values(data);
+                  this.responseFile = {
+                    statusFile: response[0],
+                    contRows: response[1],
+                    contErrorRows: response[2],
+                    contSuccessRows: response[3],
+                    contSaveRows: response[4],
+                    logsType: response[5],
+                    logsEmptyFields: response[6],
+                    logsGeneric: response[7],
+                    logsSuccess: response[8],
+                  };
+                  if (this.responseFile.statusFile === 'ERROR') {
+                    Swal.fire({
+                      title: 'Hay errores en el archivo',
+                      html: `
+                  <div style="text-align:center">
+                  <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                          '<h5>Campos vacíos: </h5>' +
+                          this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
+                        }</p>
+                    <p>${this.responseFile.logsType.length === 0 ? '' :
+                          '<h5>Campos vacíos: </h5>' +
+                          this.responseFile.logsType.join('<br>').toLowerCase()
+                        }</p>
+                    <p>${this.responseFile.logsGeneric.length === 0 ? '' :
+                          '<h5>Campos vacíos: </h5>' +
+                          this.responseFile.logsGeneric.join('<br>').toLowerCase()
+                        }</p>
+                  </div>
+                  `,
+                      icon: 'error',
+                      confirmButtonText: 'Aceptar',
+                      confirmButtonColor: '#0A266F',
+                    });
+                    this.files1 = [];
+                  } else {
+                    Swal.fire({
+                      title: 'Éxito!',
+                      text: `Archivo subido correctamente`,
+                      icon: 'success',
+                      confirmButtonText: 'Aceptar',
+                      confirmButtonColor: '#0A266F',
+                    });
+                  }
+                  //borro el archivo cargado si se subio correctamente
+                  // element.value = '';
           })
           }else {
             Swal.fire({

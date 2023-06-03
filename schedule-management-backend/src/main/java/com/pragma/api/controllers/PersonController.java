@@ -39,8 +39,6 @@ public class PersonController {
     ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     //ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.print("SE VA A CREAR");
-        //return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
-        //return this.fileTeachersService.uploadFile(file);
         return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
     }
 
@@ -51,10 +49,10 @@ public class PersonController {
     }
 
     @GetMapping("/byDepartmetId")
-    public Response<GenericPageableResponse> findAllByDepartmetId(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String departmentId){
+    public Response<GenericPageableResponse> findAllByDepartmetId(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String departmentId, @RequestParam String personType){
         //System.out.println("al menos llega aqui al servicio");
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
-        return this.iPersonService.findAllByDepartmentId(pageable, departmentId);
+        return this.iPersonService.findAllByDepartmentId(pageable, departmentId, personType);
 
     }
 

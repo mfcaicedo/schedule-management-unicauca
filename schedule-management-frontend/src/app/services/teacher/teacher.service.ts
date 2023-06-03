@@ -11,7 +11,7 @@ import Swal from 'sweetalert2';
 export class TeacherService {
 
   endPoint: String = environment.urlPerson
-  departmentIds = ['1', '2', '3'];
+  departments = [];
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -41,7 +41,7 @@ export class TeacherService {
 
 
   getDepartmentsName() {
-    return this.departmentIds;
+    return this;
   }
 
   getAllPersonByPersonTypePage(type: string, page: number, pageSize: number): Observable<any> {
@@ -67,11 +67,6 @@ export class TeacherService {
 
   findAllByDepartmetId(type: string, page: number, pageSize: number): Observable<any> {
     //TODO agregar autorizacion
-
-    // console.log('ver este: ', this.endPoint)
-    // console.log('ver este: ', page)
-    // console.log('ver este: ', pageSize) 
-
     return this.http.get<any>(
       this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentId=${type}`)
       .pipe(
@@ -83,14 +78,9 @@ export class TeacherService {
   }
 
   uploadFile(file: Blob) {
-    console.log("llego al servicio de teacher", file);
-    console.log("llego al servicio endpoint ", this.endPoint);
     const dto = new FormData();
     dto.append('file', file);
     return this.http.post<File>(this.endPoint + '/uploadFile', dto, {
-      // headers:{
-      //   'Content-type':"multipart/form-data"
-      // }
     });
   }
 }
