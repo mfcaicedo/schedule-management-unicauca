@@ -46,11 +46,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileEnvironment fileEnvironment = new FileEnvironment();
         List<FileRowEnvironment> logs = fileEnvironment.getLogs(file);
-        //if(logs==null){
-        //    List<String> infoLogs = new ArrayList<>();
-        //   infoLogs.add("empty field, check the file");
-        //   return infoLogs;
-        // }
+
         return processFile(logs);
 
     }
@@ -96,6 +92,23 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                     } else {
                         environment.setName(log.getName());
                     }
+                    /*
+                                        if (log.getName().trim().length() == 0) {
+                    infoErroresVacias.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA VACIO (NOMBRE MATERIA OBLIGATORIO)");
+                    errorVacias = true;
+                } else {
+                    if (this.existsInList(subjectNames, log.getName())) {
+                        infoErrores.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA REPETIDO: " + log.getName());
+                        errorRepetidos = true;
+                    } else {
+                        subjectNames.add(log.getName());
+                        if (this.subjectRepository.existsByNameAndProgram_ProgramId(log.getName(), log.getProgramCode())) {
+                            infoErrores.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA YA EXISTE EN EL PROGRAMA (" + log.getProgramCode() + "): " + log.getName());
+                            errorRepetidos = true;
+                        }
+                    }
+                }
+                    * */
 
                     //-------------------------------Location-------------------------------
 
@@ -173,7 +186,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         errorVacias = true;
                         responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA VACIO");
                     }
-
 
                     if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
                         System.out.println("----------que hay:"+errorEnvironment);
@@ -275,45 +287,20 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                 }
             }
 
-            //Boolean inBlock = false;
-            //if (environment.getInBlock().equals("SI")) {
-            //    inBlock = true;
-            //}
-            //Program objPrograma = this.programRepository.findByProgramId(materia.getProgramCode());
-            //Subject objMateria = new Subject(materia.getSubjectCode(), materia.getName(), materia.getWeeklyOverload(), inBlock, materia.getSemester(), objPrograma, null);
-            //materias.add(objMateria);
             environments.add(environment);
+
+            if (log.getLocation().toUpperCase().equals("NO APLICA")) {
+                environment.setParentEnvironment(null);
+            } else {
+                List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                environment.setParentEnvironment(selectParent(log.getLocation().toString(), enviromentsDb));
+            }
+
+
+
         }
         return this.environmentRepository.saveAll(environments).size();
     }
-
-    /*
-    *                         environmentRepository.save(environment);
-                        System.out.println("---------------------GUARDA AMBIENTE--------------");
-
-
-                        //------------------------Resources Avaliable--------------------------------------------
-                        if (log.getAvailableResources() != null) {
-
-                            //Se crea el enviromentResources
-                            List<Resource> resourcesDb = this.resourceRepository.findAll();
-                            System.out.println("-----que hay: televisor, videobem" + log.getAvailableResources());
-                            String[] words = log.getAvailableResources().split(",");
-                            String[] wordsFormat = wordFormat(words); //formatear palabras
-
-
-                            List<Resource> resources = new ArrayList<>();
-                            resources = verifyResources(wordsFormat, resourcesDb);
-
-
-                            for (int i = 0; i < resources.size(); i++) {
-
-                                EnvironmentResourceDTO environmentResource = new EnvironmentResourceDTO(
-                                        log.getQuantity().get(i), environment, resources.get(i));
-                                this.iEnvironmentResourceService.saveEnvironmentResource(environmentResource);
-                            }
-                        }
-    * */
 
     private List<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
         System.out.println("resource db: " + resourcesDb.get(0).getName());
@@ -345,6 +332,17 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         }
 
         return environmentP;
+    }
+
+    private boolean existsInList(List<String> lista, String buscado) {
+        boolean encontrado = false;
+        for (String elemento : lista) {
+            if (elemento.equals(buscado)) {
+                encontrado = true;
+                break;
+            }
+        }
+        return encontrado;
     }
 
 }
