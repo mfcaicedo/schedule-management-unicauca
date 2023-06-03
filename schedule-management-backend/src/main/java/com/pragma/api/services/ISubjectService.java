@@ -49,4 +49,9 @@ public interface ISubjectService {
      * @return lista de materias
      */
     List<SubjectDTO> findAllByProgram(Program programId);
+
+    GenericPageableResponse findAllSubject(Pageable pageable);
+
+    GenericPageableResponse findAllByProgramId(String program_id, Pageable pageable);
+
 }

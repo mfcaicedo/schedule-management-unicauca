@@ -1,7 +1,5 @@
 package com.pragma.api.domain;
 
-
-
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 

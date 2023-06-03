@@ -4,12 +4,15 @@
 
 export const environment = {
   production: false,
-    //URLs Bases 
-    urlRsc: 'http://localhost:8081/api/resource',
-    urlCrs: 'http://localhost:8081/api/course',
-    urlEnv: 'http://localhost:8081/api/environment',
-    urlAuth: 'http://localhost:8081/api/auth', 
-    urlAcadOffer: 'http://localhost:8081/api/academicOffer', 
+  //URLs Bases
+  urlRsc: 'http://localhost:8081/api/resource',
+  urlCrs: 'http://localhost:8081/api/course',
+  urlEnv: 'http://localhost:8081/api/environment',
+  urlAuth: 'http://localhost:8081/api/auth',
+  urlAcadOffer: 'http://localhost:8081/api/academicOffer',
+  urlPerson: 'http://localhost:8081/api/person',
+  urlSub: 'http://localhost:8081/api/subject',
+  urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
 };
 
 /*

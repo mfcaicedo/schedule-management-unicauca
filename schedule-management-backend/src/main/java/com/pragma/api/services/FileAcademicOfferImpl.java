@@ -63,7 +63,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
              */
 //            if (iPersonRepository.existsById(log.getPersonCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
             Boolean errorSubjectCode = false;
-            if (iSubjectRepository.existsById(log.getSubjectCode())) {
+            if (!iSubjectRepository.existsById(log.getSubjectCode())) {
                 infoLogs.add("CODIGO MATERIA NO EXISTE: " + log.getSubjectCode());
                 errorSubjectCode = true;
             }
@@ -118,7 +118,9 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 //                    iPersonRepository.save(person);
 //                    iSubjectRepository.save(subject);
 //                    iPeriodRepository.save(period);
-                infoLogs.add("Course Created succesfully!");
+                infoLogs.add("CURSO REGISTRADO EN SISTEMA");
+            } else {
+                infoLogs.add("CURSO NO REGISTRADO EN SISTEMA");
             }
         }
         return infoLogs;

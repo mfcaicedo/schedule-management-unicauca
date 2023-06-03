@@ -14,7 +14,7 @@ export class ResourceService {
   endPoint:String = environment.urlRsc
   //endPoint:String = 'api/resource'
 
-  resourceTypes:string[]=['all','TECNOLOGICO','PEDAGOGICO'];
+  resourceTypes:string[]=['TODOS','TECNOLOGICO','PEDAGOGICO'];
   resources:Resource[]=[
     {'id':1,'name':'Televisor','resourceType':this.resourceTypes[1]},
     {'id':2,'name':'Computador','resourceType':this.resourceTypes[1]},

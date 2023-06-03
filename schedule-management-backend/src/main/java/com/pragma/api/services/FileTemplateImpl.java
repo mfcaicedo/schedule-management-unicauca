@@ -1,5 +1,6 @@
 package com.pragma.api.services;
 
+import com.google.gson.annotations.Since;
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Program;
 import com.pragma.api.model.Subject;
@@ -204,7 +205,7 @@ public class FileTemplateImpl implements ITemplateFileService{
      */
     private String getPathTemplate(String nameFile) {
         final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -214,7 +215,7 @@ public class FileTemplateImpl implements ITemplateFileService{
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();
@@ -252,8 +253,6 @@ public class FileTemplateImpl implements ITemplateFileService{
         row.getCell(init+1).setCellValue(subjects.get(j).getTimeBlock() ? "SI" : "NO");
         row.getCell(init+2).setCellValue(subjects.get(j).getWeeklyOverload());
     }
-
-
 
 
 }

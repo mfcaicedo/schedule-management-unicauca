@@ -7,6 +7,9 @@ import com.pragma.api.domain.SubjectDTO;
 import com.pragma.api.model.Person;
 import com.pragma.api.model.Program;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
+import com.pragma.api.model.Program;
+import com.pragma.api.model.Resource;
+import com.pragma.api.model.enums.ResourceTypeEnumeration;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Subject;
 import com.pragma.api.repository.IProgramRepository;
@@ -74,6 +77,23 @@ public class SubjectServiceImpl implements ISubjectService {
     public Response<SubjectDTO> getSubjectByCode(String code) {
         return null;
     }
+
+    @Override
+    public GenericPageableResponse findAllSubject(Pageable pageable) {
+        Page<Subject> resourcesPage = this.subjectRepository.findAll(pageable);
+        if(resourcesPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
+        return this.validatePageList(resourcesPage);
+
+    }
+
+    @Override
+    public GenericPageableResponse findAllByProgramId(String program_id, Pageable pageable) {
+
+        Page<Subject> subjectsByProgramIdPage = this.subjectRepository.findAllByProgramId(program_id,pageable);
+        if(subjectsByProgramIdPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
+        return this.validatePageList(subjectsByProgramIdPage);
+    }
+
 
     @Override
     public Response<GenericPageableResponse> findAll(final Pageable pageable) {

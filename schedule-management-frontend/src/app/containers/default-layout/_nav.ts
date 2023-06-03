@@ -34,10 +34,10 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name:'Ambientes',
-    url:'/environment',
-    iconComponent:{name:'cilBuilding'},
-    children:[
+    name: 'Ambientes',
+    url: '/environment',
+    iconComponent: { name: 'cilBuilding' },
+    children: [
       {
         name: 'Crear ambiente',
         url: '/environment/create',
@@ -74,6 +74,40 @@ export const navItems: INavData[] = [
     ]
   },
   {
+    name: 'Docentes',
+    url: '/teacher',
+    iconComponent: { name: 'cil-people' },
+    children: [
+      {
+        name: 'Cargar docentes',
+        url: '/teacher/upload-teacher',
+        iconComponent: { name: 'cilCloudUpload' }
+      },
+      {
+        name: 'Ver docentes',
+        url: '/teacher/all',
+        iconComponent: { name: 'cilMagnifyingGlass' }
+      },
+    ]
+  },
+  {
+    name: 'Asignaturas',
+    url: '/subject',
+    iconComponent: { name: 'cilNotes' },
+    children: [
+      {
+        name: 'Cargar asignaturas',
+        url: '/subject/upload-sub',
+        iconComponent: { name: 'cilCloudUpload' }
+      },
+      {
+        name: 'Ver asignaturas',
+        url: '/subject/all',
+        iconComponent: { name: 'cilMagnifyingGlass' }
+      },
+    ]
+  },
+  {
     name: 'Schedule',
     url: '/schedule',
     iconComponent: { name: 'cil-puzzle' },
@@ -93,6 +127,33 @@ export const navItems: INavData[] = [
       {
         name: 'Detail Professor',
         url: '/schedule/detailprofessor'
+      }
+    ]
+  },
+  {
+    name: 'Reportes',
+    url: '/Reportes',
+    iconComponent: { name: 'cilPrint' },
+    children: [
+      {
+        name: 'Reporte por Facultad',
+        url: '/Reportes/Report_faculty'
+      },
+      {
+        name: 'Reporte por Programa',
+        url: '/Reportes/Report_program'
+      },
+      {
+        name: 'Reporte por semestre',
+        url: '/Reportes/Report_semestre'
+      },
+      {
+        name: 'Reporte por Professor',
+        url: '/Reportes/Report_teacher'
+      },
+      {
+        name: 'Reporte por salon',
+        url: '/reportes/salon'
       }
     ]
   },

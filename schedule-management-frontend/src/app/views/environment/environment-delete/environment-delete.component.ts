@@ -45,7 +45,7 @@ export class EnvironmentDeleteComponent implements OnInit {
        //  this.environment=this.environmentService.getEnvironmentsByEnvironmentId(this.environmentId);
         this.environmentService.getEnvironmentsByEnvironmentId(this.environmentId).subscribe(response =>{
          console.log("Data en delete environment: ",response)
-         this.environmentParent=response.data as Environment
+         //this.environmentParent=response.data as Environment
 
        })
        // this.environment=this.environmentService.getEnvironmentsByEnvironmentId(this.environmentId)
@@ -65,7 +65,9 @@ export class EnvironmentDeleteComponent implements OnInit {
   // }
   onDeleteEnvironment(){
     console.log("entra a eliminar")
-    this.environmentService.deleteEnvironment(this.environmentId).subscribe
+    this.environmentService.deleteEnvironment(this.environmentId).subscribe(() => {
+      Swal.fire('Ambiente eliminado',
+    `El ambiente : ${this.environmentId}  \nfue actualizado exitosamente`, 'success')})
   }
 
 
