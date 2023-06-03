@@ -95,7 +95,7 @@
       <br>
 
       <div class="centrado">
-        <input type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()">      
+        <input id="btn-generar"type="submit" class="btn-upload-file" value="Generar VistaPrevia"(click)="GenerarReporte()">      
       </div>
     </span>
     <br>
@@ -103,8 +103,8 @@
   </c-card-body>
 
   <div *ngFor="let esquema of esquemas;let i=index">
-    <h2> Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
-    <table cTable  >
+    <h2 #miTablaTITULO> Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
+    <table cTable #miTablaI >
       <thead cTableColor="dark">
       <tr>
         <th *ngFor="let c of columnsReporte">{{ c }}</th>

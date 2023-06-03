@@ -40,6 +40,8 @@
     "angular-calendar": "^0.31.0",
     "chart.js": "^3.9.1",
     "date-fns": "^2.30.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.5.29",
     "ngx-file-drop": "^15.0.0",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-spinner": "^15.0.1",

@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
@@ -10,7 +12,9 @@ import { ProgramService } from 'src/app/services/program/program.service';
   templateUrl: './report-program.component.html',
   styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
-export class ReportProgramComponent {
+export class ReportProgramComponent implements AfterViewInit{
+  @ViewChild('miTablaI', { static: false }) miTabla!: ElementRef;// permite referenciar el objeto HTML  que se va a imprimir
+
 
   title="Reporte Programa";
   
@@ -37,8 +41,9 @@ export class ReportProgramComponent {
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por programa
 
   constructor(    
-    private  facservice:FacultyService,    ///servicio encargado de traer las facultades
-    private programService:ProgramService  ///servicio encargado de traer los programas de la facultad seleccionada
+    private  facservice:FacultyService,     ///servicio encargado de traer las facultades
+    private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad seleccionada
+    private cdr: ChangeDetectorRef          ///es un detector de cambios de referencias
   ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
@@ -52,6 +57,13 @@ export class ReportProgramComponent {
       }
     );
   }
+  /**
+   * permite detectar cambios en la instanciacion correcta de elementos creados en tiempo de ejecucion
+   */
+  ngAfterViewInit() {
+    this.cdr.detectChanges(); // Ejecuta la detección de cambios para asegurarte de que la tabla esté disponible
+  }
+
   /**
    * este metodo es utilizado al seleccionar la facultad
    * cuando sea un valor valido (no el por defecto) cargara los programas
@@ -79,6 +91,13 @@ export class ReportProgramComponent {
     );
   }
   GenerarReporte(){
+    alert("Descargando...");
+    const doc = new jsPDF();
+    
+      const table = this.miTabla.nativeElement;
+
+      (doc as any).autoTable({ html: table });
+      doc.save('tabla.pdf');
     
   }
   /**

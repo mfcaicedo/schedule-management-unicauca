@@ -1,23 +1,28 @@
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import 'jspdf-autotable';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
 import { ReportService } from 'src/app/services/report/report.service';
-
+import { PdfService } from 'src/app/views/reportes/pdf.service';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
-export class RoomComponent implements OnInit {
+export class RoomComponent implements OnInit,AfterViewInit {
   
 //#region  declaracionVariables
 @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
 
-  //data: any = [];
+//@ViewChild('miTablaI', { static: false }) miTabla!: ElementRef;// permite referenciar el objeto HTML  que se va a imprimir
+@ViewChildren('miTablaI') tablas!: QueryList<ElementRef>;   ///Permite referenciar todas las tablas que se van a imprimir diciendo que aun no estan creadas pero se instanciaran mas adelante con el simbolo !
+@ViewChild('miTablaTITULO', { static: false })
+  miTablaTITULO!: ElementRef;
+//data: any = [];
   isDisabled:boolean=false;//usado en html para los checkbox
   //showSelectedEnvironment:boolean=false;
  // ambiente!:Environment;
@@ -69,8 +74,12 @@ export class RoomComponent implements OnInit {
     private route : ActivatedRoute,
     private  facservice:FacultyService,    ///servicio encargado de traer las facultades
     private envService:EnvironmentService, ///servicio encargado de traer los edificios y ambientes filtrados
-    private reportService :ReportService  ///servicio que se ejecuta al generar el reporte
-  ){}
+    private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
+    private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
+    private pdfService: PdfService
+  ){ 
+    this.cambiarNombreVistaPreviaGenerar();// funcion constante ejecucion para ver si hay vistas previas
+  }
 
 /**
  * Metodo Inicializador que usa los servicios inyectados para llenar facultades
@@ -91,6 +100,13 @@ export class RoomComponent implements OnInit {
     this.environmentTypes=this.envService.getAllEnvironmentTypes();
     //this.lista();//COMENTADO DE METODOS YA NO USADOS 
   }
+ /**
+  * permite detectar cambios en la instanciacion correcta de elementos creados en tiempo de ejecucion
+  */
+ ngAfterViewInit() {
+   this.cdr.detectChanges(); // Ejecuta la detección de cambios para asegurarte de que la tabla que se conbierte en PDF esté disponible
+ }
+
   //----------------------el siguiente es un metodo de PRUEBAS  se puede BORRAR---------------------------------------
   /**muestra un mensaaje para saber que dato se selecciono */
   alerta(msj:string){
@@ -222,6 +238,9 @@ export class RoomComponent implements OnInit {
         }
       );
     });
+    //let titulo=this.getNombreAmbientedesdeId(this.seleccionados[index]);
+    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+    //.generarPDFs();
   }
 
   resetearTabla(){    
@@ -237,70 +256,7 @@ export class RoomComponent implements OnInit {
 //#endregion Metodos para enventos html
 //------------------------------OTROS METODOS (NO USADOS ecepto los de la tabla)---------------------------------------------------
 //#region otros 
-  
-/** 
- * ngOnChanges(changes: SimpleChanges): void {
-    if(changes['continueCreatingSchedule']){
-      if(changes['continueCreatingSchedule'].currentValue == true){
-        this.changeSelectedEnvironment()
-      }
-    }
-  }
- changeSelectedEnvironment(){
-    this.isDisabled=false
-    // this.render2.setAttribute(this.casilla.nativeElement,'checked','false')
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
-    });
-    this.selectedEnvironment.emit(null)
-    this.isEnvironmentSelected.emit(false)
-    this.showSelectedEnvironment=false;
-  }
-  lista(){
-    this.data = [
-      {
-        id: 1,
-        tipo: "salon",
-        numero: 532,
-        ubicacion: "1 piso",
-        capacidad: 50,
-        facultad: "civil",
-        estado: "libre",
-      },
-      {
-        id: 2,
-        tipo: "salon",
-        numero: 202,
-        ubicacion: "1 piso",
-        capacidad: 50,
-        facultad: "civil",
-        estado: "libre",
-      },
-      {
-        id: 3,
-        tipo: "salon",
-        numero: 322,
-        ubicacion: "1 piso",
-        capacidad: 50,
-        facultad: "civil",
-        estado: "libre",
-      },
-      {
-        id: 4,
-        tipo: "salon",
-        numero: 109,
-        ubicacion: "1 piso",
-        capacidad: 50,
-        facultad: "civil",
-        estado: "libre",
-      },
-    ]
-    this.data.map((re: { checked: boolean; }) => {
-      re.checked = false;
-    });
-    
-  }
-*/
+ 
 //#endregion otros 
 ////-------------------METODOS DE TABLA---------------------------
 /**
@@ -331,25 +287,30 @@ getBackgroundColor(programColor: string) {
 
   return colorMap[programColor] || 'white';
 }
+/**
+ *como tenemos los id de los seleccionados buscamos el nombre en un diccionario que 
+ tiene el id y nombre de los ambientes
+ * @param i id del ambiente
+ * @returns  nombre del ambiente
+ */
 getNombreAmbientedesdeId(i:string): string | undefined {
-  /**let ambienteActual:Environment={
-    id: 0,
-    name:  "",
-    location: "",
-    capacity: 0,
-    environmentType: "",
-    facultyId: "",
-    availableResources:[]
-  };
-  this.envService.getEnvironmentById(i).subscribe(
-    (data: Environment) => {
-      ambienteActual= data as Environment; 
-    },
-    (error) => {
-      console.log('Error obteniendo el nombre para el ambiente de id '+i, error);
+  
+  return this.seleccionadoDic.get(i);
+ }
+/**
+ * esta funcion nos permite cambiar el nombre del boton 
+ * cada vez que se cree o eliminen las vistas previas
+ */
+ cambiarNombreVistaPreviaGenerar():void {
+  setInterval(() => {
+    let Valor = "Descargar Reporte(s)";
+    if (this.tablas.length === 0) {
+      Valor = "Vista Previa";
     }
-  );
- return ambienteActual.name+ ".";*/
- return this.seleccionadoDic.get(i);
+    var btnGenerar = document.getElementById('btn-generar') as HTMLInputElement;
+    if (btnGenerar) {
+      btnGenerar.value = Valor;
+    }
+  }, 100);
 }
 }

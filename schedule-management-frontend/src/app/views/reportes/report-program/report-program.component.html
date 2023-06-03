@@ -21,7 +21,7 @@
         
         <span *ngIf="isFacSelected">
           <strong class="cuerpo">Seleccione el Programa :</strong>
-          <table cTable  >
+          <table cTable  #miTablaI>
             <thead cTableColor="dark">
             <tr>
                 <th *ngFor="let c of columnsTableProgramas">{{c}} </th>
