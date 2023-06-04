@@ -24,4 +24,8 @@ public interface IProgramRepository extends JpaRepository<Program, String> {
     " ON p.department_id=d.department_id WHERE d.faculty_id= :faculty_id", nativeQuery = true)
     //Se realiza busqueda de facultad mediante id para traer los edificios    
     List<Object[]> findProgramDataByFacultyId(@Param("faculty_id") String facultyId);
+
+    @Query(value = "SELECT * FROM program p WHERE p.department_id = :department_id",nativeQuery = true)
+    List<Program> findByDepartmentId(@Param("department_id") Integer department_id);
+
 }

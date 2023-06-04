@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.pragma.api.model.enums.TeacherCategoryEnumeration;
+
 @Data
 @NoArgsConstructor
 public class CoursePersonDTO {
@@ -21,7 +23,7 @@ public class CoursePersonDTO {
      * Grupo del curso
      */
     //@NotBlank(message = "El grupo no puede ser vacio")
-    private Integer teacherCategory;
+    private TeacherCategoryEnumeration teacherCategory;
 
     /**
      * Capacidad del curso
