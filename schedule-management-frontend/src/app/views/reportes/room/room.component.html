@@ -1,7 +1,7 @@
 
 <c-card>
   <c-card-header>
-    <strong class="titulo">Reporte Ambientes</strong>
+    <strong class="titulo">Reporte Ambientes</strong>in
   </c-card-header>
 
   <c-card-body>
@@ -95,7 +95,7 @@
       <br>
 
       <div class="centrado">
-        <input id="btn-generar"type="submit" class="btn-upload-file" value="Generar VistaPrevia"(click)="GenerarReporte()">      
+        <input id="btn-generar"type="submit" class="btn-upload-file" value="Vista Previa"(click)="GenerarReporte()">      
       </div>
     </span>
     <br>
@@ -126,7 +126,7 @@
       </tr>
     </tbody>
  </table>
-  <app-calendario [eventosParaCalendario]="esquema"></app-calendario>
+  <app-calendario #appCalendario [eventosParaCalendario]="esquema"></app-calendario>
+<!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
 </div>
-
 </c-card>

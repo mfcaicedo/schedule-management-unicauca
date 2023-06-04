@@ -1,5 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import esLocale from '@fullcalendar/core/locales/es';
+import timeGridPlugin from '@fullcalendar/timegrid';
 import 'jspdf-autotable';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Environment } from 'src/app/models/environment.model';
@@ -7,14 +9,18 @@ import { Faculty } from 'src/app/models/faculty.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
 import { ReportService } from 'src/app/services/report/report.service';
+import { OptionsFullCalendarService } from 'src/app/views/reportes/options-full-calendar.service';
 import { PdfService } from 'src/app/views/reportes/pdf.service';
+
+
+import { FullCalendarComponent } from '@fullcalendar/angular';
+import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
 export class RoomComponent implements OnInit,AfterViewInit {
-  
 //#region  declaracionVariables
 @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
 
@@ -22,6 +28,10 @@ export class RoomComponent implements OnInit,AfterViewInit {
 @ViewChildren('miTablaI') tablas!: QueryList<ElementRef>;   ///Permite referenciar todas las tablas que se van a imprimir diciendo que aun no estan creadas pero se instanciaran mas adelante con el simbolo !
 @ViewChild('miTablaTITULO', { static: false })
   miTablaTITULO!: ElementRef;
+
+@ViewChildren('appCalendario', { read: FullCalendarComponent }) calendariosPDF!: QueryList<FullCalendarComponent>;
+@ViewChildren('appCalendario') elementos!: QueryList<ElementRef>;
+
 //data: any = [];
   isDisabled:boolean=false;//usado en html para los checkbox
   //showSelectedEnvironment:boolean=false;
@@ -76,7 +86,8 @@ export class RoomComponent implements OnInit,AfterViewInit {
     private envService:EnvironmentService, ///servicio encargado de traer los edificios y ambientes filtrados
     private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
     private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    protected calendaroptionsService: OptionsFullCalendarService
   ){ 
     this.cambiarNombreVistaPreviaGenerar();// funcion constante ejecucion para ver si hay vistas previas
   }
@@ -242,7 +253,10 @@ export class RoomComponent implements OnInit,AfterViewInit {
     this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
     //.generarPDFs();
   }
-
+  generarPDF(): void {
+    const elementosArray = this.elementos.toArray();
+    this.pdfService.generarPDFsDeComponenteCalendario(elementosArray);
+  }
   resetearTabla(){    
     this.listaAmbienteHijos=[];
     this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
@@ -311,6 +325,42 @@ getNombreAmbientedesdeId(i:string): string | undefined {
     if (btnGenerar) {
       btnGenerar.value = Valor;
     }
-  }, 100);
+  }, 1000);
+}
+getOptionesCalendar(eventosParaCalendario: ReportRoom[]):CalendarOptions{
+  //alert("dlpdlc");
+ //return this.calendaroptionsService.getCalendarOptions(eventosParaCalendario);
+ 
+ let calendarOptions: CalendarOptions = {//quita opciones de navegacion entre dias
+  headerToolbar: {
+    left: '',
+    center: '',
+    right: ''
+  },
+  initialView: 'timeGridWeek',//muestra semanalmente el calendario
+  allDaySlot: false, //quita fila que dice TODO EL DIA
+  eventOverlap: false ,
+  nowIndicator: false,
+  events: [{
+    title: 'Evento ',
+    daysOfWeek: [1,3,5],
+    startTime: '05:00:00',
+    endTime: '15:00:00',
+    display: 'background',
+    backgroundColor: 'rgba(0, 0, 255, 1)',
+  }],
+  plugins: [timeGridPlugin],
+ 
+  locale: esLocale,//pone en espaniol el calendario
+  slotMinTime: '07:00:00', // Establece el intervalo de tiempo mínimo a las 7 AM
+  slotMaxTime: '22:00:00',// hasta las 10pm
+  slotDuration: '01:00:00', // Establece la duración de la ranura en 2 horas
+  contentHeight: 'auto', // Ajusta automáticamente el tamaño al contenido   
+  eventDidMount: function(info) {
+    info.el.style.borderColor = 'blue';
+    info.el.style.color = 'white';
+  }
+};
+return calendarOptions;
 }
 }

@@ -1,4 +1,4 @@
-import { ElementRef, Injectable } from '@angular/core';
+import { ElementRef, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -6,6 +6,10 @@ import 'jspdf-autotable';
   providedIn: 'root',
 })
 export class PdfService {
+  private renderer: Renderer2;
+  constructor(rendererFactory: RendererFactory2) {
+    this.renderer = rendererFactory.createRenderer(null, null);
+  }
   generarPDFsDeTabla(tablas: ElementRef[]): void {
     if (tablas.length !== 0) {
       tablas.forEach((tabla: ElementRef, index: number) => {
@@ -16,12 +20,12 @@ export class PdfService {
         doc.text(titulo, 10, 10);
         (doc as any).autoTable({ html: table });
         doc.save(`Reporte_${index}_${titulo}.pdf`);
-        this.alerta("FinalizadaImpresion");
+        //this.alerta("FinalizadaImpresion");
       });
     }
   }
 
-  private alerta(msj: string) {
-    alert(msj);
+  generarPDFsDeComponenteCalendario(componentes: ElementRef[]): void {
+   
   }
 }

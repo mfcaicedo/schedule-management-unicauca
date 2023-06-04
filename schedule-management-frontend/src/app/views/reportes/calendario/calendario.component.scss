@@ -1,3 +1,7 @@
-.fc-daygrid-event, .fc-timegrid-event {
+*{
+  opacity: 1 !important;
+}
+.fc .fc-bg-event {
+  background: var(--fc-bg-event-color);
   opacity: 1 !important;
 }

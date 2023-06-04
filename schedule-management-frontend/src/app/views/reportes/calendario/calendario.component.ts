@@ -1,9 +1,9 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ReportRoom } from 'src/app/models/ReportRoom.model';
-
+import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import esLocale from '@fullcalendar/core/locales/es';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import html2canvas from 'html2canvas';
+import { ReportRoom } from 'src/app/models/ReportRoom.model';
 
 
 @Component({
@@ -14,6 +14,13 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 export class CalendarioComponent implements OnChanges{
   @Input() eventosParaCalendario: ReportRoom[]=[];
   esquemas: ReportRoom[]=[];//contendra los eventos que se van a mapear en el fullcalendar
+  showFullCalendar: boolean = true;
+    // ...
+
+    @ViewChild('fullCalendarRef', { static: false }) fullCalendarRef: any;
+    @ViewChild('imageElement', { static: false }) imageElement!: ElementRef;
+  
+  imageSrc: string = '';
   
   daysOfWeekMap: { [key: string]: number } = {// como el fullcalendar asocia los dias a numeros este diccionario ayuda con esta transformacion
     lunes: 1,
@@ -32,8 +39,11 @@ export class CalendarioComponent implements OnChanges{
     },
     initialView: 'timeGridWeek',//muestra semanalmente el calendario
     allDaySlot: false, //quita fila que dice TODO EL DIA
+    eventOverlap: false ,
+    nowIndicator: false,
     events: [],
     plugins: [timeGridPlugin],
+   
     locale: esLocale,//pone en espaniol el calendario
     slotMinTime: '07:00:00', // Establece el intervalo de tiempo mínimo a las 7 AM
     slotMaxTime: '22:00:00',// hasta las 10pm
@@ -44,8 +54,12 @@ export class CalendarioComponent implements OnChanges{
       info.el.style.color = 'white';
     }
   };
-
-  constructor() {
+  ngAfterViewInit() {
+    this.generarImagenCalendario();
+    this.showFullCalendar = false;
+  }
+  constructor(private renderer: Renderer2) {
+    
     this.esquemas =this.eventosParaCalendario;
     /**
     this.esquemas = [
@@ -93,9 +107,13 @@ export class CalendarioComponent implements OnChanges{
       this.esquemas = changes['eventosParaCalendario'].currentValue;
       this.actualizarEventosCalendario();
     }
+    
+    this.generarImagenCalendario();
   }
   actualizarEventosCalendario() {
-    alert(this.esquemas.length);
+    const element = document.documentElement; // Obtén el elemento raíz del documento (html)
+    this.renderer.setStyle(element, '--fc-bg-event-opacity', '1'); // Cambia el valor a 0.5
+    //alert(this.esquemas.length);
     this.calendarOptions.events = this.esquemas.map(esquema => ({
       title: 'Evento ' + esquema.id,
       daysOfWeek: [this.daysOfWeekMap[esquema.day.toLowerCase()]],
@@ -105,4 +123,25 @@ export class CalendarioComponent implements OnChanges{
       backgroundColor: 'rgba(255, 0, 0, 1)',
     }));
   }
+  getOptions():CalendarOptions{
+    return this.calendarOptions;
+  }
+  generarImagenCalendario() {
+    const calendarDiv = this.fullCalendarRef.element.nativeElement;
+
+    html2canvas(calendarDiv).then((canvas) => {
+      // Aquí puedes realizar cualquier manipulación adicional en el canvas, como cambiar su tamaño, agregar texto, etc.
+  
+      // Una vez que hayas finalizado, puedes convertir el canvas en una imagen base64
+      const imageDataUrl = canvas.toDataURL(); // Obtiene la representación de imagen del canvas en formato base64
+  
+      // Asigna la imagen base64 a la propiedad imageSrc para mostrarla en tu componente HTML
+      this.imageSrc = imageDataUrl;
+
+      // Actualiza la propiedad src del elemento de imagen
+      this.imageElement.nativeElement.src = this.imageSrc;
+      this.showFullCalendar = false;
+    });
+  }
+  
 }
