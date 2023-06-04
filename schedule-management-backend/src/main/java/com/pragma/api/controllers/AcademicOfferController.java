@@ -20,7 +20,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AcademicOfferController {
 
-    //test
+    //test a
     private final IFileAcademicOffer iFileAcademicOffer;
 
     private final ITemplateFileService iTemplateFileService;
