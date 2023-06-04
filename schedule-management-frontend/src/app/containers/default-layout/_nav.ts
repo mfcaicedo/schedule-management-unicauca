@@ -152,6 +152,9 @@ export const navItems: INavData[] = [
       {
         name: 'Reporte por salon',
         url: '/reportes/salon'
+      }, {
+        name: 'Componente Pruebas',
+        url: '/reportes/calendario'
       }
     ]
   },

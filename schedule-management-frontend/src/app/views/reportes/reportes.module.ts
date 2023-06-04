@@ -34,6 +34,7 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { CalendarioComponent } from './calendario/calendario.component';
 import { ReportFacultyComponent } from './report-faculty/report-faculty.component';
 import { ReportProgramComponent } from './report-program/report-program.component';
 import { ReportSemestreComponent } from './report-semestre/report-semestre.component';
@@ -47,7 +48,8 @@ import { RoomComponent } from './room/room.component';
         ReportFacultyComponent,
         ReportProgramComponent,
         ReportSemestreComponent,
-        ReportTeacherComponent
+        ReportTeacherComponent,
+        CalendarioComponent
     ],
     imports: [
         CommonModule,
@@ -64,6 +66,7 @@ import { RoomComponent } from './room/room.component';
         CardModule,
         CarouselModule,
         CollapseModule,
+        FullCalendarModule,
         DropdownModule,
         FormModule,
         GridModule,

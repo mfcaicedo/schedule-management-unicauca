@@ -102,9 +102,9 @@
   </span>     
   </c-card-body>
 
-  <div *ngFor="let esquema of esquemas;let i=index">
-    <h2 #miTablaTITULO> Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
-    <table cTable #miTablaI >
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
+    <table cTable #miTablaI>
       <thead cTableColor="dark">
       <tr>
         <th *ngFor="let c of columnsReporte">{{ c }}</th>
@@ -125,7 +125,8 @@
         <td>{{ item.programColor }}</td>
       </tr>
     </tbody>
-  </table>
+ </table>
+  <app-calendario [eventosParaCalendario]="esquema"></app-calendario>
 </div>
 
 </c-card>

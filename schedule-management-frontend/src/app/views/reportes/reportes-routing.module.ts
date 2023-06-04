@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CalendarioComponent } from './calendario/calendario.component';
 import { ReportFacultyComponent } from './report-faculty/report-faculty.component';
 import { ReportProgramComponent } from './report-program/report-program.component';
 import { ReportSemestreComponent } from './report-semestre/report-semestre.component';
@@ -70,6 +71,14 @@ const routes: Routes = [
           component: ReportTeacherComponent,
           data: {
             title: 'Report_teacher'
+          }
+        },
+        {
+          //detalle y de un ambiente
+          path: 'calendario',
+          component: CalendarioComponent,
+          data: {
+            title: 'PRUEBAS'
           }
         }/*
         {
