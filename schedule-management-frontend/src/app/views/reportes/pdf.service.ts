@@ -11,6 +11,7 @@ export class PdfService {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
   generarPDFsDeTabla(tablas: ElementRef[]): void {
+    alert("DESCARGANDO DE TABLAAA");
     if (tablas.length !== 0) {
       tablas.forEach((tabla: ElementRef, index: number) => {
         const doc = new jsPDF();
@@ -20,12 +21,37 @@ export class PdfService {
         doc.text(titulo, 10, 10);
         (doc as any).autoTable({ html: table });
         doc.save(`Reporte_${index}_${titulo}.pdf`);
-        //this.alerta("FinalizadaImpresion");
+        alert("FinalizadaImpresion");
       });
     }
   }
 
-  generarPDFsDeComponenteCalendario(componentes: ElementRef[]): void {
-   
+  generarPDFsDeImagenes(imagenes: ElementRef[]): void {
+    alert("DESCARGANDO IMG"+ imagenes.length);
+    if (imagenes.length !== 0) {
+      imagenes.forEach((imagen: ElementRef, index: number) => {
+        const doc = new jsPDF();
+        const imagenElement = imagen.nativeElement;
+///const titulo = imagen.nativeElement.previousElementSibling.textContent.trim();
+  
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+  
+        if (context) {
+          canvas.width = imagenElement.width;
+          canvas.height = imagenElement.height;
+          context.drawImage(imagenElement, 0, 0);
+  
+          const imageData = canvas.toDataURL('image/jpeg');
+  
+          doc.addImage(imageData, 'JPEG', 10, 10, imagenElement.width, imagenElement.height);
+          ///.save(`Reporte_${index}_${titulo}.pdf`);
+        } else {
+          // Handle the case where context is null
+          console.error('Could not get canvas context');
+        }
+      });
+    }
   }
-}
+  
+  }

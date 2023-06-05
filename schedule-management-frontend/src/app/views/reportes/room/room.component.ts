@@ -31,6 +31,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
 
 @ViewChildren('appCalendario', { read: FullCalendarComponent }) calendariosPDF!: QueryList<FullCalendarComponent>;
 @ViewChildren('appCalendario') elementos!: QueryList<ElementRef>;
+@ViewChildren('appCalendario') appCalendarios!: QueryList<ElementRef>;
 
 //data: any = [];
   isDisabled:boolean=false;//usado en html para los checkbox
@@ -250,12 +251,20 @@ export class RoomComponent implements OnInit,AfterViewInit {
       );
     });
     //let titulo=this.getNombreAmbientedesdeId(this.seleccionados[index]);
-    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+    //this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
     //.generarPDFs();
+    this.generarPDF();
   }
   generarPDF(): void {
-    const elementosArray = this.elementos.toArray();
-    this.pdfService.generarPDFsDeComponenteCalendario(elementosArray);
+    let imgElements: ElementRef[] = [];
+alert("cant Componente Calendario " +this.appCalendarios.length );
+    this.appCalendarios.forEach((appCalendario: ElementRef) => {
+      alert("iterando")
+    const imgElement = appCalendario.nativeElement.querySelector('img');
+    imgElements.push(imgElement);
+  });
+alert("total " +imgElements.length);
+    this.pdfService.generarPDFsDeImagenes( imgElements);
   }
   resetearTabla(){    
     this.listaAmbienteHijos=[];
