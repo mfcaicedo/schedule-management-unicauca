@@ -1,0 +1,5 @@
+package com.pragma.api.model;
+
+public class TeacherReport {
+    //En construccion...
+}

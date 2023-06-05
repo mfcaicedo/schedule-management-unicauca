@@ -12,5 +12,7 @@ public interface IProgramService {
 
     //Metodo para consultar todos los programas, que esten asociados al id de facultad pasado como parametro
     public Response<List<ProgramDTO>> findAllProgramByFacultyId(String facultyId);
+    
+    public Response<List<ProgramDTO>> findAllByDepartmentId(Integer department_id);
 
 }

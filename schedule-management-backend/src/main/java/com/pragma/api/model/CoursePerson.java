@@ -4,32 +4,31 @@ import com.pragma.api.model.enums.TeacherCategoryEnumeration;
 import lombok.*;
 
 import javax.persistence.*;
-
+/*
 @Entity
-@Table(name = "course_person")
+*/
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CourseTeacher {
-    @Id
+public class CoursePerson {
+    
+   /*  @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_teacher_id")
+    */
     private Integer id;
 
-   /*  @Column(name = "teacher_category")
+    //@Column(name = "teacher_category")
     private TeacherCategoryEnumeration teacherCategory;
- */
-//En la base de datos esta columna figura como un entero, mientras haya algun cambio que lo solucione, esto queda comentado.
-    @Column(name = "teacher_category")
-    private Integer teacherCategory;
-    @ManyToOne
-    @JoinColumn(name = "course_id")
+ 
+    //@ManyToOne
+    //@JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "personCode")
+    //@ManyToOne
+    //@JoinColumn(name = "personCode")
     private Person person;
 
 }
