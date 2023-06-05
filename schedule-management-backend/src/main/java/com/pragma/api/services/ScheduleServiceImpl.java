@@ -111,6 +111,43 @@ public class ScheduleServiceImpl implements IScheduleService {
         if (scheduleOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
         
+        if(scheduleOptRequest.get().isReserve()== true && scheduleOptRequest.get().getCourse()==null){
+          //  throw new ScheduleBadRequestException("bad.request.course.id",updateRequest.getCourseId().toString()); 
+            if(updateRequest.getCourseId()!= null && updateRequest.isReserv()== false){
+                Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
+                if (courseOptRequest.isEmpty())
+                    throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
+                Optional<Environment> environmentOptRequest = this.environmentRepository.findById(updateRequest.getEnvironmentId());
+                if (environmentOptRequest.isEmpty())
+                    throw new ScheduleBadRequestException("bad.request.environment.id",updateRequest.getEnvironmentId().toString());
+                Course courseDb = courseOptRequest.get();
+                if (this.scheduleRepository.existsByCourseAndDay(courseDb, updateRequest.getDay()))
+                        throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
+                if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(updateRequest.getStartingTime(),
+                            updateRequest.getEndingTime(), updateRequest.getDay(), environmentOptRequest.get()))
+                            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",
+                                environmentOptRequest.get().getName());
+                int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(), updateRequest.getEndingTime());
+                // Se calcula la diferencia de horas no sobrepase las establecida que la
+                // diferencia no sea negativa y que no sean menor a 1 los bloques
+                if (differenceHours > courseDb.getRemainingHours() || differenceHours < 2)
+                    throw new ScheduleBadRequestException("bad.request.schedule.hours", courseDb.getId().toString());
+                Schedule scheduleDb = scheduleOptRequest.get();
+                scheduleDb.setCourse(courseOptRequest.get());
+                scheduleDb.setEnvironment(environmentOptRequest.get());
+                scheduleDb.setEvent(null);    
+                scheduleDb.setEndingDate(updateRequest.getEndingDate());
+                scheduleDb.setStartingDate(updateRequest.getStartinDate());
+                scheduleDb.setStartingTime(updateRequest.getStartingTime());
+                scheduleDb.setEndingTime(updateRequest.getEndingTime());
+                scheduleDb.setReserve(updateRequest.isReserv());
+                scheduleDb.setDay(updateRequest.getDay());
+                courseDb.setRemainingHours(courseDb.getRemainingHours() - differenceHours);
+                this.courseRepository.save(courseDb);
+                
+                return modelMapper.map(this.scheduleRepository.save(scheduleDb), ScheduleResponseDTO.class);            
+            }
+        }
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
         if (courseOptRequest.isEmpty())
             throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
@@ -139,8 +176,11 @@ public class ScheduleServiceImpl implements IScheduleService {
         Schedule scheduleDb = scheduleOptRequest.get();
         scheduleDb.setCourse(courseOptRequest.get());
         scheduleDb.setEnvironment(environmentOptRequest.get());
+        scheduleDb.setEndingDate(updateRequest.getEndingDate());
+        scheduleDb.setStartingDate(updateRequest.getStartinDate());
         scheduleDb.setStartingTime(updateRequest.getStartingTime());
         scheduleDb.setEndingTime(updateRequest.getEndingTime());
+        scheduleDb.setReserve(updateRequest.isReserv());
         scheduleDb.setDay(updateRequest.getDay());
         concreteCourse.setRemainingHours(concreteCourse.getRemainingHours() - differenceHours);
         this.courseRepository.save(concreteCourse);

@@ -5,6 +5,9 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
+
 import java.time.LocalTime;
 import java.sql.Date;
 
@@ -25,10 +28,10 @@ public class ScheduleRequestDTO {
     private Date startinDate;
     @NotNull
     private LocalTime startingTime;
-    @NotNull
+    @Nullable
     private Integer courseId;
     @NotNull
     private Integer environmentId;
-    @NotNull
+    @Nullable
     private Integer eventId;
 }
