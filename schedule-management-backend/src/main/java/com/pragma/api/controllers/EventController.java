@@ -28,12 +28,14 @@ public class EventController {
 
     @GetMapping("/consultByName/{name}")
     public Response<EventDTO> consultEventByName(@PathVariable String name) {
-        return this.eventService.findByeventName(name);
+        //return this.eventService.findByeventName(name);
+        return null;
     }
 
     @GetMapping("/consultByManagerName/{name}")
     public Response<EventDTO> consultByManagerName(@PathVariable String name) {
-        return this.eventService.findByeventName(name);
+      // return this.eventService.findByeventName(name);
+        return null;
     }
 
     @PostMapping("/EventToSchedule")

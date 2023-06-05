@@ -20,6 +20,6 @@ public interface IScheduleRepository extends JpaRepository<Schedule, Long> {
 
     //boolean existsBy();
     //@Query(value = "SELECT * FROM schedule WHERE environment_id = :environment_id", nativeQuery = true)
-    //List<Schedule>findAllByEnvironmentId(@Param("environment_id")Integer enviroment_id);
+    List<Schedule>findAllByEnvironmentId(@Param("environment_id")Integer enviroment_id);
 //    List<Schedule>findAllByCourseTeacher(Teacher teacher);
 }
