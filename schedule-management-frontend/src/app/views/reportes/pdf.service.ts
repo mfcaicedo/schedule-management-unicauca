@@ -10,8 +10,15 @@ export class PdfService {
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
   }
+  /**
+   * trae un arreglo de referencias a tablas HTML por cada una 
+   * crera un documento de PDF y  toma la referncia de la etiqueta que se encuentre sobbre la tabla 
+   * y la asume como el titulo 
+   * y lo descarga en el pdf
+   * @param tablas  arreglo de referencias HTML
+   */
   generarPDFsDeTabla(tablas: ElementRef[]): void {
-    alert("DESCARGANDO DE TABLAAA");
+    //alert("DESCARGANDO DE TABLAAA");
     if (tablas.length !== 0) {
       tablas.forEach((tabla: ElementRef, index: number) => {
         const doc = new jsPDF();
@@ -21,19 +28,26 @@ export class PdfService {
         doc.text(titulo, 10, 10);
         (doc as any).autoTable({ html: table });
         doc.save(`Reporte_${index}_${titulo}.pdf`);
-        alert("FinalizadaImpresion");
+        //alert("FinalizadaImpresion");
       });
     }
   }
-
-  generarPDFsDeImagenes(imagenes: ElementRef[]): void {
-    alert("DESCARGANDO IMG"+ imagenes.length);
+/**
+   * trae un arreglo de referencias a imagenes HTML por cada una 
+   * crera un documento de PDF 
+   * y lo descarga en el pdf
+   * NO SE ESTA USANDO EN NINGUNA PARTE DEL CODIGO
+   * POR QUE NO HE LOGRADO TRAER ETIQUETAS DE SUBCOMPONENTES ENTONCES 
+   * NOOOOOOOO ESTA PROBADO 
+ * @param imagenes 
+ */
+  _generarPDFsDeImagenes(imagenes: ElementRef[]): void {
+    //alert("DESCARGANDO IMG"+ imagenes.length);
     if (imagenes.length !== 0) {
       imagenes.forEach((imagen: ElementRef, index: number) => {
         const doc = new jsPDF();
         const imagenElement = imagen.nativeElement;
-///const titulo = imagen.nativeElement.previousElementSibling.textContent.trim();
-  
+///const titulo = imagen.nativeElement.previousElementSibling.textContent.trim();  
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
   
@@ -54,4 +68,14 @@ export class PdfService {
     }
   }
   
+  generarPDFsDeCanvaElement(canvas: HTMLCanvasElement, nombreArchivo:string): void {
+    alert("ACCEDIENDO A PDF SERVICE ...iMAGEN");
+    const doc = new jsPDF();  
+    // Convierte la imagen de Canvas en una imagen base64
+    const imgData = canvas.toDataURL('image/jpeg');
+  
+    doc.addImage(imgData, 'JPEG', 10, 20, 190, 0); // Agrega la imagen
+  
+    doc.save(nombreArchivo+`.pdf`);
+  }
   }

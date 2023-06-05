@@ -1,3 +1,5 @@
-:root {
-    --fc-bg-event-opacity: 1;
+:root {//cambia las propiedades por defecto en el fullcalendar
+    --fc-bg-event-opacity: 1;//opacidad de los eventos al maximo
+    
+    --fc-today-bg-color:rgba(0,0,0,0);//no marcar el dia actual
   }

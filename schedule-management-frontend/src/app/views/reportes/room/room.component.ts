@@ -90,7 +90,9 @@ export class RoomComponent implements OnInit,AfterViewInit {
     private pdfService: PdfService,
     protected calendaroptionsService: OptionsFullCalendarService
   ){ 
+    /*
     this.cambiarNombreVistaPreviaGenerar();// funcion constante ejecucion para ver si hay vistas previas
+    */
   }
 
 /**
@@ -250,21 +252,30 @@ export class RoomComponent implements OnInit,AfterViewInit {
         }
       );
     });
-    //let titulo=this.getNombreAmbientedesdeId(this.seleccionados[index]);
-    //this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
-    //.generarPDFs();
-    this.generarPDF();
+    this.generarPDF(0);
   }
-  generarPDF(): void {
+  /**
+   * 
+   * @param opcion si se desea descargar las imagenes enviar 1, si se desea descargar las tablas 2 sino se desea hacer descargas 0
+   */
+  generarPDF(opcion:number){
+    if(opcion==1){
+      this._generarDescargaImagenesPDF();
+    }else if(opcion==2){
+      this._generarDescargaTablasPDF
+    }
+  }
+  _generarDescargaTablasPDF(){
+      this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+  }
+  _generarDescargaImagenesPDF(): void {
     let imgElements: ElementRef[] = [];
-alert("cant Componente Calendario " +this.appCalendarios.length );
     this.appCalendarios.forEach((appCalendario: ElementRef) => {
       alert("iterando")
-    const imgElement = appCalendario.nativeElement.querySelector('img');
-    imgElements.push(imgElement);
-  });
-alert("total " +imgElements.length);
-    this.pdfService.generarPDFsDeImagenes( imgElements);
+      const imgElement = appCalendario.nativeElement.querySelector('img');
+      imgElements.push(imgElement);
+    });
+      this.pdfService._generarPDFsDeImagenes( imgElements);
   }
   resetearTabla(){    
     this.listaAmbienteHijos=[];
