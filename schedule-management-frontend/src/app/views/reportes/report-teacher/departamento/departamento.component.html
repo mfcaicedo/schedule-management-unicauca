@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="form-group">
+      <strong class="resenia">seleccione la facultad :</strong>
+          <br>
+        <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="entrada" >
+            <option value="{{valDefecto}}">Selecciona una Facultad</option>
+            <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+            class="uppercase-text">
+            {{fac.facultyName}} </option>
+        </select>
+             
+    </div>      
+    <div class="form-group">
+        <strong class="resenia">Seleccione Departamento:</strong>
+            <br>
+          <select cSelect id="filtroDepartamento"  (change)="onSelectedFacultad($event)" class="entrada" >
+              <option value="{{valDefecto}}">Selecciona una Facultad</option>
+              <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+              class="uppercase-text">
+              {{fac.facultyName}} </option>
+          </select>
+               
+      </div>      
+          <br>
+          
+    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Busqueda Profesor">      
+          
+</div>

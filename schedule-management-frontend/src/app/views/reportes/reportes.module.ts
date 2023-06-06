@@ -40,6 +40,8 @@ import { ReportProgramComponent } from './report-program/report-program.componen
 import { ReportSemestreComponent } from './report-semestre/report-semestre.component';
 import { ReportTeacherComponent } from './report-teacher/report-teacher.component';
 import { RoomComponent } from './room/room.component';
+import { DepartamentoComponent } from './report-teacher/departamento/departamento.component';
+import { DatosPersonalesComponent } from './report-teacher/datos-personales/datos-personales.component';
 
 
 @NgModule({
@@ -49,7 +51,9 @@ import { RoomComponent } from './room/room.component';
         ReportProgramComponent,
         ReportSemestreComponent,
         ReportTeacherComponent,
-        CalendarioComponent
+        CalendarioComponent,
+        DepartamentoComponent,
+        DatosPersonalesComponent
     ],
     imports: [
         CommonModule,

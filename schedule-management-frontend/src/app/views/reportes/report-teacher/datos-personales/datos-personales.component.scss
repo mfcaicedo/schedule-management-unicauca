@@ -1,0 +1,21 @@
+.container {
+    margin: 20px;
+  }
+  
+  .form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  label {
+    display: inline-block;
+    width: 200px;
+    font-weight: bold;
+  }
+  
+  input[type="text"] {
+    flex: 1;
+    width: 100%;
+  }
+  
