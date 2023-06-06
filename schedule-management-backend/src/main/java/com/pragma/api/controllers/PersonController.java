@@ -55,10 +55,10 @@ public class PersonController {
     }
 
     @GetMapping("/byDepartmetId")
-    public Response<GenericPageableResponse> findAllByDepartmetId(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String departmentId, @RequestParam String personType){
-        //System.out.println("al menos llega aqui al servicio");
+    public Response<GenericPageableResponse> findAllByDepartmetName(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order, @RequestParam String departmentName, @RequestParam String personType){
+        System.out.println("LLEGA ALCONTROLADOR");
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
-        return this.iPersonService.findAllByDepartmentId(pageable, departmentId, personType);
+        return this.iPersonService.findAllByDepartmentName(pageable, departmentName, personType);
 
     }
 

@@ -24,12 +24,17 @@
               </tr> -->
 
             <!-- </ul> -->
-            <ul cDropdownMenu>
-              <!-- <li *ngFor="let nombre of departments.departmentName">
+            <!-- <ul cDropdownMenu>
+              <li *ngFor="let nombre of departments.departmentName">
                 <a (click)="updateTableTeachers(nombre)" cDropdownItem>
                   {{nombre}}
                 </a>
-              </li> -->
+              </li>
+            </ul> -->
+            <ul cDropdownMenu>
+              <li><h6 cDropdownHeader>Departamento</h6></li>
+              <li *ngFor="let departments of department"><a (click)="updateTableTeachers(departments)" cDropdownItem>{{departments}}</a></li>
+              <!-- routerLink="./{{tipo}}" -->
             </ul>
           </c-dropdown>
           </c-col>
