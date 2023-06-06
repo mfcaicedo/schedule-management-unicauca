@@ -1,13 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SlicePipe } from '@angular/common';
-
 import { Person } from 'src/app/models/person.model'
 import { TeacherService } from 'src/app/services/teacher/teacher.service'
 import { HttpClient } from '@angular/common/http';
 import { ignoreElements } from 'rxjs';
 import { Department } from 'src/app/models/department.model';
-
+import Swal from 'sweetalert2';
 // import '@coreui/icons/css/coreui-icons.min.css';
 
 @Component({
@@ -118,6 +117,17 @@ export class TeachersComponent {
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
         this.paginadorResource = response;
       });
+      if (this.person.length == 0) {
+        Swal.fire({
+          title: 'Filtro Departamento ',
+          text: 'No existe ningún docente asociado a este departamento',
+          icon: 'info',
+          showConfirmButton: false,
+          timer: 4000,
+          // confirmButtonText: 'Aceptar',
+          // confirmButtonColor: '#0A266F',
+        });
+      }
     }
 
   }

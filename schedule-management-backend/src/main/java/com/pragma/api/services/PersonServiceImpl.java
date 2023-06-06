@@ -89,8 +89,9 @@ public class PersonServiceImpl implements IPersonService {
         Department department = this.deparmentRepository.findDepartmentByDepartmentName(departmentName);
         String departmentId = department.getDepartmentId();
         System.out.println("DEPARTAMENTO ID: "+departmentId);
-        Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(personType,departmentId, pageable);
-        if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
+        PersonTypeEnumeration type = personType.equals("TEACHER") ? PersonTypeEnumeration.TEACHER : PersonTypeEnumeration.ADMINISTRATIVE;
+        Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(type,departmentId, pageable);
+        System.out.println("EMPTY: " + personPage.isEmpty());
 
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
