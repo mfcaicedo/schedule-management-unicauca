@@ -2,7 +2,7 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.PersonDTO;
 import com.pragma.api.domain.ResponseFile;
-import com.pragma.api.domain.enumStatusFile;
+import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.model.Department;
 import com.pragma.api.model.Person;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
@@ -140,16 +140,16 @@ public class FileTeachersImpl implements IFileTeachersService {
             }
         }
 
-        enumStatusFile statusFile = enumStatusFile.NO_PROCESS;
+        StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         int contSaveRows = 0;
 
         if (contRows > 0) {
             if (contError > 0) {
                 //infoLogs.add(0, "ESTADO ARCHIVO: Error");
-                statusFile = enumStatusFile.ERROR;
+                statusFile = StatusFileEnumeration.ERROR;
             } else {
                 //infoLogs.add(0, "ESTADO ARCHIVO: Success");
-                statusFile = enumStatusFile.SUCCESS;
+                statusFile = StatusFileEnumeration.SUCCESS;
             }
         }
 

@@ -1,11 +1,13 @@
 package com.pragma.api.domain;
 
+import com.pragma.api.model.enums.StatusFileEnumeration;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class ResponseFile {
 
-    private enumStatusFile statusFile;
+    private StatusFileEnumeration statusFile;
     private int contRows;
     private int contErrorRows;
     private int contSuccessRows;
@@ -24,7 +26,7 @@ public class ResponseFile {
     private List<String> logsSuccess;
 
     public ResponseFile() {
-        this.statusFile = enumStatusFile.NO_PROCESS;
+        this.statusFile = StatusFileEnumeration.NO_PROCESS;
         this.contRows = 0;
         this.contErrorRows = 0;
         this.contSuccessRows = 0;
@@ -35,11 +37,11 @@ public class ResponseFile {
         this.logsSuccess = new LinkedList();
     }
 
-    public enumStatusFile getStatusFile() {
+    public StatusFileEnumeration getStatusFile() {
         return statusFile;
     }
 
-    public void setStatusFile(enumStatusFile statusFile) {
+    public void setStatusFile(StatusFileEnumeration statusFile) {
         this.statusFile = statusFile;
     }
 

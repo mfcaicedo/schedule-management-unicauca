@@ -1,6 +1,7 @@
 package com.pragma.api.controllers;
 
 import com.pragma.api.domain.Response;
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.domain.TemplateFileDTO;
 import com.pragma.api.services.IFileAcademicOffer;
 import com.pragma.api.services.ITemplateFileService;
@@ -32,7 +33,7 @@ public class AcademicOfferController {
 
 
     @PostMapping("/uploadFile")
-    ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.iFileAcademicOffer.uploadFile(file), HttpStatus.OK);
     }
 

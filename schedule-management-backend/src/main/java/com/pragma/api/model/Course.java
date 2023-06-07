@@ -27,14 +27,14 @@ public class Course {
     @Column(name = "remaining_hours", nullable = false)
     private Integer remainingHours;
 
-    @Column(name = "description")
-    private String description;
+    @Column(name = "type_environment_required")
+    private String typeEnvironmentRequired;
 
-    public Course(String courseGroup, Integer courseCapacity, Integer remainingHours, String description) {
+    public Course(String courseGroup, Integer courseCapacity, Integer remainingHours, String typeEnvironmentRequired) {
         this.courseGroup = courseGroup;
         this.courseCapacity = courseCapacity;
         this.remainingHours = remainingHours;
-        this.description = description;
+        this.typeEnvironmentRequired = typeEnvironmentRequired;
     }
 
     @ManyToOne(fetch = FetchType.EAGER)

@@ -1,6 +1,10 @@
 package com.pragma.api.util.file.templateclasses;
 
+import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import lombok.*;
+
+import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -8,29 +12,21 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 public class FileRowAcademicOffer {
-    private String period;
-
-    private String program;
-
-    private Integer semester;
-
-    private String subjectCode;
-
-    private String subjectName;
-
-    private String group;
-
+    //Curso
     private Integer capacity;
-
-    private Integer dailyOverload;
-    private Integer weeklyOverload;
-
-    private String environment;
-
-    private String personCode;
-
-    private String description;
-
-    private String department;
-
+    private String group;
+    private String typeEnvironmentRequired; //Tipo o tipos de ambiente requerido
+    private Integer weeklyOverload; //Horas restantes
+    private Boolean inBlock; //En bloque
+    private String subjectCode;
+    //CourseTeacher
+    private Integer courseId;
+    private List<String> personCode; //codigos profesores
+//    private String teacherCategory;
+    //AcedemicOfferFile
+    private Date dateRegisterFile;
+    private String nameFile;
+    private StateAcOfferFileEnumeration stateFile;
+    private String period;
+    private String programId;
 }
