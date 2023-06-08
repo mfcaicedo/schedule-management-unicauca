@@ -219,10 +219,15 @@ public class ScheduleServiceImpl implements IScheduleService {
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
-                    // scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
-                    scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
-                    return scheduleResponseDTO;
+                    if(scheduleResponseDTO.getCourse()!= null){
+                        scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
+                        // scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
+                        scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
+                        }else{
+                            scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());
+                            // scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
+                            scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());      
+                        }return scheduleResponseDTO;
                 })
                 .collect(Collectors.toList());
     }
