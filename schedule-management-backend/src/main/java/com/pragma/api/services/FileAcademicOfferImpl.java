@@ -1,5 +1,6 @@
 package com.pragma.api.services;
 
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.model.*;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
 import com.pragma.api.repository.*;
@@ -10,41 +11,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class FileAcademicOfferImpl implements IFileAcademicOffer {
-
-    private ICourseRepository iCourseRepository;
-
-    private IPersonRepository iPersonRepository;
-
-    private ISubjectRepository iSubjectRepository;
-
-    private IEnvironmentRepository iEnvironmentRepository;
-
+    @Autowired
+    private ICourseService iCourseService;
+    @Autowired
+    private IPersonService iPersonService;
+    @Autowired
+    private ISubjectService iSubjectService;
+    @Autowired
+    private ICourseTeacherService iCourseTeacherService;
+    @Autowired
     private IPeriodRepository iPeriodRepository;
 
-    @Autowired
-    public FileAcademicOfferImpl(ICourseRepository iCourseRepository, IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository, IEnvironmentRepository iEnvironmentRepository, IPeriodRepository iPeriodRepository) {
-        this.iCourseRepository = iCourseRepository;
-        this.iPersonRepository = iPersonRepository;
-        this.iSubjectRepository = iSubjectRepository;
-        this.iEnvironmentRepository = iEnvironmentRepository;
-        this.iPeriodRepository = iPeriodRepository;
-    }
-
     @Override
-    public List<String> uploadFile(MultipartFile file) throws IOException {
-
+    public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileAcademicOffer fileAcademicOffer = new FileAcademicOffer();
         List<FileRowAcademicOffer> logs = fileAcademicOffer.getLogs(file);
-        return processFile(logs);
-
+        logs.forEach(log -> {
+            System.out.println(log.getNameFile());
+            System.out.println(log.getSubjectCode());
+            System.out.println(log.getPersonCode());
+            System.out.println(log.getPeriod());
+            System.out.println(log.getWeeklyOverload());
+            System.out.println(log.getInBlock());
+            System.out.println(log.getStateFile());
+            System.out.println(log.getGroup());
+        });
+//        return processFile(logs);
+        return null;
     }
 
-    private List<String> processFile(List<FileRowAcademicOffer> logs) {
+   /* private ResponseFile processFile(List<FileRowAcademicOffer> logs) {
+        //TODO aqui llega la data procesada del archivo excel
 
         List<String> infoLogs = new ArrayList<>();
 
@@ -57,10 +58,10 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
             System.out.println(log.getPersonCode());
 
-            /*
+            *//*
             SE DEBE VALIDAR SOLO EL CODIGO DE LA MATERIA, YA QUE AL SER VARIOS PROFESORES
             LOS CODIGOS DEBEN SER VALIDADOS POR A PARTE
-             */
+             *//*
 //            if (iPersonRepository.existsById(log.getPersonCode()) && iSubjectRepository.existsById(log.getSubjectCode())) {
             Boolean errorSubjectCode = false;
             if (!iSubjectRepository.existsById(log.getSubjectCode())) {
@@ -95,11 +96,11 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
                 course.setSubject(subject);
 
-                /*
+                *//*
                     SE RECORREN LOS CODIGOS DE PROFESORES YA VALIDADOS,
                     INSTANCIANDO LOS OBJETOS TEACHER CON CADA UNO DE ESOS CODIGOS
                     CADA OBJETO TEACHER ES AGREGADO A LA LISTA DE PROFESORES DEL OBJETO CURSO
-                 */
+                 *//*
 //                    course.setPerson(person);
                 for (int i = 0; i < personCodeArray.length; i++) {
                     personCode = personCodeArray[i].trim();
@@ -124,5 +125,5 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             }
         }
         return infoLogs;
-    }
+    }*/
 }

@@ -124,7 +124,7 @@ public class CourseServiceImpl implements ICourseService {
         System.out.println("llego al servicio con el id: "+id);
         Optional<Course> course = this.iCourseRepository.findById(id);
         System.out.println("id curso: "+course.get().getId());
-        System.out.println("id descripcion : "+course.get().getDescription());
+        System.out.println("id descripcion : "+course.get().getTypeEnvironmentRequired());
 
         return modelMapper.map(this.iCourseRepository.findById(id), CourseDTO.class);
     }

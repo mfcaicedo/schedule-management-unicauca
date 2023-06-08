@@ -4,17 +4,15 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.EnvironmentResourceDTO;
 import com.pragma.api.domain.ResponseFile;
-import com.pragma.api.domain.enumStatusFile;
+import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.model.*;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.repository.IEnvironmentRepository;
-import com.pragma.api.repository.IEnvironmentResourceRepository;
 import com.pragma.api.repository.IFacultyRepository;
 import com.pragma.api.repository.IResourceRepository;
 import com.pragma.api.util.file.FileEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 //import org.hibernate.mapping.Set;
-import com.pragma.api.util.file.templateclasses.FileRowSubject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -193,19 +191,19 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
             }
 
         }
-        enumStatusFile statusFile = enumStatusFile.NO_PROCESS;
+        StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         int contSaveRows = 0;
         if (contRows > 0) {
             if (contError > 0) {
-                statusFile = enumStatusFile.ERROR;
+                statusFile = StatusFileEnumeration.ERROR;
             } else {
-                statusFile = enumStatusFile.SUCCESS;
+                statusFile = StatusFileEnumeration.SUCCESS;
                 if (!fileEnvironment.isEmpty()) {
                     contSaveRows = this.saveFile(fileEnvironment);
                     if (contSaveRows > 0) {
-                        statusFile = enumStatusFile.SAVED;
+                        statusFile = StatusFileEnumeration.SAVED;
                     } else {
-                        statusFile = enumStatusFile.NO_SAVED;
+                        statusFile = StatusFileEnumeration.NO_SAVED;
                     }
                 }
             }

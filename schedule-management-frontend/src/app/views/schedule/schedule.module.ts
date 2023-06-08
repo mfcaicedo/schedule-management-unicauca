@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
-
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 import { ScheduleRoutingModule } from './schedule-routing.module';
 import { ScheduleCreateComponent } from './schedule-create/schedule-create.component';
@@ -103,6 +103,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     PopoverModule,
     TableModule,
     NgxSpinnerModule,
+    NgxFileDropModule,
   ]
 })
 export class ScheduleModule {

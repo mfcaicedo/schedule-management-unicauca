@@ -28,9 +28,9 @@ public class AcademicOfferFile {
     private StateAcOfferFileEnumeration stateFile;
 
 
-    @OneToOne(fetch = FetchType.EAGER)
+   /* @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "template_file_id" )
-    private TemplateFile templateFile;
+    private TemplateFile templateFile;*/
 
 
     @ManyToOne(fetch = FetchType.EAGER)

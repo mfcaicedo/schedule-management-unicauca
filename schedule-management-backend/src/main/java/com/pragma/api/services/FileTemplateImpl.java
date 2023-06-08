@@ -75,6 +75,7 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         //Procesar el archivo de excel
         temporaryFile = Files.readAllBytes(Path.of(path));
+//        temporaryFile = Files.readAllBytes(Path.of(path));
         //Workbook workbook = processExcelFile(path,pathBackup, programId);
         Workbook workbook = processExcelFile(path, programId);
 
@@ -239,6 +240,10 @@ public class FileTemplateImpl implements ITemplateFileService{
             temporary = null;
         }
     }
+
+
+
+
 
     /**
      * Metodo que me permite insertar en las filas de excel en el formato indicado
