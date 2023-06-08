@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, Observable, of, throwError } from 'rxjs';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
+import { ResponseData } from 'src/app/models/responseData.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
@@ -239,5 +240,31 @@ export class EnvironmentService {
       // }
     });
   }
+
+  paginacion(
+    list: Environment[],
+    startIndex:number,
+    pageSize:number,
+    tipo: string,
+    environment: boolean
+    ):Observable<ResponseData>{
+
+      let listFiltrada: Environment[] = list
+
+      if(environment == true){
+        listFiltrada = listFiltrada.filter(x => x.environmentType == tipo)
+      }
+
+    let numberPages = Math.ceil(list.length/pageSize)
+    let response: ResponseData = {
+      elements:listFiltrada.slice(startIndex, startIndex + pageSize),
+      paginator:{
+        totalItems:list.length,
+        totalNumberPage:  numberPages
+      }
+    }
+    return of(response)
+  }
+
 }
 

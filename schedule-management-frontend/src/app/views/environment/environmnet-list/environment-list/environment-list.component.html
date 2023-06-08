@@ -37,13 +37,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let ambiente of environments">
-              <td>{{ambiente.id}} </td>
+            <tr *ngFor="let ambiente of environmentsMODI">
               <td>{{ambiente.environmentType}} </td>
               <td>{{ambiente.name}} </td>
               <td>{{ambiente.location}}</td>
               <td>{{ambiente.capacity}} </td>
-              <td>{{ambiente.facultyId}} </td>
               <td><input #checkboxes  id="selectedSchedule"  type="checkbox" (click)="agregarAmbiente(ambiente,$event)"></td>
 
             </tr>
@@ -51,8 +49,8 @@
 
         </table>
         <br>
-        <app-paginador (pageChanged)="loadTableEnvironments($event)" [totalItems]="totalItems"
-          [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"></app-paginador>
+        <app-paginador (pageChanged)="loadTableEnvironments($event, false)" [totalItems]="totalItems"
+        [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"></app-paginador>
       </c-card-body>
     </c-card>
   </c-col>

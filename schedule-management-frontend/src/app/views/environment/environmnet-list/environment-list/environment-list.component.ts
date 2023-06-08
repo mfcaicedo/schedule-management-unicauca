@@ -1,6 +1,8 @@
 import { Component, Input, SimpleChanges, ChangeDetectorRef, Output, EventEmitter} from '@angular/core';
+import { it } from 'node:test';
 import { availabilityEnvironment } from 'src/app/models/availabilityEnvironment.model';
 import { Environment } from 'src/app/models/environment.model';
+import { EnvironmentService } from 'src/app/services/environment/environment.service';
 import {ReserveEnvironmentService} from "src/app/services/reserve-environment.service";
 
 @Component({
@@ -10,7 +12,8 @@ import {ReserveEnvironmentService} from "src/app/services/reserve-environment.se
 })
 export class EnvironmentListComponent {
   environments:Environment[]=[];
-  columns:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad'];
+  environmentsMODI:Environment[]=[];
+  columns:string[]=['Tipo Ambiente','Nombre','Ubicacion','Capacidad'];
   environmentTypes:string[]=[];
   environmentType!: string ;
   isTypeSelected:boolean=false
@@ -42,16 +45,20 @@ export class EnvironmentListComponent {
 
   constructor(
     private reserveService:ReserveEnvironmentService,
-    private CDR : ChangeDetectorRef
+    private CDR : ChangeDetectorRef,
+    private environmentService : EnvironmentService
     )
   {
 
   }
 
 
-  loadTableEnvironments(args: number[]) {
+  loadTableEnvironments(args: number[], tipo: boolean) {
     //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
     //this.http.get(this.endPoint+`?page=${page}&size=${this.itemsPerPage}`)
+    //let tipo: string = args[2]
+
+    console.log(args);
     let pageSolicitud:number = args[0];
     let pageSize: number = args[1]
       if(!pageSolicitud){
@@ -59,7 +66,28 @@ export class EnvironmentListComponent {
       }
       if(!pageSize){
         pageSize=10
+      }const startIndex = (pageSolicitud - 1) * pageSize;
+      if(tipo == false){
+        this.environmentType = "";
       }
+
+      //this.environments.splice(0, this.environments.length);
+      // return this.filterSchedules().slice(startIndex, startIndex + this.pageSize);
+      this.environmentService.paginacion(
+        this.environments,
+        startIndex,
+        pageSize,
+        this.environmentType,
+        tipo
+      ).subscribe(response =>{
+        // console.log("Data en load Time: ",response)
+        this.environmentsMODI.splice(0, this.environmentsMODI.length);
+        this.environmentsMODI.push(...response.elements as Environment[]);
+        this.totalItems=response.paginator.totalItems as number
+        this.totalNumberPage=response.paginator.totalNumberPage as number
+
+
+      })
 
   }
 
@@ -71,7 +99,7 @@ export class EnvironmentListComponent {
       this.isTypeSelected=true
       this.environmentType=type
     }
-    this.loadTableEnvironments([1,5])
+    this.loadTableEnvironments([1,5], true)
 
   }
 
@@ -81,6 +109,9 @@ export class EnvironmentListComponent {
         console.log(response)
         this.environments = response.data as Environment[]
         this.CDR.detectChanges();
+        this.loadTableEnvironments([1,5], false);
+        console.log(this.environments);
+        console.log(this.environmentsMODI);
         //this.totalItems=response.data.pagination.totalNumberElements as number
         //this.totalNumberPage=response.data.pagination.totalNumberPage as number
       });
@@ -91,7 +122,7 @@ export class EnvironmentListComponent {
     if(changes['formEnvironmentAvailability']){
       // console.log("environment cambio para form ",this.environment)
 
-      this.sendInfo();
+      this.loadTableEnvironments([1,5], false);
 
     }
 
@@ -112,6 +143,8 @@ export class EnvironmentListComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     console.log(this.formEnvironmentAvailability);
+    this.environmentTypes=this.environmentService.getAllEnvironmentTypes();
+    this.sendInfo();
   }
 
 }
