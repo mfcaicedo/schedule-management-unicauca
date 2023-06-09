@@ -1,8 +1,14 @@
 package com.pragma.api.domain;
 
+import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 import lombok.*;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
+
+import com.pragma.api.model.enums.PersonTypeEnumeration;
 
 @Builder
 @Getter
@@ -19,6 +25,8 @@ public class PersonDTO {
     @NonNull
     private DepartmentDTO department;
 
+    @Enumerated(EnumType.STRING)
+    private PersonTypeEnumeration personType;
 
 
 }

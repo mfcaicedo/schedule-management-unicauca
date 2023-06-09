@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { environment } from 'src/environments/environment';
@@ -128,7 +129,7 @@ export class EnvironmentService {
   }
   //Eliminar ambiente
   deleteEnvironment(environmentId:number){
-    return this.http.delete<any>(this.endPoint+`?id=${environmentId}`).pipe(
+    return this.http.delete<any>(this.endPoint+'/delete' +`/${environmentId}`).pipe(
       catchError((e) => {
 
         console.log('Error eliminando el ambiente', e.error.mensaje, 'error');
@@ -238,6 +239,52 @@ export class EnvironmentService {
       //   'Content-type':"multipart/form-data"
       // }
     });
+  }
+  //--------------------Metodos de Reporte---------------------------------
+  /**
+   * El metodo saca todos los edificios por una peticion haciendo uso del identificador de una fultad
+   * los edificios traidos son de tipo ambiente Environment
+   * @param idFac  identificador de la facultad
+   * @returns lista de tipo Environment
+   */
+  getBuildingsByFac(idFac:string): Observable<Environment[]> {
+    //alert("LA CADENA:"+(this.endPoint+"consultBuildingsByFacultyId/"+fac));
+    return this.http.get<any>(this.endPoint+"/consultBuildingsByFacultyId/"+idFac).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }
+/**
+ * Recupera los ambientes que estan en un edificio 
+ * y los retorna como una lista
+ * @param tipoAmbiente  se recibe el tipo de ambiente para filtrarlo
+ * @param idEdificio identificador del edificio
+ * @returns lista de ambientes dentro del Edificio
+ */
+  getEnvironmentByBuildings(tipoAmbiente:string,idEdificio:string): Observable<Environment[]> {
+    //alert("LA CADENA:"+(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio));
+    return this.http.get<any>(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }
+
+  getEnvironmentById(environmentId: string): Observable<Environment> {
+
+    alert("LA CADENA:"+(this.endPoint+"/"+parseInt(environmentId)));
+    return this.http.get<any>(this.endPoint+"/"+parseInt(environmentId)).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo el ambiente por id', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
   }
 }
 

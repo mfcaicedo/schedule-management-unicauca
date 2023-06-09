@@ -44,7 +44,7 @@ import {
   SidebarModule,
   TabsModule,
   UtilitiesModule,
-  PaginationModule, 
+  PaginationModule,
 
 
 } from '@coreui/angular';
@@ -55,6 +55,8 @@ import { InterceptorService } from './services/spinner/interceptor.service';
 import { ScheduleReserveComponent } from './src/app/views/schedule/schedule-reserve/schedule-reserve/schedule-reserve.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { DirectiveDropFileDirective } from './directives/directive-drop-file.directive';
+
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
 };
@@ -66,7 +68,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [AppComponent, ...APP_CONTAINERS, ScheduleReserveComponent],
+  declarations: [AppComponent, ...APP_CONTAINERS, DirectiveDropFileDirective ,ScheduleReserveComponent],
   imports: [
     HttpClientModule,
     DragDropModule,
@@ -96,9 +98,9 @@ const APP_CONTAINERS = [
     BadgeModule,
     ListGroupModule,
     CardModule,
-    PaginationModule, 
-    NgxSpinnerModule
-    
+    PaginationModule,
+    NgxSpinnerModule,
+
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[

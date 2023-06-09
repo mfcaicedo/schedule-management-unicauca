@@ -1,12 +1,8 @@
 package com.pragma.api.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.pragma.api.model.Faculty;
-import com.pragma.api.model.Resource;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import lombok.*;
 
-import javax.persistence.*;
 import java.util.Set;
 
 @Builder
@@ -25,4 +21,11 @@ public class EnvironmentDTO {
     private String facultyId;
     private FacultyDTO facultyDTO;
     private Set<ResourceDTO> availableResources;
+
+    //Constructor personalizado para poder realizar la consulta y cargar el tipo de ambiente
+    public EnvironmentDTO(Integer id, String name, EnvironmentTypeEnumeration environmentType) {
+        this.id = id;
+        this.name = name;
+        this.environmentType = environmentType;
+    }
 }

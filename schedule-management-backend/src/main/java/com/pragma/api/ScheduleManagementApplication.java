@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class ScheduleManagementApplication {
 
     /**
-     * Metodo encargado de ejecutar la aplicación Spring boot
+     * Metodo encargado de e jecutar la aplicación Spring boot
      * 
      * @param args
      */
