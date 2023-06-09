@@ -40,7 +40,7 @@ const routes: Routes = [
           import('./views/teacher/teacher.module').then(m => m.TeacherModule)
       },
       {
-        path:'subject',
+        path: 'subject',
         loadChildren: () =>
           import('./views/subject/subject.module').then(m => m.SubjectModule)
       },
@@ -54,6 +54,7 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/resource/resource.module').then(m => m.ResourceModule)
       },
+
       {
         path: 'schedule',
         loadChildren: () =>

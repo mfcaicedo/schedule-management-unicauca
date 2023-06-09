@@ -17,20 +17,6 @@
             <button cButton cDropdownToggle color="light">
               Selecciona el departamento
             </button>
-            <!-- <ul cDropdownMenu> -->
-              <!-- <li><h6 cDropdownHeader>Departamentos</h6></li> -->
-              <!-- <tr *ngFor="let profesor of teacher; index as i">
-                <li *ngFor="let departamento of profesor.department | keyvalue"><a (click)="updateTableTeachers(departamento)" cDropdownItem>{{departamento}}</a></li>
-              </tr> -->
-
-            <!-- </ul> -->
-            <!-- <ul cDropdownMenu>
-              <li *ngFor="let nombre of departments.departmentName">
-                <a (click)="updateTableTeachers(nombre)" cDropdownItem>
-                  {{nombre}}
-                </a>
-              </li>
-            </ul> -->
             <ul cDropdownMenu>
               <li><h6 cDropdownHeader>Departamento</h6></li>
               <li *ngFor="let departments of department"><a (click)="updateTableTeachers(departments)" cDropdownItem>{{departments}}</a></li>

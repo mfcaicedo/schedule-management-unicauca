@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class OfertaAcademicaService {
 
   endPoint: String = environment.urlAcadOffer
-
+  programCode: string[] = ['PIS', 'PIET', 'PIAI', 'TTM'];
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -41,6 +41,10 @@ export class OfertaAcademicaService {
   downloadTemplateService(programCode: String) {
     console.log("llega al metodo al servicio ", this.endPoint);
     return this.http.get(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'blob' });
+  }
+
+  getProgramCode() {
+    return this.programCode;
   }
 
 }

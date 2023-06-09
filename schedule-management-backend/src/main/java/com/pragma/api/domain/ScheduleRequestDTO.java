@@ -25,10 +25,10 @@ public class ScheduleRequestDTO {
     private Date startinDate;
     @NotNull
     private LocalTime startingTime;
-    @NotNull
+    //@NotNull
     private Integer courseId;
     @NotNull
     private Integer environmentId;
-    @NotNull
+    //@NotNull
     private Integer eventId;
 }

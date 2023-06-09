@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
 
 @Getter
 @Setter
@@ -14,6 +13,6 @@ import java.util.Set;
 public class FacultyDTO {
     private String facultyId;
     private String facultyName;
-    private Set<DepartmentDTO> departments;
-    private Set<EnvironmentDTO> environments;
+    //private Set<DepartmentDTO> departments;
+    //private Set<EnvironmentDTO> environments;
 }

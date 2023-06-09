@@ -1,5 +1,6 @@
 package com.pragma.api.services;
 
+import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
@@ -17,7 +18,6 @@ import com.pragma.api.repository.IPeriodRepository;
 import com.pragma.api.repository.IResourceRepository;
 import com.pragma.api.util.PageableUtils;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -295,14 +295,82 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         return PageableUtils.createPageableResponse(environmentsPage, environmentDTOS);
     }
 
+
+    ////Metodo para consultar todos los edificio, trayendolos por id de facultad
+    @Override
+    public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId) {
+
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Environment> buildings = this.environmentRepository.findAllBuildings(facultyId);
+        List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+        Response<List<EnvironmentDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOlist);
+        return response;
+    }
+
+
+    //Metodo  para listar los ambientes por id facultad, edificio, mostrando el tipo que deberia ser pasado
+    @Override
+    public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
+
+        List<EnvironmentDTO> EnvironmentDTOList = new ArrayList<>();
+        for (Object[] environment : environmentsForType) {
+        Integer environmentId = (Integer) environment[0];
+        String environmentName = (String) environment[1];
+        String environmentTypeString = (String) environment[2];
+        EnvironmentTypeEnumeration environmentType = EnvironmentTypeEnumeration.valueOf(environmentTypeString);
+        EnvironmentDTO environmentDTO = new EnvironmentDTO(environmentId, environmentName, environmentType);
+        EnvironmentDTOList.add(environmentDTO);
+        }
+
+
+        Response<List<EnvironmentDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of Environments Finded successfully");
+        response.setDeveloperMessage("List of Environments Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOList);
+        return response;
+    }
+
+    //Busqueda para encontrar ambientes por tipo e id del padre
+    @Override
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(EnvironmentTypeEnumeration environmentType, Integer parentId) {
+        String environmentTypeString = environmentType.toString();
+        List<Environment> environmentPage = this.environmentRepository.findAllByTypeAndParentId(parentId, environmentTypeString);
+        if(environmentPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
+
+        Response<List<EnvironmentDTO>> response = new Response<>();
+
+        List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(environmentPage,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+        response.setStatus(200);
+        response.setUserMessage("List of buildings Finded successfully");
+        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setErrorCode("");
+        response.setData(EnvironmentDTOlist);
+        return response;
+    }
     @Override
     public Response<List<EnvironmentDTO>> findAllByAvailabilityAndDayRecurrence(Date starting_date,
-            LocalTime starting_time, LocalTime ending_time) {
+                                                                                LocalTime starting_time, LocalTime ending_time) {
 
         Response<List<EnvironmentDTO>> response = new Response<>();
         List<Environment> enviromentList = this.environmentRepository
                 .findAllByStartingDateAndAvailabilityAnd1DayRecurrence(starting_date, starting_time, ending_time);
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new TypeToken<List<EnvironmentDTO>>() {
+        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
         }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
@@ -316,8 +384,8 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     // validar que el numero de semanas y el dia no lleguen en nullo FALTAAAAAA
     @Override
     public Response<List<EnvironmentDTO>> findAllByAvailabilityAndWeekRecurrence(Date starting_date,
-            LocalTime starting_time, LocalTime ending_time,DaysEnumeration day,
-            Integer weeks) {
+                                                                                 LocalTime starting_time, LocalTime ending_time,DaysEnumeration day,
+                                                                                 Integer weeks) {
 
         Response<List<EnvironmentDTO>> response = new Response<>();
 
@@ -327,7 +395,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         List<Environment> enviromentList = this.environmentRepository
                 .findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(starting_date, EndingDate, starting_time,
                         ending_time, day.toString());
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new TypeToken<List<EnvironmentDTO>>() {
+        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
         }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
@@ -340,14 +408,14 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
     @Override
     public Response<List<EnvironmentDTO>> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
-            LocalTime ending_time, DaysEnumeration day) {
+                                                                                     LocalTime ending_time, DaysEnumeration day) {
 
         Response<List<EnvironmentDTO>> response = new Response<>();
         Period actualPeriod = this.periodRepository.GetActivePeriod();
         List<Environment> enviromentList = this.environmentRepository
                 .findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(actualPeriod.getInitDate(),actualPeriod.getEndDate(),
-                starting_time,ending_time,day.toString());
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new TypeToken<List<EnvironmentDTO>>() {
+                        starting_time,ending_time,day.toString());
+        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
         }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
@@ -358,5 +426,8 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         return response;
 
     }
+
+
+
 
 }

@@ -68,12 +68,30 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         fileRow.setInBlock(cells.get(2).getStringCellValue().equals("SI") ? true : false);
         fileRow.setSubjectCode(cells.get(1).getStringCellValue().split("-")[0].trim());
 
+<<<<<<< HEAD
         //CourseTecher
         fileRow.setPersonCode(
                 Arrays.asList(cells.get(7).getStringCellValue().split("-")[0].trim(),
                 cells.get(8).getStringCellValue().split("-")[0].trim(),
                 cells.get(9).getStringCellValue().split("-")[0].trim()
                 )); //Posible error
+=======
+        fileRow.setPeriod(cells.get(0).getStringCellValue());
+        fileRow.setProgram(cells.get(1).getStringCellValue());
+        fileRow.setSemester((int) cells.get(2).getNumericCellValue());
+        fileRow.setSubjectCode(cells.get(3).getStringCellValue());
+        fileRow.setSubjectName(cells.get(4).getStringCellValue());
+        fileRow.setDailyOverload((int) cells.get(5).getNumericCellValue());
+        fileRow.setWeeklyOverload((int) cells.get(6).getNumericCellValue());
+        fileRow.setGroup(cells.get(7).getStringCellValue());
+        fileRow.setCapacity((int) cells.get(8).getNumericCellValue());
+        fileRow.setEnvironment(cells.get(9).getStringCellValue());
+        // EL TIPO DE DATO ERA NUMERICO (Codigo Docente), AHORA ES UN STRING (Varios codigos separados por comas)
+//        fileRow.setTeacherCode(String.valueOf((int)cells.get(10).getNumericCellValue()));
+        fileRow.setPersonCode(cells.get(10).getStringCellValue());
+        fileRow.setDescription(cells.get(11).getStringCellValue());
+        fileRow.setDepartment(cells.get(12).getStringCellValue());
+>>>>>>> 5e893afc6afbd5f401e74d71b286be2ed3b857f6
 
         return fileRow;
     }

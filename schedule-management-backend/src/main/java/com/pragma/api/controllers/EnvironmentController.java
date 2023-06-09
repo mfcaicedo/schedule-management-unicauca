@@ -31,7 +31,7 @@ public class EnvironmentController {
     private final IFileEnvironmentService fileEnvironmentService;
 
     public EnvironmentController(IEnvironmentService environmentService,
-            IFileEnvironmentService fileEnvironmentService) {
+                                 IFileEnvironmentService fileEnvironmentService) {
         this.environmentService = environmentService;
         this.fileEnvironmentService = fileEnvironmentService;
     }
@@ -51,49 +51,57 @@ public class EnvironmentController {
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH, produces = "application/json")
     @ResponseBody
     public Response<EnvironmentDTO> updateEnvironment(@Valid @RequestBody EnvironmentDTO environmentDTO,
-            @PathVariable Integer id) {
+                                                      @PathVariable Integer id) {
         return this.environmentService.updateEnvironment(environmentDTO, id);
     }
 
     @PostMapping("/addResource")
     public Response<Boolean> addResourceToEnvironment(@RequestBody ResourceList resourceList,
-            @RequestParam Integer environmentId) {
+                                                      @RequestParam Integer environmentId) {
         return this.environmentService.addResourceToEnvironment(resourceList, environmentId);
     }
 
     @PutMapping("/updateResource")
     public Response<Boolean> updateResourceToEnvironment(@RequestBody ResourceList resourceList,
-            @RequestParam Integer environmentId) {
+                                                         @RequestParam Integer environmentId) {
         return this.environmentService.updateResourceToEnvironment(resourceList, environmentId);
     }
 
     @GetMapping()
     public Response<GenericPageableResponse> findAll(@RequestParam Integer page, @RequestParam Integer size,
-            @RequestParam String sort, @RequestParam String order) {
+                                                     @RequestParam String sort, @RequestParam String order) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.environmentService.findAll(pageable);
     }
 
     @GetMapping("/byResource")
     public Response<GenericPageableResponse> findAllByResourceId(@RequestParam Integer page, @RequestParam Integer size,
-            @RequestParam String sort, @RequestParam String order, @RequestParam Integer resourceId) {
+                                                                 @RequestParam String sort, @RequestParam String order, @RequestParam Integer resourceId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.environmentService.findAllByResourceId(pageable, resourceId);
     }
 
     @GetMapping("/byFaculty")
     public Response<GenericPageableResponse> findAllByFacultyId(@RequestParam Integer page, @RequestParam Integer size,
-            @RequestParam String sort, @RequestParam String order, @RequestParam String facultyId) {
+                                                                @RequestParam String sort, @RequestParam String order, @RequestParam String facultyId) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.environmentService.findAllByFacultyId(pageable, facultyId);
     }
 
     @GetMapping("/byEnvironmentType")
     public Response<GenericPageableResponse> findAllByEnvironmentType(@RequestParam Integer page,
-            @RequestParam Integer size, @RequestParam String sort, @RequestParam String order,
-            @RequestParam EnvironmentTypeEnumeration environmentType) {
+                                                                      @RequestParam Integer size, @RequestParam String sort, @RequestParam String order,
+                                                                      @RequestParam EnvironmentTypeEnumeration environmentType) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.environmentService.findAllByEnvironmentType(pageable, environmentType);
+    }
+
+    //Consulta para buscar los salones/auditorios/laboratorios de un edificio en concreto
+    @GetMapping("/byTypeAndParentId/{environmentType}/{parentId}")
+    public Response<List<EnvironmentDTO>> findAllByTypeAndParentId(@PathVariable EnvironmentTypeEnumeration environmentType, @PathVariable Integer parentId) {
+        //Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
+        //return this.environmentService.findAllByTypeAndParentId(EnvironmentTypeEnumeration.LABORATORIO, parentId);
+        return this.environmentService.findAllByTypeAndParentId(environmentType, parentId);
     }
 
     @GetMapping("/{id}")
@@ -136,4 +144,15 @@ public class EnvironmentController {
 
     }
 
+    //metodo para consultar todos los edificios a partir de un id facultad
+    @GetMapping("/consultBuildingsByFacultyId/{id}")
+    public Response<List<EnvironmentDTO>> consultBuildingsByFacultyId(@PathVariable String id) {
+        return this.environmentService.findAllBuildings(id);
+    }
+
+    //Metodo para obtener todos los ambientes para ser listados, junto con su id, name y type
+    @GetMapping("/consultEnvironmentsByFacultyId/{id}")
+    public Response<List<EnvironmentDTO>> consultEnvironmentsByFacultyId(@PathVariable String id) {
+        return this.environmentService.findAllEnvironmentByIdFacultyAndBuilding(id);
+    }
 }

@@ -1,15 +1,10 @@
 package com.pragma.api.controllers;
 
 import com.pragma.api.domain.Response;
-import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
-import com.pragma.api.model.enums.PersonTypeEnumeration;
 import com.pragma.api.domain.ResponseFile;
-import com.pragma.api.services.IFileEnvironmentService;
 import com.pragma.api.services.IPersonService;
-import com.pragma.api.services.IFileEnvironmentService;
 import com.pragma.api.services.IFileTeachersService;
 import com.pragma.api.domain.GenericPageableResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
 
 @RestController
 @RequestMapping("/person")
