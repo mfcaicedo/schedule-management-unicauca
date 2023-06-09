@@ -53,15 +53,18 @@ export class CoursesComponent implements OnInit{
 
   }
   dragStart(event: DragEvent, course: Course) {
-    event.dataTransfer?.setData('text/plain', JSON.stringify(course));
+    const courseData = `${course.courseId} ${course.subjectCode} ${course.courseGroup}`;
+    event.dataTransfer?.setData('text/plain', JSON.stringify(courseData));
     this.curso = course;
     this.selectedCourse.emit(course);
     this.isCourseSelected = true;
     this.isCheckboxDisabled = true;
     this.showSelectedCourse = true;
+
+
   }
-  
-  
+
+
   loadTableCourses(args: number[]){
     let pageSolicitud:number = args[0];
     let pageSize: number = args[1]
