@@ -16,7 +16,8 @@ export class ScheduleViewComponent implements AfterViewInit {
   headers:string[]=["hora","lunes","martes","miercoles","jueves","viernes","sabado"]
   weekDays=["lunes","martes","miercoles","jueves","viernes","sabado"]
   horariosAmbienteColor!:ScheduleColor[];
-  // horariosAmbienteColor:ScheduleColor[]=[];
+  
+  
   horasDia=["07:00:00","08:00:00","09:00:00","10:00:00","11:00:00","12:00:00","13:00:00","14:00:00","15:00:00","16:00:00","17:00:00","18:00:00","19:00:00","20:00:00","21:00:00","22:00:00"]
   showHorario=false
   @Input('ambiente') ambiente!:Environment;
@@ -27,14 +28,14 @@ export class ScheduleViewComponent implements AfterViewInit {
     private scheduleService:ScheduleService,
     private cdr: ChangeDetectorRef
   ){
-
+    this.initializeHorario();
   }
   ngAfterViewInit(): void {
 
     this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) =>{
-      // console.log("Responseee ",response)
+      
       this.horariosAmbienteColor = response as ScheduleColor[]
-      // this.callWithData(this.horariosAmbiente)
+      
 
     });
   }
@@ -45,15 +46,7 @@ export class ScheduleViewComponent implements AfterViewInit {
 
 
   }
-  // callWithData(schedules: Schedule[]){
-  //   // console.log("horarios desde el padre ",schedules)
-  //   this.horariosColor = this.scheduleService.getScheduleWithColor(schedules);
-  //   this.showHorario=true
-  //   // console.log("horarios color ", this.horariosColor)
-  //   this.cdr.detectChanges();
-
-  // }
-
+ 
   ngOnChanges(changes: SimpleChanges): void {
 
 
@@ -70,10 +63,53 @@ export class ScheduleViewComponent implements AfterViewInit {
       // console.log("retorna true para pintar ")
       return true
     }
-    // console.log("no pasan")
+   
     return false
   }
 
+
+  horario: any = {};
+
+ 
+
+  initializeHorario() {
+    for (let i = 0; i < this.horasDia.length; i++) {
+      this.horario[this.horasDia[i]] = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: []
+      };
+    }
+  }
+
+ 
+  allowDrop(event: any) {
+    event.preventDefault();
+  }
+  drop(event: any, day: number, hour: string) {
+    event.preventDefault();
+    const materia = event.dataTransfer.getData("text/plain");
+    this.horario[hour][day].push(materia);
+    
+
+    
+    // Eliminar la materia de la lista original
+    const index = this.horasDia.indexOf(materia);
+    if (index !== -1) {
+      this.horasDia.splice(index, 1);
+    }
+  }
+
+  removeMateria(day: number, hour: string, index: number) {
+    this  .horario[hour][day].splice(index, 1);
+  }
+
+  getMaterias(day: number, hour: string) {
+    return this.horario[hour][day];
+  }
 
 
 

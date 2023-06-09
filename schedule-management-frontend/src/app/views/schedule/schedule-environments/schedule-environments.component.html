@@ -50,12 +50,11 @@
         </thead>
         <tbody>
           <tr *ngFor="let ambiente of environments">
-            <td>{{ambiente.id}}</td>
-            <td>{{ambiente.environmentType}}</td>
+            
             <td>{{ambiente.name}}</td>
             <td>{{ambiente.location}}</td>
             <td>{{ambiente.capacity}}</td>
-            <td>{{ambiente.facultyId}}</td>
+            
             <td>
               <input [disabled]="isDisabled" #checkboxes id="selectedEnv" type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">
             </td>
