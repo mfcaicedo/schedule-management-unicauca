@@ -23,6 +23,8 @@ public interface IEnvironmentRepository extends JpaRepository<Environment, Integ
 
     Page<Environment> findAllByAvailableResourcesId(Integer resourceId, Pageable pageable);
 
+
+
     @Query(value = "SELECT * FROM environment u WHERE u.id NOT IN ("+
         "SELECT r.id \n"+
         "FROM schedule r \n"+

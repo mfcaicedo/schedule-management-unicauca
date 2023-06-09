@@ -15,6 +15,7 @@ import com.pragma.api.util.file.FileEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 //import org.hibernate.mapping.Set;
 import com.pragma.api.util.file.templateclasses.FileRowSubject;
+import jdk.javadoc.internal.doclint.Env;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -157,15 +158,20 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         }
     }
 
+
+    //PROCESS FILE
+
+
     @Override
     public ResponseFile processFile(List<FileRowEnvironment> logs) {
 
         ResponseFile responseFile = new ResponseFile();
 
         //----------------------------------------------------------------------
-        List<String> EnvironmentNames = new ArrayList<>();
+        List<String> environmentNames = new ArrayList<>();
         List<FileRowEnvironment> fileEnvironment = new ArrayList<>();
         List<Environment> listEnvironment = new ArrayList<>();
+        List<String> environmentLocation = new ArrayList<>();
 
         //----------------------------------------------------------------------
 
@@ -195,8 +201,23 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                     if (log.getName().trim().length() == 0) {
                         errorVacias = true;
                         responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA VACIO");
-                    } else {
-                        environment.setName(log.getName());
+                    }else{
+                        Environment environmentaux = new Environment();
+                        environmentaux.setName(log.getName());
+                        environmentaux.setLocation(log.getLocation());
+                        if(this.existsInList(logs, environmentaux)){
+                            responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA REPETIDO: " + log.getName());
+                            errorRepetidos = true;
+
+                        }else{
+                            System.out.println("------------------ENTRA AQUI");
+                            List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                            if (this.existsInBD(enviromentsDb, environmentaux)) {
+                                System.out.println("------------------ENTRA AQUI2");
+                                responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE EN EL EDIFICIO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
+                                errorRepetidos = true;
+                            }
+                        }
                     }
                     /*
                 if (log.getName().trim().length() == 0) {
@@ -305,8 +326,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         System.out.println("--------------------- NO GUARDA AMBIENTE--------------");
                         contError++;
                     }
-
-
                 }
             }
 
@@ -403,9 +422,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                 List<Environment> enviromentsDb = this.environmentRepository.findAll();
                 environment.setParentEnvironment(selectParent(log.getLocation().toString(), enviromentsDb));
             }
-
-
-
         }
         return this.environmentRepository.saveAll(environments).size();
     }
@@ -413,7 +429,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     private List<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
         System.out.println("resource db: " + resourcesDb.get(0).getName());
         System.out.println("resource tamanio: " + resourcesDb.size());
-
 
         List<Resource> resources = new ArrayList<>();
         //Set<EnvironmentResource> environmentResources = new HashSet<>();
@@ -438,14 +453,36 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                 environmentP = environmentsDb.get(i);
             }
         }
-
         return environmentP;
     }
 
-    private boolean existsInList(List<String> lista, String buscado) {
+    private boolean existsInList(List<FileRowEnvironment> logs, Environment environmentaux) {
         boolean encontrado = false;
-        for (String elemento : lista) {
-            if (elemento.equals(buscado)) {
+        int cont = 0;
+        for (FileRowEnvironment elementoEnvironment : logs) {
+            if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
+                System.out.println("------------ENTRA");
+                cont++;
+            }
+            if(cont>1){
+                encontrado = true;
+                break;
+            }
+        }
+        return encontrado;
+    }
+
+    private boolean existsInBD(List<Environment> logs, Environment environmentaux) {
+
+        System.out.println("-----------------ENTRA AQUI 3");
+        boolean encontrado = false;
+        int cont = 0;
+        for (Environment elementoEnvironment : logs) {
+            if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
+                System.out.println("------------ENTRA");
+                cont++;
+            }
+            if(cont>0){
                 encontrado = true;
                 break;
             }
@@ -454,4 +491,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     }
 
 }
+
+
 
