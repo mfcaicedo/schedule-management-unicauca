@@ -15,11 +15,20 @@ import com.pragma.api.util.file.FileEnvironment;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 //import org.hibernate.mapping.Set;
 import com.pragma.api.util.file.templateclasses.FileRowSubject;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.http.HttpHeaders;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 @Service
@@ -28,6 +37,9 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     private IEnvironmentRepository environmentRepository;
     @Autowired
     private IEnvironmentResourceService iEnvironmentResourceService;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     private IFacultyRepository facultyRepository;
 
@@ -49,6 +61,100 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
         return processFile(logs);
 
+    }
+    //@Override
+    //public ResponseEntity<org.springframework.core.io.Resource> dowwloadTemplateFile(String programId) throws IOException {
+
+      //  return ResponseEntity.ok()
+        //        .headers(headers)
+          //      .body(resource);
+    //}
+
+    @Override
+    public ResponseEntity<org.springframework.core.io.Resource> downloadTemplateFile() throws IOException {
+         // Obtener la ruta del archivo de plantilla
+    String path = getPathTemplate("Plantilla_Ambientes.xlsx");
+
+    // Definir una variable para el programa
+    //String program = "PIS";
+
+    // Definir una variable para el archivo temporal
+    byte[] temporaryFile;
+
+    // Leer todo el contenido del archivo y almacenarlo en la variable temporaryFile
+    temporaryFile = Files.readAllBytes(Path.of(path));
+
+    // Procesar el archivo Excel utilizando un método llamado processExcelFile y obtener el objeto Workbook
+    //Workbook workbook = processExcelFile(path, programId);
+        Workbook workbook = WorkbookFactory.create(new File(path));
+
+    // Crear un OutputStream para guardar el archivo Excel en memoria
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    // Escribir el contenido del libro (workbook) en el OutputStream (baos)
+    workbook.write(baos);
+    workbook.close();
+
+    // Crear un recurso a partir del contenido del archivo almacenado en el OutputStream
+    ByteArrayResource resource = new ByteArrayResource(baos.toByteArray());
+
+    // Configurar las cabeceras de respuesta HTTP
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Disposition", "attachment; filename=Plantilla_Ambientes.xlsx");
+    headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+    // Cerrar el libro y el OutputStream
+    workbook.close();
+    baos.close();
+
+    // Restaurar el archivo original utilizando el método restoreFileBytes
+    //restoreFileBytes(temporaryFile, path);
+
+    // Devolver el archivo como respuesta HTTP con el recurso y las cabeceras configuradas
+    return ResponseEntity.ok()
+            .headers(headers)
+            .body(resource);
+
+    }
+
+    private String getPathTemplate(String nameFile) {
+        // Comenta una de las siguientes líneas dependiendo del path que desees utilizar
+
+        // Ruta del archivo de plantilla para el proyecto de Milthon
+        //final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+
+        // Ruta del archivo de plantilla para el proyecto de Brandon
+        final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
+
+        try {
+            // Obtener el recurso del archivo utilizando resourceLoader y agregando "file:" al nombre del archivo
+            org.springframework.core.io.Resource resource = resourceLoader.getResource("file:" + nameFile);
+
+            // Obtener el archivo a partir del recurso
+            File file = resource.getFile();
+
+            // Obtener la ruta absoluta del archivo
+            String absolutePath = file.getAbsolutePath();
+
+            // Reemplazar todas las ocurrencias de "\" por "/" en la ruta absoluta para que sea compatible con el sistema de archivos
+            absolutePath = absolutePath.replace("\\","/");
+
+            // Dividir la ruta absoluta en un arreglo utilizando "/" como separador
+            String pathFormat[] = absolutePath.split("/");
+
+            // Reemplazar el último elemento del arreglo por una cadena vacía para eliminar el nombre del archivo
+            pathFormat[pathFormat.length-1] = "";
+
+            // Unir los elementos del arreglo nuevamente en una cadena utilizando "/" como separador y agregar el path del proyecto
+            String pathComplete = String.join("/", pathFormat) + pathProjectFile;
+
+            // Devolver la ruta completa
+            return pathComplete;
+        } catch (Exception e) {
+            // Imprimir la traza de la excepción en caso de error
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -93,7 +199,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         environment.setName(log.getName());
                     }
                     /*
-                                        if (log.getName().trim().length() == 0) {
+                if (log.getName().trim().length() == 0) {
                     infoErroresVacias.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA VACIO (NOMBRE MATERIA OBLIGATORIO)");
                     errorVacias = true;
                 } else {
@@ -191,7 +297,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         System.out.println("----------que hay:"+errorEnvironment);
                         responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
                         fileEnvironment.add(log);
-                        listEnvironment.add(environment);
+                        //listEnvironment.add(environment);
 
                         contSuccess++;
 
@@ -229,6 +335,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         responseFile.setContSaveRows(contSaveRows);
             return responseFile;
         }
+
+
 
 
     private String [] wordFormat(String [] words){
