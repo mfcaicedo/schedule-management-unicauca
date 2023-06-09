@@ -54,7 +54,7 @@ import {TokenInterceptor} from 'src/app/interceptors/token.interceptor'
 import { InterceptorService } from './services/spinner/interceptor.service';
 import { ScheduleReserveComponent } from './src/app/views/schedule/schedule-reserve/schedule-reserve/schedule-reserve.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+//import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DirectiveDropFileDirective } from './directives/directive-drop-file.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -99,8 +99,7 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     PaginationModule,
-    NgxSpinnerModule,
-
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[
