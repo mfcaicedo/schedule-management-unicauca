@@ -47,7 +47,7 @@ public class ReportDTO {
         this.programColor=programColor;
     }
 
-    //Constructor para hacer reporte por Facultad/programa
+    //Constructor para hacer reporte por Facultad/programa y tambien por semestre
     public ReportDTO(Long id, DaysEnumeration day, LocalTime startingTime, LocalTime endingTime, Date startingDate, Date endingDate, String subjectName, int subjectSemester, String courseGroup, String courseDescription, String programName, String programColor, String environmentName) {
         this.id = id;
         this.day = day;
