@@ -13,11 +13,11 @@
     <div class="form-group">
         <strong class="resenia">Seleccione Departamento:</strong>
             <br>
-          <select cSelect id="filtroDepartamento"  (change)="onSelectedFacultad($event)" class="entrada" >
-              <option value="{{valDefecto}}">Selecciona una Facultad</option>
-              <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+          <select cSelect id="filtroDepartamento"  (change)="onSelectedDepartamento($event)" class="entrada" >
+              <option value="{{valDefecto}}">Selecciona un Departamento</option>
+              <option *ngFor="let dep of listaDepatamentos" value="{{dep.departmentId}}" 
               class="uppercase-text">
-              {{fac.facultyName}} </option>
+              {{dep.departmentName}} </option>
           </select>
                
       </div>      

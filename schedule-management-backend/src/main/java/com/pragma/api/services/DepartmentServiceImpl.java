@@ -36,7 +36,7 @@ public class DepartmentServiceImpl implements IDepartmentService{
 
         Response<List<DepartmentDTO>> response = new Response<>();
         List<Department> departmentList = this.departmentRepository.findByFacultyId(faculty_Id);
-        List<DepartmentDTO> departmentDTOlist = modelMapper.map(departmentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
+        List<DepartmentDTO> departmentDTOlist = modelMapper.map(departmentList, new org.modelmapper.TypeToken<List<DepartmentDTO>>() {
         }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Departments Finded successfully");
