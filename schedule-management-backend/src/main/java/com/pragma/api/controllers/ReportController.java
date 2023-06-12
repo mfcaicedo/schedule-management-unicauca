@@ -36,4 +36,10 @@ public class ReportController {
         return this.reportService.getCombinetDataScheduleByProgramId(program_id);
     }
 
+    //Consulta para traer todos los datos de schedule combinados , para hacer el reporte pertinente para semestre
+    @GetMapping("/byprogramIdSemester/{program_id}/{semester}")
+    public Response<List<ReportDTO>> findAllByProgramIdSemester(@PathVariable String program_id,@PathVariable Integer semester){
+        return this.reportService.getCombinetDataScheduleByProgramIdSemester(program_id,semester);
+    }
+
 }

@@ -18,6 +18,10 @@ public interface IReportService {
     // para poder hacer el reporte por facultad/Programa mediante id de programa
     Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId);
 
+    //Metodo que devuelve una lista con ls datos combinados de schedule,
+    // para poder hacer el reporte por semestre mediante id de programa y semestre
+    Response<List<ReportDTO>> getCombinetDataScheduleByProgramIdSemester(String programId, Integer semester);
+
 
     
 }
