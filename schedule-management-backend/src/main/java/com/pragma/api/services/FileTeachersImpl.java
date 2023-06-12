@@ -33,7 +33,8 @@ public class FileTeachersImpl implements IFileTeachersService {
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileTeachers fileTeachers = new FileTeachers();
-        List<FileRowTeacher> logs = fileTeachers.getLogs(file);
+        ResponseFile responseFile = new ResponseFile();
+        List<FileRowTeacher> logs = fileTeachers.getLogs(file, responseFile);
         return processFile(logs);
     }
 

@@ -52,27 +52,11 @@ public class CourseServiceImpl implements ICourseService {
     public Response<CourseDTO> createCourse(CourseDTO courseDTO) {
         logger.debug("Init createCourse Business Course: {}", courseDTO.toString());
         Response<CourseDTO> response = new Response<>();
-
-//        if(!iPersonRepository.existsById(courseDTO.getPersonCode())){
-//            throw new ScheduleBadRequestException("bad.request.person.id", courseDTO.getPersonCode());
-//        }
-
-        if(!iSubjectRepository.existsById(courseDTO.getSubjectCode())){
-            throw new ScheduleBadRequestException("bad.request.subject.id", courseDTO.getSubjectCode());
-        }
-
-        if(!iPeriodRepository.existsById(courseDTO.getPeriodId())){
-            throw new ScheduleBadRequestException("bad.request.period.id", courseDTO.getPeriodId());
-        }
-
         Course course = modelMapper.map(courseDTO,Course.class);
-        course.setRemainingHours(iSubjectRepository.findById(courseDTO.getSubjectCode()).get().getWeeklyOverload());
-
         CourseDTO courseDTO1 = modelMapper.map(iCourseRepository.save(course),CourseDTO.class);
-
         response.setStatus(200);
-        response.setUserMessage("Course created");
-        response.setDeveloperMessage("Course created");
+        response.setUserMessage("Curso creado exitosamente");
+        response.setDeveloperMessage("Courso creado exitosamente");
         response.setMoreInfo("localhost:8080/api/course");
         response.setErrorCode("");
         response.setData(courseDTO1);

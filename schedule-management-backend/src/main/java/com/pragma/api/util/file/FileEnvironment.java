@@ -1,6 +1,7 @@
 package com.pragma.api.util.file;
 
 import ch.qos.logback.core.joran.action.IADataForComplexProperty;
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 import net.bytebuddy.asm.Advice;
 import org.apache.poi.ss.usermodel.Cell;
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
     @Override
-    public List<FileRowEnvironment> getLogs(MultipartFile file) throws IOException {
+    public List<FileRowEnvironment> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException {
         List<FileRowEnvironment> fileRows = new ArrayList<>();
 
         boolean cellEmpty = false;

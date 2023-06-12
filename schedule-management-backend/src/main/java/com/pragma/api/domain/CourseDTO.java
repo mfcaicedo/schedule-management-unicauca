@@ -1,6 +1,8 @@
 package com.pragma.api.domain;
 
 import java.util.Set;
+
+import com.pragma.api.model.Subject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -29,23 +31,15 @@ public class CourseDTO {
     private Integer courseCapacity;
 
     /**
-     * Periodo del curso
+     * Tipo de ambiente requerido
      */
-    @NotNull(message = "El periodo no puede ser vacio")
-    private String periodId;
+    private String typeEnvironmentRequired;
 
     /**
      * Codigo materia del curso
      */
     @NotNull(message = "El codigo de la materia no puede ser vacio")
-    private String subjectCode;
-
-    /**
-     * Codigo profesor del curso
-     */
-    // @NotNull(message = "El codigo del profesor no puede ser vacio")
-    // private String personCode;
-    private Set<PersonDTO> profesoresAsignados;
+    private Subject subject;
 
     @NotNull(message = "")
     private Integer remainingHours;

@@ -75,7 +75,10 @@ public class SubjectServiceImpl implements ISubjectService {
 
     @Override
     public Response<SubjectDTO> getSubjectByCode(String code) {
-        return null;
+        SubjectDTO subjectDTO = modelMapper.map(subjectRepository.findById(code).get(), SubjectDTO.class);
+        Response<SubjectDTO> response = new Response<>();
+        response.setData(subjectDTO);
+        return response;
     }
 
     @Override

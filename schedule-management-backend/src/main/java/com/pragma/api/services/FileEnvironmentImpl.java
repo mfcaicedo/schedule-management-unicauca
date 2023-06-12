@@ -43,7 +43,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileEnvironment fileEnvironment = new FileEnvironment();
-        List<FileRowEnvironment> logs = fileEnvironment.getLogs(file);
+        ResponseFile responseFile = new ResponseFile();
+        List<FileRowEnvironment> logs = fileEnvironment.getLogs(file, responseFile);
         //if(logs==null){
         //    List<String> infoLogs = new ArrayList<>();
         //   infoLogs.add("empty field, check the file");
