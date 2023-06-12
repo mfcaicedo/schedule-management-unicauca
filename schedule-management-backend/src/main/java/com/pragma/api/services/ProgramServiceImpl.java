@@ -74,5 +74,20 @@ public class ProgramServiceImpl implements IProgramService {
         return response;
     }
 
+    @Override
+    public Response<List<ProgramDTO>> findAllByDepartmentId(Integer department_id){
+
+        Response<List<ProgramDTO>> response = new Response<>();
+        List<Program> programList = this.iProgramRepository.findByDepartmentId(department_id);
+        List<ProgramDTO> programDTOlist = modelMapper.map(programList, new org.modelmapper.TypeToken<List<ProgramDTO>>() {
+        }.getType());
+        response.setStatus(200);
+        response.setUserMessage("List of Availability Programs Finded successfully");
+        response.setDeveloperMessage("List of Availability Programs Finded successfully");
+        response.setMoreInfo("localhost:8080/api/program(toDO)");
+        response.setErrorCode("");
+        response.setData(programDTOlist);
+        return response;
+    }
 
 }

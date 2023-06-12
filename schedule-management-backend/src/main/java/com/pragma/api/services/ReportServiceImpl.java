@@ -96,4 +96,65 @@ public class ReportServiceImpl implements IReportService{
 
     
     }
+
+    //Metodo para crear el reportDTO de reporte por facultad/programa y enviarlo a la api rest
+    @Override
+    public Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId) {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
+        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        
+        List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramId(programId);
+
+        List<ReportDTO> ReportDTOList = new ArrayList<>();
+        for (Object[] schedule : schedulesCombined) {
+        
+        //Casteo para el id de schedule    
+        BigInteger bigInteger = (BigInteger) schedule[0];
+        Long scheduleId = bigInteger.longValue();    
+
+        String daysTypeString = (String) schedule[1];
+        DaysEnumeration dayTipe = DaysEnumeration.valueOf(daysTypeString);
+
+        //Para conversion a local date, casteo
+        Time startingTime = (Time) schedule[2];
+
+        LocalTime localStartingTime = startingTime.toLocalTime();
+
+        Time endingTime = (Time) schedule[3];
+
+        LocalTime localendingTime =endingTime.toLocalTime();
+
+        //Casteo para la fechas startingDate
+        Timestamp timestamp = (Timestamp) schedule[4];
+        LocalDateTime localDateTime = timestamp.toLocalDateTime();
+        LocalDate localDate = localDateTime.toLocalDate();
+        Date startingDate = Date.valueOf(localDate);
+        
+        //Casteo para la fechas endingDate
+        Timestamp timestamp1 = (Timestamp) schedule[5];
+        LocalDateTime localDateTime1 = timestamp1.toLocalDateTime();
+        LocalDate localDate1 = localDateTime1.toLocalDate();
+        Date endingDate = Date.valueOf(localDate1);
+
+        String subjectName= (String) schedule[6];
+        int subjectSemester= (int) schedule[7];
+        String courseGroup = (String) schedule[8];
+        String courseDescription= (String) schedule[9];
+        String programName= (String) schedule[10];
+        String programColor= (String) schedule[11];
+        String environmentName= (String) schedule[12];
+
+        ReportDTO reportDTO = new ReportDTO(scheduleId, dayTipe, localStartingTime, localendingTime, startingDate, endingDate, subjectName, subjectSemester, courseGroup, courseDescription, programName, programColor, environmentName);
+        ReportDTOList.add(reportDTO);
+        }
+
+        Response<List<ReportDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of schedules Finded successfully");
+        response.setDeveloperMessage("List of schedules Finded successfully");
+        response.setMoreInfo("localhost:8081/api/report(toDO)");
+        response.setErrorCode("");
+        response.setData(ReportDTOList);
+        return response;
+    }
 }

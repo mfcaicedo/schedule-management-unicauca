@@ -24,10 +24,16 @@ public class ReportController {
     }
 
 
-    //Consulta para traer todos los datos de schedule combinados , para hacer el reporte pertinente
+    //Consulta para traer todos los datos de schedule combinados , para hacer el reporte pertinente pasa salon
     @GetMapping("/byEnvironmentId/{environmentId}")
     public Response<List<ReportDTO>> findAllByEnvironmentId(@PathVariable Integer environmentId){
         return this.reportService.getCombinetDataScheduleByEnvironmentId(environmentId);
+    }
+
+    //Consulta para traer todos los datos de schedule combinados , para hacer el reporte pertinente para facultad/programa
+    @GetMapping("/byprogramId/{program_id}")
+    public Response<List<ReportDTO>> findAllByProgramId(@PathVariable String program_id){
+        return this.reportService.getCombinetDataScheduleByProgramId(program_id);
     }
 
 }

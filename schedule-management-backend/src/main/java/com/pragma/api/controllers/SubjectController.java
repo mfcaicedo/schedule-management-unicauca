@@ -67,5 +67,11 @@ public class SubjectController {
         return ResponseEntity.ok(this.subjectBusiness.findAllByProgramId(program_id,pageable));
     }
 
+    //Metodo para traer todos los datos semestres asociados a un programa
+    @GetMapping("/consultSemestersByProgramId/{id}")
+    public Response<List<SubjectDTO>> consultSemestersByProgramId(@PathVariable String id) {
+        return this.subjectBusiness.findAllSemesterByProgramId(id);
+    }
+
 
 }

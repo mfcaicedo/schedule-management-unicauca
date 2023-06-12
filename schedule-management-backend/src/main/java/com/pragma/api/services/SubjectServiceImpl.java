@@ -123,4 +123,33 @@ public class SubjectServiceImpl implements ISubjectService {
         List<SubjectDTO> subjectDTOS = subjectsPage.stream().map(x->modelMapper.map(x, SubjectDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(subjectsPage, subjectDTOS);
     }
+
+    //Metodo para devolver todos los semestres asociados a un programa
+    @Override
+    public Response<List<SubjectDTO>> findAllSemesterByProgramId(String programId) {
+        
+        if(!this.subjectRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.subject.semester","");
+
+        List<Object[]> semesters = this.subjectRepository.findSemesterByProgramId(programId);
+
+        List<SubjectDTO> SemesterDataList = new ArrayList<>();
+        for (Object[] semester : semesters) {
+        Integer semestersubject = (Integer) semester[0];
+        String program_id = (String) semester[1];
+        
+       
+        SubjectDTO subjectDTO = new SubjectDTO(semestersubject,program_id);
+        SemesterDataList.add(subjectDTO);
+    }
+
+        Response<List<SubjectDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of semester Finded successfully");
+        response.setDeveloperMessage("List of semester Finded successfully");
+        response.setMoreInfo("localhost:8081/api/subject(toDO)");
+        response.setErrorCode("");
+        response.setData(SemesterDataList);
+        return response;
+
+    }
 }

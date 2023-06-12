@@ -28,7 +28,7 @@ public class TeacherServiceImpl {
 
     private  ModelMapper modelMapper;
 
-
+    @Autowired
     public TeacherServiceImpl(IPersonRepository iPersonRepository, ModelMapper modelMapper) {
         this.iPersonRepository = iPersonRepository;
         this.modelMapper = modelMapper;

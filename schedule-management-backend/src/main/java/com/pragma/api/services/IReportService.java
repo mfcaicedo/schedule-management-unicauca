@@ -13,6 +13,12 @@ public interface IReportService {
     Response<List<ReportDTO>> getCombinetDataScheduleByEnvironmentId(Integer environmentId);
     
     //List<ReportDTO> getCombinetDataScheduleByEnvironmentId(Integer environmentId);
+
+    //Metodo que devuelve una lista con ls datos combinados de schedule,
+    // para poder hacer el reporte por facultad/Programa mediante id de programa
+    Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId);
+
+
     
 }
 
