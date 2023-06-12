@@ -54,4 +54,9 @@ public interface ISubjectService {
 
     GenericPageableResponse findAllByProgramId(String program_id, Pageable pageable);
 
+    //Metodo para buscar los semestres existentes a un programa aosciados en la tabla de materia, para poder luego ser seleccionados,
+    //Recibiendo un id_programa
+
+    public Response<List<SubjectDTO>> findAllSemesterByProgramId(String programId);
+
 }
