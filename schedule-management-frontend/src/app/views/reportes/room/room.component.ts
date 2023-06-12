@@ -271,7 +271,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   _generarDescargaImagenesPDF(): void {
     let imgElements: ElementRef[] = [];
     this.appCalendarios.forEach((appCalendario: ElementRef) => {
-      alert("iterando")
+      //alert("iterando")
       const imgElement = appCalendario.nativeElement.querySelector('img');
       imgElements.push(imgElement);
     });

@@ -133,10 +133,10 @@ export const navItems: INavData[] = [
     url: '/Reportes',
     iconComponent: { name: 'cilPrint' },
     children: [
-      {
+     /* {
         name: 'Reporte por Facultad',
         url: '/reportes/Report_faculty'
-      },
+      },*/
       {
         name: 'Reporte por Programa',
         url: '/reportes/Report_program'
@@ -152,10 +152,10 @@ export const navItems: INavData[] = [
       {
         name: 'Reporte por salon',
         url: '/reportes/salon'
-      }, {
+      }/*, {
         name: 'Componente Pruebas',
         url: '/reportes/calendario'
-      }
+      }*/
     ]
   },
 ];

@@ -4,6 +4,7 @@ import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { ProgramService } from 'src/app/services/program/program.service';
+import { ReportService } from 'src/app/services/report/report.service';
 
 @Component({
   selector: 'app-report-semestre',
@@ -32,7 +33,7 @@ export class ReportSemestreComponent {
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
   listasProgramas:Program[]=[];   ///lista que contiene los programaas de la facultad
   listaSemestres: string[] = [];
-
+  listaTitulosReporte:string[]=[] ///almacena el titulo del reporte
   //DATOS REPORTE
   seleccionados: string[] = [];//contiene el id de los programas
   seleccionadoDic: Map<string, string> = new Map<string, string>();//contiene el id del programa como el nombre
@@ -42,7 +43,8 @@ export class ReportSemestreComponent {
 
   constructor(    
     private  facservice:FacultyService,    ///servicio encargado de traer las facultades
-    private programService:ProgramService  ///servicio encargado de traer los programas de la facultad seleccionada
+    private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad 
+    private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
   ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
@@ -87,12 +89,30 @@ export class ReportSemestreComponent {
     );
   }
   GenerarReporte(){
+    this.listaTitulosReporte=[];
     if (this.listaSemestres.length > 0) {
       const mensaje = 'Valores seleccionados: ' + this.listaSemestres.join(', ');
-      alert(mensaje);
+      //alert(mensaje);
     } else {
-      alert('No se han seleccionado valores.');
+      //alert('No se han seleccionado valores.');
     }
+    this.esquemas = [];
+    this.seleccionados.forEach((id) => {
+    this.listaSemestres.forEach((semest) => {
+      this.reportService.getReportProgramSemester(id,semest).subscribe(
+        (data: ReportRoom[]) => {
+          const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
+          this.listaTitulosReporte.push("PREPARANDONOS PARA :"+id+"_"+semest);
+  
+          // Agregar el esquema al arreglo esquemas
+          this.esquemas.push(esquema);
+        },
+        (error) => {
+          console.log('Error obteniendo los esquemas', error);
+        }
+      );
+    });});
+
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 
@@ -108,7 +128,7 @@ export class ReportSemestreComponent {
       this.seleccionadoDic.set(item.programId, item.name);//asocia en diccionario el nombre del rograma al id
     } else {
       // Remueve el item.id de la lista de seleccionados
-      const index = this.seleccionados.indexOf(item.id);
+      const index = this.seleccionados.indexOf(item.programId);
       if (index !== -1) {
         this.seleccionados.splice(index, 1);
       }
@@ -121,11 +141,15 @@ export class ReportSemestreComponent {
       this.listaSemestres.push((event.target as HTMLInputElement).value);
     } else {
       // Remueve el item.id de la lista de seleccionados
-      const index = this.seleccionados.indexOf((event.target as HTMLInputElement).value);
+      const index = this.listaSemestres.indexOf((event.target as HTMLInputElement).value);
       if (index !== -1) {
-        this.seleccionados.splice(index, 1);
+        this.listaSemestres.splice(index, 1);
       }
     }
+  }
+  getNombrePrograma(i:string): string | undefined {
+  
+    return this.seleccionadoDic.get(i);
   }
 
 }

@@ -69,7 +69,7 @@ export class PdfService {
   }
   
   generarPDFsDeCanvaElement(canvas: HTMLCanvasElement, nombreArchivo:string): void {
-    alert("ACCEDIENDO A PDF SERVICE ...iMAGEN");
+    //alert("ACCEDIENDO A PDF SERVICE ...iMAGEN");
     const doc = new jsPDF();  
     // Convierte la imagen de Canvas en una imagen base64
     const imgData = canvas.toDataURL('image/jpeg');

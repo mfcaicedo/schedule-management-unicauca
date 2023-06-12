@@ -35,13 +35,31 @@ export class ReportService {
  * @param idEnviroment  el id de ambientes
  * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id 
  */
-  getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
-    return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
-      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
-      catchError((e) => {
-        console.log('Error obteniendo el horario del ambiente :' +idEnviroment, e.error.mensaje, 'error');
-        return throwError(e);
-      })
-    );
-  }
+getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
+  return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo el horario del ambiente :' +idEnviroment, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
+getReportProgram(idProgram:string): Observable<ReportRoom[]> {
+  return this.http.get<any>(this.endPoint+"/byprogramId/"+idProgram).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo el horario del idProgram :' +idProgram, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
+getReportProgramSemester(idProgram:string,semestre:string): Observable<ReportRoom[]> {
+  return this.http.get<any>(this.endPoint+"/byprogramIdSemester/"+idProgram+"/"+semestre).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo el horario del idProgram :' +idProgram, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
 }

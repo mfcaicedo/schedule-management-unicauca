@@ -70,7 +70,7 @@ ngOnInit(){
     if (((event.target as HTMLInputElement).value)!=this.valDefecto){
       
       let idFacultadSeleccionada=((event.target as HTMLInputElement).value);
-      alert(idFacultadSeleccionada);//llena la lista del desplegable
+     // alert(idFacultadSeleccionada);//llena la lista del desplegable
     }else{this.isFacSelected=false;//al ser la por defecto opcion deshabilita
     }
   }

@@ -54,6 +54,31 @@
           <div class="centrado">
             <input type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()">      
           </div>
+          
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>Esquema del programa:{{listaTitulosReporte[i]}} </h2>    
+   <table cTable #miTablaI>
+      <thead cTableColor="dark">
+      <tr>
+        <th *ngFor="let c of columnsReporte">{{ c }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of esquema; let i = index">
+        <td>{{ item.id }}</td>
+        <td>{{ item.day }}</td>
+        <td>{{ item.startingTime }}</td>
+        <td>{{ item.endingTime }}</td>
+        <td>{{ item.startingDate }}</td>
+        <td>{{ item.endingDate }}</td>
+        <td>{{ item.environmentName }}</td>
+        <td>{{ item.subjectName }}</td>
+        <td>{{ item.programName }}</td>
+        <td>{{ item.programColor }}</td>
+      </tr>
+        </tbody>
+    </table>
+  </div>
         </span>
 
 

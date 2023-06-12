@@ -1,11 +1,11 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { ProgramService } from 'src/app/services/program/program.service';
+import { ReportService } from 'src/app/services/report/report.service';
 
 @Component({
   selector: 'app-report-program',
@@ -13,6 +13,9 @@ import { ProgramService } from 'src/app/services/program/program.service';
   styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
 export class ReportProgramComponent implements AfterViewInit{
+  
+  @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
+
   @ViewChild('miTablaI', { static: false }) miTabla!: ElementRef;// permite referenciar el objeto HTML  que se va a imprimir
 
 
@@ -43,6 +46,7 @@ export class ReportProgramComponent implements AfterViewInit{
   constructor(    
     private  facservice:FacultyService,     ///servicio encargado de traer las facultades
     private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad seleccionada
+    private reportService:ReportService,    ///servicio encargado de generar el reporte por cada uno  de los codigos seleccionados
     private cdr: ChangeDetectorRef          ///es un detector de cambios de referencias
   ){}
   ngOnInit(){
@@ -91,14 +95,30 @@ export class ReportProgramComponent implements AfterViewInit{
     );
   }
   GenerarReporte(){
-    alert("Descargando...");
+
+    //alert("Descargando...");
+    /*
     const doc = new jsPDF();
     
       const table = this.miTabla.nativeElement;
 
       (doc as any).autoTable({ html: table });
-      doc.save('tabla.pdf');
-    
+      doc.save('tabla.pdf');*/
+    this.esquemas = [];
+    this.seleccionados.forEach((id) => {
+      //this.alerta("PREPARANDONOS PARA :"+id);
+      this.reportService.getReportProgram(id).subscribe(
+        (data: ReportRoom[]) => {
+          const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
+  
+          // Agregar el esquema al arreglo esquemas
+          this.esquemas.push(esquema);
+        },
+        (error) => {
+          console.log('Error obteniendo los esquemas', error);
+        }
+      );
+    });
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 
@@ -109,15 +129,37 @@ export class ReportProgramComponent implements AfterViewInit{
   onSelectingPrograms(item: any, event: any): void {
     this.esquemas=[];
     if (event.target.checked) {
+      //alert('Seleccionado'+ item.programId);
       // Agrega el id del programa a la lista de seleccionados que se encargara de generar el reporte
       this.seleccionados.push(item.programId);
       this.seleccionadoDic.set(item.programId, item.name);//asocia en diccionario el nombre del rograma al id
     } else {
       // Remueve el item.id de la lista de seleccionados
-      const index = this.seleccionados.indexOf(item.id);
+      const index = this.seleccionados.indexOf(item.programId);
       if (index !== -1) {
         this.seleccionados.splice(index, 1);
       }
     }
   }
+  resetearTabla(){    
+    this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
+    
+  }
+  
+  deselecciondeInputs(){  
+    if (this.radioInput) {
+    this.radioInput.nativeElement.checked = false;
+    }
+    this.resetearTabla();
+  }
+  
+/**
+ *como tenemos los id de los seleccionados buscamos el nombre en un diccionario que 
+ tiene el id y nombre de los ambientes
+ * @param i id del ambiente
+ * @returns  nombre del ambiente
+ */
+getNombrePrograma(i:string): string | undefined {  
+  return this.seleccionadoDic.get(i);
+ }
 }
