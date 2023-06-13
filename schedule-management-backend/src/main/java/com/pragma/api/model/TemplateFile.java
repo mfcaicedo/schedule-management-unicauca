@@ -27,6 +27,8 @@ public class TemplateFile {
     @Lob
     private byte[] file;
 
+    /*
     @OneToOne(mappedBy = "templateFile")
     private AcademicOfferFile academicOfferFile;
+     */
 }

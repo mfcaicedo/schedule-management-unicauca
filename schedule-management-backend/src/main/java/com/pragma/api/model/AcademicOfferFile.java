@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,10 +29,11 @@ public class AcademicOfferFile {
     private StateAcOfferFileEnumeration stateFile;
 
 
+    /*
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "template_file_id" )
     private TemplateFile templateFile;
-
+    */
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "periodId")

@@ -12,7 +12,6 @@ import java.util.List;
 public interface IFileEnvironmentService {
     public ResponseFile uploadFile(MultipartFile file) throws IOException;
     public ResponseFile processFile(List<FileRowEnvironment> logs);
-
     public ResponseEntity<Resource> downloadTemplateFile() throws IOException;
 
 }
