@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
 import lombok.*;
@@ -31,7 +32,7 @@ public class Period {
         this.state = state;
     }
 
-
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "period")
     private Set<AcademicOfferFile> academicOfferFiles;
 }

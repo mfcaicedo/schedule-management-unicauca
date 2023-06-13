@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class Department {
     private Faculty faculty;
 
     //relacion 1 a muchos con Person Descripcion: indica que un departamento tiene muchos profesores
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "department")
     private Set<Person> persons;
 
@@ -33,6 +35,7 @@ public class Department {
     @JoinColumn(name = "person_code")
     private Person person;
 
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "department")
     private Set<Program> programs;
 }

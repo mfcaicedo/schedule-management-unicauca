@@ -57,31 +57,14 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         FileEnvironment fileEnvironment = new FileEnvironment();
         ResponseFile responseFile = new ResponseFile();
         List<FileRowEnvironment> logs = fileEnvironment.getLogs(file, responseFile);
-        //if(logs==null){
-        //    List<String> infoLogs = new ArrayList<>();
-        //   infoLogs.add("empty field, check the file");
-        //   return infoLogs;
-        // }
-        List<FileRowEnvironment> logs = fileEnvironment.getLogs(file);
-
         return processFile(logs);
 
     }
-    //@Override
-    //public ResponseEntity<org.springframework.core.io.Resource> dowwloadTemplateFile(String programId) throws IOException {
-
-      //  return ResponseEntity.ok()
-        //        .headers(headers)
-          //      .body(resource);
-    //}
 
     @Override
     public ResponseEntity<org.springframework.core.io.Resource> downloadTemplateFile() throws IOException {
          // Obtener la ruta del archivo de plantilla
     String path = getPathTemplate("Plantilla_Ambientes.xlsx");
-
-    // Definir una variable para el programa
-    //String program = "PIS";
 
     // Definir una variable para el archivo temporal
     byte[] temporaryFile;
