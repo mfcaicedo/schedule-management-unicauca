@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+//import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

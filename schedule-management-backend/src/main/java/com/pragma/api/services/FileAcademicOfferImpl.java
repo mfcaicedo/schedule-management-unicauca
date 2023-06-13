@@ -5,10 +5,15 @@ import com.pragma.api.model.*;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
 import com.pragma.api.model.enums.TeacherCategoryEnumeration;
 import com.pragma.api.repository.*;
+import com.pragma.api.util.PageableUtils;
+import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.util.file.templateclasses.FileRowAcademicOffer;
 import com.pragma.api.util.file.FileAcademicOffer;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class FileAcademicOfferImpl implements IFileAcademicOffer {
@@ -37,6 +43,33 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Override
+    public Response<GenericPageableResponse> findAll(Pageable pageable) {
+
+        Page<AcademicOfferFile> academicOfferFilePage = this.iAcademicOfferFileRepository.findAll(pageable);
+        System.out.println("-----------Numero:"+academicOfferFilePage);
+        for (int i = 0; i < academicOfferFilePage.getSize(); i++) {
+            System.out.println("----------------ADENTRO:"+academicOfferFilePage.getContent().get(i).getNameFile());
+        }
+        //if (academicOfferFilePage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
+        //academicOfferFilePage.forEach(x -> System.out.println("nombre:"+x.getNameFile()));
+        //academicOfferFilePage.map(x -> System.out.println("Mapa: "+x.getNameFile()+"---"+x.getStateFile()));
+        Response<GenericPageableResponse> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("File Academy Offer found");
+        response.setDeveloperMessage("File Academic Offer found");
+        response.setMoreInfo("localhost:8080/api/academicOffer");
+        response.setErrorCode("");
+        response.setData(this.validatePageList(academicOfferFilePage));
+        return response;
+    }
+
+    private GenericPageableResponse validatePageList(Page<AcademicOfferFile> academicOfferFilePage) {
+        List<AcademicOfferFileDTO> academicOfferFilesDTOS = academicOfferFilePage.stream()
+                .map(x -> modelMapper.map(x, AcademicOfferFileDTO.class)).collect(Collectors.toList());
+        return PageableUtils.createPageableResponse(academicOfferFilePage, academicOfferFilesDTOS);
+    }
 
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {

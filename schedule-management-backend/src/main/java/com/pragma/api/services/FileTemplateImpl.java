@@ -208,8 +208,9 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @return ruta del archivo de plantilla de excel
      */
     private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        //comenta una o la otra
+ //       final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -219,7 +220,8 @@ public class FileTemplateImpl implements ITemplateFileService{
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
+            //dependiendo del path
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();

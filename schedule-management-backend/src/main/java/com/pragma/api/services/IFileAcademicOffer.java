@@ -1,5 +1,8 @@
 package com.pragma.api.services;
 
+import com.pragma.api.domain.GenericPageableResponse;
+import com.pragma.api.domain.Response;
+import org.springframework.data.domain.Pageable;
 import com.pragma.api.domain.ResponseFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,5 +17,7 @@ public interface IFileAcademicOffer {
      * @throws IOException excepcion de entrada y salida
      */
     ResponseFile uploadFile(MultipartFile file) throws IOException;
+
+    Response<GenericPageableResponse> findAll(final Pageable pageable);
 
 }

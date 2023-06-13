@@ -54,5 +54,5 @@ public class Event {
     @Column(name = "event_type",nullable = false)
     @Enumerated(EnumType.STRING)
     private EventTypeEnumeration eventType;
-    
+
 }

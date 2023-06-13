@@ -59,9 +59,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
 
         }
 
-        //if (cellEmpty) {
-        //    return null;
-        //}
         return fileRows;
     }
 
@@ -69,7 +66,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
     public FileRowEnvironment convertCellsToFileRow(List<Cell> cells) {
 
         FileRowEnvironment fileRow = new FileRowEnvironment(-1,"","",-1,"","","",new ArrayList<>());
-        //if (!verifyCellEmpty(cells)) {
 
 
         if (cells.size() > 0 && cells.get(0) != null) {
@@ -79,14 +75,25 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     fileRow.setRowNum(cells.get(0).getRowIndex());
                     fileRow.setName(name.toUpperCase());
                 }
+            }else if (cells.get(0).getCellType().equals(CellType.NUMERIC)) {
+                System.out.println("---------------------Nombre 1:"+cells.get(0));
+                int aux = (int) cells.get(0).getNumericCellValue();
+                String name = ""+aux;
+                if (name.length() > 0) {
+                    fileRow.setRowNum(cells.get(0).getRowIndex());
+                    fileRow.setName(name.toUpperCase());
+                }
+            } else if (!cells.get(0).getCellType().equals("")) {
+                System.out.println("---------------------Nombre 2:"+cells.get(0));
+                String name = ""+(cells.get(0));
+                if (name.length() > 0) {
+                    fileRow.setRowNum(cells.get(0).getRowIndex());
+                    fileRow.setName(name.toUpperCase());
+                }
             }
+
         }
-            /*if(cells.get(0)==null){
-                fileRow.setName("");
-                System.out.println("-----Entra aqui vacio nombre");
-            }else{
-                fileRow.setName(cells.get(0).getStringCellValue());
-            }*/
+
         if (cells.size() > 1 && cells.get(1) != null) {
             if (cells.get(1).getCellType().equals(CellType.STRING)) {
                 String location = cells.get(1).getStringCellValue().trim();
@@ -96,12 +103,7 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                 }
             }
         }
-            /*if(cells.get(1)==null){
-                fileRow.setLocation("");
-                System.out.println("-----Entra aqui vacio ubicacion");
-            }else{
-                fileRow.setLocation(cells.get(1).getStringCellValue());
-            }*/
+
 
         if (cells.size() > 2 && cells.get(2) != null) {
             if (cells.get(2).getCellType().equals(CellType.NUMERIC)) {
@@ -112,11 +114,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
         }
 
-          /*if (!cells.get(2).getCellType().equals(CellType.NUMERIC)) {
-              fileRow.setCapacity(0);
-           } else {
-            fileRow.setCapacity((int) cells.get(2).getNumericCellValue());
-           }*/
 
         if (cells.size() > 3 && cells.get(3) != null) {
             if (cells.get(3).getCellType().equals(CellType.STRING)) {
@@ -128,8 +125,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
         }
 
-          //fileRow.setEnvironmentType(cells.get(3).getStringCellValue());
-
         if (cells.size() > 4 && cells.get(4) != null) {
             if (cells.get(4).getCellType().equals(CellType.STRING)) {
                 String faculty = cells.get(4).getStringCellValue().trim();
@@ -140,7 +135,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
         }
 
-          //fileRow.setFaculty(cells.get(4).getStringCellValue());
 
         if (cells.size() > 5 && cells.get(5) != null) {
             if (cells.get(5).getCellType().equals(CellType.STRING)) {
@@ -152,13 +146,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
         }
 
-
-            /*if(!(cells.get(5) == null)){
-                fileRow.setAvailableResources(cells.get(5).getStringCellValue());
-            }else{
-
-                fileRow.setAvailableResources(null);
-            }*/
             if(cells.size() > 6 && cells.get(6) != null){
                 //String Cant = cells.get(6).toString();
                 if(cells.get(6).getCellType() == CellType.NUMERIC){
@@ -180,41 +167,14 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     fileRow.setQuantity(new ArrayList<>());
                 }
 
-                //}else if(cells.get(6).toString().length()==0){
             }else{
                 fileRow.setQuantity(null);
             }
 
 
 
-
-            //if(!(cells.get(6)==null)){
-
-            //}else{
-              //  fileRow.setAvailableResources(null);
-            //}
-
-            //condicional
-            //cojo ubicacion y diferente de null
-
-
             return fileRow;
-        //} else {
-          //  System.out.println("Campo vacio, Verifique el archivo");
-        //}
-        //return null;
 
-    }
-
-    //Verifica campos vacios en la columna
-    private boolean verifyCellEmpty(List<Cell> cells) {
-        boolean cellEmpty = false;
-        for (int i = 0; i < cells.size(); i++) {
-            if (cells.get(i) == null) {
-                cellEmpty = true;
-            }
-        }
-        return cellEmpty;
     }
 
 

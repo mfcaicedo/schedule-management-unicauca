@@ -1,7 +1,7 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.GenericPageableResponse;
-//import com.pragma.api.domain.TeacherDTO;
+//import com.pragma.api.domain.PersonDTO;
 import com.pragma.api.model.Person;
 import com.pragma.api.repository.IPersonRepository;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
@@ -45,7 +45,7 @@ public class TeacherServiceImpl {
 
     //todo se debe corregir
     /*private GenericPageableResponse validatePageList(Page<Person> teachersPage){
-        List<TeacherDTO> resourcesDTOS = teachersPage.stream().map(x->modelMapper.map(x, TeacherDTO.class)).collect(Collectors.toList());
+        List<PersonDTO> resourcesDTOS = teachersPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(teachersPage, resourcesDTOS);
     }*/
 

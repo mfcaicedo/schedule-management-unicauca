@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
 import lombok.*;
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Period {
         this.periodId = periodId;
         this.state = state;
     }
+
 
     @OneToMany(mappedBy = "period")
     private Set<AcademicOfferFile> academicOfferFiles;
