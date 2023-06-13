@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import esLocale from '@fullcalendar/core/locales/es';
 import timeGridPlugin from '@fullcalendar/timegrid';
@@ -19,6 +19,8 @@ import { PdfService } from 'src/app/views/reportes/pdf.service';
  * de forma automatica
  */
 export class CalendarioComponent implements OnChanges{
+  @Output() onLoadComplete: EventEmitter<void> = new EventEmitter<void>();
+
   @Input() eventosParaCalendario: ReportRoom[]=[];//trae desde un componente externo los datos del reporte que se van a mapear en fullcalendar como eventos
   @Input() tituloImg: string="img";// trae desde un componente externotitulo que contendra la imagen descargada por defecto sera img
 
@@ -98,6 +100,9 @@ ngAfterViewInit() {
     this._generarSRCImagenCalendario(); //Es para la etiqueta img señale a la imagen en su atributo src
     this._generarDescargableCalendario(); //crea una imagen descargable con titulo y la descarga en el ordenador o dispositivo
     this.showFullCalendar = false; // quita al fullcalendar  y muestra la imagen en su remplazo
+    this.onLoadComplete.emit();
+    // Llama a la función después de que el componente se haya cargado para informar a padre que ya termino
+ 
   }
   /**
    * asigna los esquemas que se combertiran en eventos
@@ -119,6 +124,10 @@ ngAfterViewInit() {
       this._actualizarEventosCalendario();
     }    
     
+  }
+  /** */
+  onLoadComplet() {
+    alert("estamaos listos");
   }
   /**
    * se encarga de actualizar los eventos 

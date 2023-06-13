@@ -101,9 +101,10 @@
     <br>
   </span>     
   </c-card-body>
+  <!-- Progreso de descarga -->
 
   <div *ngFor="let esquema of esquemas; let i=index">
-    <h2 #miTablaTITULO>Esquema del ambiente:{{getNombreAmbientedesdeId(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
     <table cTable #miTablaI>
       <thead cTableColor="dark">
       <tr>

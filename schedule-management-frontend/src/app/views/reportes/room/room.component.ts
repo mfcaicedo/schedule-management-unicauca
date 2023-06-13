@@ -47,6 +47,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   //@Output()isEnvironmentSelected = new EventEmitter<boolean>();
   //@ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
 
+  
   //DATOS REPORTE
   seleccionados: string[] = [];
   seleccionadoDic: Map<string, string> = new Map<string, string>();
@@ -70,6 +71,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
   listaEdificios:Environment[]=[];///lista que contiene los edificios para llenar el desplegable en html
   listaAmbienteHijos: Environment[]=[];
+  listaTitulosReporte:string[]=[]; ///tiene los titulos de los horarios
 
   //banderas
   isTypeSelected:boolean=false;  ///Variable bandera que indica si se ha seleccionado el tipo
@@ -238,6 +240,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   }
   GenerarReporte(){
     this.esquemas = [];
+    this.listaTitulosReporte=[];
     this.seleccionados.forEach((id) => {
       //this.alerta("PREPARANDONOS PARA :"+id);
       this.reportService.getReportRoom(id).subscribe(
@@ -246,6 +249,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
+          this.listaTitulosReporte.push("Horario de "+this.getNombreAmbientedesdeId(id)+"(COD: "+id+").");
         },
         (error) => {
           console.log('Error obteniendo los esquemas', error);
@@ -347,6 +351,7 @@ getNombreAmbientedesdeId(i:string): string | undefined {
     }
   }, 1000);
 }
+
 getOptionesCalendar(eventosParaCalendario: ReportRoom[]):CalendarOptions{
   //alert("dlpdlc");
  //return this.calendaroptionsService.getCalendarOptions(eventosParaCalendario);
@@ -383,4 +388,5 @@ getOptionesCalendar(eventosParaCalendario: ReportRoom[]):CalendarOptions{
 };
 return calendarOptions;
 }
+
 }
