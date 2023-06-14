@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-// import { Teacher } from 'src/app/models/professor.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 

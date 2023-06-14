@@ -49,9 +49,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
         Page<AcademicOfferFile> academicOfferFilePage = this.iAcademicOfferFileRepository.findAll(pageable);
         System.out.println("-----------Numero:"+academicOfferFilePage);
-        for (int i = 0; i < academicOfferFilePage.getSize(); i++) {
-            System.out.println("----------------ADENTRO:"+academicOfferFilePage.getContent().get(i).getNameFile());
-        }
+
         //if (academicOfferFilePage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
         //academicOfferFilePage.forEach(x -> System.out.println("nombre:"+x.getNameFile()));
         //academicOfferFilePage.map(x -> System.out.println("Mapa: "+x.getNameFile()+"---"+x.getStateFile()));
