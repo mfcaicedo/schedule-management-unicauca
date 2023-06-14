@@ -52,6 +52,7 @@ export class OaUploadComponent implements OnInit {
 
             this.oaService.uploadFile(file)
               .subscribe(data => {
+                console.log("llega al subscribe", data);
                 let response = Object.values(data);
                 this.responseFile = {
                   statusFile: response[0],
@@ -68,20 +69,20 @@ export class OaUploadComponent implements OnInit {
                   Swal.fire({
                     title: 'Hay errores en el archivo',
                     html: `
-                <div style="text-align:center">
-                <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
-                      }</p>
-                  <p>${this.responseFile.logsType.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsType.join('<br>').toLowerCase()
-                      }</p>
-                  <p>${this.responseFile.logsGeneric.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsGeneric.join('<br>').toLowerCase()
-                      }</p>
-                </div>
+                    <div style="text-align:center">
+                      <p>${this.responseFile.logsType.length === 0 ? '' :
+                          '<h5>Tipo de dato: </h5>' +
+                          this.responseFile.logsType.join('<br>')
+                        }</p>
+                      <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                          '<h5>Campos vacíos: </h5>' +
+                          this.responseFile.logsEmptyFields.join('<br>')
+                        }</p>
+                      <p>${this.responseFile.logsGeneric.length === 0 ? '' :
+                          '<h5>Otros errores: </h5>' +
+                          this.responseFile.logsGeneric.join('<br>')
+                        }</p>
+                    </div>
                 `,
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
@@ -148,7 +149,7 @@ export class OaUploadComponent implements OnInit {
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
                 confirmButtonColor: '#0A266F',
-                }
+              }
               );
               //borro el archivo cargado así no se haya cargado
               element.value = '';
@@ -170,9 +171,9 @@ export class OaUploadComponent implements OnInit {
 
   }
 
-    /**
-     * Metodo que invica al servicio para descargar el template de carga de oferta academica
-     */
+  /**
+   * Metodo que invica al servicio para descargar el template de carga de oferta academica
+   */
   downloadTemplate() {
     this.programCode = 'PIS';
     console.log("llega al metodo");

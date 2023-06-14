@@ -40,7 +40,11 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         fileRowAux.setNameFile(file.getOriginalFilename());
         fileRowAux.setStateFile(StateAcOfferFileEnumeration.SIN_INICIAR);
         fileRowAux.setPeriod(sheet.getRow(4).getCell(1).getStringCellValue());
-        fileRowAux.setProgramId(sheet.getRow(2).getCell(1).getStringCellValue());
+        if(sheet.getRow(2).getCell(1).getCellType().equals(CellType.STRING)){
+            fileRowAux.setProgramId(sheet.getRow(2).getCell(1).getStringCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: 3 Columna: B] El programa debe ser tipo texto");
+        }
         //agrego en la primera posición del array la información del archivo
         fileRows.add(fileRowAux);
 
@@ -54,40 +58,90 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             for (int j = 0; j < columnNum; j++) {
                 cells.add(row.getCell(j));
             }
-            FileRowAcademicOffer fileRow = convertCellsToFileRow(cells);
+            FileRowAcademicOffer fileRow = convertCellsToFileRow(cells, responseFile);
             fileRows.add(fileRow);
-
         }
         return fileRows;
     }
 
     @Override
-    public FileRowAcademicOffer convertCellsToFileRow(List<Cell> cells) {
+    public FileRowAcademicOffer convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
 
         FileRowAcademicOffer fileRow = new FileRowAcademicOffer();
         //Course
-        fileRow.setCapacity((int)cells.get(5).getNumericCellValue());
-        fileRow.setGroup(cells.get(4).getStringCellValue());
-        fileRow.setTypeEnvironmentRequired(cells.get(6).getStringCellValue());
-        fileRow.setWeeklyOverload((int)cells.get(3).getNumericCellValue());
-        fileRow.setInBlock(cells.get(2).getStringCellValue().equals("SI") ? true : false);
-        fileRow.setSubjectCode(cells.get(1).getStringCellValue().split("-")[0].trim());
+        if(cells.get(5).getCellType().equals(CellType.NUMERIC)){
+            fileRow.setCapacity((int)cells.get(5).getNumericCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(5).getRowIndex() + 1) + " Columna: F] El cupo " +
+                    "debe ser tipo numérico");
+        }
+        if(cells.get(4).getCellType().equals(CellType.STRING)){
+            fileRow.setGroup(cells.get(4).getStringCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(4).getRowIndex() + 1) + " Columna: E] El grupo " +
+                    "debe ser tipo texto");
+        }
+        if(cells.get(6).getCellType().equals(CellType.STRING)){
+            fileRow.setTypeEnvironmentRequired(cells.get(6).getStringCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(6).getRowIndex() + 1) + " Columna: G] El tipo de " +
+                    "ambiente debe ser tipo texto");
+        }
+        if(cells.get(3).getCellType().equals(CellType.FORMULA)){
+            fileRow.setWeeklyOverload((int)cells.get(3).getNumericCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(3).getRowIndex() + 1) + " Columna: D] La celda de intensidad" +
+                    " semanal no debe modificarse");
+        }
+        if(cells.get(2).getCellType().equals(CellType.FORMULA)){
+            fileRow.setInBlock(cells.get(2).getStringCellValue().equals("SI") ? true : false);
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(2).getRowIndex() + 1) + " Columna: C] La celda de bloque" +
+                    " no debe modificarse");
+        }
+        System.out.println("Celda verr: " + cells.get(1).getCellType());
+        if(cells.get(1).getCellType().equals(CellType.STRING)){
+            fileRow.setSubjectCode(cells.get(1).getStringCellValue().split("-")[0].trim());
+        }else{
+            responseFile.addLogsType("[Fila: " + (cells.get(1).getRowIndex() + 1) + " Columna: B] Solo debes " +
+                    "seleccionar la materia, evita escribir en la celda");
+        }
 
         //CourseTecher
         List<String> listAuxCodeTeachers = new ArrayList<>();
         if(cells.get(7).getCellType() != CellType.BLANK){
-            listAuxCodeTeachers.add(cells.get(7).getStringCellValue().split("-")[0].trim());
+            System.out.println("Celda 7: " + cells.get(7).getCellType());
+            if (cells.get(7).getCellType().equals(CellType.STRING)){
+                listAuxCodeTeachers.add(cells.get(7).getStringCellValue().split("-")[0].trim());
+            }else{
+                responseFile.addLogsType("[Fila: " + (cells.get(7).getRowIndex() + 1) + " Columna: H] Solo debes" +
+                        " seleccionar el docente, evita escribir en la celda");
+            }
+        }else{
+            responseFile.addLogsEmptyFields("[Fila: " + (cells.get(7).getRowIndex() + 1) + " Columna: H] Se " +
+                    "debe seleccionar al menos un docente");
         }
         if(cells.get(8).getCellType() != CellType.BLANK){
+            System.out.println("Celda 8: " + cells.get(8).getCellType());
+            if (cells.get(8).getCellType().equals(CellType.STRING)){
             listAuxCodeTeachers.add(cells.get(8).getStringCellValue().split("-")[0].trim());
+            }else{
+                responseFile.addLogsType("[Fila: " + (cells.get(8).getRowIndex() + 1) + " Columna: I] Solo debes" +
+                        " seleccionar el docente, evita escribir en la celda");
+            }
         }
         if(cells.get(9).getCellType() != CellType.BLANK){
-            listAuxCodeTeachers.add(cells.get(9).getStringCellValue().split("-")[0].trim());
+            System.out.println("Celda 9: " + cells.get(9).getCellType());
+            if (cells.get(9).getCellType().equals(CellType.STRING)){
+                listAuxCodeTeachers.add(cells.get(9).getStringCellValue().split("-")[0].trim());
+            }else{
+                responseFile.addLogsType("[Fila: " + (cells.get(9).getRowIndex() + 1) + " Columna: J] Solo debes" +
+                        " seleccionar el docente, evita escribir en la celda");
+            }
         }
         fileRow.setPersonCode(listAuxCodeTeachers);
         return fileRow;
     }
-
     /**
      * Método para obtener el número de filas a recorrer
      * @param rowNum Número de filas del archivo
@@ -123,9 +177,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             }
         }
         return rowNum;
-    }
-    public void getPrueba(ResponseFile responseFile){
-        responseFile.addLogsGeneric("Esto es una prueba");
     }
 
 }

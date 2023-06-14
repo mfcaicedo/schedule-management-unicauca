@@ -32,14 +32,14 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
             for (int j = 0; j < columnNum; j++) {
                 cells.add(row.getCell(j));
             }
-            FileRowTeacher fileRow = convertCellsToFileRow(cells);
+            FileRowTeacher fileRow = convertCellsToFileRow(cells, responseFile);
             fileRows.add(fileRow);
         }
         return fileRows;
     }
 
     @Override
-    public FileRowTeacher convertCellsToFileRow(List<Cell> cells) {
+    public FileRowTeacher convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
 
         System.out.println("CELLS SIZE: " + cells.size());
 

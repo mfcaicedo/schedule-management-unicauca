@@ -48,7 +48,7 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
 
 
-            FileRowEnvironment fileRow = convertCellsToFileRow(cells);
+            FileRowEnvironment fileRow = convertCellsToFileRow(cells, responseFile);
 
             if (fileRow == null) {
                 cellEmpty = true;
@@ -63,7 +63,7 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
     }
 
     @Override
-    public FileRowEnvironment convertCellsToFileRow(List<Cell> cells) {
+    public FileRowEnvironment convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
 
         FileRowEnvironment fileRow = new FileRowEnvironment(-1,"","",-1,"","","",new ArrayList<>());
 

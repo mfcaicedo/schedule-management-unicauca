@@ -28,24 +28,17 @@ import java.util.List;
 @Service
 public class FileTemplateImpl implements ITemplateFileService{
 
-
     private ITemplateFileRepository templateFileRepository;
-
     @Autowired
     private ModelMapper modelMapper;
-
     @Autowired
     private ResourceLoader resourceLoader;
-
     @Autowired
     private IPersonService iPersonService;
-
     @Autowired
     private IProgramService iProgramService;
-
     @Autowired
     private ISubjectService iSubjectService;
-
     @Autowired
     public FileTemplateImpl(ITemplateFileRepository templateFileRepository) {
         this.templateFileRepository = templateFileRepository;
@@ -209,8 +202,8 @@ public class FileTemplateImpl implements ITemplateFileService{
      */
     private String getPathTemplate(String nameFile) {
         //comenta una o la otra
- //       final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -221,7 +214,8 @@ public class FileTemplateImpl implements ITemplateFileService{
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
             //dependiendo del path
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
+//            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();

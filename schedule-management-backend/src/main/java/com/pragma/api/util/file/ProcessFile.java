@@ -22,5 +22,5 @@ public abstract class ProcessFile<T> {
      * @param cells celdas de una fila del archivo excel
      * @return Retorna un objeto T diferente para cada tipo de archivo
      */
-    public abstract T convertCellsToFileRow(List<Cell> cells);
+    public abstract T convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile);
 }
