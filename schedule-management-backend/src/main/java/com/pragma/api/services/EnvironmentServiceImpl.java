@@ -142,6 +142,9 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     @Override
     public Response<GenericPageableResponse> findAll(Pageable pageable) {
         Page<Environment> environmentPage = this.environmentRepository.findAll(pageable);
+
+        //environmentPage.getTotalElements();
+
         if (environmentPage.isEmpty())
             throw new ScheduleBadRequestException("bad.request.subject.empty", "");
 

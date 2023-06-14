@@ -1,5 +1,6 @@
 package com.pragma.api.util.file;
 
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.util.file.templateclasses.FileRowAcademicOffer;
 import com.pragma.api.util.file.templateclasses.FileRowTeacher;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,7 +16,7 @@ import java.util.List;
 
 public class FileTeachers extends ProcessFile<FileRowTeacher>{
     @Override
-    public List<FileRowTeacher> getLogs(MultipartFile file) throws IOException {
+    public List<FileRowTeacher> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException {
 
         List<FileRowTeacher> fileRows = new ArrayList<>();
         InputStream fileExcel = file.getInputStream();

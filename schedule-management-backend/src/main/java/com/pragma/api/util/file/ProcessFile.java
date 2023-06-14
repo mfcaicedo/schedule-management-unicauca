@@ -1,5 +1,6 @@
 package com.pragma.api.util.file;
 
+import com.pragma.api.domain.ResponseFile;
 import org.apache.poi.ss.formula.functions.T;
 import org.apache.poi.ss.usermodel.Cell;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,7 +15,7 @@ public abstract class ProcessFile<T> {
      * @return Retorna una lista de objetos T diferente para cada tipo de archivo
      * @throws IOException Excepción de entrada y salida
      */
-    public abstract List<T> getLogs(MultipartFile file) throws IOException;
+    public abstract List<T> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException;
     /**
      * Método para convertir las celdas de un archivo excel a un objeto de tipo FileRow
      * (Columna completa)

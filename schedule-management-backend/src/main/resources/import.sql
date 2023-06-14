@@ -150,3 +150,6 @@ INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`,
 
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES ('11', 'LUNES', '2023-05-18 11:19:18', '13:19:18', b'0', '2023-05-16 10:19:18', '05:19:18', '7', '14', '2');
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES ('12', 'VIERNES', '2023-05-20 11:19:18', '11:19:18', b'1', '2023-05-18 10:19:18', '04:19:18', '7', '14', '2');
+
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:19.000000', 'oferta_academica_electronica.xls', '1', '2023-1', 'PIS');
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:18.000000', 'oferta_academica_sistemas.xls', '1', '2023-1', 'PIET');

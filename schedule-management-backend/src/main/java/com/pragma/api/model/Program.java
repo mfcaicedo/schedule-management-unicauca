@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,10 +28,12 @@ public class Program {
     @JoinColumn(name = "department_id")
     private Department department;
 
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "program")
     private Set<Subject> subjects;
 
     //relacion 1 a * con AcademicOfferFile
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "program")
     private Set<AcademicOfferFile> academicOfferFiles;
 

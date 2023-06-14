@@ -1,5 +1,6 @@
 package com.pragma.api.util.file;
 
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.util.file.templateclasses.FileRowSubject;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,7 +22,7 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
     private String programCode = "";
 
     @Override
-    public List<FileRowSubject> getLogs(MultipartFile file) throws IOException {
+    public List<FileRowSubject> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException {
         List<FileRowSubject> fileRows = new ArrayList<>();
         InputStream fileExcel = file.getInputStream();
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);

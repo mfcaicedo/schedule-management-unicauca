@@ -32,7 +32,8 @@ public class FileSubjectImpl implements IFileSubjectService {
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileSubject fileSubject = new FileSubject();
-        List<FileRowSubject> logs = fileSubject.getLogs(file);
+        ResponseFile responseFile = new ResponseFile();
+        List<FileRowSubject> logs = fileSubject.getLogs(file, responseFile);
         return processFile(logs);
     }
 

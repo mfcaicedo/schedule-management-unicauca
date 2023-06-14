@@ -10,6 +10,7 @@ import com.pragma.api.domain.Response;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.model.enums.RecurrenceEnumeration;
 import com.pragma.api.services.IFileEnvironmentService;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -47,6 +48,11 @@ public class EnvironmentController {
         return new ResponseEntity<>(this.fileEnvironmentService.uploadFile(file), HttpStatus.OK);
     }
 
+    @GetMapping("/downloadTemplate")
+    ResponseEntity<Resource> downloadTemplate() throws IOException {
+        System.out.println("--------------------------------lleaga al controlador de descarga");
+        return this.fileEnvironmentService.downloadTemplateFile();
+    }
 
     @RequestMapping(value = "/update/{id}", method = RequestMethod.PATCH, produces = "application/json")
     @ResponseBody

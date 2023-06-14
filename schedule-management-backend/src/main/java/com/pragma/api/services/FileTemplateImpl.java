@@ -191,7 +191,10 @@ public class FileTemplateImpl implements ITemplateFileService{
             Row row = sheetTeachers.getRow(i);
 
             row.getCell(0).setCellValue(teachers.get(i-1).getPersonCode());
-            row.getCell(1).setCellValue(teachers.get(i-1).getFullName());
+            row.getCell(1).setCellValue(
+                    teachers.get(i-1).getPersonCode().
+                    concat(" - ").concat(teachers.get(i-1).getFullName())
+            );
             row.getCell(2).setCellValue(teachers.get(i-1).getDepartment().getDepartmentName());
 
         }
@@ -205,8 +208,9 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @return ruta del archivo de plantilla de excel
      */
     private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        //comenta una o la otra
+ //       final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -216,7 +220,8 @@ public class FileTemplateImpl implements ITemplateFileService{
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
+            //dependiendo del path
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();
@@ -235,16 +240,10 @@ public class FileTemplateImpl implements ITemplateFileService{
         if (temporary != null) {
             // Restaura el archivo original desde la copia temporal en memoria RAM
             Files.write(Path.of(path), temporary);
-
             // Limpia la copia temporal en memoria RAM
             temporary = null;
         }
     }
-
-
-
-
-
     /**
      * Metodo que me permite insertar en las filas de excel en el formato indicado
      * @param row fila actual del excel

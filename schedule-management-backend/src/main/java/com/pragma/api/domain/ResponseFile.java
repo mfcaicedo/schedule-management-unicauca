@@ -109,4 +109,36 @@ public class ResponseFile {
         this.logsSuccess = logsSuccess;
     }
 
+    //TODO Metodos para agregar errores
+
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsEmptyFields(String log) {
+        if (!log.isEmpty()) this.logsEmptyFields.add(log);
+    }
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsType(String log) {
+        if (!log.isEmpty()) this.logsType.add(log);
+    }
+    /**
+     * Metodo para agregar errores genéricos.
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsGeneric(String log) {
+        if (!log.isEmpty()) this.logsGeneric.add(log);
+    }
+    /**
+     * Metodo para agregar mensajer de éxito al procesar el archivo.
+     * @param log mensaje a agregar a la lista de mensajes de éxito.
+     */
+    public void addLogsSuccess(String log) {
+        if (!log.isEmpty()) this.logsSuccess.add(log);
+    }
+
+
 }
