@@ -1,8 +1,10 @@
+import { Period } from './period.model';
+import { Program } from './program.model';
 export interface academicOferFile {
     id: number;
     nameFile: string;
-    dateRegisterFile: string;
+    dateRegisterFile: Date;
     stateFile: string;
-    periodId: string;
-    programId: string;
+    period: Period;
+    program: Program;
 }

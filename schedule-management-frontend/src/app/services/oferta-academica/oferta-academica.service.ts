@@ -45,7 +45,7 @@ export class OfertaAcademicaService {
   }
 
   /**
-   * Metodo que invoca al servicio para descargar losarchivos que se han cargado para la oferta academica
+   * Metodo que invoca al servicio para descargar los archivos que se han cargado para la oferta academica
    * @returns objeto con la respuesta del servicio
    */
   findAllFiles(page: number, pageSize: number): Observable<any> {

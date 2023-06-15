@@ -16,9 +16,9 @@
             <tr *ngFor="let file of aoFile">
               <td>{{file.nameFile}} </td>
               <td>{{file.dateRegisterFile}}</td>
-              <!-- <td>{{file.stateFile}}</td> -->
-              <td>{{file.periodId}} </td>
-              <td>{{file.programId}} </td>
+              <td>{{file.stateFile}}</td>
+              <td>{{file.period.periodId}} </td>
+              <td>{{file.program.name}} </td>
             </tr>
           </tbody>
 

@@ -14,7 +14,7 @@ import { academicOferFile } from 'src/app/models/academicOferFIle.model'
 })
 export class OaViewFilesComponent implements OnInit {
   aoFile: academicOferFile[] = [];
-  columns: string[] = ['Nombre del archivo', 'Fecha de registro', 'Periodo', 'Id programa'];
+  columns: string[] = ['Nombre', 'Fecha','Estado archivo', 'Periodo', 'Programa'];
   isTypeSelected: boolean = false
   totalItems: number = 0;
   totalNumberPage: number = 1;
@@ -28,7 +28,11 @@ export class OaViewFilesComponent implements OnInit {
 
     this.oaFileService.findAllFiles(1, 5).subscribe(response => {
       console.log("Data : ", response)
+      console.log("seguimiento " + response.data.elements[0].period.periodId);
       this.aoFile = response.data.elements as academicOferFile[]
+      console.log("aoo000000 " + this.aoFile[0].dateRegisterFile);
+      let date = new Date(this.aoFile[0].dateRegisterFile)
+      console.log(date);
       this.totalItems = response.data.pagination.totalNumberElements as number
       this.totalNumberPage = response.data.pagination.totalNumberPage as number
       this.pageSize = response.data.pagination.size as number
@@ -37,6 +41,7 @@ export class OaViewFilesComponent implements OnInit {
   }
   // aqui viene el numero de pagina solicitada y el tamaño que debe tener
   loadTableAcademicOffer(args: number[]) {
+    console.log("entro al metodo al menos");
     let pageSolicitud: number = args[0];
     let pageSize: number = args[1]
     if (!pageSolicitud) {
@@ -48,6 +53,7 @@ export class OaViewFilesComponent implements OnInit {
     if (!this.isTypeSelected) {
       this.oaFileService.findAllFiles(pageSolicitud, pageSize).subscribe((response) => {
         this.aoFile = response.data.elements as academicOferFile[]
+        console.log("ver esto " + this.aoFile);
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
 

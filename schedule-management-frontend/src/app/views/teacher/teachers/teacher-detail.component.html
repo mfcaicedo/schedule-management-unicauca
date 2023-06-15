@@ -37,12 +37,7 @@
           <tr *ngFor="let profesor of person; index as i">
             <td>{{profesor.personCode}} </td>
             <td>{{profesor.fullName}} </td>
-
-            <td>
-              <div *ngFor = "let key of profesor.department | keyvalue">
-                {{key.value}}
-              </div>
-            </td>
+            <td>{{profesor.department.departmentName}} </td>
 
           </tr>
 

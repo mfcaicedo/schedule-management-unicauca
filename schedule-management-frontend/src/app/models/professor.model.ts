@@ -5,7 +5,7 @@ export interface Professor {
   personCode: string;
   fullName: string;
   personType: string;
-  department: Department[];
+  department: Department;
 
 }
 export interface ProfesorDTO extends Omit<Professor, 'availableResources'> {
