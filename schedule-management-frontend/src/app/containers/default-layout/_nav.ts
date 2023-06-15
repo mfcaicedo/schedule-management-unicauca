@@ -30,6 +30,11 @@ export const navItems: INavData[] = [
         name: 'Descargar oferta',
         url: '/schedule/view-oa',
         iconComponent: { name: 'cilCloudDownload' }
+      },
+      {
+        name: 'Ver archivos',
+        url: '/schedule/view-files-oa',
+        iconComponent: { name: 'cil-file' }
       }
     ]
   },

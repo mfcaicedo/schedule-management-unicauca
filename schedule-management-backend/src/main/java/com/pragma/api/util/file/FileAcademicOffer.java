@@ -53,6 +53,7 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         System.out.println("filas a recorrer: " + rowNumOriginal);
         for (int i = 10; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
+            System.out.println("Registro numero: " + i);
             Row row = sheet.getRow(i);
             int columnNum = row.getLastCellNum();
             for (int j = 0; j < columnNum; j++) {

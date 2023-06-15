@@ -17,19 +17,10 @@
             <button cButton cDropdownToggle color="light">
               Selecciona el departamento
             </button>
-            <!-- <ul cDropdownMenu> -->
-              <!-- <li><h6 cDropdownHeader>Departamentos</h6></li> -->
-              <!-- <tr *ngFor="let profesor of teacher; index as i">
-                <li *ngFor="let departamento of profesor.department | keyvalue"><a (click)="updateTableTeachers(departamento)" cDropdownItem>{{departamento}}</a></li>
-              </tr> -->
-
-            <!-- </ul> -->
             <ul cDropdownMenu>
-              <!-- <li *ngFor="let nombre of departments.departmentName">
-                <a (click)="updateTableTeachers(nombre)" cDropdownItem>
-                  {{nombre}}
-                </a>
-              </li> -->
+              <li><h6 cDropdownHeader>Departamento</h6></li>
+              <li *ngFor="let departments of department"><a (click)="updateTableTeachers(departments)" cDropdownItem>{{departments}}</a></li>
+              <!-- routerLink="./{{tipo}}" -->
             </ul>
           </c-dropdown>
           </c-col>
@@ -46,12 +37,7 @@
           <tr *ngFor="let profesor of person; index as i">
             <td>{{profesor.personCode}} </td>
             <td>{{profesor.fullName}} </td>
-
-            <td>
-              <div *ngFor = "let key of profesor.department | keyvalue">
-                {{key.value}}
-              </div>
-            </td>
+            <td>{{profesor.department.departmentName}} </td>
 
           </tr>
 

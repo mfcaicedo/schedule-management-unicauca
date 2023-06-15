@@ -117,7 +117,7 @@ INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
 
 --eventos
-INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`, `program_id`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062', 'PIS');
+INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062');
 
 
 --horario

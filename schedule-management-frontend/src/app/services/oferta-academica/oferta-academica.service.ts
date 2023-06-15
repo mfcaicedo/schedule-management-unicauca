@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { File } from 'src/app/models/file.model';
 import { HttpHeaders } from '@angular/common/http';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ import { environment } from 'src/environments/environment';
 export class OfertaAcademicaService {
 
   endPoint: String = environment.urlAcadOffer
-
+  programCode: string[] = ['PIS', 'PIET', 'PIAI', 'TTM'];
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -41,6 +42,25 @@ export class OfertaAcademicaService {
   downloadTemplateService(programCode: String) {
     console.log("llega al metodo al servicio ", this.endPoint);
     return this.http.get(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'blob' });
+  }
+
+  /**
+   * Metodo que invoca al servicio para descargar los archivos que se han cargado para la oferta academica
+   * @returns objeto con la respuesta del servicio
+   */
+  findAllFiles(page: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(
+      this.endPoint + `?page=${page - 1}&size=${pageSize}&sort=dateRegisterFile&order=ASC`)
+      .pipe(
+        catchError((e) => {
+          console.log('Error obteniendo todos los archivos de la oferta académica', e.error.mensaje, 'error');
+          return throwError(e);
+        })
+      );
+  }
+
+  getProgramCode() {
+    return this.programCode;
   }
 
 }

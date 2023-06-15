@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
-// import { Teacher } from 'src/app/models/professor.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
@@ -11,7 +10,7 @@ import Swal from 'sweetalert2';
 export class TeacherService {
 
   endPoint: String = environment.urlPerson
-  departments = [];
+  departments: string[] = ['TODOS', 'SISTEMAS', 'TELECOMUNICACIONES'];
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -41,7 +40,7 @@ export class TeacherService {
 
 
   getDepartmentsName() {
-    return this;
+    return this.departments;
   }
 
   getAllPersonByPersonTypePage(type: string, page: number, pageSize: number): Observable<any> {
@@ -65,10 +64,10 @@ export class TeacherService {
       );
   }
 
-  findAllByDepartmetId(type: string, page: number, pageSize: number): Observable<any> {
+  findAllByDepartmetName(name: string, type: string, page: number, pageSize: number): Observable<any> {
     //TODO agregar autorizacion
     return this.http.get<any>(
-      this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentId=${type}`)
+      this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentName=${name}&personType=${type}`)
       .pipe(
         catchError((e) => {
           console.log('Error obteniendo todos los profesores por departamento', e.error.mensaje, 'error');

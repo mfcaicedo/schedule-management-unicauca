@@ -1,17 +1,16 @@
 import { Faculty } from "./faculty.model";
 import { Resource } from "./resource.model";
 
-export interface Environment
-{
-  id:number;
+export interface Environment {
+  id: number;
   name: string;
-  location:string;
-  capacity:number;
+  location: string;
+  capacity: number;
   //environmentType:EnvironmentTypeEnumeration ;
-  environmentType:string;
+  environmentType: string;
   // faculty:Faculty;
-  facultyId:string;
-  availableResources:Resource[];
+  facultyId: string;
+  availableResources: Resource[];
 
 
 }
@@ -24,13 +23,12 @@ export interface Environment
 // private String facultyId;
 
 // private Set<ResourceDTO> availableResources;
-export interface EnvironmentDTO extends Omit<Environment,'availableResources'>
-{
+export interface EnvironmentDTO extends Omit<Environment, 'availableResources'> {
 
 }
 
-export interface EnvironmentTypeEnumeration{
-  type:string;
+export interface EnvironmentTypeEnumeration {
+  type: string;
 }
 
 

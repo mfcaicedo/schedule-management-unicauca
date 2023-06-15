@@ -2,10 +2,12 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.PersonDTO;
+import com.pragma.api.model.Department;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
 import com.pragma.api.domain.Response;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Event;
+import com.pragma.api.repository.IDeparmentRepository;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Person;
 import com.pragma.api.repository.IPersonRepository;
@@ -28,6 +30,9 @@ public class PersonServiceImpl implements IPersonService {
     private final IPersonRepository iPersonRepository;
 
     private final ModelMapper modelMapper;
+
+    @Autowired
+    private IDeparmentRepository deparmentRepository;
 
     @Autowired
     public PersonServiceImpl(IPersonRepository iPersonRepository, ModelMapper modelMapper) {
@@ -77,10 +82,16 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Response<GenericPageableResponse> findAllByDepartmentId(Pageable pageable, String departmentId, String personType) {
+    public Response<GenericPageableResponse> findAllByDepartmentName(Pageable pageable, String departmentName, String personType) {
         //buscar el id del departamento y se le envia el nombre
-        Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(personType,departmentId, pageable);
-        if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.environment.empty", "");
+        //recuperar el id del departamento que esta enviando
+        System.out.println("LLEGA AL SERVICIO");
+        Department department = this.deparmentRepository.findDepartmentByDepartmentName(departmentName);
+        String departmentId = department.getDepartmentId();
+        System.out.println("DEPARTAMENTO ID: "+departmentId);
+        PersonTypeEnumeration type = personType.equals("TEACHER") ? PersonTypeEnumeration.TEACHER : PersonTypeEnumeration.ADMINISTRATIVE;
+        Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(type,departmentId, pageable);
+        System.out.println("EMPTY: " + personPage.isEmpty());
 
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);

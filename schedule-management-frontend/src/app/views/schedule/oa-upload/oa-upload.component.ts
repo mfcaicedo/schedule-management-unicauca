@@ -25,13 +25,14 @@ export class OaUploadComponent implements OnInit {
     logsGeneric: [],
     logsSuccess: [],
   };
-  programCode: string = '';
+  programCode: string[] = [];
   constructor(
     private oaService: OfertaAcademicaService,
     private spinnerService: SpinnerService,
   ) { }
 
   ngOnInit(): void {
+    this.programCode = this.oaService.getProgramCode();
   }
   public dropped(files: NgxFileDropEntry[]) {
     //this.files = files;
@@ -52,7 +53,6 @@ export class OaUploadComponent implements OnInit {
 
             this.oaService.uploadFile(file)
               .subscribe(data => {
-                console.log("llega al subscribe", data);
                 let response = Object.values(data);
                 this.responseFile = {
                   statusFile: response[0],
@@ -174,10 +174,10 @@ export class OaUploadComponent implements OnInit {
   /**
    * Metodo que invica al servicio para descargar el template de carga de oferta academica
    */
-  downloadTemplate() {
-    this.programCode = 'PIS';
+  downloadTemplate(programCode: string) {
+    //this.programCode = 'PIS';
     console.log("llega al metodo");
-    this.oaService.downloadTemplateService(this.programCode)
+    this.oaService.downloadTemplateService(programCode)
       .subscribe(data => {
         console.log("que llego; ", data);
         let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });

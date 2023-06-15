@@ -65,4 +65,5 @@ public interface IEnvironmentRepository extends JpaRepository<Environment, Integ
     @Query(value = "SELECT * FROM environment  WHERE parent_id = :parent_id AND environmentType = :environmentType", nativeQuery = true)
     List<Environment> findAllByTypeAndParentId(@Param("parent_id") Integer parentId, @Param("environmentType") String environmentType);
 
+
 }
