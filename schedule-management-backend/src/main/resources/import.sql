@@ -108,7 +108,7 @@ INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'C
 
 
 --resource course
-INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours,subject_code) VALUES ('1', '25', 'sistemas', 'pruebita ', '4', 'POO');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours,subject_code) VALUES ('1', '25', 'B', 'prs ', '4', 'POO');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('2', '13', 'A', 'dad','4', 'POO');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('3', '20', 'B', 'asd','4', 'ESTR1');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('4', '20', 'B', 'asd','4', 'ESTR2');
@@ -117,6 +117,8 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('7', '20', 'B', 'asd','4', 'BD1');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('8', '20', 'C', 'asd','4', 'BD1');
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('9', '20', 'A', 'asd','4', 'BD1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('10', '13', 'A', 'dad','4', 'INTRO1');
+INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('11', '13', 'B', 'dad','4', 'INTRO1');
 
 
 
