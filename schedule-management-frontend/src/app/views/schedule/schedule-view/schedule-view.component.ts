@@ -92,10 +92,14 @@ export class ScheduleViewComponent implements AfterViewInit {
   drop(event: any, day: number, hour: string) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("text/plain");
+  
+    if (this.horario[hour][day].length >= 1) {
+      // Si ya hay una materia en esa posición, no se permite agregar más
+      return;
+    }
+  
     this.horario[hour][day].push(materia);
-    
-
-    
+  
     // Eliminar la materia de la lista original
     const index = this.horasDia.indexOf(materia);
     if (index !== -1) {
@@ -111,7 +115,15 @@ export class ScheduleViewComponent implements AfterViewInit {
     return this.horario[hour][day];
   }
 
-
+  weekDayToInteger(weekDays: String[], day: string){
+    for (let i = 0; i <weekDays.length; i++) {
+      if(weekDays[i]==day){
+        return i;
+      }
+   
+    }
+    return 0;
+  }
 
 
 }
