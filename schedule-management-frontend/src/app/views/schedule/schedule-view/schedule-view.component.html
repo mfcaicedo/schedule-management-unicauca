@@ -1,3 +1,8 @@
+<head>
+  <!-- Otros elementos del encabezado -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
 <c-card>
   <c-card-header>
     <strong>Horario del ambiente {{ambiente.id}} : {{ambiente.name}} </strong>
@@ -33,26 +38,7 @@
                 </div>
                 
 
-                <div  *ngFor="let horario of horariosAmbienteColor ">
-
-                  <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
-
-
-                    <div *ngIf="horario.day == dia.toUpperCase() ">
-
-
-                      <div
-                        class="{{horario.color}} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">
-                        <span>{{horario.course.subjectCode}}</span>
-                      </div>
-
-
-                      <div class="margin-10px-top font-size14"><strong><span>Curso:{{horario.course.courseGroup}}</span>
-                        </strong> </div>
-
-                    </div>
-                  </div>
-                </div>
+                
 
 
 
