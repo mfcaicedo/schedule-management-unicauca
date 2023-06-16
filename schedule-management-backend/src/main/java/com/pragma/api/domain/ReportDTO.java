@@ -18,14 +18,18 @@ import lombok.Setter;
 public class ReportDTO {
     
     private Long id;
+    private Integer coursePersonId;
     private DaysEnumeration day;
     private LocalTime startingTime;
     private LocalTime endingTime;
     private Date startingDate;
     private Date endingDate;
+    private String personCode;
     private String environmentName;
+    private String teacherName;
     private String subjectName;
     private String programName;
+    private String programId;
     private String programColor;
     private String courseGroup;
     private String courseDescription;
@@ -59,6 +63,23 @@ public class ReportDTO {
         this.subjectSemester = subjectSemester;
         this.courseGroup = courseGroup;
         this.courseDescription = courseDescription;
+        this.programName = programName;
+        this.programColor = programColor;
+        this.environmentName = environmentName;
+    }
+
+    //Constructor del reporte de maestro
+    public ReportDTO(Integer coursePerson, String personName, String programId, DaysEnumeration day, LocalTime startingTime, LocalTime endingTime, String subjectName, String courseGroup, String programName,String programColor, String environmentName) {
+        this.coursePersonId = coursePerson;
+        this.teacherName = personName;
+        this.programId = programId;
+        this.day = day;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
+        this.subjectName = subjectName;
+        //this.subjectSemester = subjectSemester;
+        this.courseGroup = courseGroup;
+        //this.courseDescription = courseDescription;
         this.programName = programName;
         this.programColor = programColor;
         this.environmentName = environmentName;

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.CoursePersonDTO;
 import com.pragma.api.domain.Response;
-import com.pragma.api.model.CoursePerson;
+//import com.pragma.api.model.CoursePerson;
 import com.pragma.api.model.CourseTeacher;
 import com.pragma.api.model.enums.TeacherCategoryEnumeration;
 import com.pragma.api.repository.ICoursePersonRepository;
@@ -27,7 +27,8 @@ public class CoursePersonServiceImpl implements ICoursePersonService{
         this.modelMapper = modelMapper;
         this.coursePersonRepository = coursePersonRepository;
     }
-    
+
+/*
     @Override
     public TeacherCategoryEnumeration convertIntToEnum(Integer teacherCategory) {
         TeacherCategoryEnumeration category = TeacherCategoryEnumeration.OTHER;
@@ -46,7 +47,7 @@ public class CoursePersonServiceImpl implements ICoursePersonService{
         
     }
 
-
+ 
     private List<CoursePerson> convertAllIntsToEnums(List<CourseTeacher> courses){
         List<CoursePerson> convertedCourses = null;
         for(int i = 0; i<courses.size(); i++){
@@ -54,12 +55,12 @@ public class CoursePersonServiceImpl implements ICoursePersonService{
         }
         return convertedCourses;
     }
-
+*/
     @Override
     public Response<List<CoursePersonDTO>> findAllByTeacherCode(String teacherCode) {
         List<CourseTeacher> courses = this.coursePersonRepository.findAllByTeacherCode(teacherCode);
-        List<CoursePerson> convertedCourses = convertAllIntsToEnums(courses);
-        List<CoursePersonDTO> coursesDTOlist = modelMapper.map(convertedCourses,new TypeToken<List<CoursePersonDTO>>() {}.getType());
+        //List<CoursePerson> convertedCourses = convertAllIntsToEnums(courses);
+        List<CoursePersonDTO> coursesDTOlist = modelMapper.map(courses,new TypeToken<List<CoursePersonDTO>>() {}.getType());
         Response<List<CoursePersonDTO>> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("List of Course_persons Finded successfully");

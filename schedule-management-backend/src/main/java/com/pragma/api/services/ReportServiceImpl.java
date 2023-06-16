@@ -218,4 +218,67 @@ public class ReportServiceImpl implements IReportService{
         response.setData(ReportDTOList);
         return response;
     }
+
+    @Override
+    public Response<List<ReportDTO>> getCombinedDataCoursePersonByPersonCode(String personCode) {
+         
+        List<Object[]> coursesCombined = this.reportRepository.getCombinedDataCoursePersonByPersonCode(personCode);
+
+        List<ReportDTO> ReportDTOList = new ArrayList<>();
+        for (Object[] coursePerson : coursesCombined) {
+        
+        //Casteo para el id de course_teacher    
+        Integer coursePersonId = (Integer) coursePerson[0];
+        //Long coursePersonId = bigInteger.longValue();    
+
+        //Casteo nombre del docente
+        String teacherName= (String) coursePerson[1];
+        //Casteo para el id de program    
+        String programId= (String) coursePerson[2];
+        //Casteo dia
+        String daysTypeString = (String) coursePerson[3];
+        DaysEnumeration dayTipe = DaysEnumeration.valueOf(daysTypeString);
+
+        //Casteo hora inicio y hora fin
+
+        Time startingTime = (Time) coursePerson[4];
+
+        LocalTime localStartingTime = startingTime.toLocalTime();
+
+        Time endingTime = (Time) coursePerson[5];
+
+        LocalTime localendingTime =endingTime.toLocalTime();
+        
+
+        //Nombre de materia
+        String subjectName= (String) coursePerson[6];
+        
+        //grupo curso
+        String courseGropu= (String) coursePerson[7];
+
+        //nombre programa
+        String programName= (String) coursePerson[8];
+        
+        //color
+        String color= (String) coursePerson[9];
+        
+        //ambiente
+        String environmentName= (String) coursePerson[10];
+        
+       
+
+        ReportDTO reportDTO = new ReportDTO(coursePersonId, teacherName, programId, dayTipe, localStartingTime, localendingTime, subjectName, courseGropu, programName, color, environmentName);
+        ReportDTOList.add(reportDTO);
+        }
+
+        Response<List<ReportDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of reports of teacher Finded successfully");
+        response.setDeveloperMessage("List of reports by personCode Finded successfully");
+        response.setMoreInfo("localhost:8081/api/report(toDO)");
+        response.setErrorCode("");
+        response.setData(ReportDTOList);
+        return response;
+        
+    }
 }

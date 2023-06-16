@@ -22,7 +22,8 @@ public interface IReportService {
     // para poder hacer el reporte por semestre mediante id de programa y semestre
     Response<List<ReportDTO>> getCombinetDataScheduleByProgramIdSemester(String programId, Integer semester);
 
-
+    //Metodo para obtener el reporte de profesor por codigo del profesor
+    Response<List<ReportDTO>> getCombinedDataCoursePersonByPersonCode(String personCode);
     
 }
 
