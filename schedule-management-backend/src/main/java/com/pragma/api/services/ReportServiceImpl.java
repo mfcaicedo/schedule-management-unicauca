@@ -18,6 +18,7 @@ import com.pragma.api.domain.Response;
 import com.pragma.api.model.Report;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.repository.IReportRepository;
+import com.pragma.api.util.ValidatorUtil;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 
 @Service
@@ -25,10 +26,12 @@ public class ReportServiceImpl implements IReportService{
 
     private final ModelMapper modelMapper;
     private final IReportRepository reportRepository;
+    //private final ValidatorUtil validator;
 
     public ReportServiceImpl(ModelMapper modelMapper, IReportRepository reportRepository) {
         this.modelMapper = modelMapper;
         this.reportRepository = reportRepository;
+        //this.validator = validator;
         
     }
 
@@ -84,16 +87,16 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-
+/* 
         Response<List<ReportDTO>> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("List of schedules Finded successfully");
         response.setDeveloperMessage("List of schedules Finded successfully");
         response.setMoreInfo("localhost:8081/api/report(toDO)");
         response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;
-
+        response.setData(ReportDTOList); */
+        //return response;
+        return ValidatorUtil.setResponse(ReportDTOList);
     
     }
 
@@ -148,14 +151,17 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
+        //Response<List<ReportDTO>> response = new Response<>();
+       /* response.setStatus(200);
         response.setUserMessage("List of schedules Finded successfully");
         response.setDeveloperMessage("List of schedules Finded successfully");
         response.setMoreInfo("localhost:8081/api/report(toDO)");
         response.setErrorCode("");
         response.setData(ReportDTOList);
+        
         return response;
+        */
+        return ValidatorUtil.setResponse(ReportDTOList);
     }
 
     //Metodo para crear el reportDTO de reporte por semestre y enviarlo a la api rest
@@ -209,7 +215,7 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-        Response<List<ReportDTO>> response = new Response<>();
+/*         Response<List<ReportDTO>> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("List of schedules by semester Finded successfully");
         response.setDeveloperMessage("List of schedules by semester Finded successfully");
@@ -217,6 +223,8 @@ public class ReportServiceImpl implements IReportService{
         response.setErrorCode("");
         response.setData(ReportDTOList);
         return response;
+   */
+        return ValidatorUtil.setResponse(ReportDTOList);
     }
 
     @Override
@@ -270,6 +278,7 @@ public class ReportServiceImpl implements IReportService{
         ReportDTO reportDTO = new ReportDTO(coursePersonId, teacherName, programId, dayTipe, localStartingTime, localendingTime, subjectName, courseGropu, programName, color, environmentName);
         ReportDTOList.add(reportDTO);
         }
+        /* 
 
         Response<List<ReportDTO>> response = new Response<>();
         response.setStatus(200);
@@ -278,7 +287,8 @@ public class ReportServiceImpl implements IReportService{
         response.setMoreInfo("localhost:8081/api/report(toDO)");
         response.setErrorCode("");
         response.setData(ReportDTOList);
-        return response;
+        return response;*/
+        return ValidatorUtil.setResponse(ReportDTOList);
         
     }
 }
