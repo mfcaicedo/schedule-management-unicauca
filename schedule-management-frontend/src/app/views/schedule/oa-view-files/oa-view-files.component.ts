@@ -33,6 +33,7 @@ export class OaViewFilesComponent implements OnInit {
       console.log("aoo000000 " + this.aoFile[0].dateRegisterFile);
       let date = new Date(this.aoFile[0].dateRegisterFile)
       console.log(date);
+      
       this.totalItems = response.data.pagination.totalNumberElements as number
       this.totalNumberPage = response.data.pagination.totalNumberPage as number
       this.pageSize = response.data.pagination.size as number

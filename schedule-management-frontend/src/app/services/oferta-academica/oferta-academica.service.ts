@@ -4,13 +4,15 @@ import { File } from 'src/app/models/file.model';
 import { HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { blob } from 'stream/consumers';
+
 @Injectable({
   providedIn: 'root'
 })
 export class OfertaAcademicaService {
 
   endPoint: String = environment.urlAcadOffer
-  programCode: string[] = ['PIS', 'PIET', 'PIAI', 'TTM'];
+  programCode: string[] = ['PIS', 'PIET', 'PIAI', 'TTM', 'FIL'];
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -39,9 +41,19 @@ export class OfertaAcademicaService {
    * Metodo que invoca al servicio para descargar el archivo de plantilla de oferta academica
    * @returns Archivo de plantilla de oferta academica (Excel)
    */
-  downloadTemplateService(programCode: String) {
+  downloadTemplateService(programCode: String): Observable<any> {
     console.log("llega al metodo al servicio ", this.endPoint);
-    return this.http.get(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'blob' });
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    // return this.http.get(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'blob' });
+    // return this.http.get<any>(this.endPoint + `/downloadTemplate/${programCode}`, {headers, responseType: 'blob' as 'json'})
+    return this.http.get<any>(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'json' })
+      
+      .pipe(
+        catchError((e) => { 
+          console.log('Error obteniendo la plantilla de la oferta académica', e.error.mensaje, 'error');
+          return throwError(e);
+        })
+      );
   }
 
   /**

@@ -1,17 +1,17 @@
 package com.pragma.api.controllers;
 
-import com.pragma.api.domain.GenericPageableResponse;
-import com.pragma.api.domain.Response;
-import com.pragma.api.domain.ResponseFile;
-import com.pragma.api.domain.TemplateFileDTO;
+import com.pragma.api.domain.*;
 import com.pragma.api.services.IFileAcademicOffer;
 import com.pragma.api.services.ITemplateFileService;
+import org.apache.tomcat.util.bcel.classfile.Constant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,9 +47,11 @@ public class AcademicOfferController {
     }
 
     @GetMapping("/downloadTemplate/{programId}")
-    ResponseEntity<Resource> downloadTemplate(@PathVariable String programId) throws IOException {
-        System.out.println("lleaga al controlador de descarga");
-        return this.iTemplateFileService.donwloadTemplateFile(programId);
+    ResponseEntity<ResponseExcel> downloadTemplate(@PathVariable String programId) throws IOException {
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "template"+programId+".xlsx" + "\"")
+                .body(this.iTemplateFileService.donwloadTemplateFile(programId));
     }
 
     @GetMapping()

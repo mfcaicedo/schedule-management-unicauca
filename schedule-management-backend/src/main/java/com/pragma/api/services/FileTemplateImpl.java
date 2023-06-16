@@ -9,12 +9,15 @@ import com.pragma.api.repository.ITemplateFileRepository;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.aspectj.apache.bcel.classfile.Constant;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -56,22 +59,19 @@ public class FileTemplateImpl implements ITemplateFileService{
         templateFile.setNameFile("Plantilla_Oferta_Academica");
         templateFile.setFile(TemplateBytes);
 
-
         return modelMapper.map(this.templateFileRepository.save(templateFile),TemplateFileDTO.class);
     }
 
     @Override
-    public ResponseEntity<Resource> donwloadTemplateFile(String programId) throws IOException {
+    public ResponseExcel donwloadTemplateFile(String programId) throws IOException {
         String path = getPathTemplate("Plantilla_oferta_academica.xlsx");
-        String program = "PIS";
-        byte[] temporaryFile;
+        ResponseExcel responseExcel = new ResponseExcel();
+        responseExcel.setNameFile("Plantilla_Oferta_Academica_"+programId+".xlsx");
 
+        byte[] temporaryFile;
         //Procesar el archivo de excel
         temporaryFile = Files.readAllBytes(Path.of(path));
-//        temporaryFile = Files.readAllBytes(Path.of(path));
-        //Workbook workbook = processExcelFile(path,pathBackup, programId);
-        Workbook workbook = processExcelFile(path, programId);
-
+        Workbook workbook = processExcelFile(path, programId, responseExcel);
         //Ahora se guarda el archivo en un OutputStream
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
@@ -80,25 +80,18 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         // Crear un recurso a partir del contenido del archivo
         ByteArrayResource resource = new ByteArrayResource(baos.toByteArray());
-
-        // Configurar las cabeceras de respuesta
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=Plantilla_oferta_academica.xlsx");
-        headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        responseExcel.setDataFile(baos.toByteArray());
+        responseExcel.setStatus(200);
 
         //Cierro el libro
         workbook.close();
         baos.close();
-
-        //restoreFile(path,pathBackup);
         restoreFileBytes(temporaryFile,path);
         // Devolver el archivo como respuesta
-        return ResponseEntity.ok()
-                .headers(headers)
-                .body(resource);
+        return responseExcel;
     }
 
-    private Workbook processExcelFile(String path, String programId) throws IOException {
+    private Workbook processExcelFile(String path, String programId, ResponseExcel responseExcel) throws IOException {
 
         //TODO 1. consultar los todos los profesores
         List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
@@ -110,7 +103,13 @@ public class FileTemplateImpl implements ITemplateFileService{
         //TODO 2.2 consultar las materias
         List<SubjectDTO> subjects = iSubjectService.findAllByProgram(program);
 
-        subjects.forEach(x-> System.out.println(x.getName()+" "+x.getSemester()));
+        if(subjects.size() != 0){
+            responseExcel.setModified(true);
+            responseExcel.setMessage("El programa "+programId+" tiene "+subjects.size()+" asignaturas registradas");
+        }else{
+            responseExcel.setModified(false);
+            responseExcel.setMessage("El programa "+programId+" no tiene asignaturas registradas" );
+        }
 
 
         //TODO 3. modificar el excel con los datos consultados de profesores y materias
