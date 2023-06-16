@@ -10,6 +10,7 @@ import com.pragma.api.services.IFileEnvironmentService;
 import com.pragma.api.services.IFileTeachersService;
 import com.pragma.api.domain.GenericPageableResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -46,6 +47,12 @@ public class PersonController {
     //ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         System.out.print("SE VA A CREAR");
         return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
+    }
+
+    @GetMapping("/downloadTeacherTemplate/")
+    ResponseEntity<Resource> downloadTeacherTemplate() throws IOException {
+        System.out.println("lleaga al controlador de descarga de plantilla profesores");
+        return this.fileTeachersService.donwloadTeacherTemplateFile();
     }
 
     @GetMapping("/byPersonType")

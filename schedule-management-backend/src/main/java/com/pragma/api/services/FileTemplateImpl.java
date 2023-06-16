@@ -204,8 +204,8 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @return ruta del archivo de plantilla de excel
      */
     private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        //final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileMilthon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
