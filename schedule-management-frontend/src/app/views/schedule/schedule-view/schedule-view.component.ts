@@ -89,40 +89,121 @@ export class ScheduleViewComponent implements AfterViewInit {
   allowDrop(event: any) {
     event.preventDefault();
   }
+
   drop(event: any, day: number, hour: string) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("text/plain");
   
-    if (this.horario[hour][day].length >= 1) {
-      // Si ya hay una materia en esa posición, no se permite agregar más
+    // Verificar si las dos franjas horarias consecutivas están vacías
+    if (
+      this.horario[hour][day].length >= 1 ||
+      this.horario[this.getNextHour(hour)][day].length >= 1
+    ) {
+      // Si alguna de las dos franjas horarias ya tiene una materia, no se permite agregar más
       return;
     }
   
-    this.horario[hour][day].push(materia);
+    // Obtener la siguiente hora en formato de cadena
+    const nextHour = this.getNextHour(hour);
   
-    // Eliminar la materia de la lista original
+    // Obtener las franjas horarias desde hour hasta nextHour
+    const hoursRange = this.getHoursRange(hour, nextHour);
+  
+    // Verificar si alguna de las franjas horarias ya tiene una materia
+    if (hoursRange.some((h) => this.horario[h][day].length >= 1)) {
+      // Si alguna franja horaria ya tiene una materia, no se permite agregar más
+      return;
+    }
+  
+    // Agregar la materia en todas las franjas horarias del rango
+    hoursRange.forEach((h) => {
+      this.horario[h][day].push(materia);
+    });
+  
+    // Eliminar las dos franjas horarias correspondientes de la lista original
     const index = this.horasDia.indexOf(materia);
     if (index !== -1) {
-      this.horasDia.splice(index, 1);
+      this.horasDia.splice(index, 2); // Eliminar dos elementos consecutivos
     }
   }
+  
+  getNextHour(hour: string): string {
+    const [hourStr] = hour.split(":");
+    const hourInt = parseInt(hourStr);
+    const nextHourInt = hourInt + 1; // Avanzar una hora
+    const nextHourStr = nextHourInt.toString().padStart(2, "0");
+    return nextHourStr + ":00:00";
+  }
+  
+  getHoursRange(startHour: string, endHour: string): string[] {
+    const hoursRange: string[] = [];
+    let currentHour = startHour;
+  
+    while (currentHour <= endHour) {
+      hoursRange.push(currentHour);
+      currentHour = this.getNextHour(currentHour);
+    }
+  
+    return hoursRange;
+  }
+  
+  
+  getPreviousHour(hour: string): string {
+    const [hourStr] = hour.split(":");
+    const hourInt = parseInt(hourStr);
+    const previousHourInt = hourInt - 1; // Retroceder una hora
+    const previousHourStr = previousHourInt.toString().padStart(2, "0");
+    return previousHourStr + ":00:00";
+  }
+  
 
   removeMateria(day: number, hour: string, index: number) {
-    this  .horario[hour][day].splice(index, 1);
+    const previousHour = this.getPreviousHour(hour);
+    const nextHour = this.getNextHour(hour);
+    const removedMateria = this.horario[hour][day].splice(index, 1)[0]; // Eliminar el elemento de la franja horaria actual
+  
+    // Buscar el índice del elemento correspondiente en la franja horaria siguiente
+    const nextHourIndex = this.horario[nextHour][day].indexOf(removedMateria);
+  
+    if (nextHourIndex !== -1) {
+      // Si se encuentra el elemento en la franja horaria siguiente, eliminarlo
+      this.horario[nextHour][day].splice(nextHourIndex, 1);
+    }
+  
+    // Buscar el índice del elemento correspondiente en la franja horaria anterior
+    const previousHourIndex = this.horario[previousHour][day].indexOf(removedMateria);
+  
+    if (previousHourIndex !== -1) {
+      // Si se encuentra el elemento en la franja horaria anterior, eliminarlo
+      this.horario[previousHour][day].splice(previousHourIndex, 1);
+    }
   }
+  confirmRemoveMateria(day: number, hour: string, index: number): void {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este curso?")) {
+      this.removeMateria(day, hour, index);
+    }
+  }
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
   getMaterias(day: number, hour: string) {
     return this.horario[hour][day];
   }
 
   weekDayToInteger(weekDays: String[], day: string){
-    for (let i = 0; i <weekDays.length; i++) {
-      if(weekDays[i]==day){
+    for (let i = 0; i < weekDays.length; i++) {
+      if (weekDays[i] === day) {
         return i;
       }
-   
     }
-    return 0;
+    return -1;
   }
 
 
