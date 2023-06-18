@@ -162,7 +162,16 @@ export class SubjectUploadComponent implements OnInit {
       }
     }
   }
-
+  downloadTemplate() {
+    console.log("llega al metodo");
+    this.subService.downloadTemplateService()
+      .subscribe(data => {
+        console.log("que llego; ", data);
+        let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        let url = window.URL.createObjectURL(blob);
+        window.open(url);
+      });
+  }
   public fileOver(event: Event){
     console.log(event);
   }

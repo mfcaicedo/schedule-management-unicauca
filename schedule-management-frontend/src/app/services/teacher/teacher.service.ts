@@ -75,12 +75,15 @@ export class TeacherService {
         })
       );
   }
-
   uploadFile(file: Blob) {
     const dto = new FormData();
     dto.append('file', file);
     return this.http.post<File>(this.endPoint + '/uploadFile', dto, {
     });
+  }
+  downloadTemplateService() {
+    console.log("llega al metodo al servicio ", this.endPoint);
+    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
   }
 }
 

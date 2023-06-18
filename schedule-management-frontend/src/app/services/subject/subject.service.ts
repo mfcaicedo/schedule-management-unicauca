@@ -66,6 +66,11 @@ export class SubjectService {
     });
   }
 
+  downloadTemplateService() {
+    console.log("llega al metodo al servicio ", this.endPoint);
+    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
+  }
+
   getAllSubjectsPage(page:number, pageSize:number):Observable<any>{
     console.log("llegan page y size ",page, " ", pageSize)
 
