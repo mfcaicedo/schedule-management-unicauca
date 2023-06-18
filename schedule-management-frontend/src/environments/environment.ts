@@ -13,6 +13,8 @@ export const environment = {
   urlPerson: 'http://localhost:8081/api/person',
   urlSub: 'http://localhost:8081/api/subject',
   urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
+  urlProgram: 'http://localhost:8081/api/program',
+  urlDepartment: 'http://localhost:8081/api/department',
 };
 
 /*

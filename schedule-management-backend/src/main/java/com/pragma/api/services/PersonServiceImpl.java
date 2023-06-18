@@ -82,24 +82,17 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Response<GenericPageableResponse> findAllByDepartmentName(Pageable pageable, String departmentName, String personType) {
+    public Response<GenericPageableResponse> findAllByDepartmentName(Pageable pageable, String departmentId, String personType) {
         //buscar el id del departamento y se le envia el nombre
-        //recuperar el id del departamento que esta enviando
-        System.out.println("LLEGA AL SERVICIO");
-        Department department = this.deparmentRepository.findDepartmentByDepartmentName(departmentName);
-        String departmentId = department.getDepartmentId();
-        System.out.println("DEPARTAMENTO ID: "+departmentId);
         PersonTypeEnumeration type = personType.equals("TEACHER") ? PersonTypeEnumeration.TEACHER : PersonTypeEnumeration.ADMINISTRATIVE;
         Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(type,departmentId, pageable);
-        System.out.println("EMPTY: " + personPage.isEmpty());
-
+        personPage.forEach(x -> System.out.println(x.getDepartment().getDepartmentId()));
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Departments found");
         response.setDeveloperMessage("Departments found");
         response.setErrorCode("");
         response.setData(this.validatePageList(personPage));
-
         return response;
     }
 

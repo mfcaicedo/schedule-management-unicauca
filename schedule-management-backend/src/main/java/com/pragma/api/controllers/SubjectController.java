@@ -62,9 +62,15 @@ public class SubjectController {
     }
 
     @GetMapping("/byProgramId")
-    public ResponseEntity<GenericPageableResponse> findAllByProgramId(@RequestParam String program_id, @RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order){
+    public ResponseEntity<GenericPageableResponse> findAllByProgramId(@RequestParam String programId,
+                                                                      @RequestParam Integer page,
+                                                                      @RequestParam Integer size,
+                                                                      @RequestParam String sort,
+                                                                      @RequestParam String order){
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
-        return ResponseEntity.ok(this.subjectBusiness.findAllByProgramId(program_id,pageable));
+        return ResponseEntity.ok(
+                this.subjectBusiness.findAllByProgramId(programId,pageable)
+        );
     }
 
 

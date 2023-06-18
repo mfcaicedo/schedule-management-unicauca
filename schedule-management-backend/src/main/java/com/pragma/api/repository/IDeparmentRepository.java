@@ -14,9 +14,4 @@ import java.util.List;
 public interface IDeparmentRepository extends JpaRepository<Department,Integer> {
     Department findDepartmentByDepartmentName(String name);
 
-    //Encontrar el id asociado al nombre de un determinado departamento
-    //public String findDepartmentIdByDepartmentName(String DepartmentName);
-
-
-
 }

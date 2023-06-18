@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 export class TeacherService {
 
   endPoint: String = environment.urlPerson
-  departments: string[] = ['TODOS', 'SISTEMAS', 'TELECOMUNICACIONES'];
+  endPointDepartment: String = environment.urlDepartment
 
   httpOptions = {
     headers: new HttpHeaders({
@@ -22,6 +22,19 @@ export class TeacherService {
   constructor(
     private http: HttpClient
   ) { }
+
+/**
+ * Método que invoca al servicio para obtener todos los programas
+ * @returns Observable con la respuesta del servicio con todos los programas
+ */
+  getAllDepartments(): Observable<any> {
+    return this.http.get<any>(this.endPointDepartment + '', { responseType: 'json' })
+      .pipe(
+        catchError((e) => {
+          console.log('Error obteniendo todos los departamentos', e.error.mensaje, 'error');
+          return throwError(e);
+        }));
+  }
 
   getAllTeachersPage(page: number, pageSize: number): Observable<any> {
     //TODO agregar autorizacion
@@ -36,11 +49,6 @@ export class TeacherService {
 
       })
     );
-  }
-
-
-  getDepartmentsName() {
-    return this.departments;
   }
 
   getAllPersonByPersonTypePage(type: string, page: number, pageSize: number): Observable<any> {
@@ -64,10 +72,10 @@ export class TeacherService {
       );
   }
 
-  findAllByDepartmetName(name: string, type: string, page: number, pageSize: number): Observable<any> {
+  findAllByDepartmetName(deparmentId: string, type: string, page: number, pageSize: number): Observable<any> {
     //TODO agregar autorizacion
     return this.http.get<any>(
-      this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentName=${name}&personType=${type}`)
+      this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentId=${deparmentId}&personType=${type}`)
       .pipe(
         catchError((e) => {
           console.log('Error obteniendo todos los profesores por departamento', e.error.mensaje, 'error');

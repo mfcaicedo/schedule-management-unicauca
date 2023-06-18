@@ -28,9 +28,6 @@ public class ProgramServiceImpl implements IProgramService {
     @Override
     public List<ProgramDTO> findAllProgram() {
         List<Program> programs = this.iProgramRepository.findAll();
-
-        if(programs.isEmpty()) throw new ScheduleBadRequestException("bad.request.program.empty", "");
-
         return programs.stream().map(program ->  modelMapper.map(program, ProgramDTO.class)).collect(Collectors.toList());
 
     }

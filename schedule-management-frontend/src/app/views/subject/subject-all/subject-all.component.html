@@ -20,7 +20,9 @@
             </button>
             <ul cDropdownMenu>
               <li><h6 cDropdownHeader>Programas</h6></li>
-              <li *ngFor="let program1 of programs"><a (click)="updateTableSubject(program1)" cDropdownItem>{{program1}}</a></li>
+              <li *ngFor="let program1 of programs">
+                <a (click)="updateTableSubject(program1.programId)" cDropdownItem>
+                {{program1.programId}}</a></li>
               <!-- routerLink="./{{tipo}}" -->
             </ul>
           </c-dropdown>
@@ -48,7 +50,7 @@
             <td>{{subject.semester}}</td>
             <td>{{subject.timeBlock ? "Si" : "No"}}</td>
             <td>{{subject.weeklyOverload}}</td>
-            <!-- <td>{{subject.program}}</td> -->
+            <td>{{subject.programId}}</td>
 
           </tr>
           </tbody>
