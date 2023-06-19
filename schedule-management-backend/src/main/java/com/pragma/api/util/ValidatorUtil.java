@@ -63,7 +63,7 @@ public class ValidatorUtil {
 			response.setData(list);
 		}else{
 			//asignar el status adecuado y enviar mensaje de error "Calendario vacio u Horario no asignado"  
-			response.setStatus(200);
+			response.setStatus(500);
 			response.setUserMessage("Data Not Found");
 			response.setDeveloperMessage("Data Not Found");
 			response.setMoreInfo("localhost:8081/api/report(toDO)");

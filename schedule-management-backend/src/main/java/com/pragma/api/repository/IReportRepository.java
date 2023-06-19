@@ -1,5 +1,4 @@
 package com.pragma.api.repository;
-import com.pragma.api.model.Report;
 import com.pragma.api.model.Schedule;
 
 import java.util.List;

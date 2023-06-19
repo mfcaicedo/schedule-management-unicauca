@@ -12,14 +12,11 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.ReportDTO;
 import com.pragma.api.domain.Response;
-import com.pragma.api.model.Report;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.repository.IReportRepository;
 import com.pragma.api.util.ValidatorUtil;
-import com.pragma.api.util.exception.ScheduleBadRequestException;
 
 @Service
 public class ReportServiceImpl implements IReportService{
@@ -32,13 +29,11 @@ public class ReportServiceImpl implements IReportService{
         this.modelMapper = modelMapper;
         this.reportRepository = reportRepository;
         //this.validator = validator;
-        
+
     }
 
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByEnvironmentId(Integer environmentId) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
         
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByEnvironmentId(environmentId);
 
@@ -68,9 +63,7 @@ public class ReportServiceImpl implements IReportService{
         LocalDateTime localDateTime = timestamp.toLocalDateTime();
         LocalDate localDate = localDateTime.toLocalDate();
         Date startingDate = Date.valueOf(localDate);
-
-
-        
+ 
         //Casteo para la fechas endingDate
         Timestamp timestamp1 = (Timestamp) schedule[5];
         LocalDateTime localDateTime1 = timestamp1.toLocalDateTime();
@@ -87,14 +80,6 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-/* 
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of schedules Finded successfully");
-        response.setDeveloperMessage("List of schedules Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList); */
         //return response;
         return ValidatorUtil.setResponse(ReportDTOList);
     
@@ -103,9 +88,7 @@ public class ReportServiceImpl implements IReportService{
     //Metodo para crear el reportDTO de reporte por facultad/programa y enviarlo a la api rest
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
-        
+    
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramId(programId);
 
         List<ReportDTO> ReportDTOList = new ArrayList<>();
@@ -151,25 +134,13 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-        //Response<List<ReportDTO>> response = new Response<>();
-       /* response.setStatus(200);
-        response.setUserMessage("List of schedules Finded successfully");
-        response.setDeveloperMessage("List of schedules Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        
-        return response;
-        */
         return ValidatorUtil.setResponse(ReportDTOList);
     }
 
     //Metodo para crear el reportDTO de reporte por semestre y enviarlo a la api rest
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByProgramIdSemester(String programId, Integer semester) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
-        
+    
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramIdSemester(programId,semester);
 
         List<ReportDTO> ReportDTOList = new ArrayList<>();
@@ -215,15 +186,6 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-/*         Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of schedules by semester Finded successfully");
-        response.setDeveloperMessage("List of schedules by semester Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;
-   */
         return ValidatorUtil.setResponse(ReportDTOList);
     }
 
@@ -272,23 +234,11 @@ public class ReportServiceImpl implements IReportService{
         
         //ambiente
         String environmentName= (String) coursePerson[10];
-        
-       
 
         ReportDTO reportDTO = new ReportDTO(coursePersonId, teacherName, programId, dayTipe, localStartingTime, localendingTime, subjectName, courseGropu, programName, color, environmentName);
         ReportDTOList.add(reportDTO);
         }
-        /* 
-
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of reports of teacher Finded successfully");
-        response.setDeveloperMessage("List of reports by personCode Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;*/
+ 
         return ValidatorUtil.setResponse(ReportDTOList);
-        
     }
 }
