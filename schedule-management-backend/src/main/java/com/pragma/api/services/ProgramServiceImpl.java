@@ -34,9 +34,8 @@ public class ProgramServiceImpl implements IProgramService {
 
     @Override
     public ProgramDTO findByProgramId(String id){
-        Optional<Program> program = iProgramRepository.findById(id);
-        if(program.isEmpty()) throw new ScheduleBadRequestException("bad.request.program.empty", "");
-        return  modelMapper.map(program.get(), ProgramDTO.class);
+//        Optional<Program> program = iProgramRepository.findById(id);
+        return  modelMapper.map(iProgramRepository.findById(id), ProgramDTO.class);
     }
 
 

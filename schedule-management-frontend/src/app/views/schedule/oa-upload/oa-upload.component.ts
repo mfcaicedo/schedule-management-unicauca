@@ -4,6 +4,7 @@ import { SpinnerService } from 'src/app/services/spinner/spinner.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ResponseFile } from 'src/app/models/response-file.model';
 import { ResponseFileExcel } from 'src/app/models/response-file-excel.model';
+import { Program } from 'src/app/models/program.model';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -14,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class OaUploadComponent implements OnInit {
   imgRta = '';
-  colaPendientes: string[] = ['OA2022.2-Licenciatura en ingles', 'OA2022.2-Historia', 'OA2022.2-Humanidades'];
   public files1: File[] = [];
   responseFile: ResponseFile = {
     statusFile: '',
@@ -34,14 +34,17 @@ export class OaUploadComponent implements OnInit {
     message: '',
     nameFile: '',
   };
-  programCode: string[] = [];
+  programs: Program[] = [];
   constructor(
     private oaService: OfertaAcademicaService,
     private spinnerService: SpinnerService,
   ) { }
 
   ngOnInit(): void {
-    this.programCode = this.oaService.getProgramCode();
+    //obtengo todos los programas
+    this.oaService.getAllPrograms().subscribe(response => {
+      this.programs = response;
+    });
   }
   public dropped(files: NgxFileDropEntry[]) {
     //this.files = files;
@@ -79,13 +82,13 @@ export class OaUploadComponent implements OnInit {
                     title: 'Hay errores en el archivo',
                     html: `
                     <div style="text-align:center">
+                    <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                        '<h5>Campos vacíos: </h5>' +
+                        this.responseFile.logsEmptyFields.join('<br>')
+                      }</p>
                       <p>${this.responseFile.logsType.length === 0 ? '' :
                         '<h5>Tipo de dato: </h5>' +
                         this.responseFile.logsType.join('<br>')
-                      }</p>
-                      <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsEmptyFields.join('<br>')
                       }</p>
                       <p>${this.responseFile.logsGeneric.length === 0 ? '' :
                         '<h5>Otros errores: </h5>' +
@@ -182,6 +185,7 @@ export class OaUploadComponent implements OnInit {
 
   /**
    * Metodo que invica al servicio para descargar el template de carga de oferta academica
+   * @param programCode Codigo del programa
    */
   downloadTemplate(programCode: string) {
     this.oaService.downloadTemplateService(programCode)
@@ -190,13 +194,7 @@ export class OaUploadComponent implements OnInit {
         // Si el archivo fue modificado se descarga la plantilla
         if (this.responseFileExcel.modified === true) {
           this.proccessDownloadFile(this.responseFileExcel);
-          Swal.fire({
-            title: 'Éxito!',
-            text: `Plantilla descargada correctamente`,
-            icon: 'success',
-            timer: 2000,
-          });
-        }else{
+        } else {
           Swal.fire({
             title: `${this.responseFileExcel.message}`,
             text: `¿Desea descargar la plantilla?`,

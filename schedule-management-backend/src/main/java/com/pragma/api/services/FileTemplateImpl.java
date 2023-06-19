@@ -179,7 +179,7 @@ public class FileTemplateImpl implements ITemplateFileService{
         Sheet sheetTeachers = workbook.getSheetAt(2);
 
         //Inserto datos en la hoja 3
-        for (int i = 1; i < teachers.size(); i++) {
+        for (int i = 1; i <= teachers.size(); i++) {
             Row row = sheetTeachers.getRow(i);
 
             row.getCell(0).setCellValue(teachers.get(i-1).getPersonCode());

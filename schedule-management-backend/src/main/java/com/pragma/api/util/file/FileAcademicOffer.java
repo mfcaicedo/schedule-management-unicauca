@@ -13,10 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -39,8 +36,18 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         fileRowAux.setDateRegisterFile(new Date());
         fileRowAux.setNameFile(file.getOriginalFilename());
         fileRowAux.setStateFile(StateAcOfferFileEnumeration.SIN_INICIAR);
-        fileRowAux.setPeriod(sheet.getRow(4).getCell(1).getStringCellValue());
-        if(sheet.getRow(2).getCell(1).getCellType().equals(CellType.STRING)){
+        if(sheet.getRow(4).getCell(1) == null ||
+                sheet.getRow(4).getCell(1).getCellType().equals(CellType.BLANK)){
+            responseFile.addLogsEmptyFields("[Fila: 5 - Columna: B]  El periodo está vacío");
+        }else if(sheet.getRow(4).getCell(1).getCellType().equals(CellType.STRING)){
+            fileRowAux.setPeriod(sheet.getRow(4).getCell(1).getStringCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: 5 Columna: B] El periodo debe ser tipo texto");
+        }
+        if(sheet.getRow(2).getCell(1) == null ||
+                sheet.getRow(2).getCell(1).getCellType().equals(CellType.BLANK)){
+            responseFile.addLogsEmptyFields("[Fila: 3 - Columna: B]  El código del programa está vacío");
+        } else if(sheet.getRow(2).getCell(1).getCellType().equals(CellType.STRING)){
             fileRowAux.setProgramId(sheet.getRow(2).getCell(1).getStringCellValue());
         }else{
             responseFile.addLogsType("[Fila: 3 Columna: B] El programa debe ser tipo texto");
@@ -70,25 +77,38 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
 
         FileRowAcademicOffer fileRow = new FileRowAcademicOffer();
         //Course
-        if(cells.get(5).getCellType().equals(CellType.NUMERIC)){
-            fileRow.setCapacity((int)cells.get(5).getNumericCellValue());
-        }else{
-            responseFile.addLogsType("[Fila: " + (cells.get(5).getRowIndex() + 1) + " Columna: F] El cupo " +
+        //Capacidad
+        if (cells.get(5) == null || cells.get(5).getCellType().equals(CellType.BLANK)) {
+            responseFile.addLogsEmptyFields("[Fila: " + (cells.get(5).getRowIndex() + 1) + " Columna: F] La capacidad del " +
+                    "curso está vacía");
+        } else if (cells.get(5).getCellType().equals(CellType.NUMERIC)) {
+            fileRow.setCapacity((int) cells.get(5).getNumericCellValue());
+        } else {
+            responseFile.addLogsType("[Fila: " + (cells.get(5).getRowIndex() + 1) + " Columna: F] La capacidad " +
                     "debe ser tipo numérico");
         }
-        if(cells.get(4).getCellType().equals(CellType.STRING)){
+        //Grupo
+        if (cells.get(4) == null || cells.get(4).getCellType().equals(CellType.BLANK)) {
+            responseFile.addLogsEmptyFields("[Fila: " + (cells.get(4).getRowIndex() + 1) + " Columna: E] El grupo " +
+                    "está vacío");
+        } else if (cells.get(4).getCellType().equals(CellType.STRING)) {
             fileRow.setGroup(cells.get(4).getStringCellValue());
-        }else{
+        } else {
             responseFile.addLogsType("[Fila: " + (cells.get(4).getRowIndex() + 1) + " Columna: E] El grupo " +
                     "debe ser tipo texto");
         }
-        if(cells.get(6).getCellType().equals(CellType.STRING)){
+        //Tipo de ambiente requerido
+        if (cells.get(6) == null || cells.get(6).getCellType().equals(CellType.BLANK)) {
+            responseFile.addLogsEmptyFields("[Fila: " + (cells.get(6).getRowIndex() + 1) + " Columna: G] El tipo de " +
+                    "ambiente requerido está vacío");
+        } else if (cells.get(6).getCellType().equals(CellType.STRING)) {
             fileRow.setTypeEnvironmentRequired(cells.get(6).getStringCellValue());
-        }else{
+        } else {
             responseFile.addLogsType("[Fila: " + (cells.get(6).getRowIndex() + 1) + " Columna: G] El tipo de " +
                     "ambiente debe ser tipo texto");
         }
-        if(cells.get(3).getCellType().equals(CellType.FORMULA)){
+        //intensidad semanal
+        if(cells.get(3) == null || cells.get(3).getCellType().equals(CellType.FORMULA)){
             fileRow.setWeeklyOverload((int)cells.get(3).getNumericCellValue());
         }else{
             responseFile.addLogsType("[Fila: " + (cells.get(3).getRowIndex() + 1) + " Columna: D] La celda de intensidad" +
@@ -123,7 +143,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
                     "debe seleccionar al menos un docente");
         }
         if(cells.get(8).getCellType() != CellType.BLANK){
-            System.out.println("Celda 8: " + cells.get(8).getCellType());
             if (cells.get(8).getCellType().equals(CellType.STRING)){
             listAuxCodeTeachers.add(cells.get(8).getStringCellValue().split("-")[0].trim());
             }else{

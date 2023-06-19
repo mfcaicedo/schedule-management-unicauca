@@ -21,7 +21,7 @@ public class DepartmentDTO {
     private String departmentName;
     private Faculty faculty;
 //    private Set<Person> persons;
-    private Person person;
+//    private PersonDTO person;
 //    private Set<Program> programs;
 
 }
