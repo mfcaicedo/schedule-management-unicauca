@@ -13,10 +13,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let file of aoFile">
+            <tr *ngFor="let file of aoFile" [ngStyle]="{
+              'background-color': file.stateFile === 'SIN_INICIAR' ? '#DC3545' :
+              file.stateFile === 'EN_PROCESO' ? '#FFC107'
+              : '#28A745', 'color': 'white'
+            }">
               <td>{{file.nameFile}} </td>
               <td>{{file.dateRegisterFile}}</td>
-              <td>{{file.stateFile}}</td>
+              <td>
+                <div [ngStyle]="{'font-weight':'bold'}">
+                  {{
+                  file.stateFile === "SIN_INICIAR" ? "Sin iniciar" :
+                  file.stateFile === "EN_PROCESO" ? "En proceso" : "Finalizado"
+                  }}
+                </div>
+              </td>
               <td>{{file.period.periodId}} </td>
               <td>{{file.program.name}} </td>
             </tr>
