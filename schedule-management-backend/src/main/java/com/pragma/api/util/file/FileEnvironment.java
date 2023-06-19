@@ -154,15 +154,24 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     listaint.add(onequantity);
                     //for one
                     fileRow.setQuantity(listaint);
+
                 }else if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))) {
-                    String lista = cells.get(6).getStringCellValue();
-                    String[] lista2 = lista.split(",");
-                    List<Integer> listaint = new ArrayList<>();
-                    //para varios
-                    for (int i = 0; i < lista2.length; i++) {
-                        listaint.add(Integer.parseInt(lista2[i]));
+                    try {
+                        String lista = cells.get(6).getStringCellValue();
+                        String[] lista2 = lista.split(",");
+                        List<Integer> listaint = new ArrayList<>();
+                        //para varios
+
+                        for (int i = 0; i < lista2.length; i++) {
+                            listaint.add(Integer.parseInt(lista2[i]));
+
+                        }
+                        fileRow.setQuantity(listaint);
                     }
-                    fileRow.setQuantity(listaint);
+                    catch (Exception e){
+                        System.out.println("-------------------ENTRA AAQIO");
+                        fileRow.setQuantity(null);
+                    }
                 }else if(cells.get(6).getStringCellValue().equals("no aplica")){
                     fileRow.setQuantity(new ArrayList<>());
                 }

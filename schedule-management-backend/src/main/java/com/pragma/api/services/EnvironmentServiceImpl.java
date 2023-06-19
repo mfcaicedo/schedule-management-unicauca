@@ -176,6 +176,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         enums.add(EnvironmentTypeEnumeration.SALON);
         enums.add(EnvironmentTypeEnumeration.EDIFICIO);
 
+
         return enums;
     }
 

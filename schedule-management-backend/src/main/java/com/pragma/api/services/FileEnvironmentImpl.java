@@ -106,12 +106,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     }
 
     private String getPathTemplate(String nameFile) {
-        // Comenta una de las siguientes líneas dependiendo del path que desees utilizar
 
-        // Ruta del archivo de plantilla para el proyecto de Milthon
-        //final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-
-        // Ruta del archivo de plantilla para el proyecto de Brandon
+        // Ruta del archivo de plantilla
         final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
 
         try {
@@ -144,11 +140,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
             return null;
         }
     }
-
-
     //PROCESS FILE
-
-
     @Override
     public ResponseFile processFile(List<FileRowEnvironment> logs) {
 
@@ -197,32 +189,13 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                             errorRepetidos = true;
 
                         }else{
-                            System.out.println("------------------ENTRA AQUI");
                             List<Environment> enviromentsDb = this.environmentRepository.findAll();
                             if (this.existsInBD(enviromentsDb, environmentaux)) {
-                                System.out.println("------------------ENTRA AQUI2");
                                 responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE EN EL EDIFICIO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
                                 errorRepetidos = true;
                             }
                         }
                     }
-                    /*
-                if (log.getName().trim().length() == 0) {
-                    infoErroresVacias.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA VACIO (NOMBRE MATERIA OBLIGATORIO)");
-                    errorVacias = true;
-                } else {
-                    if (this.existsInList(subjectNames, log.getName())) {
-                        infoErrores.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA ESTA REPETIDO: " + log.getName());
-                        errorRepetidos = true;
-                    } else {
-                        subjectNames.add(log.getName());
-                        if (this.subjectRepository.existsByNameAndProgram_ProgramId(log.getName(), log.getProgramCode())) {
-                            infoErrores.add("[FILA " + rowNum + "]  EL NOMBRE DE LA MATERIA YA EXISTE EN EL PROGRAMA (" + log.getProgramCode() + "): " + log.getName());
-                            errorRepetidos = true;
-                        }
-                    }
-                }
-                    * */
 
                     //-------------------------------Location-------------------------------
 
@@ -247,11 +220,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         errorVacias = true;
                         responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  LA CAPACIDAD ESTA VACIA (CAPACIDAD OBLIGATORIA)");
 
-                    //}
-                    //sera colocar 0 en el excel?
-                    //else if (log.getCapacity() == -2) {
-                    //    responseFile.getLogsType().add("[FILA " + rowNum + "]  LA CAPACIDAD DEBE SER NUMERICA");
-                    //    errorTipos = true;
                     } else {
                         environment.setCapacity(log.getCapacity());
                     }
@@ -285,7 +253,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
                     if (log.getFaculty().trim().length() == 0) {
                         errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE FACULTAD ESTA VACIO");
+                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE FACULTAD ESTA MAL DIGITADO");
 
                     } else {
                         environment.setFaculty(faculty);
@@ -298,9 +266,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
                     if(log.getQuantity() == null){
                         errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA VACIO");
+                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA MAL DIGITADO");
                     }
-
                     if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
                         System.out.println("----------que hay:"+errorEnvironment);
                         responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
@@ -411,11 +378,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     }
 
     private List<Resource> verifyResources(String[] wordsFormat, List<Resource> resourcesDb){
-        System.out.println("resource db: " + resourcesDb.get(0).getName());
-        System.out.println("resource tamanio: " + resourcesDb.size());
-
         List<Resource> resources = new ArrayList<>();
-        //Set<EnvironmentResource> environmentResources = new HashSet<>();
         for (int i = 0; i < wordsFormat.length; i++) {
             for (int j=0 ;j < resourcesDb.size(); j++) {
                 if (resourcesDb.get(j).getName().toUpperCase().trim().equals(wordsFormat[i])) {
@@ -426,11 +389,9 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
             }
         }
         return resources;
-        //return Resources;
     }
 
     private Environment selectParent(String ubicacion, List<Environment> environmentsDb) {
-
         Environment environmentP = null;
         for (int i = 0; i < environmentsDb.size(); i++) {
             if(environmentsDb.get(i).getName().equals(ubicacion)){
@@ -445,7 +406,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         int cont = 0;
         for (FileRowEnvironment elementoEnvironment : logs) {
             if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
-                System.out.println("------------ENTRA");
                 cont++;
             }
             if(cont>1){
@@ -455,24 +415,19 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         }
         return encontrado;
     }
-
     private boolean existsInBD(List<Environment> logs, Environment environmentaux) {
-
-        System.out.println("-----------------ENTRA AQUI 3");
         boolean encontrado = false;
         int cont = 0;
         for (Environment elementoEnvironment : logs) {
             if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
-                System.out.println("------------ENTRA");
-                cont++;
-            }
-            if(cont>0){
                 encontrado = true;
                 break;
             }
         }
         return encontrado;
     }
+
+
 
 }
 
