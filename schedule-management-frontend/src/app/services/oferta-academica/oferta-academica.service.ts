@@ -12,7 +12,7 @@ import { blob } from 'stream/consumers';
 export class OfertaAcademicaService {
 
   endPoint: String = environment.urlAcadOffer
-  programCode: string[] = ['PIS', 'PIET', 'PIAI', 'TTM', 'FIL'];
+  endPointProgram: String = environment.urlProgram;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -47,9 +47,9 @@ export class OfertaAcademicaService {
     // return this.http.get(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'blob' });
     // return this.http.get<any>(this.endPoint + `/downloadTemplate/${programCode}`, {headers, responseType: 'blob' as 'json'})
     return this.http.get<any>(this.endPoint + `/downloadTemplate/${programCode}`, { responseType: 'json' })
-      
+
       .pipe(
-        catchError((e) => { 
+        catchError((e) => {
           console.log('Error obteniendo la plantilla de la oferta académica', e.error.mensaje, 'error');
           return throwError(e);
         })
@@ -70,9 +70,16 @@ export class OfertaAcademicaService {
         })
       );
   }
-
-  getProgramCode() {
-    return this.programCode;
+  /**
+  * Método que invoca al servicio para obtener todos los programas
+  * @returns Observable con la respuesta del servicio con todos los programas
+  */
+  getAllPrograms(): Observable<any> {
+    return this.http.get<any>(this.endPointProgram + '', { responseType: 'json' })
+      .pipe(
+        catchError((e) => {
+          console.log('Error obteniendo todos los programas', e.error.mensaje, 'error');
+          return throwError(e);
+        }));
   }
-
 }

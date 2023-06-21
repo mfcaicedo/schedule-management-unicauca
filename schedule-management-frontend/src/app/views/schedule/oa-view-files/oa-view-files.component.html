@@ -3,9 +3,28 @@
   <c-col xs="12">
     <c-card class="mb-4">
       <c-card-header>
-        <strong class="titulo">Archivos asociados a la Oferta Académica </strong>
+        <strong class="titulo">Archivos cargados al sistema de Oferta Académica </strong>
       </c-card-header>
       <c-card-body>
+        <div class="card-indicators">
+          <label for="">
+            Indicadores del estado de los archivos
+          </label>
+          <div>
+            <span class="indicator-sin-iniciar"></span>
+            Sin iniciar
+          </div>
+          <div>
+            <span class="indicator-en-proceso"></span>
+            En proceso
+          </div>
+          <div>
+
+            <span class="indicator-finalizado"></span>
+            Finalizado
+          </div>
+
+        </div>
         <table cTable [responsive]="true">
           <thead cTableColor="primary">
             <tr>
@@ -13,10 +32,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let file of aoFile">
+            <tr *ngFor="let file of aoFile" [ngStyle]="{
+              'background-color': file.stateFile === 'SIN_INICIAR' ? '#DC3545' :
+              file.stateFile === 'EN_PROCESO' ? '#FFC107'
+              : '#28A745', 'color': 'white'
+            }">
               <td>{{file.nameFile}} </td>
               <td>{{file.dateRegisterFile}}</td>
-              <td>{{file.stateFile}}</td>
+              <td>
+                <div [ngStyle]="{'font-weight':'bold'}">
+                  {{
+                  file.stateFile === "SIN_INICIAR" ? "Sin iniciar" :
+                  file.stateFile === "EN_PROCESO" ? "En proceso" : "Finalizado"
+                  }}
+                </div>
+              </td>
               <td>{{file.period.periodId}} </td>
               <td>{{file.program.name}} </td>
             </tr>

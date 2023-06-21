@@ -23,7 +23,9 @@ public interface ISubjectRepository extends JpaRepository<Subject, String> {
 
     public List<Subject> findAllByProgramOrderBySemester(Program program);
 
-    @Query(value = "SELECT * FROM SUBJECT s WHERE s.program_id = :id_program", nativeQuery = true)
+    /*@Query(value = "SELECT * FROM SUBJECT s WHERE s.program_id = :id_program", nativeQuery = true)
     Page<Subject> findAllByProgramId(@Param("id_program") String Id, Pageable pageable);
+    */
+    Page<Subject> findAllByProgram_ProgramId(String programId, Pageable pageable);
 
 }

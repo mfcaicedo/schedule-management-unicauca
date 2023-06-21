@@ -9,46 +9,50 @@
 
         <c-row class="mb-3">
 
-          <label cLabel class="col-sm-2 col-form-label" >
+          <label cLabel class="col-sm-2 col-form-label">
             Filtrar por departamento:
           </label>
           <c-col md="5">
-          <c-dropdown>
-            <button cButton cDropdownToggle color="light">
-              Selecciona el departamento
-            </button>
-            <ul cDropdownMenu>
-              <li><h6 cDropdownHeader>Departamento</h6></li>
-              <li *ngFor="let departments of department"><a (click)="updateTableTeachers(departments)" cDropdownItem>{{departments}}</a></li>
-              <!-- routerLink="./{{tipo}}" -->
-            </ul>
-          </c-dropdown>
+            <c-dropdown>
+              <button cButton cDropdownToggle color="light">
+                Selecciona el departamento
+              </button>
+              <ul cDropdownMenu>
+                <li>
+                  <h6 cDropdownHeader>Departamento</h6>
+                </li>
+                <li *ngFor="let department of departments">
+                  <a (click)="updateTableTeachers(department.departmentId)" cDropdownItem>
+                    {{department.departmentName}}
+                  </a>
+                </li>
+                <!-- routerLink="./{{tipo}}" -->
+              </ul>
+            </c-dropdown>
           </c-col>
 
         </c-row>
 
         <table cTable [responsive]="true">
           <thead cTableColor="primary">
-          <tr>
-            <th *ngFor="let c of columns">{{c}} </th>
-          </tr>
+            <tr>
+              <th *ngFor="let c of columns">{{c}} </th>
+            </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let profesor of person; index as i">
-            <td>{{profesor.personCode}} </td>
-            <td>{{profesor.fullName}} </td>
-            <td>{{profesor.department.departmentName}} </td>
+            <tr *ngFor="let profesor of person; index as i">
+              <td>{{profesor.personCode}} </td>
+              <td>{{profesor.fullName}} </td>
+              <td>{{profesor.department.departmentName}} </td>
 
-          </tr>
+            </tr>
 
           </tbody>
 
         </table>
         <br>
-        <app-paginador
-        (pageChanged)="loadTableTeachers($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
-
-        ></app-paginador>
+        <app-paginador (pageChanged)="loadTableTeachers($event)" [totalItems]="totalItems"
+          [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"></app-paginador>
       </c-card-body>
     </c-card>
   </c-col>

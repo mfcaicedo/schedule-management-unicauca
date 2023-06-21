@@ -5,14 +5,20 @@
       <!-- <div class="content-download-template">
         <button class="btn btn-primary" (click)="downloadTemplate()">Descargar plantilla</button>
       </div> -->
-    
+
       <c-dropdown>
         <button cButton cDropdownToggle color="light">
           Descargar plantilla
         </button>
         <ul cDropdownMenu>
-          <li><h6 cDropdownHeader>Código del programa</h6></li>
-          <li *ngFor="let programC of programCode"><a (click)="downloadTemplate(programC)" cDropdownItem>{{programC}}</a></li>
+          <li>
+            <h6 cDropdownHeader>Código del programa</h6>
+          </li>
+          <li *ngFor="let program of programs">
+            <a (click)="downloadTemplate(program.programId)" cDropdownItem>
+              {{program.name}}
+            </a>
+          </li>
           <!-- routerLink="./{{tipo}}" -->
         </ul>
       </c-dropdown>

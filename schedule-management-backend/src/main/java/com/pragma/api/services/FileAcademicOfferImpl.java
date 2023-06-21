@@ -3,6 +3,7 @@ package com.pragma.api.services;
 import com.pragma.api.domain.*;
 import com.pragma.api.model.*;
 import com.pragma.api.model.enums.PeriodStateEnumeration;
+import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.model.enums.TeacherCategoryEnumeration;
 import com.pragma.api.repository.*;
@@ -106,7 +107,8 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         academicOfferFile.setStateFile(data.get(0).getStateFile());
         if (!data.get(0).getNameFile().isEmpty()) academicOfferFile.setNameFile(data.get(0).getNameFile());
         academicOfferFile.setDateRegisterFile(data.get(0).getDateRegisterFile());
-        if (!data.get(0).getPeriod().isEmpty()) {
+        //Periodo correspondiente del archivo
+        if (data.get(0).getPeriod() != null && !data.get(0).getPeriod().isEmpty()) {
             //Busco el periodo
             Optional<Period> period = iPeriodRepository.findById(data.get(0).getPeriod());
             if (period.isPresent()) {
@@ -115,18 +117,30 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                 responseFile.addLogsGeneric("El periodo académico no existe, verifique si lo escribió " +
                         "correctamente: Ej: 2023-1");
             }
-        } else {
-            responseFile.addLogsEmptyFields("[Fila: 5 - Columna: B]  El código del periodo está vacío");
         }
-        if (!data.get(0).getProgramId().isEmpty()) {
-            Program program = modelMapper.map(iProgramService.findByProgramId(data.get(0).getProgramId()), Program.class);
-            if (program != null) {
+        //Programa correspondiente del archivo
+        if (data.get(0).getProgramId() !=null && !data.get(0).getProgramId().isEmpty()) {
+            ProgramDTO programDTO = iProgramService.findByProgramId(data.get(0).getProgramId());
+            if(programDTO != null){
+                Program program = modelMapper.map(iProgramService.findByProgramId(data.get(0).getProgramId()), Program.class);
                 academicOfferFile.setProgram(program);
-            } else {
+            }else {
                 responseFile.addLogsGeneric("El programa no existe");
             }
-        } else {
-            responseFile.addLogsEmptyFields("[Fila: 3 - Columna: B]  El código de la materia está vacío");
+        }
+
+        //Validar si hay un archivo para un mismo programa, en el mismo periodo y que su estado no sea finalizado
+        AcademicOfferFile academicOfferFile1 = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
+                academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
+                StateAcOfferFileEnumeration.FINALIZADO);
+        if(academicOfferFile1 != null){
+            responseFile.addLogsGeneric("Lo sentimos, no podemos procesar el archivo porque " +
+                    "ya existe un archivo perteneciente al programa " +
+                    academicOfferFile.getProgram().getProgramId() +
+                    " del periodo " + academicOfferFile.getPeriod().getPeriodId() +
+                    " y su estado no es Finalizado");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return responseFile;
         }
 
         //eliminar el la primera posición de la lista
@@ -139,26 +153,18 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             //COURSE
             if (value.getCapacity() != null && value.getCapacity() != 0) {
                 course.setCourseCapacity(value.getCapacity());
-            } else {
-                responseFile.addLogsEmptyFields("[Fila: " + auxIndice + " - Columna: F]  La capacidad del curso está vacío");
             }
 
             if (value.getGroup() != null && !value.getGroup().isEmpty()) {
                 course.setCourseGroup(value.getGroup());
-            } else {
-                responseFile.addLogsEmptyFields("[Fila: " + auxIndice + " - Columna: E]  El grupo del curso está vacío");
             }
 
             if (value.getWeeklyOverload() != null && value.getWeeklyOverload() != 0) {
                 course.setRemainingHours(value.getWeeklyOverload());
-            } else {
-                responseFile.addLogsEmptyFields("[Fila: " + auxIndice + " - Columna: D]  Las horas restantes del curso están vacías");
             }
 
             if (value.getTypeEnvironmentRequired()!= null && !value.getTypeEnvironmentRequired().isEmpty()) {
                 course.setTypeEnvironmentRequired(value.getTypeEnvironmentRequired());
-            } else {
-                responseFile.addLogsEmptyFields("[Fila: " + auxIndice + " - Columna: G]  El tipo de ambiente requerido del curso está vacío");
             }
 
             if (!value.getSubjectCode().isEmpty()) {
@@ -181,7 +187,10 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             List<CourseTeacher> lstCourseTeacher = new ArrayList<>();
             int contAux = 1;
             if (value.getPersonCode().size() != 0) {
+                System.out.println("LLEGA AL FOR DE PERSONAS " + value.getPersonCode().size());
                 for (String personCode : value.getPersonCode()) {
+                    System.out.println("codigo persona: " + personCode);
+
                     Person person = modelMapper.map(iPersonService.findByCode(personCode), Person.class);
                     if (person != null) {
                         CourseTeacher courseTeacher = new CourseTeacher();
