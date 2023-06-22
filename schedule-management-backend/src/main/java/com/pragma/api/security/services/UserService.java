@@ -33,6 +33,11 @@ public class UserService implements IUserService{
     }
 
     @Override
+    public Optional<User> getByUsernameOrEmail(String usernameOrEmail) {
+        return userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);
+    }
+
+    @Override
     public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
