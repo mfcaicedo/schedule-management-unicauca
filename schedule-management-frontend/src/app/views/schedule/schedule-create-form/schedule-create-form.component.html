@@ -5,13 +5,13 @@
 
     <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
       <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
-      <div>
-        <app-courses
-          #courses
-          [selectedProgram]="program" [selectedSemester]="semester"
-          (selectedCourse)="getSelectedCourse($event)"
-        ></app-courses>
-      </div>
+        <div>
+          <app-courses
+            #courses
+            [selectedProgram]="program" [selectedSemester]="semester"
+            (selectedCourse)="getSelectedCourse($event)"
+          ></app-courses>
+        </div>
 
     <!-- Seleccionar ambiente
         (isEnvironmentSelected)="getIfEnvironmentSelected($event)"

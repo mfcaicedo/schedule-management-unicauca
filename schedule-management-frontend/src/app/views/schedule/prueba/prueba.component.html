@@ -1,0 +1,10 @@
+<div class="grid-container">
+ 
+  <br>
+  <div *ngIf="showBtnCreate">
+    <button cButton color="primary" size="lg" [disabled]= "!showBtnCreate" (click)="getInfo()" >
+      Guardar esta franja horaria
+    </button>
+  </div>
+
+</div>
