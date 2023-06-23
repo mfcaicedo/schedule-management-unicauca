@@ -25,6 +25,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    private String TokenPassword;
 
     public User(String name, String lastName, String username, String email, String password) {
         this.name = name;

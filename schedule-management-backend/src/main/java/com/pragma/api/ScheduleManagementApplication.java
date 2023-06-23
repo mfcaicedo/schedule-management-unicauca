@@ -11,7 +11,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 @EnableWebSecurity
 @SpringBootApplication
-public class ScheduleManagementApplication {
+public class  ScheduleManagementApplication {
 
     /**
      * Metodo encargado de e jecutar la aplicación Spring boot
