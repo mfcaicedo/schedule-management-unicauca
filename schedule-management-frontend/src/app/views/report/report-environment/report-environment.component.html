@@ -1,0 +1,58 @@
+<h3>Reporte Por ambiente </h3>
+<app-environments [editar]="false" (checkEnvironment)="getSelectedEnvironment($event)">
+
+</app-environments>
+
+<div *ngIf="ambiente">
+  <!-- renderizar ls reportes  -->
+  <c-card class="mb-4">
+    <c-card-header>
+      <strong class="titulo">Reporte </strong>
+    </c-card-header>
+    <c-card-body>
+
+      <c-row class="mb-3">
+        <c-col md="5">
+          <button class="btn btn-primary" cDropdownToggle color="primary" (click)="generatePDF()">
+            Imprimir
+          </button>
+
+        </c-col>
+
+      </c-row>
+
+
+      <table cTable [responsive]="true">
+        <thead cTableColor="primary">
+          <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let reporte of  reportes ">
+            <td>{{reporte.id}} </td>
+            <td>{{reporte.day}} </td>
+            <td>{{reporte.startingTime}} </td>
+            <td>{{reporte.endingTime}}</td>
+            <td>{{reporte.startingDate}} </td>
+            <td>{{reporte.endingDate}} </td>
+            <td>{{reporte.environmentName}} </td>
+            <td>{{reporte.subjectName}} </td>
+            <td>{{reporte.programName}} </td>
+
+          </tr>
+        </tbody>
+
+      </table>
+      <br>
+      <!-- <app-paginador (pageChanged)="loadTableReports($event)" [totalItems]="totalItems"
+        [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"></app-paginador> -->
+    </c-card-body>
+  </c-card>
+
+</div>
+
+
+<div *ngIf="!ambiente">
+  <c-alert color="primary">Selecciona un ambiente para ver su reporte</c-alert>
+</div>

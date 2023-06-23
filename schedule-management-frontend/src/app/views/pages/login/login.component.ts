@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.buttontouched=false
     // this.buildForm();
     this.formLogin=this.formBuilder.group({
-      email:['',[Validators.required]],
+      username:['',[Validators.required]],
       password:['',[Validators.required]]
     });
   }
@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     if(this.formLogin.valid){
       this.loginService.singin(this.formLogin.value).subscribe(response =>{
         console.log("Login exitoso!", response)
-        this.authService.saveToken(response.token)
+        //this.authService.saveToken(response.token)
         this.router.navigate(['dashboard'])
       })
     }
@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
   getError(controlname:string){
     let control = this.formLogin.get(controlname)
     if(control?.hasError("required")) return "campo obligatorio."
-    if(control?.hasError("email")) return "ingrese un correo valido."
+    if(control?.hasError("username")) return "ingrese un correo valido."
     return ""
   }
 

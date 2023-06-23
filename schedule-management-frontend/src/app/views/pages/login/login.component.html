@@ -68,8 +68,8 @@
       <img class="logo" src="../../../../assets/png/unicauca.png"/>
       <h2>Login to SIMCA 2.0</h2>
       <form class="form" [formGroup]="formLogin" >
-          <input type="text" placeholder="usuario" formControlName="email" />
-          <p *ngIf="(formLogin.get('email')?.touched || buttontouched) && formLogin.get('email')?.invalid">{{getError("email")}}</p>
+          <input type="text" placeholder="usuario" formControlName="username" />
+          <p *ngIf="(formLogin.get('username')?.touched || buttontouched) && formLogin.get('username')?.invalid">{{getError("username")}}</p>
           <input type="password" placeholder="Password" formControlName="password"/>
           <p *ngIf="(formLogin.get('password')?.touched || buttontouched) && formLogin.get('password')?.invalid">{{getError("password")}}</p>
           <button type="submit" (click)="enviarDatos()" >Sing in</button>

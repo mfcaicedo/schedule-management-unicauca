@@ -18,12 +18,18 @@ public interface IReportRepository extends JpaRepository<Report, Long> {
     boolean existsBy();
     //Query para traer todos los datos necesarios, de la tabla schedule, curso, programa, subject, environment
     //Por el id de environment
-    @Query( value=" SELECT s.id,s.day,s.starting_time,s.ending_time,s.starting_Date,s.ending_Date, "+
+    /*@Query( value=" SELECT s.id,s.day,s.starting_time,s.ending_time,s.starting_Date,s.ending_Date, "+
      " e.name as nombre_ambiente, su.name as nombre_materia,p.name as nombre_programa,p.color FROM "+
      " schedule s INNER JOIN environment e ON e.id= s.environment_id "+
      " INNER JOIN course c ON c.course_id=s.course_id INNER JOIN subject su ON "+
      " su.subject_code= c.subject_code INNER JOIN program p ON p.program_id=su.program_id "+
-     " WHERE environment_id= :environment_id", nativeQuery = true)
+     " WHERE environment_id= :environment_id", nativeQuery = true)*/
+    @Query( value="SELECT s.id,s.day,s.starting_time,s.ending_time,s.starting_Date,s.ending_Date, \n" +
+            "     e.name as nombre_ambiente, su.name as nombre_materia,p.name as nombre_programa,p.color FROM \n" +
+            "     schedule s INNER JOIN environment e ON e.environment_id= s.environment_id \n" +
+            "     INNER JOIN course c ON c.course_id=s.course_id INNER JOIN subject su ON \n" +
+            "     su.subject_code= c.subject_code INNER JOIN program p ON p.program_id=su.program_id \n" +
+            "      WHERE e.environment_id= 1", nativeQuery = true)
      //List<Report> getCombinedDataScheduleByEnvironmentId(@Param("environment_id") Integer environment_id);
 
      List<Object[]> getCombinedDataScheduleByEnvironmentId(@Param("environment_id") Integer environment_id);

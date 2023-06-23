@@ -8,12 +8,14 @@ import {
 import { Observable } from 'rxjs';
 
 import {AuthService} from 'src/app/services/auth/auth.service'
+import { TokenService } from '../services/token/token.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService :AuthService
+    private authService :AuthService,
+    private tokenService : TokenService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -22,7 +24,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<unknown>){
-    const token = this.authService.getToken()
+    const token = this.tokenService.getToken()
     if(token){
       const authReq = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`)

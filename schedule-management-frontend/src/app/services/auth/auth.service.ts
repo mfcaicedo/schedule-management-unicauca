@@ -1,28 +1,66 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-
+import {TokenService} from '../token/token.service'
+import { Observable, switchMap, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Auth } from 'src/app/models/auth.model';
+import {User} from 'src/app/models/profile'
+import { environment } from 'src/environments/environment';
+import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private router:Router) { }
+  private user = new BehaviorSubject<User | null>(null);
+  user$ = this.user.asObservable();
 
-  saveToken(token:string){
-    // console.log("Asignando token en local storage ",token)
-    localStorage.setItem('token',token)
+  constructor(
+    private http: HttpClient,
+    private router:Router,
+    private tokenService : TokenService
+    ) {
+
+     }
+
+  apiUrl = environment.urlAuth
+
+  login(credentials:{username:string,password:string}):Observable<Auth> {
+    const username = credentials.username
+    const password = credentials.password
+    return this.http.post<Auth>(`${this.apiUrl}/login`, {username, password})
+    .pipe(
+      tap(response => this.tokenService.saveToken(response.token)),
+    );
   }
 
-  getToken(){
-    const token = localStorage.getItem('token')
-    // console.log("Obteniendo token en auth service ",token)
-    return token
-  }
-  
-  logout(): void {
+  getProfile(auth:Auth) {
 
-    localStorage.clear();
-    //localStorage.removeItem('token');
-    this.router.navigate(['login']);
+    const  user: User = {username: auth.username, authorities : auth.authorities}
+    return  this.user.next(user)
+
   }
+
+  loginAndGet(credentials:{username:string,password:string}) {
+    const username = credentials.username
+    const password = credentials.password
+
+    return this.login({username, password})
+    .pipe(
+      switchMap(async (response) => {
+        this.getProfile(response)
+        // console.log(this.user$)
+      }),
+
+    )
+  }
+
+  logout(){
+    this.tokenService.logout()
+    this.user.next(null);
+  }
+
+
+
+
 }

@@ -2,8 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ReportRoom } from 'src/app/models/ReportRoom.model';
+
 import { report } from 'src/report/report';
+import {ReportRoom} from 'src/app/models/reportRoom.model'
 
 @Injectable({
   providedIn: 'root'
@@ -30,12 +31,12 @@ export class ReportService {
   }
 
 /**
- * metodo usado para generar el reporte enciando una peticion get  con el id del ambiente 
+ * metodo usado para generar el reporte enciando una peticion get  con el id del ambiente
  * y resiviendo como respuesta los datos necesarios para el horario de ese
  * @param idEnviroment  el id de ambientes
- * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id 
+ * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id
  */
-  getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
+  getReportRoom(idEnviroment:number): Observable<ReportRoom[]> {
     return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
       map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
       catchError((e) => {
