@@ -21,7 +21,7 @@
         
         <span *ngIf="isFacSelected">
           <strong class="cuerpo">Seleccione el Programa :</strong>
-          <table cTable  #miTablaI>
+          <table cTable  >
             <thead cTableColor="dark">
             <tr>
                 <th *ngFor="let c of columnsTableProgramas">{{c}} </th>
@@ -44,7 +44,7 @@
           </div>
           
         <div *ngFor="let esquema of esquemas; let i=index">
-          <h2 #miTablaTITULO>Esquema del Programa:{{getNombrePrograma(seleccionados[i])}} (COD:{{seleccionados[i]}})</h2>
+          <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
           <table cTable #miTablaI>
    
                       <thead cTableColor="dark">
@@ -54,16 +54,13 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of esquema; let i = index">
-                        <td>{{ item.id }}</td>
+                        <td>{{ item.environmentName }}</td>
+                        <td>{{ item.subjectName }}</td>
                         <td>{{ item.day }}</td>
                         <td>{{ item.startingTime }}</td>
                         <td>{{ item.endingTime }}</td>
                         <td>{{ item.startingDate }}</td>
-                        <td>{{ item.endingDate }}</td>
-                        <td>{{ item.environmentName }}</td>
-                        <td>{{ item.subjectName }}</td>
-                        <td>{{ item.programName }}</td>
-                        <td>{{ item.programColor }}</td>
+                        <td>{{ item.endingDate }}</td> 
                       </tr>
                     </tbody>
                  </table>

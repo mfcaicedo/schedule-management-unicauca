@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { ProgramService } from 'src/app/services/program/program.service';
 import { ReportService } from 'src/app/services/report/report.service';
+
+import { PdfService } from 'src/app/views/reportes/pdf.service';
 
 @Component({
   selector: 'app-report-semestre',
@@ -13,6 +15,7 @@ import { ReportService } from 'src/app/services/report/report.service';
 })
 export class ReportSemestreComponent {
   title="Reporte Semestre";
+  @ViewChildren('miTablaI') tablas!: QueryList<ElementRef>;   ///Permite referenciar todas las tablas que se van a imprimir diciendo que aun no estan creadas pero se instanciaran mas adelante con el simbolo !
 
     
   isDisabled:boolean=false;//usado en html para los checkbox
@@ -37,14 +40,15 @@ export class ReportSemestreComponent {
   //DATOS REPORTE
   seleccionados: string[] = [];//contiene el id de los programas
   seleccionadoDic: Map<string, string> = new Map<string, string>();//contiene el id del programa como el nombre
-  columnsReporte:string[]=['Id-sch','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin',
-  'Ambiente','Materia','Programa', 'color'];//TODO:se debe cambiar las filas de reporte este es por semestre
+  columnsReporte:string[]=['Ambiente','Materia','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'
+  ];//TODO:se debe cambiar las filas de reporte este es por semestre
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por semestre
 
   constructor(    
     private  facservice:FacultyService,    ///servicio encargado de traer las facultades
     private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad 
     private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
+    private pdfService: PdfService
   ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
@@ -102,7 +106,7 @@ export class ReportSemestreComponent {
       this.reportService.getReportProgramSemester(id,semest).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
-          this.listaTitulosReporte.push("PREPARANDONOS PARA :"+id+"_"+semest);
+          this.listaTitulosReporte.push("Programa "+id+"; semestre "+semest);
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
@@ -112,7 +116,7 @@ export class ReportSemestreComponent {
         }
       );
     });});
-
+    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 

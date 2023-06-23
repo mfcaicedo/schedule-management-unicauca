@@ -7,9 +7,9 @@ INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALU
 INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALUES ('3', 'Civil', 'FIC');
 --Program
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIS', 'INGENIERIA DE SISTEMAS', '1','bg-orange');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-sky');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-orange');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-orange');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-teal');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-pink');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-pink');
 --Person
 INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1061', 'DANIEL PAZ', '1', 'TEACHER');
 INSERT INTO `person` (`personCode`, `full_name`, `department_id`,`person_type`) VALUES ('1062', 'CLAUDIA SOFIA IDROBO CRUZ', '1','TEACHER');
@@ -47,67 +47,67 @@ INSERT INTO `period` (`periodId`, `initDate`, `endDate`, `state`) VALUES ('2023-
 
 --Subject
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CAL_I', 'CALCULO I', '1', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LEC', 'LECTOESCRITURA', '1', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE1', 'ELECTIVA1', '1', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LEC', 'LECTOESCRITURA', '1', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE1', 'ELECTIVA1', '1', false, '4', 'PIAI');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INT_ING', 'INTRODUCCION A LA INGENIERIA', '1', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INT_INF', 'INTRODUCCION A LA INFORMATICA', '1', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_INT_INF', 'LABORATORIO INTRODICCION A LA INFORMATICA', '1', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INT_INF', 'INTRODUCCION A LA INFORMATICA', '1', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_INT_INF', 'LABORATORIO INTRODICCION A LA INFORMATICA', '1', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CAL_II', 'CALCULO2', '2', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ALG', 'ALGEBRA LINEAL', '2', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('MEC', 'MECANICA', '2', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE2', 'ELECTIVA 2', '2', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ALG', 'ALGEBRA LINEAL', '2', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('MEC', 'MECANICA', '2', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE2', 'ELECTIVA 2', '2', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_MEC', 'LABORATORIO MECANICA', '2', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'PROGRAMACION ORIWNTADA A OBJETOS', '2', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_POO', 'LAB ORIENTADA A OBJETOS', '2', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'PROGRAMACION ORIWNTADA A OBJETOS', '2', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_POO', 'LAB ORIENTADA A OBJETOS', '2', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CAL_III', 'Cálculo III ', '3', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE', 'Electromagnetismo', '3', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE', 'Electromagnetismo', '3', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ELE', 'Laboratorio de Electromagnetismo', '3', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE3', 'Electiva FISHI III', '3', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_DAT', 'Estructura de Datos I', '3', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_EST_DAT', 'Laboratorio Estructura de Datos I', '3', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ELE3', 'Electiva FISHI III', '3', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_DAT', 'Estructura de Datos I', '3', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_EST_DAT', 'Laboratorio Estructura de Datos I', '3', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ECU', 'Ecuaciones Diferenciales Ordinarias', '4', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('VIB', 'Vibraciones y Ondas ', '4', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_DAT2', ' Estructura de Datos II', '4', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('VIB', 'Vibraciones y Ondas ', '4', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_DAT2', ' Estructura de Datos II', '4', false, '4', 'PIAI');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_EST_DAT2', 'Laboratorio de Estructura de Datos II ', '4', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD1', 'Bases de Datos I', '4', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_BD1', 'Laboratorio de Bases de Datos I', '4', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD1', 'Bases de Datos I', '4', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_BD1', 'Laboratorio de Bases de Datos I', '4', false, '4', 'PIAI');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ANA', ' Análisis Numérico ', '5', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('TEO', ' Teoría de la Computación', '5', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('TEO', ' Teoría de la Computación', '5', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ARQ', ' Arquitectura Computacional', '5', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ING_SW1', 'Ingeniería de Software I', '5', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ING_SW1', 'Ingeniería de Software I', '5', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ING_SW1', 'Laboratorio de Ingeniería de Software', '5', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD2', 'Bases de Datos II', '5', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_BD2', 'Laboratorio de Bases de Datos II (1 c)', '5', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD2', 'Bases de Datos II', '5', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_BD2', 'Laboratorio de Bases de Datos II (1 c)', '5', false, '4', 'PIAI');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_PRO', 'Estadística y Probabilidad ', '6', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_LEN', 'Estructuras de Lenguajes', '6', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('EST_LEN', 'Estructuras de Lenguajes', '6', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_EST_LEN', 'Laboratorio de Estructuras de Lenguajes ', '6', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ING_SW2', 'Ingeniería de Software II ', '6', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ING_SW2', 'Laboratorio de Ingeniería de Software II', '6', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('SIS_OPE', 'Sistemas Operativos ', '6', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_SIS_OPE', 'Laboratorio de Sistemas Operativos', '6', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ING_SW2', 'Ingeniería de Software II ', '6', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ING_SW2', 'Laboratorio de Ingeniería de Software II', '6', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('SIS_OPE', 'Sistemas Operativos ', '6', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_SIS_OPE', 'Laboratorio de Sistemas Operativos', '6', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('MET', 'Metodología de la Investigación ', '7', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('IA', 'Inteligencias Artificial', '7', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('DIN', 'Teoría Dinámica de Sistemas ', '7', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('DIS', 'Sistemas Distribuidos', '7', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_DIS', 'Laboratorio de Sistemas Distribuidos ', '7', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('IA', 'Inteligencias Artificial', '7', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('DIN', 'Teoría Dinámica de Sistemas ', '7', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('DIS', 'Sistemas Distribuidos', '7', false, '4', 'PIAI');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_DIS', 'Laboratorio de Sistemas Distribuidos ', '7', false, '4', 'PIAI');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ING_SW3', 'Ingeniería de Software III', '7', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ING_SW3', 'Laboratorio de Ingeniería de Software III', '7', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LAB_ING_SW3', 'Laboratorio de Ingeniería de Software III', '7', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('RED', 'Redes', '8', false, '4', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INV', 'Investigación de Operaciones', '8', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('PRO', 'Proyecto I', '8', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CAL_SW', 'Calidad de Software', '8', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('PRO', 'Proyecto I', '8', false, '4', 'PIET');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CAL_SW', 'Calidad de Software', '8', false, '4', 'PIAI');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('GES_EMP', 'Gestión empresarial', '9', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('GES_PRO', 'Gestión de Proyectos Informáticos', '9', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('GES_PRO', 'Gestión de Proyectos Informáticos', '9', false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('PRO2', 'Proyecto II', '9', false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('FUND', 'Fundamentos de Economía', '9', false, '4', 'PIS');
+INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('FUND', 'Fundamentos de Economía', '9', false, '4', 'PIET');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LEG', 'Legislación Laboral', '10', false, '4', 'PIS');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('TDG', 'Trabajo de Grado', '10', false, '4', 'PIS');

@@ -1,7 +1,7 @@
 
 <c-card>
   <c-card-header>
-    <strong class="titulo">Reporte Ambientes</strong>in
+    <strong class="titulo">Reporte Ambientes</strong>
   </c-card-header>
 
   <c-card-body>
@@ -105,28 +105,28 @@
 
   <div *ngFor="let esquema of esquemas; let i=index">
     <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
-    <table cTable #miTablaI>
-      <thead cTableColor="dark">
-      <tr>
-        <th *ngFor="let c of columnsReporte">{{ c }}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of esquema; let i = index"
-      [ngStyle]="{'background-color': getBackgroundColor(item.programColor)}">
-        <td>{{ item.id }}</td>
-        <td>{{ item.day }}</td>
-        <td>{{ item.startingTime }}</td>
-        <td>{{ item.endingTime }}</td>
-        <td>{{ item.startingDate }}</td>
-        <td>{{ item.endingDate }}</td>
-        <td>{{ item.environmentName }}</td>
-        <td>{{ item.subjectName }}</td>
-        <td>{{ item.programName }}</td>
-        <td>{{ item.programColor }}</td>
-      </tr>
-    </tbody>
- </table>
+     <!--         <table cTable #miTablaI>
+                <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let c of columnsReporte">{{ c }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of esquema; let i = index"
+                [ngStyle]="{'background-color': getBackgroundColor(item.programColor)}">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.day }}</td>
+                  <td>{{ item.startingTime }}</td>
+                  <td>{{ item.endingTime }}</td>
+                  <td>{{ item.startingDate }}</td>
+                  <td>{{ item.endingDate }}</td>
+                  <td>{{ item.environmentName }}</td>
+                  <td>{{ item.subjectName }}</td>
+                  <td>{{ item.programName }}</td>
+                  <td>{{ item.programColor }}</td>
+                </tr>
+              </tbody>
+          </table>-->
   <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
 <!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
 </div>

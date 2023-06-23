@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import 'jspdf-autotable';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
@@ -6,6 +6,7 @@ import { Program } from 'src/app/models/program.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { ProgramService } from 'src/app/services/program/program.service';
 import { ReportService } from 'src/app/services/report/report.service';
+import { PdfService } from 'src/app/views/reportes/pdf.service';
 
 @Component({
   selector: 'app-report-program',
@@ -15,7 +16,7 @@ import { ReportService } from 'src/app/services/report/report.service';
 export class ReportProgramComponent implements AfterViewInit{
   
   @ViewChild('radioInput', { static: false }) radioInput!: ElementRef<HTMLInputElement>;///variable que me deja manipulr los radios del dom
-
+  @ViewChildren('miTablaI') tablas!: QueryList<ElementRef>; 
   @ViewChild('miTablaI', { static: false }) miTabla!: ElementRef;// permite referenciar el objeto HTML  que se va a imprimir
 
 
@@ -35,20 +36,21 @@ export class ReportProgramComponent implements AfterViewInit{
   //listas
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
   listasProgramas:Program[]=[];   ///lista que contiene los programaas de la facultad
+  listaTitulosReporte:string[]=[]; ///tiene los titulos de los horarios
 
   //DATOS REPORTE
   seleccionados: string[] = [];//contiene el id de los programas
   seleccionadoDic: Map<string, string> = new Map<string, string>();//contiene el id del programa como el nombre
-  columnsReporte:string[]=['Id-sch','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin',
-  'Ambiente','Materia','Programa', 'color'];//TODO:se debe cambiar las filas de reporte este es por programa
+  columnsReporte:string[]=['Ambiente','Materia', 'Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'];//TODO:se debe cambiar las filas de reporte este es por programa
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por programa
 
   constructor(    
     private  facservice:FacultyService,     ///servicio encargado de traer las facultades
     private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad seleccionada
     private reportService:ReportService,    ///servicio encargado de generar el reporte por cada uno  de los codigos seleccionados
-    private cdr: ChangeDetectorRef          ///es un detector de cambios de referencias
-  ){}
+    private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
+    private pdfService: PdfService
+    ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
     this.facservice.getAllFaculty().subscribe(
@@ -96,6 +98,7 @@ export class ReportProgramComponent implements AfterViewInit{
   }
   GenerarReporte(){
 
+    this.listaTitulosReporte=[];
     //alert("Descargando...");
     /*
     const doc = new jsPDF();
@@ -110,7 +113,8 @@ export class ReportProgramComponent implements AfterViewInit{
       this.reportService.getReportProgram(id).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
-  
+          
+          this.listaTitulosReporte.push("Horario de "+this.getNombrePrograma(id)+"(COD: "+id+").");
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
         },
@@ -119,6 +123,7 @@ export class ReportProgramComponent implements AfterViewInit{
         }
       );
     });
+    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 
