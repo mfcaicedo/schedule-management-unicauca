@@ -54,7 +54,7 @@ export class CoursesComponent implements OnInit{
   }
   dragStart(event: DragEvent, course: Course) {
     const courseData = `${course.courseId} ${course.subjectCode} ${course.courseGroup}`;
-    event.dataTransfer?.setData('text/plain', JSON.stringify(courseData));
+    event.dataTransfer?.setData('application/json', JSON.stringify(courseData));
     this.curso = course;
     this.selectedCourse.emit(course);
     this.isCourseSelected = true;

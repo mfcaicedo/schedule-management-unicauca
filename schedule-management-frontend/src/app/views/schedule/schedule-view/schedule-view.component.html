@@ -24,22 +24,22 @@
               <td class="align-middle">{{hora}}</td>
 
               <td *ngFor="let dia of weekDays" class="drop-zone" (dragover)="allowDrop($event)"
-                (drop)="drop($event, weekDayToInteger(weekDays, dia), hora,horario.startingTime,horario.endingTime,horario.day)">
+                (drop)="drop($event, weekDayToInteger(weekDays, dia), hora,horario.startingTime,horario.endingTime,dia, ambiente.id)">
 
 
                 <div *ngFor="let materia of getMaterias(weekDayToInteger(weekDays, dia), hora); let i = index">
                   <div class="materia-container">
                     <div class="materia">{{ materia }}</div>
 
-                    
-            
-    
+
+
+
                     <button class="eliminar-btn"
                       (click)="confirmRemoveMateria(weekDayToInteger(weekDays, dia), hora, i)">
                       <i class="fas fa-trash"></i>
                     </button>
-                   
-                    
+
+
                   </div>
                 </div>
 
@@ -58,13 +58,13 @@
                 </div>
               </td>
               <ng-template cTemplateId="accordionBody">
-           
-  
+
+
                 <!-- Llamar al form paxra crear un schedule el avance de este afecta el progress bar, se emite-->
                 <!-- Se le envia programa y semestre y este emite ambiente para mostrar en schedule view
                   y el progreso que afecta la barra de progreso
                 -->
-                
+
               </ng-template>
             </tr>
             <!-- </div> -->

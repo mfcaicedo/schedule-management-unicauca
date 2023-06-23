@@ -115,7 +115,7 @@ export class ScheduleCreateComponent {
 
           Swal.fire(`Franja creada, por asignar ${scheduleresponse.course.remainingHours} horas`,
           `La franja : ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\n Curso: ${scheduleresponse.course.courseId}  \nfue creado exitosamente`, 'success');
-          this.router.navigate(['//schedule/detail']);
+          //this.router.navigate(['//schedule/detail']);
 
         }
 

@@ -17,6 +17,8 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
   templateUrl: './schedule-view.component.html',
   styleUrls: ['./schedule-view.component.scss']
 })
+
+
 export class ScheduleViewComponent implements AfterViewInit {
 
   numeroDia?: number;
@@ -132,9 +134,10 @@ export class ScheduleViewComponent implements AfterViewInit {
     event.preventDefault();
   }
 
-  drop(event: any, day: number, hour: string,inicial: string, final: string,dia: string) {
+  drop(event: any, day: number, hour: string,inicial: string, final: string,dia: string, environmentId: number) {
     event.preventDefault();
-    const materia = event.dataTransfer.getData("text/plain");
+    const materia = event.dataTransfer.getData("application/json");
+    const courseId = parseInt(materia.split("")[1]);
   
     // Verificar si las dos franjas horarias consecutivas están vacías
     if (
@@ -168,7 +171,14 @@ export class ScheduleViewComponent implements AfterViewInit {
       this.horasDia.splice(index, 2); // Eliminar dos elementos consecutivos
     }
 
-    
+    let scheduleCreated :ScheduleDTO= {id:0, day:'',startingTime:'',endingTime:'',courseId:0,environmentId:0};
+    scheduleCreated.day=dia.toUpperCase()
+    scheduleCreated.startingTime=hour
+    scheduleCreated.endingTime=this.getNextHour(this.getNextHour(hour));
+    scheduleCreated.courseId=courseId
+    scheduleCreated.environmentId=environmentId
+    console.log("Emitiendo schedule ",scheduleCreated)
+    this.scheduleCreated.emit(scheduleCreated)
   
   }
 
@@ -236,7 +246,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   weekDayToInteger(weekDays: String[], day: string) {
     for (let i = 0; i < weekDays.length; i++) {
       if (weekDays[i] === day) {
-        return i;
+        return i+1;
       }
     }
     return -1;

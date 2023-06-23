@@ -1,43 +1,31 @@
 <div class="grid-container">
   <div>
 
-    <form  [formGroup]="form" #formCreate  >
+    <form [formGroup]="form" #formCreate>
 
-    <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
-      <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
+      <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
+
+        <!-- Seleccionar ambiente
+                (isEnvironmentSelected)="getIfEnvironmentSelected($event)"
+            -->
         <div>
-          <app-courses
-            #courses
-            [selectedProgram]="program" [selectedSemester]="semester"
-            (selectedCourse)="getSelectedCourse($event)"
-          ></app-courses>
+          <app-schedule-environments #scheduleenvironments
+            (selectedEnvironment)="getSelectedEnvironment($event)"></app-schedule-environments>
         </div>
 
-    <!-- Seleccionar ambiente
-        (isEnvironmentSelected)="getIfEnvironmentSelected($event)"
-    -->
-      <div *ngIf="courses.isCourseSelected">
-        <app-schedule-environments
-          #scheduleenvironments
-          (selectedEnvironment)="getSelectedEnvironment($event)"
-
-        ></app-schedule-environments>
-      </div>
+        <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
+        <div>
+          <app-courses #courses [selectedProgram]="program" [selectedSemester]="semester"
+            (selectedCourse)="getSelectedCourse($event)"></app-courses>
+        </div>
 
 
-      <!-- Se debe poder ver la vista del horario -->
-      <div *ngIf="isEnvironmentSelected">
 
-        <app-schedule-time-all
-          [takenEnvironmentSchedule]="takenEnvironmentSchedules"
-          [takenProfessorSchedule]="takenProfessorSchedules"
-          (selectedSchedule)="getSelectedSchedule($event)"
-        ></app-schedule-time-all>
-      </div>
 
-      <!-- seleccionar horarios y dia  -->
 
-    </c-accordion>
+        <!-- seleccionar horarios y dia  -->
+
+      </c-accordion>
 
 
 
@@ -45,7 +33,7 @@
   </div>
   <br>
   <div *ngIf="showBtnCreate">
-    <button cButton color="primary" size="lg" [disabled]= "!showBtnCreate" (click)="getInfo()" >
+    <button cButton color="primary" size="lg" [disabled]="!showBtnCreate" (click)="getInfo()">
       Guardar esta franja horaria
     </button>
   </div>

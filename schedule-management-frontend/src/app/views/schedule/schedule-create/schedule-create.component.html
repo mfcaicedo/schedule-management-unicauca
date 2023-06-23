@@ -7,78 +7,67 @@
 </div> -->
 <div class="grid-container">
   <div>
-      <!-- Llama a before form y form -->
-      <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
-        <c-accordion-item (click)="change()" >
-          <ng-template cTemplateId="accordionHeader">
-            <div *ngIf="!showSelectedProgramAndSemester" >
-              <strong>Seleccionar programa y semestre </strong>
+    <!-- Llama a before form y form -->
+    <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
+      <c-accordion-item (click)="change()">
+        <ng-template cTemplateId="accordionHeader">
+          <div *ngIf="!showSelectedProgramAndSemester">
+            <strong>Seleccionar programa y semestre </strong>
+          </div>
+
+          <div class="container" *ngIf="showSelectedProgramAndSemester">
+            <label>
+              Programa seleccionado : <strong>{{program.name}}</strong> <br>
+              Semestre : <strong>{{semester}} </strong>
+            </label>
+            <div md="5">
+              <button cButton id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm"
+                type="submit" (click)="changeShowForm()">
+                Cambiar Selección
+              </button>
             </div>
+          </div>
+        </ng-template>
+        <ng-template cTemplateId="accordionBody" *ngIf="changeValue">
+          <app-schedule-before-create-form #beforeForm (progress)="getProgressMadeProgramSemester($event)"
+            (programa)="getSelectedProgram($event)" (semestre)="getSelectedSemester($event)"
+            [changeSelected]="changeValue">
+          </app-schedule-before-create-form>
 
-            <div class="container" *ngIf="showSelectedProgramAndSemester">
-              <label  >
-                Programa seleccionado : <strong>{{program.name}}</strong> <br>
-                Semestre : <strong>{{semester}} </strong>
-              </label>
-              <div md="5" >
-                  <button cButton  id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeShowForm()">
-                    Cambiar Selección
-                  </button>
-              </div>
-            </div>
-          </ng-template>
-          <ng-template cTemplateId="accordionBody" *ngIf="changeValue">
-            <app-schedule-before-create-form
-              
-              #beforeForm
-              (progress)="getProgressMadeProgramSemester($event)"
-              (programa)="getSelectedProgram($event)" (semestre)="getSelectedSemester($event)"
-              [changeSelected]="changeValue"
-              >
-            </app-schedule-before-create-form>
+        </ng-template>
+      </c-accordion-item>
 
-          </ng-template>
-        </c-accordion-item>
-
-        <c-accordion-item *ngIf="showSelectedProgramAndSemester" >
-          <ng-template cTemplateId="accordionHeader">
-            <!-- <div *ngIf="!showSelectedProgramAndSemester" > -->
-              <strong>Crear Horario para un curso</strong>
-            <!-- </div> -->
+      <c-accordion-item *ngIf="showSelectedProgramAndSemester">
+        <ng-template cTemplateId="accordionHeader">
+          <!-- <div *ngIf="!showSelectedProgramAndSemester" > -->
+          <strong>Crear Horario para un curso</strong>
+          <!-- </div> -->
 
 
-          </ng-template>
-          <ng-template cTemplateId="accordionBody">
-            <div class="container" *ngIf="showSelectedProgramAndSemester">
-              <!-- <label cLabel class="col-sm-10 ">
+        </ng-template>
+        <ng-template cTemplateId="accordionBody">
+          <div class="container" *ngIf="showSelectedProgramAndSemester">
+            <!-- <label cLabel class="col-sm-10 ">
               Los cursos del programa <strong>{{program.name}}</strong> del semestre <strong>{{semester}}</strong> son :
               </label> -->
             <!-- TODO poner aviso de que debe seleccionar 1 -->
-            </div>
-            <br>
-            <!-- Llamar al form paxra crear un schedule el avance de este afecta el progress bar, se emite-->
-            <!-- Se le envia programa y semestre y este emite ambiente para mostrar en schedule view
+          </div>
+          <br>
+          <!-- Llamar al form paxra crear un schedule el avance de este afecta el progress bar, se emite-->
+          <!-- Se le envia programa y semestre y este emite ambiente para mostrar en schedule view
               y el progreso que afecta la barra de progreso
             -->
-            <app-schedule-create-form
-              #scheduleform
-              (progress)="getProgressMadeForm($event)"
-              (isFormValid)="getCreateFormIsValid($event)"
-              (selectedEnvironment)="getSelectedEnvironment($event)"
-              (scheduleCreated)="onSaveSchedule($event)"
+          <app-schedule-create-form #scheduleform (progress)="getProgressMadeForm($event)"
+            (isFormValid)="getCreateFormIsValid($event)" (selectedEnvironment)="getSelectedEnvironment($event)"
+            (scheduleCreated)="onSaveSchedule($event)" [selectedProgram]="program" [selectedSemester]="semester">
 
-              [selectedProgram]="program"
-              [selectedSemester]="semester"
+          </app-schedule-create-form>
 
-              >
+        </ng-template>
+      </c-accordion-item>
 
-            </app-schedule-create-form>
-
-          </ng-template>
-        </c-accordion-item>
-
-      </c-accordion>
-      <br>
+    </c-accordion>
+    <br>
   </div>
 
 
@@ -86,9 +75,7 @@
   <!-- vista del horario por dias -->
   <div *ngIf="showScheduleView">
 
-    <app-schedule-view
-      [ambiente]="environmentSelected"
-    ></app-schedule-view>
+    <app-schedule-view #scheduleview (scheduleCreated)="onSaveSchedule($event)" [ambiente]="environmentSelected"
+      [selectedProgram]="program" [selectedSemester]="semester"></app-schedule-view>
   </div>
 </div>
-
