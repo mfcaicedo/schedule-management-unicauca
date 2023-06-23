@@ -184,6 +184,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         Environment environmentaux = new Environment();
                         environmentaux.setName(log.getName());
                         environmentaux.setLocation(log.getLocation());
+
                         if(this.existsInList(logs, environmentaux)){
                             responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA REPETIDO: " + log.getName());
                             errorRepetidos = true;
@@ -191,7 +192,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         }else{
                             List<Environment> enviromentsDb = this.environmentRepository.findAll();
                             if (this.existsInBD(enviromentsDb, environmentaux)) {
-                                responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE EN EL EDIFICIO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
+                                responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
                                 errorRepetidos = true;
                             }
                         }
@@ -228,26 +229,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                     if (log.getEnvironmentType().trim().length() == 0) {
                         errorVacias = true;
                         responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE TIPO DE AMBIENTE ESTA VACIO");
-                    }else{
-                        switch (log.getEnvironmentType().toUpperCase()) {
-                            case "AUDITORIO":
-                                environment.setEnvironmentType(EnvironmentTypeEnumeration.AUDITORIO);
-                                break;
-                            case "LABORATORIO":
-                                environment.setEnvironmentType(EnvironmentTypeEnumeration.LABORATORIO);
-                                break;
-                            case "SALON":
-                                environment.setEnvironmentType(EnvironmentTypeEnumeration.SALON);
-                                break;
-                            case "EDIFICIO":
-                                environment.setEnvironmentType(EnvironmentTypeEnumeration.EDIFICIO);
-                                break;
-                            default:
-                                environment.setEnvironmentType(EnvironmentTypeEnumeration.DEFAULT);
-                                break;
-                        }
                     }
-
 
                     //---------------------Faculty-------------------------------------------
 
@@ -255,8 +237,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         errorVacias = true;
                         responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE FACULTAD ESTA MAL DIGITADO");
 
-                    } else {
-                        environment.setFaculty(faculty);
                     }
 
                     if(log.getAvailableResources().trim().length()==0){
@@ -273,7 +253,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
                         fileEnvironment.add(log);
                         //listEnvironment.add(environment);
-
                         contSuccess++;
 
                     } else {
@@ -419,10 +398,17 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         boolean encontrado = false;
         int cont = 0;
         for (Environment elementoEnvironment : logs) {
+
             if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
+                System.out.println("Nombre Ambiente: " + elementoEnvironment.getName());
+                System.out.println("Nombre ambiente: " + environmentaux.getName());
+                System.out.println("Location: " + elementoEnvironment.getLocation());
+                System.out.println("Location aux Ambiente: " + environmentaux.getLocation());
                 encontrado = true;
                 break;
             }
+
+
         }
         return encontrado;
     }
