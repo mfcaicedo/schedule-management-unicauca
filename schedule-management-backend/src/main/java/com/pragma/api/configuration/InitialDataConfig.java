@@ -2,16 +2,14 @@ package com.pragma.api.configuration;
 
 import com.pragma.api.security.entities.Role;
 import com.pragma.api.security.entities.User;
+import com.pragma.api.security.enums.TypeRole;
 import com.pragma.api.security.repositories.RoleRepository;
 import com.pragma.api.security.repositories.UserRepository;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Configuration
@@ -29,7 +27,8 @@ public class InitialDataConfig {
         this.encoder = encoder;
     }
 
-    @PostConstruct
+    //El usuario tiene los dos roles
+    /*@PostConstruct
     public void addInitialData() {
         List<Role> roles = this.roleRepository.findAll();
         Set<Role> roleSet = new HashSet<>(roles);
@@ -48,6 +47,42 @@ public class InitialDataConfig {
                 .username("admin")
                 .password(encoder.encode("admin"))
                 .roles(roleSet)
+                .build();
+        List<User> initialUserList = Arrays.asList(userOne, userTwo);
+        userRepository.saveAll(initialUserList);
+
+    }*/
+    //Un solo rol por usuario
+    @PostConstruct
+    public void addInitialData() {
+        List<Role> roles = this.roleRepository.findAll();
+
+        Role scheduleManagerRole = null;
+        Role academicManagerRole = null;
+
+        for (Role role : roles) {
+            if (role.getTypeRole() == TypeRole.ROLE_SCHEDULE_MANAGER) {
+                scheduleManagerRole = role;
+            } else if (role.getTypeRole() == TypeRole.ROLE_ACADEMIC_MANAGER) {
+                academicManagerRole = role;
+            }
+        }
+
+        User userOne = User.builder()
+                .email("mfcaicedo@unicauca.edu.co")
+                .name("Milthon Ferney")
+                .lastName("Caicedo Jurador")
+                .username("mfcaicedo")
+                .password(encoder.encode("mfcaicedo"))
+                .roles(Collections.singleton(scheduleManagerRole))
+                .build();
+        User userTwo = User.builder()
+                .email("admin@unicauca.edu.co")
+                .name("Admin")
+                .lastName("Admin")
+                .username("admin")
+                .password(encoder.encode("admin"))
+                .roles(Collections.singleton(academicManagerRole))
                 .build();
         List<User> initialUserList = Arrays.asList(userOne, userTwo);
         userRepository.saveAll(initialUserList);

@@ -23,6 +23,26 @@ public class Role {
     @Enumerated(EnumType.STRING)
     private TypeRole typeRole;
 
+    public Role(TypeRole typeRole) {
+        this.typeRole = typeRole;
+    }
+
+    public Long getIdRole() {
+        return idRole;
+    }
+
+    public void setIdRole(Long idRole) {
+        this.idRole = idRole;
+    }
+
+    public TypeRole getTypeRole() {
+        return typeRole;
+    }
+
+    public void setTypeRole(TypeRole typeRole) {
+        this.typeRole = typeRole;
+    }
+
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
 }

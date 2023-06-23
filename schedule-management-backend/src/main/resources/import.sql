@@ -113,8 +113,8 @@ INSERT INTO course (course_id, course_capacity,course_group,description,remainin
 INSERT INTO course (course_id, course_capacity,course_group,description,remaining_hours, subject_code) VALUES ('3', '20', 'B', 'asd','4', 'ESTR1');
 
 --Resource environment
-INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
-INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_SCHEDULE_MANAGER');
+INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_ACADEMIC_MANAGER');
 
 --eventos
 INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062');
