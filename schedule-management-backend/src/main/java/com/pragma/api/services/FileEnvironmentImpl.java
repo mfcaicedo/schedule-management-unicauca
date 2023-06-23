@@ -190,6 +190,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                             errorRepetidos = true;
 
                         }else{
+                            //Validar que el nombre del ambiente no exista en la base de datos
                             List<Environment> enviromentsDb = this.environmentRepository.findAll();
                             if (this.existsInBD(enviromentsDb, environmentaux)) {
                                 responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
