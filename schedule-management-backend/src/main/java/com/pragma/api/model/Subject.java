@@ -30,4 +30,8 @@ public class Subject {
     private Program program;
     @OneToMany(mappedBy = "subject")
     private Set<Course> courses;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "template_file_id" )
+    private TemplateFile templateFile;
+    
 }
