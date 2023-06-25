@@ -223,12 +223,21 @@ public class ScheduleServiceImpl implements IScheduleService {
         List<Schedule> schedules = this.scheduleRepository.findAllByEnvironmentId(environmentId);
         List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,new TypeToken<List<ScheduleResponseDTO>>() {}.getType());
         Response<List<ScheduleResponseDTO>> response = new Response<>();
+
+        if(ScheduleDTOlist.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of schedules Finded successfully");
         response.setDeveloperMessage("List of schedules Finded successfully");
         response.setMoreInfo("localhost:8081/api/schedule(toDO)");
         response.setErrorCode("");
         response.setData(ScheduleDTOlist);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/schedule(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 

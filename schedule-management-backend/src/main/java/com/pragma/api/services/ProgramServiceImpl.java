@@ -63,14 +63,22 @@ public class ProgramServiceImpl implements IProgramService {
         programDTOList.add(programDTO);
         }
 
-
         Response<List<ProgramDTO>> response = new Response<>();
+        if(programDTOList.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of programs Finded successfully");
         response.setDeveloperMessage("List of program Finded successfully");
-        response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
+        response.setMoreInfo("localhost:8081/api/program(toDO)");
         response.setErrorCode("");
         response.setData(programDTOList);
+        return response;
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/program(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 

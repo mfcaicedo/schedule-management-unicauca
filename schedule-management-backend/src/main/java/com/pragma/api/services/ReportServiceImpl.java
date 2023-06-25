@@ -12,30 +12,28 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.ReportDTO;
 import com.pragma.api.domain.Response;
-import com.pragma.api.model.Report;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.repository.IReportRepository;
-import com.pragma.api.util.exception.ScheduleBadRequestException;
+import com.pragma.api.util.ValidatorUtil;
 
 @Service
 public class ReportServiceImpl implements IReportService{
 
     private final ModelMapper modelMapper;
     private final IReportRepository reportRepository;
+    //private final ValidatorUtil validator;
 
     public ReportServiceImpl(ModelMapper modelMapper, IReportRepository reportRepository) {
         this.modelMapper = modelMapper;
         this.reportRepository = reportRepository;
-        
+        //this.validator = validator;
+
     }
 
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByEnvironmentId(Integer environmentId) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
         
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByEnvironmentId(environmentId);
 
@@ -65,9 +63,7 @@ public class ReportServiceImpl implements IReportService{
         LocalDateTime localDateTime = timestamp.toLocalDateTime();
         LocalDate localDate = localDateTime.toLocalDate();
         Date startingDate = Date.valueOf(localDate);
-
-
-        
+ 
         //Casteo para la fechas endingDate
         Timestamp timestamp1 = (Timestamp) schedule[5];
         LocalDateTime localDateTime1 = timestamp1.toLocalDateTime();
@@ -84,25 +80,15 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of schedules Finded successfully");
-        response.setDeveloperMessage("List of schedules Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;
-
+        //return response;
+        return ValidatorUtil.setResponse(ReportDTOList);
     
     }
 
     //Metodo para crear el reportDTO de reporte por facultad/programa y enviarlo a la api rest
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
-        
+    
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramId(programId);
 
         List<ReportDTO> ReportDTOList = new ArrayList<>();
@@ -148,22 +134,13 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of schedules Finded successfully");
-        response.setDeveloperMessage("List of schedules Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;
+        return ValidatorUtil.setResponse(ReportDTOList);
     }
 
     //Metodo para crear el reportDTO de reporte por semestre y enviarlo a la api rest
     @Override
     public Response<List<ReportDTO>> getCombinetDataScheduleByProgramIdSemester(String programId, Integer semester) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        //if(!this.reportRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
-        
+    
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramIdSemester(programId,semester);
 
         List<ReportDTO> ReportDTOList = new ArrayList<>();
@@ -209,13 +186,59 @@ public class ReportServiceImpl implements IReportService{
         ReportDTOList.add(reportDTO);
         }
 
-        Response<List<ReportDTO>> response = new Response<>();
-        response.setStatus(200);
-        response.setUserMessage("List of schedules by semester Finded successfully");
-        response.setDeveloperMessage("List of schedules by semester Finded successfully");
-        response.setMoreInfo("localhost:8081/api/report(toDO)");
-        response.setErrorCode("");
-        response.setData(ReportDTOList);
-        return response;
+        return ValidatorUtil.setResponse(ReportDTOList);
+    }
+
+    @Override
+    public Response<List<ReportDTO>> getCombinedDataCoursePersonByPersonCode(String personCode) {
+         
+        List<Object[]> coursesCombined = this.reportRepository.getCombinedDataCoursePersonByPersonCode(personCode);
+
+        List<ReportDTO> ReportDTOList = new ArrayList<>();
+        for (Object[] coursePerson : coursesCombined) {
+        
+        //Casteo para el id de course_teacher    
+        Integer coursePersonId = (Integer) coursePerson[0];
+        //Long coursePersonId = bigInteger.longValue();    
+
+        //Casteo nombre del docente
+        String teacherName= (String) coursePerson[1];
+        //Casteo para el id de program    
+        String programId= (String) coursePerson[2];
+        //Casteo dia
+        String daysTypeString = (String) coursePerson[3];
+        DaysEnumeration dayTipe = DaysEnumeration.valueOf(daysTypeString);
+
+        //Casteo hora inicio y hora fin
+
+        Time startingTime = (Time) coursePerson[4];
+
+        LocalTime localStartingTime = startingTime.toLocalTime();
+
+        Time endingTime = (Time) coursePerson[5];
+
+        LocalTime localendingTime =endingTime.toLocalTime();
+        
+
+        //Nombre de materia
+        String subjectName= (String) coursePerson[6];
+        
+        //grupo curso
+        String courseGropu= (String) coursePerson[7];
+
+        //nombre programa
+        String programName= (String) coursePerson[8];
+        
+        //color
+        String color= (String) coursePerson[9];
+        
+        //ambiente
+        String environmentName= (String) coursePerson[10];
+
+        ReportDTO reportDTO = new ReportDTO(coursePersonId, teacherName, programId, dayTipe, localStartingTime, localendingTime, subjectName, courseGropu, programName, color, environmentName);
+        ReportDTOList.add(reportDTO);
+        }
+ 
+        return ValidatorUtil.setResponse(ReportDTOList);
     }
 }

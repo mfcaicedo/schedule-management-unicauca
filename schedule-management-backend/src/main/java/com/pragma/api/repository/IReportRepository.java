@@ -1,5 +1,5 @@
 package com.pragma.api.repository;
-import com.pragma.api.model.Report;
+import com.pragma.api.model.Schedule;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
  * Repository de Spring para las operaciones CRUD.
  */
 @Repository
-public interface IReportRepository extends JpaRepository<Report, Long> {
+public interface IReportRepository extends JpaRepository<Schedule, Long> {
 
     boolean existsBy();
     //Query para traer todos los datos necesarios, de la tabla schedule, curso, programa, subject, environment
@@ -48,5 +48,19 @@ public interface IReportRepository extends JpaRepository<Report, Long> {
                   " AND su.semester= :semester", nativeQuery = true)
 
     List<Object[]> getCombinedDataScheduleByProgramIdSemester(@Param("program_id") String program_id,@Param("semester") Integer semester);
+
+
+    //Metodo para traer los datos necesarios para realizar el reporte docente por personCode
+    //ascendentemente por el campo semestre de materia
+    @Query( value=" SELECT cp.course_teacher_id, p.full_name, su.program_id, s.day,s.starting_time,s.ending_time, su.name as materiaName, "+
+                    "c.course_group, pro.name as programaName, pro.color, e.name as ambienteName FROM COURSE_PERSON AS cp "+
+                  "INNER JOIN course AS c on cp.course_id=c.course_id INNER JOIN subject AS su on "+
+                  "su.subject_code=c.subject_code "+
+                  "INNER JOIN schedule AS s on s.course_id = cp.course_id "+	
+                  "INNER JOIN environment AS e ON e.environment_id = s.environment_id "+
+                  "INNER JOIN person AS p on p.personCode = cp.personCode "+
+                  "INNER JOIN program AS pro on pro.program_id=su.program_id WHERE cp.personCode= :personCode " , nativeQuery = true)
+
+    List<Object[]> getCombinedDataCoursePersonByPersonCode(@Param("personCode") String personCode);
 
 }

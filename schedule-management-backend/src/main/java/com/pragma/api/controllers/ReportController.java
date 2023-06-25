@@ -42,4 +42,8 @@ public class ReportController {
         return this.reportService.getCombinetDataScheduleByProgramIdSemester(program_id,semester);
     }
 
+    @GetMapping("/byPersonCode/{personCode}")
+    public Response<List<ReportDTO>> findAllByPersonCode(@PathVariable String personCode){
+        return this.reportService.getCombinedDataCoursePersonByPersonCode(personCode);
+    }
 }

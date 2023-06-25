@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ICoursePersonService {
     //Buscar por id de facultad
-    public TeacherCategoryEnumeration convertIntToEnum(Integer teacherCategory);
+    //public TeacherCategoryEnumeration convertIntToEnum(Integer teacherCategory);
     public Response<List<CoursePersonDTO>> findAllByTeacherCode(String teacherCode);
 }

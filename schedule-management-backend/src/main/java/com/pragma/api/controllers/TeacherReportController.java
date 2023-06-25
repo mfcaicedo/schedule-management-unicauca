@@ -15,7 +15,6 @@ import com.pragma.api.domain.DepartmentDTO;
 import com.pragma.api.domain.ProgramDTO;
 import com.pragma.api.domain.ReportDTO;
 import com.pragma.api.domain.Response;
-import com.pragma.api.domain.TeacherReportDTO;
 import com.pragma.api.services.ICoursePersonService;
 import com.pragma.api.services.IDepartmentService;
 import com.pragma.api.services.IProgramService;
@@ -60,5 +59,14 @@ public class TeacherReportController {
         TeacherReportDTO response;
         return response;
     }
+    12
+0
+1
+1061
+1
+PIS
+POO
+
     */
 }
+    
