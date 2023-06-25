@@ -12,7 +12,7 @@
       <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion>
     </div>
     
-    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Descargar Reporte Profesor" (click)="GenerarReporte()">      
+    <input id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)" (click)="GenerarReporte()">      
      
   <div *ngFor="let esquema of esquemas; let i=index">
     <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2> 

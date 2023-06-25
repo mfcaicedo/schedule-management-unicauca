@@ -331,3 +331,7 @@ INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`,
 
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'SABADO', '2023-05-18 11:00:18', '09:00:18', b'0', '2023-05-16 10:19:18', '07:00:18', '93', '11', NULL);
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'SABADO', '2023-05-18 11:00:18', '11:00:18', b'0', '2023-05-16 10:19:18', '09:00:18', '94', '11', NULL);
+
+INSERT INTO `course_person` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('1', '1', '22', '1061');
+
+INSERT INTO `course_person` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('2', '1', '20', '1061');

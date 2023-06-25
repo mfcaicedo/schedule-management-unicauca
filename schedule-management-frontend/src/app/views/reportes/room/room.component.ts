@@ -63,7 +63,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   seleccionTipo:string="";
 
   //Encabezados de Tabla
-  columns:string[]=['Id','Nombre','Ubicacion','Tipo Ambiente','Facultad','Seleccionar'];
+  columns:string[]=['Id','Nombre','Ubicacion','Tipo Ambiente','Seleccionar'];
   
   //listas
   environmentTypes:string[]=[];   ///lista que contiene los tipos de ambientes definidos en el servicio y mostrados en los radios

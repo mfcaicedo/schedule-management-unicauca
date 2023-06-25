@@ -22,7 +22,7 @@ export class ReportSemestreComponent {
   isDisabled:boolean=false;//usado en html para los checkbox
   
   //encabezados de tablas  
-  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Id del Departamento','Seleccionar'];//Encabezados de Tabla Programas
+  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Seleccionar'];//Encabezados de Tabla Programas
 
   //Semestres ofrecidos
   semestres: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -41,7 +41,7 @@ export class ReportSemestreComponent {
   //DATOS REPORTE
   seleccionados: string[] = [];//contiene el id de los programas
   seleccionadoDic: Map<string, string> = new Map<string, string>();//contiene el id del programa como el nombre
-  columnsReporte:string[]=['Ambiente','Materia','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'
+  columnsReporte:string[]=['Ambiente','Materia','Grupo','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'
   ];//TODO:se debe cambiar las filas de reporte este es por semestre
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por semestre
 

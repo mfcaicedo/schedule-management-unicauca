@@ -80,6 +80,7 @@ c-card {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  margin: 15px;
 }
 
 .btn-upload-file:hover {
@@ -94,6 +95,7 @@ c-card {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
+  margin: 15px;
 }
 
 .btn-rep:hover {
@@ -115,7 +117,8 @@ c-card {
 }
 
 .cuerpo {
-    margin-left: 2%;
+    margin: 2%;
+
     color: #800000;
 }
 

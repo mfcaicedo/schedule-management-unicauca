@@ -142,15 +142,15 @@ export const navItems: INavData[] = [
         url: '/reportes/Report_program'
       },
       {
-        name: 'Reporte por semestre',
+        name: 'Reporte por Semestre',
         url: '/reportes/Report_semestre'
       },
       {
-        name: 'Reporte por Professor',
+        name: 'Reporte por Docente',
         url: '/reportes/Report_teacher'
       },
       {
-        name: 'Reporte por salon',
+        name: 'Reporte por Ambiente',
         url: '/reportes/salon'
       }/*, {
         name: 'Componente Pruebas',

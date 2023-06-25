@@ -6,100 +6,73 @@
 
   <c-card-body>
     <strong class="cuerpo">seleccione la facultad :</strong>
-        <br>
-        <c-row class="mb-3">
-
-            <c-col md="10">
-              <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
-                <option value="{{valDefecto}}">Selecciona una Facultad</option>
-                <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+      <c-row class="mb-3">
+        <c-col md="10">
+          <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
+            <option value="{{valDefecto}}">Selecciona una Facultad</option>
+            <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
                 class="uppercase-text" (click)="alerta(fac.facultyName)">
                   {{fac.facultyName}} </option>
-              </select>
-                <!--<c-dropdown>
-                  <button cButton cDropdownToggle color="light">
-                    Filtrar Facultad
-                  </button>
-                  <ul cDropdownMenu>
-                    <li *ngFor="let fac of listafacultades" (click)="alerta(fac.facultyName)" class="uppercase-text">
-                      {{fac.facultyName}}
-                    </li>
-                    
-          
-                  </ul>
-                </c-dropdown>-->
-            </c-col>  
-
-        </c-row>
+          </select>
+        </c-col>
+      </c-row>
         
-        <br>
-  <span *ngIf="isFacSelected">
-    <strong class="cuerpo">seleccione la Edificio :</strong>
-        <br>
+    <span *ngIf="isFacSelected">
+      <strong class="cuerpo">seleccione la Edificio :</strong>
         <c-row class="mb-3">
-            <c-col md="10">
-              <select cSelect id="filtroEdificio"  (change)="onSelectedEdificio($event)"  >
-                <option value="{{valDefecto}}">Selecciona un Edificio</option>
-                <option *ngFor="let ed of listaEdificios" value="{{ed.id}}" 
+          <c-col md="10">
+            <select cSelect id="filtroEdificio"  (change)="onSelectedEdificio($event)"  >
+              <option value="{{valDefecto}}">Selecciona un Edificio</option>
+              <option *ngFor="let ed of listaEdificios" value="{{ed.id}}" 
                 class="uppercase-text" >
                   {{ed.name}} </option>
-              </select>
-                <!--<c-dropdown>
-                  <button cButton cDropdownToggle color="light">
-                    Filtrar Edificio
-                  </button>
-                  <ul cDropdownMenu>
-                    <li><h6 cDropdownHeader>Edificios</h6></li>
-                    
-          
-                  </ul>
-                </c-dropdown>-->
-            </c-col>
+            </select>
+          </c-col>
         </c-row>
-          
-        <br>
-    <strong class="cuerpo">Tipo de Ambiente :</strong>
-        <br>
-        <div class="radio">
-          <div class="form-check form-check-inline" *ngFor="let tipo of environmentTypes; let first = first;">
-              <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo"  (change)="onSelectedType($event)" #radioInput>
-              <label class="form-check-label" > {{tipo}} </label>
+        
+      <strong class="cuerpo">Tipo de Ambiente :</strong>
+      <c-row class="mb-3">
+        <c-col md="10">        
+          <div class="radio">
+              <div class="form-check form-check-inline" *ngFor="let tipo of environmentTypes; let first = first;">
+                <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo"  (change)="onSelectedType($event)" #radioInput>
+                <label class="form-check-label" > {{tipo}} </label>
+              </div>
           </div>
+        </c-col>
+      </c-row>
+
+      <span  *ngIf="isBuildSelected">
+        <strong class="cuerpo">Seleccione el Ambiente :</strong>
+        <c-row class="mb-3">
+          <c-col md="10">
+            <table cTable  >
+              <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let c of columns">{{c}} </th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let item of listaAmbienteHijos; let i = index">
+                  <td>{{item.id}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.location}}</td>
+                  <td>{{item.environmentType}}</td>
+                  <!--<td>{{item.facultyId}}</td>  -->
+                  <td>
+                    <input [disabled]="isDisabled" #checkboxes id="{{item.id}}" type="checkbox" (click)="onSelectingEnvironment(item, $event)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-col>
+        </c-row>
+
+        <div class="centrado">
+          <input id="btn-generar"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">      
         </div>
-    <span  *ngIf="isBuildSelected">
-      <strong class="cuerpo">Listado segundo filtro seleccionado :</strong>  
-      <br>
-      <br>
-      
-      <table cTable  >
-          <thead cTableColor="dark">
-          <tr>
-              <th *ngFor="let c of columns">{{c}} </th>
-          </tr>
-          </thead>
-          <tbody >
-            <tr *ngFor="let item of listaAmbienteHijos; let i = index">
-              <td>{{item.id}}</td>
-              <td>{{item.name}}</td>
-              <td>{{item.location}}</td>
-              <td>{{item.environmentType}}</td>
-              <td>{{item.facultyId}}</td>  
-              <td>
-                <input [disabled]="isDisabled" #checkboxes id="{{item.id}}" type="checkbox" (click)="onSelectingEnvironment(item, $event)">
-              </td>     
-            </tr>
-          </tbody>
-    
-      </table>
-
-      <br>
-
-      <div class="centrado">
-        <input id="btn-generar"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">      
-      </div>
-    </span>
-    <br>
-  </span>     
+      </span>
+    </span>     
   </c-card-body>
   <!-- Progreso de descarga -->
 

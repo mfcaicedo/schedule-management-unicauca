@@ -25,7 +25,7 @@ export class ReportProgramComponent implements AfterViewInit{
   isDisabled:boolean=false;//usado en html para los checkbox
   
   //encabezados de tablas  
-  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Id del Departamento','Seleccionar'];//Encabezados de Tabla Programas
+  columnsTableProgramas:string[]=['Id Programa','Nombre del Programa','Seleccionar'];//Encabezados de Tabla Programas
 
   //banderas
   isFacSelected:boolean=false;   ///Variable bandera que indica si se ha seleccionado la facultad
@@ -41,7 +41,7 @@ export class ReportProgramComponent implements AfterViewInit{
   //DATOS REPORTE
   seleccionados: string[] = [];//contiene el id de los programas
   seleccionadoDic: Map<string, string> = new Map<string, string>();//contiene el id del programa como el nombre
-  columnsReporte:string[]=['Ambiente','Materia', 'Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'];//TODO:se debe cambiar las filas de reporte este es por programa
+  columnsReporte:string[]=['Ambiente','Materia','Grupo', 'Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin'];//TODO:se debe cambiar las filas de reporte este es por programa
   esquemas: ReportRoom[][] = [];//TODO:se debe cambiar el tipo de reporte este es por programa
 
   constructor(    
