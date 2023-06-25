@@ -53,6 +53,7 @@ import { ScheduleUpdateComponent } from './schedule-update/schedule-update.compo
 import { OaUploadComponent } from './oa-upload/oa-upload.component';
 import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
 import { PruebaComponent } from 'src/app/views/schedule/prueba/prueba.component';
+import { ViewComponent } from 'src/app/views/schedule/view/view.component';
 @NgModule({
   declarations: [
     ScheduleCreateComponent,
@@ -71,7 +72,8 @@ import { PruebaComponent } from 'src/app/views/schedule/prueba/prueba.component'
     ScheduleUpdateComponent,
     OaUploadComponent,
     ScheduleReserveCreateComponent,
-    PruebaComponent
+    PruebaComponent,
+    ViewComponent
   ],
   imports: [
     CommonModule,

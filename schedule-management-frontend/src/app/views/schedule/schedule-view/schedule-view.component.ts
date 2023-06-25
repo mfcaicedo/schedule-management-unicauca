@@ -33,7 +33,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   @Input('ambiente') ambiente!: Environment;
   @ViewChild('child') child!: ScheduleRowComponent;
 
-
+  
 
   form!: FormGroup;
   @Output() isFormValid = new EventEmitter<boolean>;
@@ -47,6 +47,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   items = [1, 2, 3, 4];
   progressMadeProgramSemester: number = 0;
   progressMadeForm: number = 0;
+  horarioId!:number;
   sumProgress: number = 10;
   showForm: boolean = true;
   createFormIsValid = false
@@ -169,8 +170,9 @@ export class ScheduleViewComponent implements AfterViewInit {
     const index = this.horasDia.indexOf(materia);
     if (index !== -1) {
       this.horasDia.splice(index, 2); // Eliminar dos elementos consecutivos
+      
     }
-
+    
     let scheduleCreated :ScheduleDTO= {id:0, day:'',startingTime:'',endingTime:'',courseId:0,environmentId:0};
     scheduleCreated.day=dia.toUpperCase()
     scheduleCreated.startingTime=hour
@@ -179,8 +181,9 @@ export class ScheduleViewComponent implements AfterViewInit {
     scheduleCreated.environmentId=environmentId
     console.log("Emitiendo schedule ",scheduleCreated)
     this.scheduleCreated.emit(scheduleCreated)
-  
+    console.log("EL ID DEL HORARIO ES",this.horarioId);
   }
+ 
 
   getNextHour(hour: string): string {
     const [hourStr] = hour.split(":");
@@ -216,33 +219,108 @@ export class ScheduleViewComponent implements AfterViewInit {
     const previousHour = this.getPreviousHour(hour);
     const nextHour = this.getNextHour(hour);
     const removedMateria = this.horario[hour][day].splice(index, 1)[0]; // Eliminar el elemento de la franja horaria actual
-
+    let scheduleresponse: Schedule;
     // Buscar el índice del elemento correspondiente en la franja horaria siguiente
     const nextHourIndex = this.horario[nextHour][day].indexOf(removedMateria);
 
     if (nextHourIndex !== -1) {
       // Si se encuentra el elemento en la franja horaria siguiente, eliminarlo
       this.horario[nextHour][day].splice(nextHourIndex, 1);
+      console.log("el ideee es: ",this.horarioId);
+      this.scheduleService.deleteSchedule(this.horarioId).subscribe(
+        response => {
+          if (response != null) {
+            scheduleresponse = response as Schedule;
+    
+            Swal.fire(`Franja eliminada`,
+              `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\nha sido eliminada exitosamente`, 'success');
+            // this.router.navigate(['//schedule/detail']);
+          }
+        },
+        err => {
+          Swal.fire(`Error: ${err.message}`,
+            `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\n`, 'warning');
+          this.router.navigate(['//schedule/detail']);
+        }
+      );
     }
 
     // Buscar el índice del elemento correspondiente en la franja horaria anterior
     const previousHourIndex = this.horario[previousHour][day].indexOf(removedMateria);
-
+    
     if (previousHourIndex !== -1) {
       // Si se encuentra el elemento en la franja horaria anterior, eliminarlo
       this.horario[previousHour][day].splice(previousHourIndex, 1);
+
+
+      console.log("el ideee es: ",this.horarioId);
+      
+      this.scheduleService.deleteSchedule(this.horarioId).subscribe(
+        response => {
+          if (response != null) {
+            scheduleresponse = response as Schedule;
+    
+            Swal.fire(`Franja eliminada`,
+              `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\nha sido eliminada exitosamente`, 'success');
+            // this.router.navigate(['//schedule/detail']);
+          }
+        },
+        err => {
+          Swal.fire(`Error: ${err.message}`,
+            `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\n`, 'warning');
+          this.router.navigate(['//schedule/detail']);
+        }
+      );
     }
   }
+
   confirmRemoveMateria(day: number, hour: string, index: number): void {
     if (window.confirm("¿Estás seguro de que deseas eliminar este curso?")) {
       this.removeMateria(day, hour, index);
     }
+    
+  }
+
+  confirmRemoveMateriaa(day: number, hour: string, id:number): void {
+    if (window.confirm("¿Estás seguro de que deseas eliminar este curso?")) {
+      this.removeMateriaa(day, hour, id);
+    }
+    
+  }
+  removeMateriaa(day: number, hour: string,id:number) {
+    const previousHour = this.getPreviousHour(hour);
+    const nextHour = this.getNextHour(hour);
+    
+    let scheduleresponse: Schedule;
+    // Buscar el índice del elemento correspondiente en la franja horaria siguiente
+
+      console.log("el ideee es: ",id);
+      this.scheduleService.deleteSchedule(id).subscribe(
+        response => {
+          if (response != null) {
+            scheduleresponse = response as Schedule;
+    
+            Swal.fire(`Franja eliminada`,
+              `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\nha sido eliminada exitosamente`, 'success');
+            // this.router.navigate(['//schedule/detail']);
+          }
+        },
+        err => {
+          Swal.fire(`Error: ${err.message}`,
+            `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\n`, 'warning');
+          this.router.navigate(['//schedule/detail']);
+        }
+      );
+
   }
 
   getMaterias(day: number, hour: string) {
     return this.horario[hour][day];
   }
 
+  getid(horario:number){
+    this.horarioId=horario;
+  }
   weekDayToInteger(weekDays: String[], day: string) {
     for (let i = 0; i < weekDays.length; i++) {
       if (weekDays[i] === day) {
@@ -251,5 +329,6 @@ export class ScheduleViewComponent implements AfterViewInit {
     }
     return -1;
   }
+  
 
 }

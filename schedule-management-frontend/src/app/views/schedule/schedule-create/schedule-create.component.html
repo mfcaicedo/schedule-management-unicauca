@@ -76,6 +76,8 @@
   <div *ngIf="showScheduleView">
 
     <app-schedule-view #scheduleview (scheduleCreated)="onSaveSchedule($event)" [ambiente]="environmentSelected"
-      [selectedProgram]="program" [selectedSemester]="semester"></app-schedule-view>
+      [selectedProgram]="program" [selectedSemester]="semester">
+    </app-schedule-view>
+    
   </div>
 </div>
