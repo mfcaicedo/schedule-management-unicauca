@@ -127,7 +127,7 @@ ngAfterViewInit() {
   }
   /** */
   onLoadComplet() {
-    alert("estamaos listos");
+    //alert("estamaos listos");
   }
   /**
    * se encarga de actualizar los eventos 

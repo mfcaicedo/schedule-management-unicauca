@@ -80,7 +80,6 @@ c-card {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-
 }
 
 .btn-upload-file:hover {
@@ -88,7 +87,19 @@ c-card {
   // background-color: #a80000;
   transition: all 0.3s ease-in-out 0s;
 }
+.btn-rep {
+  padding: 15px 25px;
+  background-color: #994949;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
 
+.btn-rep:hover {
+  background-color: #a80000;
+  transition: all 0.3s ease-in-out 0s;
+}
 .centrado h5 {
   color: #a80000;
   font-weight: bold;

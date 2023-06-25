@@ -123,7 +123,7 @@ export class ReportProgramComponent implements AfterViewInit{
         }
       );
     });
-    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+    //this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 
@@ -149,6 +149,9 @@ export class ReportProgramComponent implements AfterViewInit{
   resetearTabla(){    
     this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
     
+  }
+  descargartablas(){
+    this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
   }
   
   deselecciondeInputs(){  

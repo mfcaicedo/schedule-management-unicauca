@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, QueryList, Renderer2, ViewChildren } from '@angular/core';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { Program } from 'src/app/models/program.model';
@@ -17,6 +17,7 @@ export class ReportSemestreComponent {
   title="Reporte Semestre";
   @ViewChildren('miTablaI') tablas!: QueryList<ElementRef>;   ///Permite referenciar todas las tablas que se van a imprimir diciendo que aun no estan creadas pero se instanciaran mas adelante con el simbolo !
 
+ // @ViewChild('btnreporte', { static: false }) miBoton!: ElementRef;
     
   isDisabled:boolean=false;//usado en html para los checkbox
   
@@ -48,7 +49,8 @@ export class ReportSemestreComponent {
     private  facservice:FacultyService,    ///servicio encargado de traer las facultades
     private programService:ProgramService,  ///servicio encargado de traer los programas de la facultad 
     private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private renderer: Renderer2
   ){}
   ngOnInit(){
     //llenamos las Facultades desde el servicio de facultad
@@ -115,8 +117,18 @@ export class ReportSemestreComponent {
           console.log('Error obteniendo los esquemas', error);
         }
       );
-    });});
+    });})
+    ;
+    //this.terminadoSubject.next(true);
+    
+    //this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+    
+  }
+  descargartablas(){
     this.pdfService.generarPDFsDeTabla(this.tablas.toArray());
+  }
+  ngAfterViewInit() {  
+    this.descargartablas();
   }
   /**
    * Este metodo sirve para controlar los items chequeados en la tabla y asi poder generar el reporte 
