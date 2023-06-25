@@ -137,7 +137,7 @@ ngAfterViewInit() {
    */
   _actualizarEventosCalendario() {
     this.calendarOptions.events = this.esquemas.map(esquema => ({
-      title: esquema.id+"."+esquema.subjectName +" ("+esquema.environmentName+")",
+      title: esquema.subjectName+"."+esquema.courseGroup +" ("+esquema.environmentName+")",
       daysOfWeek: [this.daysOfWeekMap[esquema.day.toLowerCase()]],
       startTime: esquema.startingTime,
       endTime: esquema.endingTime,

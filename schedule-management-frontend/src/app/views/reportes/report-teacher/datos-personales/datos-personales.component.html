@@ -12,6 +12,11 @@
       <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion>
     </div>
     
-    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Busqueda Profesor">      
-          
+    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Descargar Reporte Profesor" (click)="GenerarReporte()">      
+     
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2> 
+    <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+    <!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
+    </div>     
   </div>

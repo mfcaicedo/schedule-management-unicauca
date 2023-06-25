@@ -1,4 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ReportRoom } from 'src/app/models/ReportRoom.model';
+import { ReportService } from 'src/app/services/report/report.service';
 
 @Component({
   selector: 'app-datos-personales',
@@ -11,7 +13,13 @@ export class DatosPersonalesComponent {
 
   contenidoTextIdentificacion:string="";
   contenidoTextNombre:string="";
-  constructor(){
+
+  esquemas: ReportRoom[][] = [];
+  listaTitulosReporte:string[]=[]; ///tiene los titulos de los horarios
+  
+  constructor(
+    private reportService :ReportService  ///servicio que se ejecuta al generar el reporte
+    ){
     this.desactivarEntrada();
   }
   /**
@@ -33,7 +41,26 @@ export class DatosPersonalesComponent {
     }
   }, 1000);
 }
-BuscarProfesor(){
 
+GenerarReporte(){
+  this.esquemas = [];
+  this.listaTitulosReporte=[];
+  if(this.contenidoTextIdentificacion !== ""){
+//alert("busquda id");      
+    this.reportService.getReportPerson(this.contenidoTextIdentificacion).subscribe(
+      (data: ReportRoom[]) => {
+        const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
+
+        // Agregar el esquema al arreglo esquemas
+        this.esquemas.push(esquema);
+        this.listaTitulosReporte.push("Horario de "+this.contenidoTextIdentificacion);
+      },
+      (error) => {
+        console.log('Error obteniendo los esquemas', error);
+      }
+    );
+  }else if(this.contenidoTextNombre !==""){
+  alert("nombre");
+  }
 }
 }

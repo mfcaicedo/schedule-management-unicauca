@@ -62,4 +62,14 @@ getReportProgramSemester(idProgram:string,semestre:string): Observable<ReportRoo
     })
   );
 }
+
+getReportPerson(idPperson:string): Observable<ReportRoom[]> {
+  return this.http.get<any>(this.endPoint+"/byPersonCode/"+idPperson).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo el horario de Persona :' +idPperson, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
 }
