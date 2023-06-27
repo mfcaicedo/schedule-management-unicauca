@@ -4,8 +4,6 @@ import com.google.gson.annotations.Since;
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Program;
 import com.pragma.api.model.Subject;
-import com.pragma.api.model.TemplateSubject;
-import com.pragma.api.repository.ITemplateSubjectRepository;
 import jdk.swing.interop.SwingInterOpUtils;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -28,8 +26,6 @@ import java.util.List;
 @Service
 public class SubjectTemplateImpl implements ITemplateSubjectService {
 
-    private ITemplateSubjectRepository templateSubjectRepository;
-
     @Autowired
     private ModelMapper modelMapper;
 
@@ -46,23 +42,7 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
     private ISubjectService iSubjectService;
 
     @Autowired
-    public SubjectTemplateImpl(ITemplateSubjectRepository templateSubjectRepository) {
-        this.templateSubjectRepository = templateSubjectRepository;
-    }
-
-    @Override
-    public TemplateSubjectDTO uploadTemplateSubject(MultipartFile file) throws IOException {
-        Workbook workbook = new XSSFWorkbook(file.getInputStream());
-
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        workbook.write(outputStream);
-        byte[] TemplateBytes = outputStream.toByteArray();
-
-        TemplateSubject templateSubject = new TemplateSubject();
-        templateSubject.setNameFile("Plantilla_Materias");
-        templateSubject.setFile(TemplateBytes);
-
-        return modelMapper.map(this.templateSubjectRepository.save(templateSubject), TemplateSubjectDTO.class);
+    public SubjectTemplateImpl() {
     }
 
     @Override
@@ -87,7 +67,7 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
 
         // Configurar las cabeceras de respuesta
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=Plantilla_oferta_academica.xlsx");
+        headers.add("Content-Disposition", "attachment; filename=Plantilla_Materias.xlsx");
         headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
         //Cierro el libro
@@ -103,92 +83,24 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
     }
 
     private Workbook processExcelFile(String path, String programId) throws IOException {
-
-        //TODO 1. consultar los todos los profesores
-        List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
-
-        //TODO 2. consultar todos las materias pertenecientes a un programa
-        //TODO 2.1 consultar el programa
+        // Obtener el programa por medio del programID
         Program program = modelMapper.map(iProgramService.findByProgramId(programId), Program.class);
 
-        //TODO 2.2 consultar las materias
-        List<SubjectDTO> subjects = iSubjectService.findAllByProgram(program);
-
-        subjects.forEach(x -> System.out.println(x.getName() + " " + x.getSemester()));
-
-        //TODO 3. modificar el excel con los datos consultados de profesores y materias
-        // Cargar el archivo existente
+        // Cargar plantilla de Excel
         Workbook workbook = WorkbookFactory.create(new File(path));
 
-        //obtengo la hoja 2 (Materias)
-        Sheet sheetSubjects = workbook.getSheetAt(1);
+        // Obtener la hoja principal (hoja 1)
+        Sheet sheetSubjects = workbook.getSheetAt(0);
 
-        //TODO modificar el archivo
-        int indiceRow = 3;
-        int indiceAux = 0;
-        int semesterCurrent = 1;
+        // Se obtiene la fila 2 (en esta fila se encuentra el NOMBRE del programa)
+        Row row = sheetSubjects.getRow(1);
+        // Se obtiene la celda 2 y se escribe el nombre del programa en dicha celda
+        row.getCell(1).setCellValue(program.getName());
 
-        while (subjects.size() != 0) {
-            Row row = sheetSubjects.getRow(indiceRow);
-
-            if (subjects.get(0).getSemester() != semesterCurrent) {
-                indiceRow = 3;
-                indiceAux = 0;
-                semesterCurrent = subjects.get(0).getSemester();
-                continue;
-            }
-
-            //estructura que me permite elegir las celdas dependiendo del semestre obtenido
-            switch (subjects.get(indiceAux).getSemester()) {
-                case 1:
-                    insertRowGeneric(row, 0, subjects, indiceAux);
-                    break;
-                case 2:
-                    insertRowGeneric(row, 3, subjects, indiceAux);
-                    break;
-                case 3:
-                    insertRowGeneric(row, 6, subjects, indiceAux);
-                    break;
-                case 4:
-                    insertRowGeneric(row, 9, subjects, indiceAux);
-                    break;
-                case 5:
-                    insertRowGeneric(row, 12, subjects, indiceAux);
-                    break;
-                case 6:
-                    insertRowGeneric(row, 15, subjects, indiceAux);
-                    break;
-                case 7:
-                    insertRowGeneric(row, 18, subjects, indiceAux);
-                    break;
-                case 8:
-                    insertRowGeneric(row, 21, subjects, indiceAux);
-                    break;
-                case 9:
-                    insertRowGeneric(row, 24, subjects, indiceAux);
-                    break;
-                case 10:
-                    insertRowGeneric(row, 27, subjects, indiceAux);
-                    break;
-            }
-
-            //Se elimina la materia que ya se almaceno en el excel
-            subjects.remove(indiceAux);
-            indiceRow++;
-        }
-
-        //obtengo la hoja 3 (Profesores)
-        Sheet sheetTeachers = workbook.getSheetAt(2);
-
-        //Inserto datos en la hoja 3
-        for (int i = 1; i < teachers.size(); i++) {
-            Row row = sheetTeachers.getRow(i);
-
-            row.getCell(0).setCellValue(teachers.get(i - 1).getPersonCode());
-            row.getCell(1).setCellValue(teachers.get(i - 1).getFullName());
-            row.getCell(2).setCellValue(teachers.get(i - 1).getDepartment().getDepartmentName());
-
-        }
+        // Se obtiene la fila 3 (en esta fila se encuentra el CODIGO del programa)
+        Row row_1 = sheetSubjects.getRow(2);
+        // Se obtiene la celda 2 y se escribe el codigo del programa en dicha celda
+        row_1.getCell(1).setCellValue(program.getProgramId());
 
         return workbook;
     }
@@ -200,8 +112,7 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
      * @return ruta del archivo de plantilla de excel
      */
     private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Materias.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -211,7 +122,7 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
             absolutePath = absolutePath.replace("\\", "/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length - 1] = "";
-            String pathComplete = String.join("/", pathFormat) + pathProjectFileMilthon;
+            String pathComplete = String.join("/", pathFormat) + pathProjectFile;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();

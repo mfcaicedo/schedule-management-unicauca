@@ -14,8 +14,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Subject {
+
     @Id
-    @Column(name = "subject_code",length = 30)
+    @Column(name = "subject_code", length = 30)
     private String subjectCode;
     @Column(length = 45, nullable = false)
     private String name;
@@ -30,8 +31,5 @@ public class Subject {
     private Program program;
     @OneToMany(mappedBy = "subject")
     private Set<Course> courses;
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "template_file_id" )
-    private TemplateFile templateFile;
-    
+
 }

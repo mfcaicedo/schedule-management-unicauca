@@ -13,8 +13,6 @@ import java.util.List;
 
 public interface ITemplateSubjectService {
 
-    public TemplateSubjectDTO uploadTemplateSubject(MultipartFile file) throws IOException;
-
     public ResponseEntity<Resource> downloadTemplateSubject(String programId) throws IOException;
 
 }

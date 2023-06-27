@@ -53,11 +53,6 @@ public class SubjectController {
     ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.fileSubjectService.uploadFile(file), HttpStatus.OK);
     }
-
-    @PostMapping("/uploadTemplate")
-    ResponseEntity<TemplateSubjectDTO> uploadTemplate(@RequestParam("file") MultipartFile file) throws IOException{
-        return new ResponseEntity<>(this.iTemplateSubjectService.uploadTemplateSubject(file),HttpStatus.OK);
-    }
     
     @GetMapping("/downloadTemplate/{programId}")
     ResponseEntity<Resource> downloadTemplate(@PathVariable String programId) throws IOException {
