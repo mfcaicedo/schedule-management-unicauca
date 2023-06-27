@@ -7,6 +7,7 @@ import net.bytebuddy.asm.Advice;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,46 +20,53 @@ import java.util.List;
 public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
     @Override
     public List<FileRowEnvironment> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException {
+        // Crear una lista vacía de FileRowEnvironment
         List<FileRowEnvironment> fileRows = new ArrayList<>();
 
+        // Inicializar una variable booleana para verificar si una celda está vacía
         boolean cellEmpty = false;
 
+        // Obtener el InputStream del archivo MultipartFile
         InputStream fileExcel = file.getInputStream();
 
-
+        // Crear un nuevo XSSFWorkbook utilizando el InputStream del archivo
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);
 
-
+        // Obtener la hoja de cálculo en la posición 0 (primera hoja) del libro
         XSSFSheet sheet = book.getSheetAt(0);
 
+        // Obtener el número de la última fila en la hoja de cálculo
         int rowNum = sheet.getLastRowNum();
 
-        System.out.println(rowNum);
+        // Imprimir el número de filas
+        //System.out.println(rowNum);
 
-        for (int i = 1; i <= rowNum; i++) {
+        //Establezco el número de filas a recorrer.
+        int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
+        System.out.println("filas a recorrer: " + rowNumOriginal);
+
+        // Iterar a través de las filas, comenzando desde la fila 1 (omitiendo la primera fila de encabezado)
+        for (int i = 1; i <= rowNumOriginal; i++) {
+            // Crear una lista vacía de celdas para almacenar las celdas de una fila
             List<Cell> cells = new ArrayList<>();
-            System.out.println("Columna: " + i);
-
+            // Imprimir el número de columna actual
+            //System.out.println("Columna: " + i);
+            // Obtener la fila actual en base al índice de fila
             Row row = sheet.getRow(i);
-
+            // Obtener el número de la última celda en la fila
             int columnNum = row.getLastCellNum();
-
+            // Iterar a través de las celdas en la fila
             for (int j = 0; j < columnNum; j++) {
+                // Agregar cada celda a la lista de celdas
                 cells.add(row.getCell(j));
             }
-
-
+            // Convertir las celdas en un objeto FileRowEnvironment utilizando el método convertCellsToFileRow
             FileRowEnvironment fileRow = convertCellsToFileRow(cells, responseFile);
-
-            if (fileRow == null) {
-                cellEmpty = true;
-                break;
-            }
-
+            // Agregar el objeto FileRowEnvironment a la lista de filas de archivo
             fileRows.add(fileRow);
-
         }
 
+        // Devolver la lista de filas de archivo
         return fileRows;
     }
 
@@ -154,15 +162,24 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     listaint.add(onequantity);
                     //for one
                     fileRow.setQuantity(listaint);
+
                 }else if(!(cells.get(6)==null) && !(cells.get(6).getStringCellValue().equals("no aplica"))) {
-                    String lista = cells.get(6).getStringCellValue();
-                    String[] lista2 = lista.split(",");
-                    List<Integer> listaint = new ArrayList<>();
-                    //para varios
-                    for (int i = 0; i < lista2.length; i++) {
-                        listaint.add(Integer.parseInt(lista2[i]));
+                    try {
+                        String lista = cells.get(6).getStringCellValue();
+                        String[] lista2 = lista.split(",");
+                        List<Integer> listaint = new ArrayList<>();
+                        //para varios
+
+                        for (int i = 0; i < lista2.length; i++) {
+                            listaint.add(Integer.parseInt(lista2[i]));
+
+                        }
+                        fileRow.setQuantity(listaint);
                     }
-                    fileRow.setQuantity(listaint);
+                    catch (Exception e){
+                        System.out.println("-------------------ENTRA AAQIO");
+                        fileRow.setQuantity(null);
+                    }
                 }else if(cells.get(6).getStringCellValue().equals("no aplica")){
                     fileRow.setQuantity(new ArrayList<>());
                 }
@@ -170,11 +187,38 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }else{
                 fileRow.setQuantity(null);
             }
-
-
-
             return fileRow;
+    }
 
+    private int getRowNumOriginal(int rowNum, Sheet sheet) {
+        int count = 0;
+        //fijamos un límite de filas vacías consecutivas que al encontrarse significa que el archivo ha terminado
+        int limit = 5;
+        //Recorro las filas del archivo
+        for (int i = 1; i <= rowNum; i++) {
+            Row row = sheet.getRow(i);
+            //Obtengo las celdas 1 y 2 de la fila actual
+            Cell cell0 = row.getCell(0);
+            Cell cell1 = row.getCell(1);
+            //Verifico si las celdas son nulas o vacías para la celda 0
+            if (cell0 == null || cell0.getCellType() == CellType.BLANK){
+                //Verifico si las celdas son nulas o vacías para celda 1
+                if (cell1 == null || cell1.getCellType() == CellType.BLANK){
+                    //Si la resta del total de filas menos la fila actual es menor o igual al límite
+                    // y el contador es 0, entonces el límite será la resta de total de filas menos la fila actual más 1
+                    if (rowNum-i <= limit && count == 0) limit = rowNum-i+1;
+                    //Incremento el contador de filas vacías consecutivas
+                    count++;
+                }
+                //Si el contador es igual al límite, entonces retorno la fila actual menos el límite
+                // que sería la última fila con información, es decir, la última fila a recorrer
+                if (count == limit) return i-limit;
+            }else{
+                //Si la celda 0 no es nula ni vacía, entonces reinicio el contador
+                count = 0;
+            }
+        }
+        return rowNum;
     }
 
 
