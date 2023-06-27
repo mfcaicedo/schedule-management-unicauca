@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pragma.api.domain.DepartmentDTO;
+import com.pragma.api.domain.ProgramDTO;
 import com.pragma.api.domain.ReportDTO;
 import com.pragma.api.domain.Response;
+import com.pragma.api.services.ICoursePersonService;
+import com.pragma.api.services.IDepartmentService;
+import com.pragma.api.services.IProgramService;
 import com.pragma.api.services.IReportService;
 
 @RestController
@@ -18,9 +23,26 @@ import com.pragma.api.services.IReportService;
 public class ReportController {
     
     private final IReportService reportService;
+    private final IDepartmentService departmentService;
+    private final IProgramService programService;
+    private final ICoursePersonService coursePersonService;
 
-    public ReportController(IReportService reportService) {
+    @GetMapping("/programByDepartmentId/{departmentId}")
+    public Response<List<ProgramDTO>> findProgramsByDepartmentId(@PathVariable Integer departmentId){
+        return this.programService.findAllByDepartmentId(departmentId);
+    }
+
+    @GetMapping("/departmentsByFacultyId/{facultyId}")
+    public Response<List<DepartmentDTO>> findDepartmentsByFacultyId(@PathVariable String facultyId){
+        return this.departmentService.findAllByFacultyId(facultyId);
+    }
+
+
+    public ReportController(IReportService reportService, IDepartmentService departmentService, IProgramService programService, ICoursePersonService coursePersonService) {
         this.reportService = reportService;
+        this.departmentService = departmentService;
+        this.programService = programService;
+        this.coursePersonService = coursePersonService;
     }
 
 
@@ -46,4 +68,6 @@ public class ReportController {
     public Response<List<ReportDTO>> findAllByPersonCode(@PathVariable String personCode){
         return this.reportService.getCombinedDataCoursePersonByPersonCode(personCode);
     }
+
+  
 }
