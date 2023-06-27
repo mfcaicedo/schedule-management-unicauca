@@ -6,7 +6,7 @@ export const department = {
   production: false,
     //URLs Bases 
     /**Consulta departamentos que pertenecen a una facultad por medio del id de fac */
-    urlDepartmentbyFac: 'http://localhost:8081/api/teacherReport/departmentsByFacultyId'
+    urlDepartmentbyFac: 'http://localhost:8081/api/report/departmentsByFacultyId'
 };
 
 /*

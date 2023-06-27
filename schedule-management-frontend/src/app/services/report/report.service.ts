@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
+import { Person } from 'src/app/models/person.model';
 import { report } from 'src/report/report';
 
 @Injectable({
@@ -68,6 +69,15 @@ getReportPerson(idPperson:string): Observable<ReportRoom[]> {
     map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
     catchError((e) => {
       console.log('Error obteniendo el horario de Persona :' +idPperson, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
+getProfesorPorDeptoId(idDepto:string): Observable<Person[]>{
+  return this.http.get<any>(this.endPoint+"/teacherByDeptId/"+idDepto).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo docentes del departamento :' +idDepto, e.error.mensaje, 'error');
       return throwError(e);
     })
   );

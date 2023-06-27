@@ -20,9 +20,44 @@
               {{dep.departmentName}} </option>
           </select>
                
-      </div>      
-          <br>
-          
-    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Busqueda Profesor">      
-          
+    </div>      
+    
+    <span *ngIf="isDepartmentSelected">
+        <strong class="cuerpo">Seleccione el Docente :</strong>
+      
+        <div class="alert alert-primary" role="alert">
+          <h4 class="alert-heading">Filtro</h4>
+          <div class="input-group">
+            <input type="text" class="form-control"  [(ngModel)]="filterText" placeholder="Filtrar por parte del nombre" (input)="applyFilter()">
+            
+          </div>
+        </div>
+        <c-row class="mb-3">
+          <c-col md="10">
+            <table cTable  >
+              <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let d of columnsTableDocente">{{d}} </th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let item of filteredData; let i = index">
+                  <td>{{item.personCode}}</td>
+                  <td>{{item.fullName}}</td>
+                  <!--<td>{{item.department_id}}</td>-->
+                  <td>
+                    <input [disabled]="isDisabled" #checkboxes id="{{item.personCode}}" type="checkbox" (click)="onSelectingDocente(item, $event)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-col>
+        </c-row>
+    </span>
+    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Busqueda Profesor"(click)="GenerarReporte()">>      
+      
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
+  <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+</div>    
 </div>
