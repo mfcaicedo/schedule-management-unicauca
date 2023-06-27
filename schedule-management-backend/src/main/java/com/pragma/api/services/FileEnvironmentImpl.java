@@ -145,7 +145,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     public ResponseFile processFile(List<FileRowEnvironment> logs) {
 
         ResponseFile responseFile = new ResponseFile();
-
+        StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         //----------------------------------------------------------------------
         List<String> environmentNames = new ArrayList<>();
         List<FileRowEnvironment> fileEnvironment = new ArrayList<>();
@@ -158,8 +158,11 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         int contRows = 0;
         int contSuccess = 0;
         int contError = 0;
+        boolean errorTipos = false;
         if(logs.isEmpty()){
+            statusFile = StatusFileEnumeration.ERROR;
             responseFile.getLogsGeneric().add("No hay datos");
+            errorTipos = true;
         }else{
             for (FileRowEnvironment log : logs) {
 
@@ -176,7 +179,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         boolean errorEnvironment = false;
                         boolean errorResources = false;
                         boolean errorVacias = false;
-                        boolean errorTipos = false;
+
                         boolean errorRepetidos = false;
 
                         //---------------------------Name-----------------------------------
@@ -269,8 +272,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
             }
         }
 
-
-        StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         int contSaveRows = 0;
         if (contRows > 0) {
             if (contError > 0) {
