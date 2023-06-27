@@ -14,7 +14,7 @@
         </div>
 
         <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
-        <div>
+        <div >
           <app-courses #courses [selectedProgram]="program" [selectedSemester]="semester"
             (selectedCourse)="getSelectedCourse($event)"></app-courses>
         </div>
