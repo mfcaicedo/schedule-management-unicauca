@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.print.DocFlavor.STRING;
+
 @Service
 public class ProgramServiceImpl implements IProgramService {
 
@@ -83,7 +85,7 @@ public class ProgramServiceImpl implements IProgramService {
     }
 
     @Override
-    public Response<List<ProgramDTO>> findAllByDepartmentId(Integer department_id){
+    public Response<List<ProgramDTO>> findAllByDepartmentId(String department_id){
 
         Response<List<ProgramDTO>> response = new Response<>();
         List<Program> programList = this.iProgramRepository.findByDepartmentId(department_id);

@@ -22,5 +22,5 @@ public interface IPersonService {
 
     public Response<GenericPageableResponse> findAllByDepartmentId(Pageable pageable, String departmentId);
 
-    public Response<List<PersonDTO>> findAllTeachersByDepartmentId(Integer department_id);
+    public Response<List<PersonDTO>> findAllTeachersByDepartmentId(String department_id);
 }

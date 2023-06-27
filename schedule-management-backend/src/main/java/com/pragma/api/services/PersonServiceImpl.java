@@ -103,7 +103,7 @@ public class PersonServiceImpl implements IPersonService {
     }
 
     @Override
-    public Response<List<PersonDTO>> findAllTeachersByDepartmentId(Integer department_id) {
+    public Response<List<PersonDTO>> findAllTeachersByDepartmentId(String department_id) {
 
         List<Person> teachers = this.iPersonRepository.findAllTeachersByDepartmetId(department_id);
         List<PersonDTO> TeachersDTOlist = modelMapper.map(teachers,new TypeToken<List<PersonDTO>>() {}.getType());

@@ -17,7 +17,7 @@ public interface IReportRepository extends JpaRepository<Schedule, Long> {
     boolean existsBy();
     //Query para traer todos los datos necesarios, de la tabla schedule, curso, programa, subject, environment
     //Por el id de environment
-    @Query( value=" SELECT s.id,s.day,s.starting_time, c.course_group, s.ending_time,s.starting_Date,s.ending_Date, e.name as nombre_ambiente, "+
+    @Query( value=" SELECT s.id,s.day,s.starting_time, s.ending_time,s.starting_Date,s.ending_Date, c.course_group, e.name as nombre_ambiente, "+
      " su.name as nombre_materia,p.name as nombre_programa,p.color FROM schedule s INNER JOIN environment e "+
      " ON e.environment_id= s.environment_id INNER JOIN course c ON c.course_id=s.course_id INNER JOIN "+
      " subject su ON su.subject_code= c.subject_code INNER JOIN program p ON p.program_id=su.program_id "+
