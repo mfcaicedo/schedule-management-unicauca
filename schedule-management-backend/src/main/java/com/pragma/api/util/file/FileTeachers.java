@@ -4,7 +4,9 @@ import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.util.file.templateclasses.FileRowAcademicOffer;
 import com.pragma.api.util.file.templateclasses.FileRowTeacher;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,8 +25,9 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);  //cargamos el archivo
         XSSFSheet sheet = book.getSheetAt(0);  //cargamos la hoja que vamos a tratar
         int rowNum = sheet.getLastRowNum();
+        int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
         System.out.println("FILAS EXCEL: " + rowNum);
-        for (int i = 1; i <= rowNum; i++) {
+        for (int i = 1; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
             System.out.println("Registro numero: " + i);
             Row row = sheet.getRow(i);
@@ -63,5 +66,36 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         }
 
         return fileRow;
+    }
+
+    private int getRowNumOriginal(int rowNum, Sheet sheet) {
+        int count = 0;
+        //fijamos un límite de filas vacías consecutivas que al encontrarse significa que el archivo ha terminado
+        int limit = 5;
+        //Recorro las filas del archivo
+        for (int i = 1; i <= rowNum; i++) {
+            Row row = sheet.getRow(i);
+            //Obtengo las celdas 1 y 2 de la fila actual
+            Cell cell0 = row.getCell(0);
+            Cell cell1 = row.getCell(1);
+            //Verifico si las celdas son nulas o vacías para la celda 0
+            if (cell0 == null || cell0.getCellType() == CellType.BLANK){
+                //Verifico si las celdas son nulas o vacías para celda 1
+                if (cell1 == null || cell1.getCellType() == CellType.BLANK){
+                    //Si la resta del total de filas menos la fila actual es menor o igual al límite
+                    // y el contador es 0, entonces el límite será la resta de total de filas menos la fila actual más 1
+                    if (rowNum-i <= limit && count == 0) limit = rowNum-i+1;
+                    //Incremento el contador de filas vacías consecutivas
+                    count++;
+                }
+                //Si el contador es igual al límite, entonces retorno la fila actual menos el límite
+                // que sería la última fila con información, es decir, la última fila a recorrer
+                if (count == limit) return i-limit;
+            }else{
+                //Si la celda 0 no es nula ni vacía, entonces reinicio el contador
+                count = 0;
+            }
+        }
+        return rowNum;
     }
 }

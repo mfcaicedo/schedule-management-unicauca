@@ -60,8 +60,6 @@ public class PersonServiceImpl implements IPersonService {
     public PersonDTO findByCode(String code) {
         Optional<Person> person = this.iPersonRepository.findById(code);
         PersonDTO personDTO = new PersonDTO();
-        System.out.println("que sale: " + person.get().getPersonCode());
-        System.out.println("que sale: " + person.get().getFullName());
         personDTO = modelMapper.map(person,PersonDTO.class);
         return  personDTO;
 
