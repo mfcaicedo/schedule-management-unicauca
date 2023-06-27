@@ -62,33 +62,9 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
             }
             // Convertir las celdas en un objeto FileRowEnvironment utilizando el método convertCellsToFileRow
             FileRowEnvironment fileRow = convertCellsToFileRow(cells, responseFile);
-            // Verificar si el objeto FileRowEnvironment es nulo
-            //if (fileRow == null) {
-                // Establecer la variable cellEmpty en verdadero y salir del bucle
-            //    cellEmpty = true;
-            //    break;
-            //}
             // Agregar el objeto FileRowEnvironment a la lista de filas de archivo
             fileRows.add(fileRow);
         }
-
-        /*
-        //Establezco el número de filas a recorrer.
-        int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
-        System.out.println("filas a recorrer: " + rowNumOriginal);
-        for (int i = 10; i <= rowNumOriginal; i++) {
-            List<Cell> cells = new ArrayList<>();
-            System.out.println("Registro numero: " + i);
-            Row row = sheet.getRow(i);
-            int columnNum = row.getLastCellNum();
-            for (int j = 0; j < columnNum; j++) {
-                cells.add(row.getCell(j));
-            }
-            FileRowAcademicOffer fileRow = convertCellsToFileRow(cells, responseFile);
-            fileRows.add(fileRow);
-        }
-        *
-        * */
 
         // Devolver la lista de filas de archivo
         return fileRows;
