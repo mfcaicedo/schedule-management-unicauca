@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,5 +23,12 @@ public class DepartmentServiceImpl implements IDepartmentService{
     public List<DepartmentDTO> findAll() {
         List<Department> departments = departmentRepository.findAll();
         return departments.stream().map(department ->  modelMapper.map(department, DepartmentDTO.class)).collect(Collectors.toList());
+    }
+    @Override
+    public List<DepartmentDTO> findAllDepartments() {
+        List<Department> departments = this.departmentRepository.findAll();
+        List<DepartmentDTO> departmentsDTO = new ArrayList<>();
+        departmentsDTO = departments.stream().map(x->modelMapper.map(x, DepartmentDTO.class)).collect(Collectors.toList());
+        return departmentsDTO;
     }
 }
