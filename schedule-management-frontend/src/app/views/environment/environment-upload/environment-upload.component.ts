@@ -77,11 +77,11 @@ export class EnvironmentUploadComponent implements OnInit {
                         this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
                       }</p>
                   <p>${this.responseFile.logsType.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
+                        '<h5>Tipo de dato: </h5>' +
                         this.responseFile.logsType.join('<br>').toLowerCase()
                       }</p>
                   <p>${this.responseFile.logsGeneric.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
+                        '<h5>Otros errores: </h5>' +
                         this.responseFile.logsGeneric.join('<br>').toLowerCase()
                       }</p>
                 </div>
@@ -129,8 +129,13 @@ export class EnvironmentUploadComponent implements OnInit {
       .subscribe(data => {
         console.log("que llego; ", data);
         let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        let url = window.URL.createObjectURL(blob);
-        window.open(url);
+        // Crear una URL para el archivo Blob
+        const url = URL.createObjectURL(blob);
+        const downloadLink = document.createElement('a');
+        downloadLink.href = url;
+        downloadLink.setAttribute('download', "Plantilla_Ambientes.xlsx");
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
       });
   }
   public fileOver(event: Event) {

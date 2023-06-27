@@ -26,6 +26,7 @@ public class Person {
     /*
     * Relacion de muchos a muchos con Course Descripcion: indica que un profesor puede dar clases a 1 o varios cursos
     */
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "person")
     private Set<CourseTeacher> assignedSubjects;
 

@@ -32,7 +32,6 @@ public class Environment {
     @Column(nullable = true)
     private EnvironmentTypeEnumeration environmentType;
 
-    @Getter(onMethod_= @JsonIgnore)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;

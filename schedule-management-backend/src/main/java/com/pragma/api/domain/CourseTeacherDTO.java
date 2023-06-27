@@ -12,6 +12,6 @@ import lombok.*;
 public class CourseTeacherDTO {
     private Integer id;
     private TeacherCategoryEnumeration teacherCategory;
-    private Course course;
-    private Person person;
+    private CourseDTO course;
+    private PersonDTO person;
 }

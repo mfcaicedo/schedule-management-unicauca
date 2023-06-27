@@ -108,7 +108,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     private String getPathTemplate(String nameFile) {
 
         // Ruta del archivo de plantilla
-        final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
+        final String pathProjectFile = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
 
         try {
             // Obtener el recurso del archivo utilizando resourceLoader y agregando "file:" al nombre del archivo

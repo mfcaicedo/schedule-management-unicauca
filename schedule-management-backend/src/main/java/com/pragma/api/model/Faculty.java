@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,9 +24,11 @@ public class Faculty {
     @Column(name = "faculty_name", nullable = false, unique = true)
     private String facultyName;
 
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "faculty")
     private Set<Department> departments;
 
+    @Getter(onMethod_= @JsonIgnore)
     @OneToMany(mappedBy = "faculty")
     private Set<Environment> environments;
 }

@@ -1,8 +1,6 @@
 package com.pragma.api.controllers;
 
 import com.pragma.api.domain.DepartmentDTO;
-import com.pragma.api.domain.ProgramDTO;
-import com.pragma.api.model.Department;
 import com.pragma.api.services.IDepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
