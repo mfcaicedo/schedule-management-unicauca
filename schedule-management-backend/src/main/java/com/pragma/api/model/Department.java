@@ -21,6 +21,7 @@ public class Department {
     @Column(name = "department_name", length = 40)
     private String departmentName;
 
+    @Getter(onMethod_= @JsonIgnore)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
