@@ -141,8 +141,9 @@ public class SubjectServiceImpl implements ISubjectService {
         SubjectDTO subjectDTO = new SubjectDTO(semestersubject,program_id);
         SemesterDataList.add(subjectDTO);
     }
-
+        
         Response<List<SubjectDTO>> response = new Response<>();
+        if(SemesterDataList.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of semester Finded successfully");
         response.setDeveloperMessage("List of semester Finded successfully");
@@ -150,6 +151,13 @@ public class SubjectServiceImpl implements ISubjectService {
         response.setErrorCode("");
         response.setData(SemesterDataList);
         return response;
-
+        }else{  
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/subject(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
+        return response;
     }
 }

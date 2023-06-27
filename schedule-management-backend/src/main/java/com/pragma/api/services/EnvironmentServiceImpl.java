@@ -304,12 +304,20 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         List<Environment> buildings = this.environmentRepository.findAllBuildings(facultyId);
         List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
         Response<List<EnvironmentDTO>> response = new Response<>();
+        if(EnvironmentDTOlist.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of buildings Finded successfully");
         response.setDeveloperMessage("List of buildings Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOlist);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 
@@ -318,7 +326,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     @Override
     public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
         //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        //if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
         List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
 
@@ -334,12 +342,20 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
 
         Response<List<EnvironmentDTO>> response = new Response<>();
+        if(EnvironmentDTOList.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of Environments Finded successfully");
         response.setDeveloperMessage("List of Environments Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOList);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 
@@ -353,12 +369,21 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         Response<List<EnvironmentDTO>> response = new Response<>();
 
         List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(environmentPage,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+
+        if(EnvironmentDTOlist.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of buildings Finded successfully");
         response.setDeveloperMessage("List of buildings Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOlist);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
     @Override
