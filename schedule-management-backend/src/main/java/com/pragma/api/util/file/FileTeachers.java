@@ -1,6 +1,7 @@
 package com.pragma.api.util.file;
 
 import com.pragma.api.domain.ResponseFile;
+import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.util.file.templateclasses.FileRowAcademicOffer;
 import com.pragma.api.util.file.templateclasses.FileRowTeacher;
 import org.apache.poi.ss.usermodel.Cell;
@@ -26,6 +27,12 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         XSSFSheet sheet = book.getSheetAt(0);  //cargamos la hoja que vamos a tratar
         int rowNum = sheet.getLastRowNum();
         int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
+        System.out.println("FILAS EXCEL suceso : " + rowNumOriginal);
+        if (rowNumOriginal == 0){
+            responseFile.addLogsGeneric("El archivo no contiene registros");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
+        }
         System.out.println("FILAS EXCEL: " + rowNum);
         for (int i = 1; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
@@ -55,14 +62,15 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         }
 
         if (cells.get(1) != null) {
-            fileRow.setName_teacher(cells.get(1).getStringCellValue());
+            if(cells.get(1).getCellType() == CellType.STRING){
+               fileRow.setName_teacher(cells.get(1).getStringCellValue());
+            }
         }
 
-        try {
-            fileRow.setName_department(cells.get(2).getStringCellValue());
-        }
-        catch(Exception e) {
-            //  Block of code to handle errors
+        if (cells.get(2) != null) {
+            if(cells.get(2).getCellType() == CellType.STRING){
+                fileRow.setName_department(cells.get(2).getStringCellValue());
+            }
         }
 
         return fileRow;

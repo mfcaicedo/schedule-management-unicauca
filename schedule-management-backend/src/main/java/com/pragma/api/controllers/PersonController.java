@@ -44,7 +44,7 @@ public class PersonController {
         return new ResponseEntity<>(this.fileTeachersService.uploadFile(file), HttpStatus.OK);
     }
 
-    @GetMapping("/downloadTeacherTemplate/")
+    @GetMapping("/downloadTeacherTemplate")
     ResponseEntity<Resource> downloadTeacherTemplate() throws IOException {
         System.out.println("lleaga al controlador de descarga de plantilla profesores");
         return this.fileTeachersService.donwloadTeacherTemplateFile();

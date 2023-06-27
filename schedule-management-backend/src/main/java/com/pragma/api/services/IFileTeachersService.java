@@ -14,7 +14,7 @@ public interface IFileTeachersService {
 
     public ResponseFile uploadFile(MultipartFile file) throws IOException;
 
-    public ResponseFile processFile(List<FileRowTeacher> logs);
+    public ResponseFile processFile(List<FileRowTeacher> logs, ResponseFile responseFile);
 
     public ResponseEntity<Resource> donwloadTeacherTemplateFile() throws IOException;
 

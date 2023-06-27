@@ -6,9 +6,7 @@ import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Department;
 import com.pragma.api.model.Person;
-import com.pragma.api.model.Program;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
-import com.pragma.api.repository.IDeparmentRepository;
 import com.pragma.api.repository.IPersonRepository;
 import com.pragma.api.util.file.FileTeachers;
 import com.pragma.api.util.file.templateclasses.FileRowTeacher;
@@ -46,30 +44,29 @@ public class FileTeachersImpl implements IFileTeachersService {
     private ResourceLoader resourceLoader;
 
     @Autowired
-    private IDeparmentRepository deparmentRepository;
-
-
-    @Autowired
-    private iDepartmentService iDepartmentService;
-
+    private  IDepartmentService departmentService;
 
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileTeachers fileTeachers = new FileTeachers();
         ResponseFile responseFile = new ResponseFile();
         List<FileRowTeacher> logs = fileTeachers.getLogs(file, responseFile);
-        return processFile(logs);
+
+        if (logs.size() == 0) {
+            return responseFile;
+        }else {
+            return processFile(logs, responseFile);
+        }
     }
 
     @Override
-    public ResponseFile processFile(List<FileRowTeacher> logs) {
+    public ResponseFile processFile(List<FileRowTeacher> logs, ResponseFile responseFile) {
         List<String> infoLogs = new ArrayList<>();
         List<String> infoErrores = new ArrayList<>();
         List<String> infoLogsVacias = new ArrayList<>();
         List<String> infoErroresVacias = new ArrayList<>();
         List<String> infoErroresTipos = new ArrayList<>();
         List<String> infoSuccess = new ArrayList<>();
-        ResponseFile responseFile = new ResponseFile();
         List<FileRowTeacher> archivoProfesores = new ArrayList<>();
 
         int contRows = 0;
@@ -110,6 +107,7 @@ public class FileTeachersImpl implements IFileTeachersService {
                     errorVacias = true;
                 }
 
+                System.out.println("mirar este: " + log.getName_department());
                 if(log.getName_department().trim().length() == 0){
                     infoErroresVacias.add("[FILA " + rowNum + "] EL DEPARTAMENTO DEL PROFESOR ESTA VACIO (DEPARTAMENTO OBLIGATORIO)");
                     errorVacias = true;
@@ -124,7 +122,7 @@ public class FileTeachersImpl implements IFileTeachersService {
                     if(personDTO == null){
 
                         //buscamos el id del departamento
-                        Department department =  deparmentRepository.findDepartmentByDepartmentName(log.getName_department().trim());
+                        Department department =  departmentService.findDepartmentByDepartmentName(log.getName_department().trim());
 
                         if(department != null){
                             Person person = new Person();
@@ -191,7 +189,7 @@ public class FileTeachersImpl implements IFileTeachersService {
 
     @Override
     public ResponseEntity<Resource> donwloadTeacherTemplateFile() throws IOException {
-        String path = getPathTemplate("plantilla_profesores.xlsx");
+        String path = getPathTemplate("Plantilla_profesores.xlsx");
         byte[] temporaryFile;
 
         //Procesar el archivo de excel
@@ -209,7 +207,7 @@ public class FileTeachersImpl implements IFileTeachersService {
 
         // Configurar las cabeceras de respuesta
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Disposition", "attachment; filename=plantilla_profesores.xlsx");
+        headers.add("Content-Disposition", "attachment; filename=Plantilla_profesores.xlsx");
         headers.add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
         //Cierro el libro
@@ -226,8 +224,7 @@ public class FileTeachersImpl implements IFileTeachersService {
 
 
     private String getPathTemplate(String nameFile) {
-        //final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/plantilla_profesores.xlsx";
-        final String pathProjectFileMilthon = "src/main/resources/files/templates/plantilla_profesores.xlsx";
+        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_profesores.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -266,7 +263,7 @@ public class FileTeachersImpl implements IFileTeachersService {
     private Workbook processExcelFile(String path) throws IOException {
 
         //consultamos todos los departamentos
-        List<DepartmentDTO> departments = iDepartmentService.findAllDepartments();
+        List<DepartmentDTO> departments = departmentService.findAll();
         System.out.println("xxxxxxxxxxxxxxxxx");
         departments.forEach(x-> System.out.println(x.getDepartmentName()));
 
