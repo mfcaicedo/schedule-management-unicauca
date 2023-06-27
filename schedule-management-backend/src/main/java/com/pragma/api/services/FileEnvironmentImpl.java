@@ -158,112 +158,118 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         int contRows = 0;
         int contSuccess = 0;
         int contError = 0;
-        for (FileRowEnvironment log : logs) {
+        if(logs.isEmpty()){
+            responseFile.getLogsGeneric().add("No hay datos");
+        }else{
+            for (FileRowEnvironment log : logs) {
 
-            Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty().toUpperCase().trim());
-            Environment environment = new Environment();
+                Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty().toUpperCase().trim());
+                Environment environment = new Environment();
 
-            if (faculty == null) {
-                responseFile.getLogsGeneric().add("[FILA "+ (log.getRowNum()+1) + "] LA FACULTAD ESTA VACIA");
-            } else {
-                int rowNum = log.getRowNum();
-                if (rowNum != -1) {
-                    contRows++;
-                    rowNum = rowNum + 1;
-                    boolean errorEnvironment = false;
-                    boolean errorResources = false;
-                    boolean errorVacias = false;
-                    boolean errorTipos = false;
-                    boolean errorRepetidos = false;
+                if (faculty == null) {
+                    responseFile.getLogsGeneric().add("[FILA "+ (log.getRowNum()+1) + "] LA FACULTAD ESTA VACIA");
+                }else {
+                    int rowNum = log.getRowNum();
+                    if (rowNum != -1) {
+                        contRows++;
+                        rowNum = rowNum + 1;
+                        boolean errorEnvironment = false;
+                        boolean errorResources = false;
+                        boolean errorVacias = false;
+                        boolean errorTipos = false;
+                        boolean errorRepetidos = false;
 
-                    //---------------------------Name-----------------------------------
-                    if (log.getName().trim().length() == 0) {
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA VACIO");
-                    }else{
-                        Environment environmentaux = new Environment();
-                        environmentaux.setName(log.getName());
-                        environmentaux.setLocation(log.getLocation());
-
-                        if(this.existsInList(logs, environmentaux)){
-                            responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA REPETIDO: " + log.getName());
-                            errorRepetidos = true;
-
+                        //---------------------------Name-----------------------------------
+                        if (log.getName().trim().length() == 0) {
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA VACIO");
                         }else{
-                            //Validar que el nombre del ambiente no exista en la base de datos
-                            List<Environment> enviromentsDb = this.environmentRepository.findAll();
-                            if (this.existsInBD(enviromentsDb, environmentaux)) {
-                                responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
+                            Environment environmentaux = new Environment();
+                            environmentaux.setName(log.getName());
+                            environmentaux.setLocation(log.getLocation());
+
+                            if(this.existsInList(logs, environmentaux)){
+                                responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA REPETIDO: " + log.getName());
                                 errorRepetidos = true;
+
+                            }else{
+                                //Validar que el nombre del ambiente no exista en la base de datos
+                                List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                                if (this.existsInBD(enviromentsDb, environmentaux)) {
+                                    responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
+                                    errorRepetidos = true;
+                                }
                             }
                         }
-                    }
 
-                    //-------------------------------Location-------------------------------
+                        //-------------------------------Location-------------------------------
 
-                    if (log.getLocation().trim().length() == 0) {
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE UBICACION ESTA VACIO");
-                    } else {
-                        if (log.getEnvironmentType().equals("EDIFICIO") && !(log.getLocation().toUpperCase().equals("NO APLICA"))) {
-                            errorEnvironment = true;
-                            responseFile.getLogsGeneric().add("FILA" + rowNum + "] SI ES EDIFICIO UBICACION DEBE DECIR 'NO APLICA'");
-
-                        }else if (log.getLocation().toUpperCase().equals("NO APLICA")) {
-                            environment.setParentEnvironment(null);
+                        if (log.getLocation().trim().length() == 0) {
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE UBICACION ESTA VACIO");
                         } else {
-                            List<Environment> enviromentsDb = this.environmentRepository.findAll();
-                            environment.setParentEnvironment(selectParent(log.getLocation().toString(), enviromentsDb));
+                            if (log.getEnvironmentType().equals("EDIFICIO") && !(log.getLocation().toUpperCase().equals("NO APLICA"))) {
+                                errorEnvironment = true;
+                                responseFile.getLogsGeneric().add("FILA" + rowNum + "] SI ES EDIFICIO UBICACION DEBE DECIR 'NO APLICA'");
+
+                            }else if (log.getLocation().toUpperCase().equals("NO APLICA")) {
+                                environment.setParentEnvironment(null);
+                            } else {
+                                List<Environment> enviromentsDb = this.environmentRepository.findAll();
+                                environment.setParentEnvironment(selectParent(log.getLocation().toString(), enviromentsDb));
+                            }
+                        }
+
+                        //-----------------------------Capacity------------------------------
+                        if (log.getCapacity() == -1) {
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  LA CAPACIDAD ESTA VACIA (CAPACIDAD OBLIGATORIA)");
+
+                        } else {
+                            environment.setCapacity(log.getCapacity());
+                        }
+                        //--------------------------Type-----------------------------------------
+
+                        if (log.getEnvironmentType().trim().length() == 0) {
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE TIPO DE AMBIENTE ESTA VACIO");
+                        }
+
+                        //---------------------Faculty-------------------------------------------
+
+                        if (log.getFaculty().trim().length() == 0) {
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE FACULTAD ESTA MAL DIGITADO");
+
+                        }
+
+                        if(log.getAvailableResources().trim().length()==0){
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE RECURSOS DISPONIBLES ESTA VACIO");
+                        }
+
+                        if(log.getQuantity() == null){
+                            errorVacias = true;
+                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA MAL DIGITADO");
+                        }
+                        if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
+                            System.out.println("----------que hay:"+errorEnvironment);
+                            responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
+                            fileEnvironment.add(log);
+                            //listEnvironment.add(environment);
+                            contSuccess++;
+
+                        } else {
+                            System.out.println("--------------------- NO GUARDA AMBIENTE--------------");
+                            contError++;
                         }
                     }
-
-                    //-----------------------------Capacity------------------------------
-                    if (log.getCapacity() == -1) {
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("[FILA " + rowNum + "]  LA CAPACIDAD ESTA VACIA (CAPACIDAD OBLIGATORIA)");
-
-                    } else {
-                        environment.setCapacity(log.getCapacity());
-                    }
-                    //--------------------------Type-----------------------------------------
-
-                    if (log.getEnvironmentType().trim().length() == 0) {
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE TIPO DE AMBIENTE ESTA VACIO");
-                    }
-
-                    //---------------------Faculty-------------------------------------------
-
-                    if (log.getFaculty().trim().length() == 0) {
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE FACULTAD ESTA MAL DIGITADO");
-
-                    }
-
-                    if(log.getAvailableResources().trim().length()==0){
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE RECURSOS DISPONIBLES ESTA VACIO");
-                    }
-
-                    if(log.getQuantity() == null){
-                        errorVacias = true;
-                        responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA MAL DIGITADO");
-                    }
-                    if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
-                        System.out.println("----------que hay:"+errorEnvironment);
-                        responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
-                        fileEnvironment.add(log);
-                        //listEnvironment.add(environment);
-                        contSuccess++;
-
-                    } else {
-                        System.out.println("--------------------- NO GUARDA AMBIENTE--------------");
-                        contError++;
-                    }
                 }
-            }
 
+            }
         }
+
+
         StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         int contSaveRows = 0;
         if (contRows > 0) {
