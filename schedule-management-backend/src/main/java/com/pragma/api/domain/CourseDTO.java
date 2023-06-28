@@ -41,6 +41,5 @@ public class CourseDTO {
     @NotNull(message = "El codigo de la materia no puede ser vacio")
     private Subject subject;
 
-    @NotNull(message = "")
     private Integer remainingHours;
 }

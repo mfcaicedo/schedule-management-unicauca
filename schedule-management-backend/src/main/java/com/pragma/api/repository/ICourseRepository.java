@@ -20,5 +20,5 @@ public interface ICourseRepository extends JpaRepository<Course, Integer> {
 
     Page<Course> findAllBySubject_ProgramAndSubject_SemesterAndRemainingHoursGreaterThan(Program program,Integer semester,Integer remainingHours, Pageable pageable);
 
-    List<Course> finAllByProgram_ProgramaId(String programId);
+    List<Course> findAllBySubject_Program_ProgramId(String programId);
 }

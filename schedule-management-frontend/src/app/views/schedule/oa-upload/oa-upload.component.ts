@@ -77,7 +77,7 @@ export class OaUploadComponent implements OnInit {
                   logsGeneric: response[7], 
                   logsSuccess: response[8],
                 };
-                if (this.responseFile.statusFile === 'ERROR' || this.responseFile.statusFile === 'NO_PROCESS') {
+                if (this.responseFile.statusFile === 'ERROR') {
                   Swal.fire({
                     title: 'Hay errores en el archivo',
                     html: `

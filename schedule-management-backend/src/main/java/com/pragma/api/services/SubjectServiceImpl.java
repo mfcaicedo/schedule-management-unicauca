@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -75,9 +76,14 @@ public class SubjectServiceImpl implements ISubjectService {
 
     @Override
     public Response<SubjectDTO> getSubjectByCode(String code) {
-        SubjectDTO subjectDTO = modelMapper.map(subjectRepository.findById(code).get(), SubjectDTO.class);
+        Optional<Subject> subject = subjectRepository.findById(code);
         Response<SubjectDTO> response = new Response<>();
-        response.setData(subjectDTO);
+        if (!subject.isEmpty()){
+            SubjectDTO subjectDTO = modelMapper.map(subject.get(), SubjectDTO.class);
+            response.setData(subjectDTO);
+        }else{
+            response.setData(null);
+        }
         return response;
     }
 
