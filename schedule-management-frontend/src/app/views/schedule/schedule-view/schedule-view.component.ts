@@ -4,6 +4,7 @@ import { Schedule, ScheduleColor, ScheduleDTO } from 'src/app/models/schedule.mo
 import { ScheduleService } from 'src/app/services/schedule/schedule.service';
 import { ScheduleRowComponent } from '../schedule-row/schedule-row.component';
 import { Program } from 'src/app/models/program.model';
+import { Subject } from 'src/app/models/subject.model';
 import { Router } from '@angular/router';
 import { Course } from 'src/app/models/course.model';
 import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-form/schedule-before-create-form.component';
@@ -60,8 +61,8 @@ export class ScheduleViewComponent implements AfterViewInit {
   showSelectedProgramAndSemester: boolean = false;
   showScheduleView: boolean = false;
   semester: number = 0;
-  course: Course = { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subjectCode': '', 'personCode': '', 'remainingHours': 0 }
- // environmentSelected!: Environment;
+  course: Course = { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subject': {} as Subject, 'personCode': '', 'remainingHours': 0, 'typeEnvironmentRequired': '' }
+  // environmentSelected!: Environment;
   scheduleToCreate!: Schedule;
   continueCreatingSchedule: boolean = false
   changeValue: boolean = true
@@ -75,26 +76,20 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.initializeHorario();
   }
   ngAfterViewInit(): void {
-
-    this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
-
+    this.scheduleService.fillTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
       this.horariosAmbienteColor = response as ScheduleColor[]
-
-
     });
   }
 
 
   ngOnInit() {
 
-
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
 
-
   }
+
   getShowHorario(value: boolean) {
     this.showHorario = value
   }
@@ -134,11 +129,11 @@ export class ScheduleViewComponent implements AfterViewInit {
     event.preventDefault();
   }
 
-  drop(event: any, day: number, hour: string,inicial: string, final: string,dia: string, environmentId: number) {
+  drop(event: any, day: number, hour: string, inicial: string, final: string, dia: string, environmentId: number) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("application/json");
     const courseId = parseInt(materia.split("")[1]);
-  
+
     // Verificar si las dos franjas horarias consecutivas están vacías
     if (
       this.horario[hour][day].length >= 1 ||
@@ -171,15 +166,15 @@ export class ScheduleViewComponent implements AfterViewInit {
       this.horasDia.splice(index, 2); // Eliminar dos elementos consecutivos
     }
 
-    let scheduleCreated :ScheduleDTO= {id:0, day:'',startingTime:'',endingTime:'',courseId:0,environmentId:0};
-    scheduleCreated.day=dia.toUpperCase()
-    scheduleCreated.startingTime=hour
-    scheduleCreated.endingTime=this.getNextHour(this.getNextHour(hour));
-    scheduleCreated.courseId=courseId
-    scheduleCreated.environmentId=environmentId
-    console.log("Emitiendo schedule ",scheduleCreated)
+    let scheduleCreated: ScheduleDTO = { id: 0, day: '', startingTime: '', endingTime: '', courseId: 0, environmentId: 0 };
+    scheduleCreated.day = dia.toUpperCase()
+    scheduleCreated.startingTime = hour
+    scheduleCreated.endingTime = this.getNextHour(this.getNextHour(hour));
+    scheduleCreated.courseId = courseId
+    scheduleCreated.environmentId = environmentId
+    console.log("Emitiendo schedule ", scheduleCreated)
     this.scheduleCreated.emit(scheduleCreated)
-  
+
   }
 
   getNextHour(hour: string): string {
@@ -246,7 +241,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   weekDayToInteger(weekDays: String[], day: string) {
     for (let i = 0; i < weekDays.length; i++) {
       if (weekDays[i] === day) {
-        return i+1;
+        return i + 1;
       }
     }
     return -1;

@@ -1,12 +1,12 @@
-<c-accordion-item >
+<c-accordion-item>
   <ng-template cTemplateId="accordionHeader">
-    <div *ngIf="!showSelectedCourse" >
+    <div *ngIf="!showSelectedCourse">
       <strong>Cursos </strong>
     </div>
 
     <div class="container" *ngIf="showSelectedCourse && curso">
       <label>
-        Curso: <strong>{{curso.subjectCode}}</strong> | Grupo: <strong>{{curso.courseGroup}}</strong><br>
+        Curso: <strong>{{curso.subject.name}}</strong> | Grupo: <strong>{{curso.courseGroup}}</strong><br>
         Semestre: <strong>{{semester}}</strong><br>
       </label>
 
@@ -15,9 +15,9 @@
   <ng-template cTemplateId="accordionBody">
     <table cTable>
       <thead cTableColor="dark">
-      <tr>
-        <th *ngFor="let c of columns">{{c}} </th>
-      </tr>
+        <tr>
+          <th *ngFor="let c of columns">{{c}} </th>
+        </tr>
       </thead>
       <tbody>
 
@@ -27,7 +27,7 @@
               <tr *ngFor="let course of courses">
                 <td>
                   <div class="materia-box" draggable="true" (dragstart)="dragStart($event, course)">
-                    {{course.subjectCode}}&nbsp;{{course.courseGroup}}
+                    {{course.subject.subjectCode}}&nbsp;{{course.courseGroup}}
                   </div>
                 </td>
               </tr>
@@ -41,4 +41,3 @@
 
   </ng-template>
 </c-accordion-item>
-

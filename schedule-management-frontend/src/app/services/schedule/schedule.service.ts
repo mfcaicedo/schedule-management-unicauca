@@ -7,7 +7,7 @@ import { Program } from 'src/app/models/program.model';
 import { Person } from 'src/app/models/person.model';
 import { Subject } from 'src/app/models/subject.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError,map, Observable, of,scheduled, throwError } from 'rxjs';
+import { catchError, map, Observable, of, scheduled, throwError } from 'rxjs';
 import { ResponseData } from 'src/app/models/responseData.model'
 import { schedule } from 'src/schedule/schedule';
 import Swal from 'sweetalert2'
@@ -17,15 +17,17 @@ import Swal from 'sweetalert2'
 export class ScheduleService {
 
 
-  period: Period = { 'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",   
-                  initDate: "2023-07-15T00:00:00.000+0000" }
+  period: Period = {
+    'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",
+    initDate: "2023-07-15T00:00:00.000+0000"
+  }
   program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1' }
   subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'programId': this.program }
   person: Person = { 'personCode': '104618021314', 'fullName': 'PPC', 'personType': 'TEACHER', 'department': { 'departmentId': '1', 'departmentName': 'Ingenieria de sistemas' } }
 
   curso: Course = {
     'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': this.period.periodId,
-    'subjectCode': this.subject.subjectCode, 'personCode': this.person.personCode, 'remainingHours': 2
+    'subject': this.subject, 'personCode': this.person.personCode, 'remainingHours': 2, 'typeEnvironmentRequired': 'asd'
   }
   course!: Course;
   envi!: Environment;
@@ -126,7 +128,7 @@ export class ScheduleService {
   iteradorColores: number = 1
   continueCreatingScheduleForCourse: boolean = false;
   // endPoint: String = 'api/schedule'
-  endPoint: string = schedule.urlSch ;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
+  endPoint: string = schedule.urlSch;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -161,8 +163,8 @@ export class ScheduleService {
       )
   }
   getTakenEnvironmentSchedule(environmentId: number) {
-    //TODO consumir servicio para obtener el horario ocupado del profesor
-    return this.http.get<any>(this.endPoint + `?environmentId=${environmentId}`, this.httpOptions)
+    //TODO consumir servicio para obtener el horario ocupado del ambiente
+    return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
         catchError((e) => {
 
@@ -383,7 +385,7 @@ export class ScheduleService {
       day: '',
       startingTime: '',
       endingTime: '',
-      course: { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subjectCode': '', 'personCode': '', 'remainingHours': 0 },
+      course: { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subject': {} as Subject, 'personCode': '', 'remainingHours': 0, 'typeEnvironmentRequired': '' },
       environment: {
         id: 0,
         name: '',
@@ -394,23 +396,23 @@ export class ScheduleService {
         availableResources: []
       },
 
+    }
   }
-}
-//-------------------------------------------------------------/
-/**
- * recupera el horario de un ambiente solicitado con el codigo y los lleva en un arreglo de tipo
- * Schedule
- * @param idEnviroment  id del ambiente que buscamos
- * @returns  lista de esquemas para el horario
- */
-getScheduleByEnviroment( idEnviroment:string): Observable<Schedule[]> {
-  //alert("LA CADENA:"+(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio));
-  return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
-    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
-    catchError((e) => {
-      console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
-      return throwError(e);
-    })
-  );
-}
+  //-------------------------------------------------------------/
+  /**
+   * recupera el horario de un ambiente solicitado con el codigo y los lleva en un arreglo de tipo
+   * Schedule
+   * @param idEnviroment  id del ambiente que buscamos
+   * @returns  lista de esquemas para el horario
+   */
+  getScheduleByEnviroment(idEnviroment: string): Observable<Schedule[]> {
+    //alert("LA CADENA:"+(this.endPoint+"/byTypeAndParentId/"+tipoAmbiente+"/"+idEdificio));
+    return this.http.get<any>(this.endPoint + "/byEnvironmentId/" + idEnviroment).pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        console.log('Error obteniendo los Edificios de una Fac', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }
 }

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Set;
 
 @Entity
@@ -15,7 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Subject {
     @Id
-    @Column(name = "subject_code",length = 30)
+    @Column(name = "subject_code", length = 30)
     private String subjectCode;
     @Column(length = 45, nullable = false)
     private String name;
@@ -28,6 +31,7 @@ public class Subject {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
+    @Getter(onMethod_ = @JsonIgnore)
     @OneToMany(mappedBy = "subject")
     private Set<Course> courses;
 }
