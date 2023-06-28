@@ -65,13 +65,8 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     ScheduleDetailComponent,
     ScheduleProfessorDetailComponent,
     ScheduleProfessorViewComponent,
-    ProfessorAllComponent,
     ScheduleRowComponent,
     ScheduleListComponent,
-    ScheduleUpdateComponent,
-    OaUploadComponent,
-    OaViewFilesComponent,
-    ScheduleReserveCreateComponent
   ],
   imports: [
     CommonModule,
