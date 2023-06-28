@@ -122,6 +122,7 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         }
         System.out.println("Celda verr: " + cells.get(1).getCellType());
         if(cells.get(1).getCellType().equals(CellType.STRING)){
+            System.out.println("entra al condicional");
             fileRow.setSubjectCode(cells.get(1).getStringCellValue().split("-")[0].trim());
         }else{
             responseFile.addLogsType("[Fila: " + (cells.get(1).getRowIndex() + 1) + " Columna: B] Solo debes " +

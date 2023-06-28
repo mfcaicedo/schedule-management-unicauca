@@ -130,10 +130,10 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         }
 
         //Validar si hay un archivo para un mismo programa, en el mismo periodo y que su estado no sea finalizado
-        AcademicOfferFile academicOfferFile1 = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
+        AcademicOfferFile academicOfferFileAux = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
                 academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
                 StateAcOfferFileEnumeration.FINALIZADO);
-        if(academicOfferFile1 != null){
+        if(academicOfferFileAux != null){
             responseFile.addLogsGeneric("Lo sentimos, no podemos procesar el archivo porque " +
                     "ya existe un archivo perteneciente al programa " +
                     academicOfferFile.getProgram().getProgramId() +
@@ -141,6 +141,18 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     " y su estado no es Finalizado");
             responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             return responseFile;
+        }else{
+            //TODO Guardamos los cursos del archivo nuevo
+            //1. Buscamos un archivo en finalizado para el archivo a subir
+            AcademicOfferFile academicOfferFileSearch = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFile(
+                    academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
+                    StateAcOfferFileEnumeration.FINALIZADO);
+            if(academicOfferFileSearch != null){
+                //2. Validamos que no hayan cursos repetidos pertenecientes al mismo programa del archivo a subir
+
+            }
+
+
         }
 
         //eliminar el la primera posición de la lista
