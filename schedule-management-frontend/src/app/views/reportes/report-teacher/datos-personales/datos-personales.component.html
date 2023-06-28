@@ -4,17 +4,27 @@
     
     <div class="form-group" *ngIf="contenidoTextIdentificacion =='' ">
       <label for="nombre">Nombre:</label>
-      <input type="text" id="nombre" name="nombre" [(ngModel)]="contenidoTextNombre" #textNombre>
+      <input type="text" id="nombre" name="nombre" [(ngModel)]="contenidoTextNombre" #textNombre (input)="getListaProfesoresPorNombre()">
     </div>
     
     <div class="form-group" *ngIf="contenidoTextNombre =='' ">
       <label for="Identificacion">Identificación:</label>
-      <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion>
+      <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion (input)="getNombreProfesor()">
     </div>
-    
-    <input *ngIf="contenidoTextIdentificacion !=''"
-     id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)" (click)="GenerarReporte()">      
+   <!-- {{contenidoTextIdentificacion}}
+    {{nombrePersonaReporte}}-->
      
+          
+  <div *ngFor="let docente of listaDocenesPorNombre; let i=index">
+    <label>
+      <input type="radio" name="docente" [value]="docente.personCode" [(ngModel)]="contenidoSelectedBusquedaDocenteNombre">
+      {{ docente.fullName }}({{docente.personCode}})
+    </label>
+  </div>
+    <input *ngIf="contenidoTextIdentificacion !='' || 
+                  (contenidoTextNombre !='' && contenidoSelectedBusquedaDocenteNombre !='' && listaDocenesPorNombre.length>0)"
+    id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte" (click)="GenerarReporte()">  
+   
   <div *ngFor="let esquema of esquemas; let i=index">
     <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2> 
     <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>

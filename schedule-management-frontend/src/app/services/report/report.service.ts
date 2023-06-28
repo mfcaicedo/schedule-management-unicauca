@@ -82,4 +82,14 @@ getProfesorPorDeptoId(idDepto:string): Observable<Person[]>{
     })
   );
 }
+
+getProfesoresPorNombre(filtroNombre:string): Observable<Person[]>{
+  return this.http.get<any>(this.endPoint+"/teacherByName/"+filtroNombre).pipe(
+    map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+    catchError((e) => {
+      console.log('Error obteniendo docentes con nombre :' +filtroNombre, e.error.mensaje, 'error');
+      return throwError(e);
+    })
+  );
+}
 }
