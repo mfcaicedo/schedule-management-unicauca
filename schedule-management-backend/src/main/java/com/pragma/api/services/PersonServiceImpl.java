@@ -109,11 +109,39 @@ public class PersonServiceImpl implements IPersonService {
         List<PersonDTO> TeachersDTOlist = modelMapper.map(teachers,new TypeToken<List<PersonDTO>>() {}.getType());
         Response<List<PersonDTO>> response = new Response<>();
         response.setStatus(200);
-        response.setUserMessage("List of buildings Finded successfully");
-        response.setDeveloperMessage("List of buildings Finded successfully");
+        response.setUserMessage("List of teachers Finded successfully");
+        response.setDeveloperMessage("List of teachers Finded successfully");
         response.setMoreInfo("localhost:8081/api/person(toDO)");
         response.setErrorCode("");
         response.setData(TeachersDTOlist);
+        return response;
+    }
+
+    @Override
+    public Response<List<PersonDTO>> findAllTeachersByName(String name) {
+
+        List<Person> teachers = this.iPersonRepository.findAllTeachersByName(name);
+        List<PersonDTO> TeachersDTOlist = modelMapper.map(teachers,new TypeToken<List<PersonDTO>>() {}.getType());
+        Response<List<PersonDTO>> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of teachers Finded successfully");
+        response.setDeveloperMessage("List of teachers Finded successfully");
+        response.setMoreInfo("localhost:8081/api/person(toDO)");
+        response.setErrorCode("");
+        response.setData(TeachersDTOlist);
+        return response;
+    }
+
+    @Override
+    public Response<String> findNameByPersonCode(String personCode) {
+        String teacher_name = this.iPersonRepository.findNameByCode(personCode);
+        Response<String> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("List of teachers Finded successfully");
+        response.setDeveloperMessage("List of teachers Finded successfully");
+        response.setMoreInfo("localhost:8081/api/person(toDO)");
+        response.setErrorCode("");
+        response.setData(teacher_name);
         return response;
     }
 }

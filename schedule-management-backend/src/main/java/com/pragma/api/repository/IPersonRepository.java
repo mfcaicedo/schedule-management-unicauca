@@ -30,6 +30,9 @@ public interface IPersonRepository extends JpaRepository<Person, String> {
     @Query(value = "SELECT * FROM person p WHERE p.person_type = 'TEACHER' AND p.full_name LIKE :full_name",nativeQuery = true)
     List<Person> findAllTeachersByName(@Param("full_name") String full_name);
 
+
+    @Query(value = "SELECT full_name FROM person p WHERE p.personCode = :personCode", nativeQuery = true)
+    String findNameByCode(@Param("personCode") String personCode);
     //Page<Person> findAllByPersonType_TeacherNotNull();
     //Page<Person> findAllByDepartmetId(String departmentId, Pageable pageable);
 //    Page<Person> findAllByPersonType_TeacherAndDepartment_DepartmentId(String departmentId, Pageable pageable);
