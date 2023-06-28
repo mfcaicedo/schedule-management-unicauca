@@ -70,13 +70,14 @@ public class ReportServiceImpl implements IReportService{
         LocalDate localDate1 = localDateTime1.toLocalDate();
         Date endingDate = Date.valueOf(localDate1);
 
+        String courseGroup = (String) schedule[6];
         //Date endingDate = (Date) schedule[4];
-        String environmentName= (String) schedule[6];
-        String subjectName= (String) schedule[7];
-        String programName= (String) schedule[8];
-        String programColor= (String) schedule[9];
-
-        ReportDTO reportDTO = new ReportDTO(scheduleId,dayTipe, localStartingTime, localendingTime, startingDate, endingDate, environmentName, subjectName, programName, programColor);
+        String environmentName= (String) schedule[7];
+        String subjectName= (String) schedule[8];
+        String programName= (String) schedule[9];
+        String programColor= (String) schedule[10];
+        
+        ReportDTO reportDTO = new ReportDTO(scheduleId,dayTipe, localStartingTime, localendingTime, startingDate, endingDate, environmentName, subjectName, programName, programColor, courseGroup);
         ReportDTOList.add(reportDTO);
         }
 

@@ -38,7 +38,7 @@ public class ReportDTO {
     // Agrega los demás campos correspondientes a las otras tablas
 
     //Constructor para hacer reporte por salon
-    public ReportDTO(Long id,DaysEnumeration day, LocalTime startingTime, LocalTime endingTime, Date startingDate, Date endingDate,String environmentName, String subjectName, String programName,String programColor) {
+    public ReportDTO(Long id,DaysEnumeration day, LocalTime startingTime, LocalTime endingTime, Date startingDate, Date endingDate,String environmentName, String subjectName, String programName,String programColor, String courseGroup) {
         this.id=id;
         this.day = day;
         this.startingTime = startingTime;
@@ -49,6 +49,7 @@ public class ReportDTO {
         this.subjectName = subjectName;
         this.programName = programName;
         this.programColor=programColor;
+        this.courseGroup = courseGroup;
     }
 
     //Constructor para hacer reporte por Facultad/programa y tambien por semestre
