@@ -53,7 +53,7 @@ GenerarReporte(){
 
         // Agregar el esquema al arreglo esquemas
         this.esquemas.push(esquema);
-        this.listaTitulosReporte.push("Horario de "+this.contenidoTextIdentificacion);
+        this.listaTitulosReporte.push("Reporte de "+this.contenidoTextIdentificacion);
       },
       (error) => {
         console.log('Error obteniendo los esquemas', error);

@@ -167,7 +167,7 @@ applyFilter() {
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
-          this.listaTitulosReporte.push("Horario de "+this.getNombreDocenteId(id)+"(COD: "+id+").");
+          this.listaTitulosReporte.push("Reporte de "+this.getNombreDocenteId(id)+"(COD: "+id+").");
         },
         (error) => {
           console.log('Error obteniendo los esquemas', error);

@@ -27,7 +27,8 @@ export class PdfService {
         
         doc.text(titulo, 10, 10);
         (doc as any).autoTable({ html: table });
-        doc.save(`Reporte_${index}_${titulo}.pdf`);
+        //doc.save(`Reporte_${index}_${titulo}.pdf`);
+        doc.save(`REPORTE DE ${titulo}.pdf`);
         //alert("FinalizadaImpresion");
       });
     }

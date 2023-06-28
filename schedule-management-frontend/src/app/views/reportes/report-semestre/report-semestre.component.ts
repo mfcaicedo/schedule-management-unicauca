@@ -108,7 +108,7 @@ export class ReportSemestreComponent {
       this.reportService.getReportProgramSemester(id,semest).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
-          this.listaTitulosReporte.push("Programa "+id+"; semestre "+semest);
+          this.listaTitulosReporte.push("PROGRAMA "+id+" (SEMESTRE "+semest+")");
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);

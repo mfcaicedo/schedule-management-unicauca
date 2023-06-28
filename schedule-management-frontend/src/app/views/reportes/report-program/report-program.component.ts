@@ -114,7 +114,7 @@ export class ReportProgramComponent implements AfterViewInit{
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
           
-          this.listaTitulosReporte.push("Horario de "+this.getNombrePrograma(id)+"(COD: "+id+").");
+          this.listaTitulosReporte.push("PROGRAMA "+this.getNombrePrograma(id)+"(COD: "+id+").");
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
         },
