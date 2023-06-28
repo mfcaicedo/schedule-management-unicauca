@@ -17,4 +17,7 @@ public interface IAcademicOfferFileRepository extends JpaRepository<AcademicOffe
     public AcademicOfferFile findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
             String programId, String periodId, StateAcOfferFileEnumeration stateFile);
 
+    public AcademicOfferFile findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFile(
+            String programId, String periodId, StateAcOfferFileEnumeration stateFile);
+
 }

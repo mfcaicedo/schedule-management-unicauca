@@ -111,7 +111,6 @@ public class FileTemplateImpl implements ITemplateFileService{
             responseExcel.setMessage("El programa "+programId+" no tiene asignaturas registradas" );
         }
 
-
         //TODO 3. modificar el excel con los datos consultados de profesores y materias
         // Cargar el archivo existente
 
@@ -201,8 +200,8 @@ public class FileTemplateImpl implements ITemplateFileService{
      */
     private String getPathTemplate(String nameFile) {
         //comenta una o la otra
-//        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -214,7 +213,7 @@ public class FileTemplateImpl implements ITemplateFileService{
             pathFormat[pathFormat.length-1] = "";
             //dependiendo del path
 //            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,7 +227,6 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @param path ruta de la plantilla existente
      *
      */
-
     private void restoreFileBytes(byte[] temporary, String path) throws IOException {
         if (temporary != null) {
             // Restaura el archivo original desde la copia temporal en memoria RAM
