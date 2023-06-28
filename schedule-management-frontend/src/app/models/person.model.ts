@@ -3,6 +3,6 @@ export interface Person {
   personCode: string;
   fullName: string;
   personType: string;
-  department: Department[];
+  department: Department;
   // courses:Course[];
 }

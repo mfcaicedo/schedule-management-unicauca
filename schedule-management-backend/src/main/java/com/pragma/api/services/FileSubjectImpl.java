@@ -2,7 +2,7 @@ package com.pragma.api.services;
 
 import com.pragma.api.model.*;
 import com.pragma.api.domain.ResponseFile;
-import com.pragma.api.domain.enumStatusFile;
+import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.repository.ISubjectRepository;
 import com.pragma.api.repository.IProgramRepository;
 import com.pragma.api.util.file.FileSubject;
@@ -32,7 +32,8 @@ public class FileSubjectImpl implements IFileSubjectService {
     @Override
     public ResponseFile uploadFile(MultipartFile file) throws IOException {
         FileSubject fileSubject = new FileSubject();
-        List<FileRowSubject> logs = fileSubject.getLogs(file);
+        ResponseFile responseFile = new ResponseFile();
+        List<FileRowSubject> logs = fileSubject.getLogs(file, responseFile);
         return processFile(logs);
     }
 
@@ -139,19 +140,19 @@ public class FileSubjectImpl implements IFileSubjectService {
                 }
             }
         }
-        enumStatusFile statusFile = enumStatusFile.NO_PROCESS;
+        StatusFileEnumeration statusFile = StatusFileEnumeration.NO_PROCESS;
         int contSaveRows = 0;
         if (contRows > 0) {
             if (contError > 0) {
-                statusFile = enumStatusFile.ERROR;
+                statusFile = StatusFileEnumeration.ERROR;
             } else {
-                statusFile = enumStatusFile.SUCCESS;
+                statusFile = StatusFileEnumeration.SUCCESS;
                 if (!archivoMaterias.isEmpty()) {
                     contSaveRows = this.saveFile(archivoMaterias);
                     if (contSaveRows > 0) {
-                        statusFile = enumStatusFile.SAVED;
+                        statusFile = StatusFileEnumeration.SAVED;
                     } else {
-                        statusFile = enumStatusFile.NO_SAVED;
+                        statusFile = StatusFileEnumeration.NO_SAVED;
                     }
                 }
             }

@@ -150,3 +150,16 @@ c-card {
     width: 670px;
   }
 }
+
+.contentHead{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content-download-template {
+  color: #000000;
+  font-weight: bold;
+  font-size: 1rem;
+
+}

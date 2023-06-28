@@ -3,7 +3,10 @@ import { OfertaAcademicaService } from 'src/app/services/oferta-academica/oferta
 import { SpinnerService } from 'src/app/services/spinner/spinner.service';
 import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
 import { ResponseFile } from 'src/app/models/response-file.model';
+import { ResponseFileExcel } from 'src/app/models/response-file-excel.model';
+import { Program } from 'src/app/models/program.model';
 import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-oa-upload',
   templateUrl: './oa-upload.component.html',
@@ -12,7 +15,6 @@ import Swal from 'sweetalert2';
 })
 export class OaUploadComponent implements OnInit {
   imgRta = '';
-  colaPendientes: string[] = ['OA2022.2-Licenciatura en ingles', 'OA2022.2-Historia', 'OA2022.2-Humanidades'];
   public files1: File[] = [];
   responseFile: ResponseFile = {
     statusFile: '',
@@ -25,13 +27,24 @@ export class OaUploadComponent implements OnInit {
     logsGeneric: [],
     logsSuccess: [],
   };
-  programCode: string = '';
+  responseFileExcel: ResponseFileExcel = {
+    dataFile: '',
+    status: 0,
+    modified: false,
+    message: '',
+    nameFile: '',
+  };
+  programs: Program[] = [];
   constructor(
     private oaService: OfertaAcademicaService,
     private spinnerService: SpinnerService,
   ) { }
 
   ngOnInit(): void {
+    //obtengo todos los programas
+    this.oaService.getAllPrograms().subscribe(response => {
+      this.programs = response;
+    });
   }
   public dropped(files: NgxFileDropEntry[]) {
     //this.files = files;
@@ -68,20 +81,20 @@ export class OaUploadComponent implements OnInit {
                   Swal.fire({
                     title: 'Hay errores en el archivo',
                     html: `
-                <div style="text-align:center">
-                <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
+                    <div style="text-align:center">
+                    <p>${this.responseFile.logsEmptyFields.length === 0 ? '' :
                         '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
+                        this.responseFile.logsEmptyFields.join('<br>')
                       }</p>
-                  <p>${this.responseFile.logsType.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsType.join('<br>').toLowerCase()
+                      <p>${this.responseFile.logsType.length === 0 ? '' :
+                        '<h5>Tipo de dato: </h5>' +
+                        this.responseFile.logsType.join('<br>')
                       }</p>
-                  <p>${this.responseFile.logsGeneric.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
-                        this.responseFile.logsGeneric.join('<br>').toLowerCase()
+                      <p>${this.responseFile.logsGeneric.length === 0 ? '' :
+                        '<h5>Otros errores: </h5>' +
+                        this.responseFile.logsGeneric.join('<br>')
                       }</p>
-                </div>
+                    </div>
                 `,
                     icon: 'error',
                     confirmButtonText: 'Aceptar',
@@ -148,7 +161,7 @@ export class OaUploadComponent implements OnInit {
                 icon: 'error',
                 confirmButtonText: 'Aceptar',
                 confirmButtonColor: '#0A266F',
-                }
+              }
               );
               //borro el archivo cargado así no se haya cargado
               element.value = '';
@@ -170,19 +183,64 @@ export class OaUploadComponent implements OnInit {
 
   }
 
-    /**
-     * Metodo que invica al servicio para descargar el template de carga de oferta academica
-     */
-  downloadTemplate() {
-    this.programCode = 'PIS';
-    console.log("llega al metodo");
-    this.oaService.downloadTemplateService(this.programCode)
-      .subscribe(data => {
-        console.log("que llego; ", data);
-        let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        let url = window.URL.createObjectURL(blob);
-        window.open(url);
+  /**
+   * Metodo que invica al servicio para descargar el template de carga de oferta academica
+   * @param programCode Codigo del programa
+   */
+  downloadTemplate(programCode: string) {
+    this.oaService.downloadTemplateService(programCode)
+      .subscribe((response) => {
+        this.responseFileExcel = response as ResponseFileExcel;
+        // Si el archivo fue modificado se descarga la plantilla
+        if (this.responseFileExcel.modified === true) {
+          this.proccessDownloadFile(this.responseFileExcel);
+        } else {
+          Swal.fire({
+            title: `${this.responseFileExcel.message}`,
+            text: `¿Desea descargar la plantilla?`,
+            showDenyButton: false,
+            showCancelButton: true,
+            confirmButtonText: 'Si, descargar',
+            confirmButtonColor: '#0A266F',
+            cancelButtonText: 'No, cancelar',
+          }).then((result) => {
+            /* Si acepta se descarga la plantilla vacía */
+            if (result.isConfirmed) {
+              this.proccessDownloadFile(this.responseFileExcel);
+              Swal.fire({
+                title: 'Éxito!',
+                text: `Plantilla descargada correctamente`,
+                icon: 'success',
+                timer: 2000,
+              });
+            }
+          })
+        }
+
       });
+  }
+
+  /**
+   * Método que me permite descargar el archivo de excel
+   * @param responseFileExcel información del archivo de excel que llega del servicio
+   */
+  private proccessDownloadFile(responseFileExcel: ResponseFileExcel) {
+    // Decodificar el archivo de Base64 a un array de bytes
+    const byteCharacters = atob(this.responseFileExcel.dataFile);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    // Crear un archivo Blob a partir del array de bytes
+    const blob = new Blob([byteArray], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    // Crear una URL para el archivo Blob
+    const url = URL.createObjectURL(blob);
+    const downloadLink = document.createElement('a');
+    downloadLink.href = url;
+    downloadLink.setAttribute('download', this.responseFileExcel.nameFile);
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
   }
 
   public fileOver(event: Event) {

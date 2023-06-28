@@ -75,7 +75,10 @@ public class SubjectServiceImpl implements ISubjectService {
 
     @Override
     public Response<SubjectDTO> getSubjectByCode(String code) {
-        return null;
+        SubjectDTO subjectDTO = modelMapper.map(subjectRepository.findById(code).get(), SubjectDTO.class);
+        Response<SubjectDTO> response = new Response<>();
+        response.setData(subjectDTO);
+        return response;
     }
 
     @Override
@@ -87,10 +90,8 @@ public class SubjectServiceImpl implements ISubjectService {
     }
 
     @Override
-    public GenericPageableResponse findAllByProgramId(String program_id, Pageable pageable) {
-
-        Page<Subject> subjectsByProgramIdPage = this.subjectRepository.findAllByProgramId(program_id,pageable);
-        if(subjectsByProgramIdPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
+    public GenericPageableResponse findAllByProgramId(String programId, Pageable pageable) {
+        Page<Subject> subjectsByProgramIdPage = this.subjectRepository.findAllByProgram_ProgramId(programId,pageable);
         return this.validatePageList(subjectsByProgramIdPage);
     }
 

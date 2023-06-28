@@ -1,5 +1,6 @@
 package com.pragma.api.util.file;
 
+import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.util.file.templateclasses.FileRowSubject;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -21,7 +22,7 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
     private String programCode = "";
 
     @Override
-    public List<FileRowSubject> getLogs(MultipartFile file) throws IOException {
+    public List<FileRowSubject> getLogs(MultipartFile file, ResponseFile responseFile) throws IOException {
         List<FileRowSubject> fileRows = new ArrayList<>();
         InputStream fileExcel = file.getInputStream();
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);
@@ -39,7 +40,7 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
             for (int j = 0; j < columnNum; j++) {
                 cells.add(row.getCell(j));
             }
-            FileRowSubject fileRow = convertCellsToFileRow(cells);
+            FileRowSubject fileRow = convertCellsToFileRow(cells, responseFile);
             fileRows.add(fileRow);
         }
 
@@ -47,7 +48,7 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
     }
 
     @Override
-    public FileRowSubject convertCellsToFileRow(List<Cell> cells) {
+    public FileRowSubject convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
 //        System.out.println("CELLS SIZE: " + cells.size());
 //        System.out.println("COLUMNA 1: ." + cells.get(0) + ".");
         FileRowSubject fileRow = new FileRowSubject(-1, "", "", -1, "", -1, "");

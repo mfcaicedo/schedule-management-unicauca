@@ -4,17 +4,19 @@
 
 export const environment = {
   production: false,
-    //URLs Bases
-    urlRsc: 'http://localhost:8081/api/resource',
-    urlCrs: 'http://localhost:8081/api/course',
-    urlEnv: 'http://localhost:8081/api/environment',
-    urlProg: 'http://localhost:8081/api/program',
-    urlAuth: 'http://localhost:8081/api/auth',
-    urlScd: 'http://localhost:8081/api/schedule',
-    urlAcadOffer: 'http://localhost:8081/api/academicOffer',
-    urlPerson: 'http://localhost:8081/api/person',
-    urlSub: 'http://localhost:8081/api/subject',
-    urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
+  //URLs Bases
+  urlRsc: 'http://localhost:8081/api/resource',
+  urlCrs: 'http://localhost:8081/api/course',
+  urlEnv: 'http://localhost:8081/api/environment',
+  urlProg: 'http://localhost:8081/api/program',
+  urlAuth: 'http://localhost:8081/api/auth',
+  urlScd: 'http://localhost:8081/api/schedule',
+  urlAcadOffer: 'http://localhost:8081/api/academicOffer',
+  urlPerson: 'http://localhost:8081/api/person',
+  urlSub: 'http://localhost:8081/api/subject',
+  urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
+  urlProgram: 'http://localhost:8081/api/program',
+  urlDepartment: 'http://localhost:8081/api/department',
 };
 
 /*

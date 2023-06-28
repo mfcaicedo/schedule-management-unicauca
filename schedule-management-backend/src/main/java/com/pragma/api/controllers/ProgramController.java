@@ -23,7 +23,6 @@ public class ProgramController {
 
     @GetMapping
     public ResponseEntity<List<ProgramDTO>> getAllPrograms() {
-
         return ResponseEntity.status(HttpStatus.OK).body(this.iProgramService.findAllProgram());
     }
 

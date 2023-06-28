@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'src/app/models/subject.model';
 import { SubjectService } from 'src/app/services/subject/subject.service';
+import { Program } from 'src/app/models/program.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subject-all',
@@ -9,9 +11,9 @@ import { SubjectService } from 'src/app/services/subject/subject.service';
 })
 export class SubjectAllComponent implements OnInit {
 
-  columns:string[]=['Código','Nombre','Semestre','En Bloque', 'Horas semanales'];
+  columns:string[]=['Código','Nombre','Semestre','En Bloque', 'Horas semanales','Programa'];
   subjects:Subject[]=[];
-  programs:string[]=[]
+  programs: Program[] = []
   totalItems:number=1
   totalNumberPage:number=1;
   pageSize:number=0;
@@ -26,7 +28,6 @@ export class SubjectAllComponent implements OnInit {
 
   }
   ngOnInit(): void {
-    //this.resources=this.SubjectService.getAllResources();
 
     this.SubjectService.getAllSubjectsPage(1,5).subscribe(response =>{
       console.log("Data Subject: ",response)
@@ -36,22 +37,22 @@ export class SubjectAllComponent implements OnInit {
       this.pageSize=response.pagination.size as number
     })
 
-    this.programs=this.SubjectService.getAllPrograms();
 
+    this.SubjectService.getAllPrograms().subscribe(response =>{
+      this.programs = response as Program[]
+      this.programs.unshift({programId:'TODOS',name:'TODOS',department_id:''})
+    });
 
-    //this.totalItems=this.SubjectService.getTotalItems()
-    this.totalItems=1
+    this.totalItems = 1
   }
   updateTableSubject(program_id:string){
-    if(program_id == 'all'){
-      this.isTypeSelected=false
+    if(program_id == 'TODOS'){
+      this.isTypeSelected = false
     }else{
-      this.isTypeSelected=true
-      this.program_id=program_id
+      this.isTypeSelected = true
+      this.program_id = program_id
     }
-
     this.loadTableSubject([1,5])
-
   }
 
   loadTableSubject(args: number[]) {
@@ -65,21 +66,29 @@ export class SubjectAllComponent implements OnInit {
       }
     if(!this.isTypeSelected){
       this.SubjectService.getAllSubjectsPage(pageSolicitud,pageSize).subscribe((response) =>{
-        console.log("Data en load Type: ",response)
         this.subjects = response.elements as Subject[];
         this.totalItems = response.pagination.totalNumberElements as number
-        this.paginadorResource=response;
-        this.totalNumberPage=response.pagination.totalNumberPage as number
+        this.paginadorResource = response;
+        this.totalNumberPage = response.pagination.totalNumberPage as number
       });
     }else{
       this.SubjectService.getSubjectsByProgramId(this.program_id,pageSolicitud,pageSize).subscribe(response =>{
-        console.log("Data en load Type: ",response)
         this.subjects = response.elements as Subject[];
         this.totalItems = response.pagination.totalNumberElements as number
-        this.paginadorResource=response;
-        this.totalNumberPage=response.pagination.totalNumberPage as number
+        this.paginadorResource = response;
+        this.totalNumberPage = response.pagination.totalNumberPage as number
+        //Alerta de que no hay datos
+        if(this.subjects.length == 0){
+          Swal.fire({
+            title: 'Filtro por programa',
+            text: `No existen asignaturas asociados al programa ${this.program_id}`,
+            icon: 'warning',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
       })
     }
-
   }
+
 }

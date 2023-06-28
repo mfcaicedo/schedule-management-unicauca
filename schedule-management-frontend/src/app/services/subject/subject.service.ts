@@ -13,19 +13,11 @@ import Swal from 'sweetalert2';
 })
 export class SubjectService {
 
-  program: Program = { programId: '1', name: 'Ingeniería de sistemas', department_id: '123' }
-  subjects: Subject[] = [
-    { subjectCode: '1', name: 'Cálculo 1', weeklyOverload: 4, timeBlock: true, semester: 1, program:this.program },
-    {
-      subjectCode: '2', name: 'Redes', weeklyOverload: 6, timeBlock: true, semester: 8, program:this.program},
-    {
-      subjectCode: '3', name: 'Sistemas distribuidos', weeklyOverload: 4, timeBlock: true, semester: 7, program:this.program
-    },
-  ]
   //Pruebaa
-  programs:string[]=['TODOS','PIS','PIET'];
+  programs:string[]=['TODOS','PIS','PIET', 'TTM'];
   //programs = ["Ingeniería de sistemas", "Ingeniería electrónica"];
   endPoint: String = environment.urlSub
+  endPointProgram: String = environment.urlProgram;
   // endPoint:String = 'api/environment'
 
   httpOptions = {
@@ -51,9 +43,19 @@ export class SubjectService {
       'program': '',
     }
   }
-  getAllPrograms(){
-    return this.programs;
+  /**
+   * Método que invoca al servicio para obtener todos los programas
+   * @returns Observable con la respuesta del servicio con todos los programas
+   */
+  getAllPrograms():Observable<any>{
+    return this.http.get<any>(this.endPointProgram + '', { responseType: 'json' })
+    .pipe(
+      catchError((e) => {
+        console.log('Error obteniendo todos los programas', e.error.mensaje, 'error');
+        return throwError(e);
+      }));
   }
+  
   uploadFile(file: Blob) {
     console.log("llego al servicio de subject", file);
     console.log("llego al servicio endpoint ", this.endPoint);
@@ -66,6 +68,17 @@ export class SubjectService {
     });
   }
 
+  downloadTemplateService() {
+    console.log("llega al metodo al servicio ", this.endPoint);
+    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
+  }
+
+  /**
+   * Método para invocar al servicio para consultar todas las asignaturas
+   * @param page número de página
+   * @param pageSize tamaño de la página, cantidad de elementos por página
+   * @returns Observable con la respuesta del servicio
+   */
   getAllSubjectsPage(page:number, pageSize:number):Observable<any>{
     console.log("llegan page y size ",page, " ", pageSize)
 
@@ -79,11 +92,16 @@ export class SubjectService {
     );
   }
 
+  /**
+   * Método para invocar al servicio  para consultar todos los programas pertenecientes a un programa
+   * @param programId id del programa
+   * @param page número de página
+   * @param pageSize tamaño de la página, cantidad de elementos por página
+   * @returns Observable con la respuesta del servicio
+   */
   getSubjectsByProgramId(programId:string,page:number, pageSize:number):Observable<any>{
-    return this.http.get<any>(this.endPoint+'/byProgramId'+`?program_id=${programId}&page=${page-1}&size=${pageSize}&sort=subjectCode&order=ASC`).pipe(
+    return this.http.get<any>(this.endPoint+'/byProgramId'+`?programId=${programId}&page=${page-1}&size=${pageSize}&sort=subjectCode&order=ASC`).pipe(
       catchError((e) => {
-        // this.router.navigate(['/documentos']);
-
         console.log('Error obteniendo todas las asignaturas por programa', e.error.mensaje, 'error');
         return throwError(e);
 

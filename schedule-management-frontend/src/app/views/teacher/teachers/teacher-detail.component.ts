@@ -1,13 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SlicePipe } from '@angular/common';
-
 import { Person } from 'src/app/models/person.model'
 import { TeacherService } from 'src/app/services/teacher/teacher.service'
 import { HttpClient } from '@angular/common/http';
 import { ignoreElements } from 'rxjs';
 import { Department } from 'src/app/models/department.model';
-
+import Swal from 'sweetalert2';
 // import '@coreui/icons/css/coreui-icons.min.css';
 
 @Component({
@@ -20,21 +19,16 @@ export class TeachersComponent {
 
   person: Person[] = [];
   columns: string[] = ['código', 'Nombre completo', 'Departamento'];
-  paginadorResource:any;
-  //REVISAR
+  paginadorResource: any;
   personTypes: string[] = [];
   personType: string = 'TEACHER';
-  departmentIds: string[] = [];
   departmentId!: string;
   isTypeSelected: boolean = false
-
-  // personType!: string;
-  department: Department[] = [];
+  departments: Department[] = [];
 
   totalItems: number = 0;
   totalNumberPage: number = 1;
   pageSize: number = 0;
-  // departmentName: String = '';
 
   @Input('fromResource') fromResource: boolean = false;
   @Input('resourceId') resourceId: number = 0;
@@ -46,34 +40,38 @@ export class TeachersComponent {
   ngOnInit(): void {
     //llamado del servicio para obtener los docentes
     this.teacherService.getAllPersonByPersonTypePage(this.personType, 1, 5).subscribe(response => {
-
       //guardo los datos de la respuesta en el arreglo de docentes
       this.person = response.data.elements as Person[]
+      console.log("verrrrr ", this.person);
       this.totalItems = response.data.pagination.totalNumberElements as number
       this.totalNumberPage = response.data.pagination.totalNumberPage as number
       this.pageSize = response.data.pagination.size as number
-
     })
-    //TODO todos  los departamentos
-    //this.department = this.teacherService.getDepartmentsName();
+    //TODO Obtengo todos los departamentos
+    this.teacherService.getAllDepartments().subscribe(
+      response => {
+        this.departments = response as Department[]
+        this.departments.unshift({ departmentId: 'TODOS', departmentName: 'TODOS'})
+      }
+    );
   }
 
-  //Aquí se debe modificar para poder hacer el filtro por departamento ----> REVISAR
   /**
    * Metodo que actualiza la tabla de docentes cuando se selecciona un departamento
-   *  id del departamento seleccionado (PUEDES USAR EL ID PARA HACER EL FILTRO O
-   *                     PUEDES USAR EL NOMBRE DEL DEPARTAMENTO)--> Lo que te sea mas facil
+   * @param departmentId id del departamento seleccionado
    */
   updateTableTeachers(departmentId: string) {
 
-    if (departmentId == 'all') { //esta validación es para cuando no se filtra por departamento, lo lo tanto muestra todos los docentes
-      this.isTypeSelected = false //Esta variable debe llamarse por ejemplo isDepartmentSelected
+    if (departmentId == 'TODOS') {
+      this.isTypeSelected = false
     } else {
-      this.isTypeSelected = true  //Esto es necesario porque establece que se está haciendo un filtro por departamento
-      this.departmentId = departmentId // this.environmentType = type // dedes asignar el id del departamento o el nombre del departamento aquí
+      this.isTypeSelected = true
+      this.departmentId = departmentId
     }
-    this.loadTableTeachers([1, 5]) //este metodo carga la tabla de docentes, se le está pasando los argumentos de paginación
+    this.loadTableTeachers([1, 5])
+
   }
+
   /**
    * Metodo que carga la tabla de docentes
    * @param args argumentos para la paginacion
@@ -100,11 +98,20 @@ export class TeachersComponent {
       });
     } else {
 
-      this.teacherService.findAllByDepartmetId(this.departmentId, pageSolicitud, pageSize).subscribe((response) => {
+      this.teacherService.findAllByDepartmetName(this.departmentId, this.personType, pageSolicitud, pageSize).subscribe((response) => {
         this.person = response.data.elements as Person[]
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
         this.paginadorResource = response;
+        if (this.person.length == 0) {
+          Swal.fire({
+            title: 'Filtro Departamento ',
+            text: `No existe ningún docente asociado al departamento seleccionado`,
+            icon: 'warning',
+            showConfirmButton: false,
+            timer: 3000,
+          });
+        }
       });
     }
 

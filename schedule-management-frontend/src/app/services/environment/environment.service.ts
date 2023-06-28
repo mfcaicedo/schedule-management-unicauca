@@ -258,7 +258,7 @@ export class EnvironmentService {
     );
   }
 /**
- * Recupera los ambientes que estan en un edificio 
+ * Recupera los ambientes que estan en un edificio
  * y los retorna como una lista
  * @param tipoAmbiente  se recibe el tipo de ambiente para filtrarlo
  * @param idEdificio identificador del edificio
@@ -286,5 +286,11 @@ export class EnvironmentService {
       })
     );
   }
+
+  downloadTemplateService() {
+    console.log("llega al metodo al servicio ", this.endPoint);
+    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
+  }
+
 }
 

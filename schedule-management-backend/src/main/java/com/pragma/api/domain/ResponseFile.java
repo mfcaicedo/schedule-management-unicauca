@@ -1,11 +1,13 @@
 package com.pragma.api.domain;
 
+import com.pragma.api.model.enums.StatusFileEnumeration;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class ResponseFile {
 
-    private enumStatusFile statusFile;
+    private StatusFileEnumeration statusFile;
     private int contRows;
     private int contErrorRows;
     private int contSuccessRows;
@@ -24,7 +26,7 @@ public class ResponseFile {
     private List<String> logsSuccess;
 
     public ResponseFile() {
-        this.statusFile = enumStatusFile.NO_PROCESS;
+        this.statusFile = StatusFileEnumeration.NO_PROCESS;
         this.contRows = 0;
         this.contErrorRows = 0;
         this.contSuccessRows = 0;
@@ -35,11 +37,11 @@ public class ResponseFile {
         this.logsSuccess = new LinkedList();
     }
 
-    public enumStatusFile getStatusFile() {
+    public StatusFileEnumeration getStatusFile() {
         return statusFile;
     }
 
-    public void setStatusFile(enumStatusFile statusFile) {
+    public void setStatusFile(StatusFileEnumeration statusFile) {
         this.statusFile = statusFile;
     }
 
@@ -106,5 +108,37 @@ public class ResponseFile {
     public void setLogsSuccess(List<String> logsSuccess) {
         this.logsSuccess = logsSuccess;
     }
+
+    //TODO Metodos para agregar errores
+
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsEmptyFields(String log) {
+        if (!log.isEmpty()) this.logsEmptyFields.add(log);
+    }
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsType(String log) {
+        if (!log.isEmpty()) this.logsType.add(log);
+    }
+    /**
+     * Metodo para agregar errores genéricos.
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsGeneric(String log) {
+        if (!log.isEmpty()) this.logsGeneric.add(log);
+    }
+    /**
+     * Metodo para agregar mensajer de éxito al procesar el archivo.
+     * @param log mensaje a agregar a la lista de mensajes de éxito.
+     */
+    public void addLogsSuccess(String log) {
+        if (!log.isEmpty()) this.logsSuccess.add(log);
+    }
+
 
 }

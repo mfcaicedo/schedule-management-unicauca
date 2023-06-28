@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.Response;
+import com.pragma.api.domain.ResponseExcel;
 import com.pragma.api.domain.TemplateFileDTO;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -14,6 +15,6 @@ import java.util.List;
 public interface ITemplateFileService  {
     public TemplateFileDTO uploadTemplateFile(MultipartFile file) throws IOException;
 
-    public ResponseEntity<Resource> donwloadTemplateFile(String programId) throws IOException;
+    public ResponseExcel donwloadTemplateFile(String programId) throws IOException;
 
 }

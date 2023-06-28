@@ -135,3 +135,11 @@ INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_nam
 --resource event
 INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `program_id`, `teacher_code`)VALUES ('2', 'conferencia', 'conferencia', 'conferenciado', 'CONFERENCIA', 'PIS', '1061');
 --resource Schedule
+
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:18.000000', 'oferta_academica_PIS.xls', '0', '2023-1', 'PIS');
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:17.000000', 'oferta_academica_PIET.xls', '1', '2023-1', 'PIET');
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:16.000000', 'oferta_academica_PIAI.xls', '2', '2023-1', 'PIAI');
+
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:18.000000', 'oferta_academica_PIS.xls', '0', '2023-1', 'PIS');
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:17.000000', 'oferta_academica_PIET.xls', '1', '2023-1', 'PIET');
+INSERT INTO `academic_offer_file` (`academic_offer_file_id`, `date_register_file`, `name_file`, `state_file`, `periodId`, `program_id`) VALUES (NULL, '2023-06-12 22:02:16.000000', 'oferta_academica_PIAI.xls', '2', '2023-1', 'PIAI');

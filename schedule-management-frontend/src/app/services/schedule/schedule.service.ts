@@ -17,10 +17,11 @@ import Swal from 'sweetalert2'
 export class ScheduleService {
 
 
-  period: Period = { 'periodId': '2022.2', 'state': 'true' }
+  period: Period = { 'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",   
+                  initDate: "2023-07-15T00:00:00.000+0000" }
   program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1' }
-  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'program': this.program }
-  person: Person = { 'personCode': '104618021314', 'fullName': 'PPC', 'personType': 'TEACHER', 'department': [] }
+  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'programId': this.program }
+  person: Person = { 'personCode': '104618021314', 'fullName': 'PPC', 'personType': 'TEACHER', 'department': { 'departmentId': '1', 'departmentName': 'Ingenieria de sistemas' } }
 
   curso: Course = {
     'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': this.period.periodId,

@@ -153,3 +153,16 @@ c-card {
   font-weight: bold;
   color: #0782d0;
 }
+
+.contentHead{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content-download-template {
+  color: #000000;
+  font-weight: bold;
+  font-size: 1rem;
+
+}

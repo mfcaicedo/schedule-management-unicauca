@@ -51,6 +51,7 @@ import { ScheduleRowComponent } from './schedule-row/schedule-row.component';
 import { ScheduleListComponent } from './schedule-list/schedule-list.component';
 import { ScheduleUpdateComponent } from './schedule-update/schedule-update.component';
 import { OaUploadComponent } from './oa-upload/oa-upload.component';
+import { OaViewFilesComponent } from './oa-view-files/oa-view-files.component';
 import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
 @NgModule({
   declarations: [
@@ -69,6 +70,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     ScheduleListComponent,
     ScheduleUpdateComponent,
     OaUploadComponent,
+    OaViewFilesComponent,
     ScheduleReserveCreateComponent
   ],
   imports: [
