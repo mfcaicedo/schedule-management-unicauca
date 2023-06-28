@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -109,6 +110,7 @@ public class EnvironmentController {
         return this.environmentService.getEnvironmentByCode(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_SCHEDULE_MANAGER')")
     @GetMapping("/allTypes")
     public List<EnvironmentTypeEnumeration> findAllTypes() {
         return this.environmentService.findAllTypesEnvironment();
@@ -120,6 +122,7 @@ public class EnvironmentController {
         this.environmentService.deleteById(environmentId);
     }
 
+    @PreAuthorize("hasRole('ROLE_SCHEDULE_MANAGER')")
     @GetMapping("/findEnviromentAvailability")
     public Response<List<EnvironmentDTO>> findEnviromentAvailability(
             @Valid @RequestBody AvailabilityEnvironmentDTO environmentAvailabilityDTO) {
