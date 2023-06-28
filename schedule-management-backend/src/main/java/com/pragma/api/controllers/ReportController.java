@@ -73,9 +73,13 @@ public class ReportController {
         return this.reportService.getCombinedDataCoursePersonByPersonCode(personCode);
     }
 
-    @GetMapping("/teacherByDeptId//{departmentId}")
+    @GetMapping("/teacherByDeptId/{departmentId}")
     public Response<List<PersonDTO>> findAllPersonByDepartmentId(@PathVariable String departmentId){
         return this.personService.findAllTeachersByDepartmentId(departmentId);
     }
   
+    @GetMapping("/teacherByName/{full_name}")
+    public Response<List<PersonDTO>> findTeacheByName(@PathVariable String full_name){
+        return this.personService.findAllTeachersByName(full_name);
+    }
 }
