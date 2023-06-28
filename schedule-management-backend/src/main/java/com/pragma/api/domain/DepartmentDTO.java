@@ -20,10 +20,10 @@ public class DepartmentDTO {
     private String departmentId;
     private String departmentName;
     private FacultyDTO faculty;
-    @Getter(onMethod_= @JsonIgnore)
-    private Set<PersonDTO> persons;
+//    @Getter(onMethod_= @JsonIgnore)
+//    private Set<PersonDTO> persons;
     private PersonDTO person;
-    @Getter(onMethod_= @JsonIgnore)
-    private Set<ProgramDTO> programs;
+//    @Getter(onMethod_= @JsonIgnore)
+//    private Set<ProgramDTO> programs;
 
 }

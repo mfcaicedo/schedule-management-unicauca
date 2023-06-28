@@ -48,7 +48,6 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
     @Override
     public ResponseEntity<Resource> downloadTemplateSubject(String programId) throws IOException {
         String path = getPathTemplate("Plantilla_Materias.xlsx");
-        String program = "PIS";
         byte[] temporaryFile;
 
         //Procesar el archivo de excel
@@ -84,7 +83,14 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
 
     private Workbook processExcelFile(String path, String programId) throws IOException {
         // Obtener el programa por medio del programID
+        System.out.println("ProgramID: " + programId);
+        ProgramDTO program1 = iProgramService.findByProgramId(programId);
+        System.out.println("Program veerr: " + program1.getName());
+        System.out.println("Program veerr id: " + program1.getProgramId());
         Program program = modelMapper.map(iProgramService.findByProgramId(programId), Program.class);
+        System.out.println("Program: " + program.getName());
+        System.out.println("Program: " + program.getProgramId());
+
 
         // Cargar plantilla de Excel
         Workbook workbook = WorkbookFactory.create(new File(path));
@@ -112,6 +118,7 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
      * @return ruta del archivo de plantilla de excel
      */
     private String getPathTemplate(String nameFile) {
+//        final String pathProjectFile = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Materias.xlsx";
         final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Materias.xlsx";
 
         try {

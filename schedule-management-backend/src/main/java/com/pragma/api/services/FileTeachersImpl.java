@@ -224,7 +224,7 @@ public class FileTeachersImpl implements IFileTeachersService {
 
 
     private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_profesores.xlsx";
+        final String pathProjectFileMilthon = "src/main/resources/files/templates/Plantilla_profesores.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);

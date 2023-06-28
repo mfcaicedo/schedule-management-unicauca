@@ -14,14 +14,11 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProgramDTO {
-
     private String programId;
-
-    @NonNull
-    @NotBlank
     private String name;
-    @NonNull
+    private String color;
     private DepartmentDTO department;
+    private PersonDTO person;
 
 
 }

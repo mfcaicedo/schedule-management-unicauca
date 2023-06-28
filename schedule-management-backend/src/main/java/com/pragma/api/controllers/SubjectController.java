@@ -56,6 +56,7 @@ public class SubjectController {
 
     @GetMapping("/downloadTemplate/{programId}")
     ResponseEntity<Resource> downloadTemplate(@PathVariable String programId) throws IOException {
+        System.out.println("programId: " + programId);
         return this.iTemplateSubjectService.downloadTemplateSubject(programId);
     }
 

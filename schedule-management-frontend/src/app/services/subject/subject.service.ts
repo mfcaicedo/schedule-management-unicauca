@@ -68,9 +68,9 @@ export class SubjectService {
     });
   }
 
-  downloadTemplateService() {
+  downloadTemplateService(programCode: string) {
     console.log("llega al metodo al servicio ", this.endPoint);
-    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
+    return this.http.get(this.endPoint + '/downloadTemplate/' + programCode, { responseType: 'blob' });
   }
 
   /**

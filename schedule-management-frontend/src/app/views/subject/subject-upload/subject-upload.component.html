@@ -2,9 +2,21 @@
   <c-card-header>
     <div class="contentHead">
       <strong class="titulo">Asignaturas</strong>
-      <div class="content-download-template">
-        <button class="btn btn-primary" (click)="downloadTemplate()">Descargar plantilla</button>
-      </div>
+      <c-dropdown>
+        <button cButton cDropdownToggle color="primary">
+          Descargar plantilla
+        </button>
+        <ul cDropdownMenu>
+          <li>
+            <h6 cDropdownHeader>Código del programa</h6>
+          </li>
+          <li *ngFor="let program of programs">
+            <a (click)="downloadTemplate(program.programId)" cDropdownItem>
+              {{program.name}}
+            </a>
+          </li>
+        </ul>
+      </c-dropdown>
     </div>
   </c-card-header>
 

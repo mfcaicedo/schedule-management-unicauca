@@ -27,18 +27,19 @@ export class EnvironmentFormComponent {
   @Output()emitterForm= new EventEmitter<Environment>();
 
   //variable para recolectar info del formulario
-  formEnvironment:Environment={
+  formEnvironment: Environment = {
     'id':0,
     'name':'',
     'location':'',
     'capacity':0,
     'environmentType':'',
     'facultyId':'',
-    'availableResources':[]
+    'availableResources': []
   };
-  environmentTypes:string[]=[]
+
+  environmentTypes: string[] = []
   // facultys:Faculty[]=[];
-  facultys:string[]=[];
+  facultys: string[] = [];
 
   constructor(
     private formBuilder:FormBuilder,
@@ -54,17 +55,17 @@ export class EnvironmentFormComponent {
   }
 
   ngOnInit():void{
+    /*Consulto los tipos de ambientes y las facultades*/
     this.environmentTypes=this.environmentService.getAllEnvironmentTypes();
     this.facultys=this.environmentService.getAllFacultys();
-
     // this.fillForm();
-
   }
+
   private fillForm(environment:Environment){
+    console.log("fillForm");
+    if(this.isEdit == true){
 
-    if(this.isEdit==true){
-
-      const environmentFill={
+      const environmentFill = {
         'id' :environment.id,
         'name':environment.name,
         'location':environment.location,
@@ -118,7 +119,7 @@ export class EnvironmentFormComponent {
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['environment']){
       // console.log("environment cambio para form ",this.environment)
-
+      console.log("cambios en ngOnChanges ",this.environment);
       this.fillForm(this.environment);
 
     }
