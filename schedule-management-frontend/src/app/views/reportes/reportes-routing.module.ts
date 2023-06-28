@@ -35,10 +35,10 @@ const routes: Routes = [
         },
         {
           //detalle y de un ambiente
-          path: 'salon',
+          path: 'Ambiente',
           component: RoomComponent,
           data: {
-            title: 'Salon'
+            title: 'Ambiente'
           }
         },
         {
@@ -51,26 +51,26 @@ const routes: Routes = [
         },
         {
           //detalle y de un ambiente
-          path: 'Report_program',
+          path: 'Programa',
           component: ReportProgramComponent,
           data: {
-            title: 'Report_program'
+            title: 'Programa'
           }
         },
         {
           //detalle y de un ambiente
-          path: 'Report_semestre',
+          path: 'Semestre',
           component: ReportSemestreComponent,
           data: {
-            title: 'Report_semestre'
+            title: 'Semestre'
           }
         },
         {
           //detalle y de un ambiente
-          path: 'Report_teacher',
+          path: 'Docente',
           component: ReportTeacherComponent,
           data: {
-            title: 'Report_teacher'
+            title: 'Docente'
           }
         },
         {

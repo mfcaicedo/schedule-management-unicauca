@@ -89,6 +89,7 @@ applyFilter() {
   onSelectedDepartamento(event:Event){
     //this.alerta(((event.target as HTMLInputElement).value));
     //comprueba que la facultad seleccionada no sea la agregada por defecto
+    this.seleccionados=[];
     if (((event.target as HTMLInputElement).value)!=this.valDefecto){
       
       let idDeptoSeleccionado=((event.target as HTMLInputElement).value);
@@ -159,14 +160,14 @@ applyFilter() {
     this.esquemas = [];
     this.listaTitulosReporte=[];
     this.seleccionados.forEach((id) => {
-      alert("PREPARANDONOS PARA :"+id);
+      //alert("PREPARANDONOS PARA :"+id);
       this.reportService.getReportPerson(id).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
   
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
-          this.listaTitulosReporte.push("Horario de (COD: "+id+").");
+          this.listaTitulosReporte.push("Horario de "+this.getNombreDocenteId(id)+"(COD: "+id+").");
         },
         (error) => {
           console.log('Error obteniendo los esquemas', error);
@@ -174,4 +175,8 @@ applyFilter() {
       );
     });
   }
+  getNombreDocenteId(i:string): string | undefined {
+  
+    return this.seleccionadoDic.get(i);
+   }
 }

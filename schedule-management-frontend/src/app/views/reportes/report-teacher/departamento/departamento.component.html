@@ -1,6 +1,6 @@
 <div class="container">
     <div class="form-group">
-      <strong class="resenia">seleccione la facultad :</strong>
+      <strong class="resenia">Seleccione Facultad :</strong>
           <br>
         <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="entrada" >
             <option value="{{valDefecto}}">Selecciona una Facultad</option>
@@ -23,7 +23,7 @@
     </div>      
     
     <span *ngIf="isDepartmentSelected">
-        <strong class="cuerpo">Seleccione el Docente :</strong>
+        <strong class="resenia">Seleccione Docente(s) :</strong>
       
         <div class="alert alert-primary" role="alert">
           <h4 class="alert-heading">Filtro</h4>
@@ -31,7 +31,6 @@
             <input type="text" class="form-control"  [(ngModel)]="filterText" placeholder="Filtrar por parte del nombre" (input)="applyFilter()">
             
           </div>
-        </div>
         <c-row class="mb-3">
           <c-col md="10">
             <table cTable  >
@@ -53,8 +52,11 @@
             </table>
           </c-col>
         </c-row>
+        
+      </div>
     </span>
-    <input id="btn-Filtro"type="submit" class="btn-upload-file" value="Busqueda Profesor"(click)="GenerarReporte()">>      
+    <input *ngIf="seleccionados.length > 0"
+    id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">
       
   <div *ngFor="let esquema of esquemas; let i=index">
     <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>

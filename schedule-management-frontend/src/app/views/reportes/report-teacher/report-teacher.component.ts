@@ -6,7 +6,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['../HojaEstilosReportesSCSS/reportes.component.scss']
 })
 export class ReportTeacherComponent  implements OnInit {
-  title="Reporte Profesor";
+  title="Reporte Docente";
 
   @ViewChild('datosPersonalesRadio', { static: false }) datosPersonalesRadio!: ElementRef;
   @ViewChild('departamentoRadio', { static: false }) departamentoRadio!: ElementRef;

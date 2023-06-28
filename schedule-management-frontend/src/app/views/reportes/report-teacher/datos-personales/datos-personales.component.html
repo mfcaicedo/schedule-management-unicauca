@@ -2,17 +2,18 @@
     <p>Diligencie a continuacion <span class="titulo">solo uno </span>de los campos para realizar la busqueda.
     <br>Cuando llene uno de ellos se desactivará el otro.</p>
     
-    <div class="form-group">
+    <div class="form-group" *ngIf="contenidoTextIdentificacion =='' ">
       <label for="nombre">Nombre:</label>
       <input type="text" id="nombre" name="nombre" [(ngModel)]="contenidoTextNombre" #textNombre>
     </div>
     
-    <div class="form-group">
+    <div class="form-group" *ngIf="contenidoTextNombre =='' ">
       <label for="Identificacion">Identificación:</label>
       <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion>
     </div>
     
-    <input id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)" (click)="GenerarReporte()">      
+    <input *ngIf="contenidoTextIdentificacion !=''"
+     id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)" (click)="GenerarReporte()">      
      
   <div *ngFor="let esquema of esquemas; let i=index">
     <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2> 

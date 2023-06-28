@@ -5,7 +5,7 @@
   
     <c-card-body>
       
-      <strong class="cuerpo">seleccione la facultad :</strong>
+      <strong class="cuerpo">Seleccione la Facultad :</strong>
         <c-row class="mb-3">
             <c-col md="10">
               <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
@@ -54,9 +54,9 @@
             </c-col>
           </c-row>
 
-          <div class="centrado">
+          <div class="centrado" *ngIf="seleccionados.length > 0 && listaSemestres.length > 0">
             <input *ngIf="esquemas.length  == 0" type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()"> 
-            <input *ngIf="esquemas.length  > 0" type="submit" class="btn-rep" value="Descargar"(click)="descargartablas()"> 
+            <input *ngIf="esquemas.length  > 0" type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="descargartablas()"> 
           </div>
           
           <div *ngFor="let esquema of esquemas; let i=index">
@@ -76,9 +76,9 @@
                     </thead>
                     <tbody>
                       <tr *ngFor="let item of esquema; let i = index">
-                        <td>{{ item.environmentName }}</td>
                         <td>{{ item.subjectName }}</td>
                         <td>{{ item.courseGroup }}</td>
+                        <td>{{ item.environmentName }}</td>
                         <td>{{ item.day }}</td>
                         <td>{{ item.startingTime }}</td>
                         <td>{{ item.endingTime }}</td>

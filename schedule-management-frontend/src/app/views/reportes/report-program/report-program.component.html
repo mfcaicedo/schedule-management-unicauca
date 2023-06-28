@@ -4,7 +4,7 @@
   </c-card-header>
   
   <c-card-body>
-    <strong class="cuerpo">seleccione la facultad :</strong>
+    <strong class="cuerpo">Seleccione la Facultad :</strong>
       <c-row class="mb-3">
         <c-col md="10">
           <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text"  #radioInput>
@@ -40,7 +40,7 @@
           </c-col>
         </c-row>
         
-        <div class="centrado">
+        <div class="centrado" *ngIf="seleccionados.length > 0">
             <input *ngIf="esquemas.length  == 0"type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()">
             <input *ngIf="esquemas.length  > 0" type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="descargartablas()"> 
         </div>
@@ -62,9 +62,9 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let item of esquema; let i = index">
-                      <td>{{ item.environmentName }}</td>
                       <td>{{ item.subjectName }}</td>
                       <td>{{ item.courseGroup }}</td>
+                      <td>{{ item.environmentName }}</td>
                       <td>{{ item.day }}</td>
                       <td>{{ item.startingTime }}</td>
                       <td>{{ item.endingTime }}</td>
