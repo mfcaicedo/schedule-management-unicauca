@@ -26,8 +26,7 @@
             <tbody>
               <tr *ngFor="let course of courses">
                 <td>
-                  <div class="materia-box" draggable="true" (dragstart)="dragStart($event, course)"
-                    (click)="selectCourse(course)">
+                  <div class="materia-box" draggable="true" (dragstart)="dragStart($event, course)">
                     {{course.subject.subjectCode}}&nbsp;{{course.courseGroup}}
                   </div>
                 </td>

@@ -12,7 +12,7 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
 export class ScheduleEnvironmentsComponent implements OnInit {
 
   environments:Environment[]=[];
-  columns:string[]=['Nombre','Ubicacion','Seleccionar'];
+  columns:string[]=['Nombre','Ubicacion','Capacidad','Seleccionar'];
   environmentTypes:string[]=[];
   environmentType!: string ;
   isDisabled:boolean=false;

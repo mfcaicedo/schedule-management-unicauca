@@ -159,7 +159,6 @@ export class ScheduleCreateFormComponent {
     // console.log("Emitiendo schedule ",scheduleCreated)
     this.scheduleCreated.emit(scheduleCreated)
   }
-
   fillTakenProfessorSchedule() {
 
     this.scheduleService.getTakenProfessorSchedule(this.courseSelected.personCode).subscribe((response) => {

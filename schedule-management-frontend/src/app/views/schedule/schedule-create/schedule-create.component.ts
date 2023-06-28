@@ -103,7 +103,6 @@ export class ScheduleCreateComponent {
   changeContinueCreating(value: boolean) {
     this.scheduleService.updateContinueCreatingForCourse(value)
   }
-
   onSaveSchedule(scheduleToCreate: ScheduleDTO) {
     console.log("entra a save envi")
     let scheduleresponse: Schedule;
@@ -130,6 +129,4 @@ export class ScheduleCreateComponent {
 
     );
   }
-
-
 }
