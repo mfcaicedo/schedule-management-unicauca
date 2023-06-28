@@ -113,6 +113,11 @@ public class CourseServiceImpl implements ICourseService {
         return modelMapper.map(this.iCourseRepository.findById(id), CourseDTO.class);
     }
 
+    @Override
+    public List<Course> finAllByProgram_ProgramaId(String programId) {
+        return this.iCourseRepository.findAllBySubject_Program_ProgramId(programId);
+    }
+
     private GenericPageableResponse validatePageList(Page<Course> coursesPage){
         List<CourseDTO> coursesDTOS = coursesPage.stream().map(x->modelMapper.map(x, CourseDTO.class)).collect(Collectors.toList());
         return PageableUtils.createPageableResponse(coursesPage, coursesDTOS);

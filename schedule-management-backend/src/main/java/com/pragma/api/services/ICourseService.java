@@ -4,7 +4,10 @@ import com.pragma.api.domain.CourseDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.SubjectDTO;
+import com.pragma.api.model.Course;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface ICourseService {
     /**
@@ -40,6 +43,8 @@ public interface ICourseService {
 
 
     CourseDTO findById(final Integer id);
+
+    List<Course> finAllByProgram_ProgramaId(String programId);
 
 
 }

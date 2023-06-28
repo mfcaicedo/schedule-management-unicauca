@@ -95,6 +95,7 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         //TODO 1. consultar los todos los profesores
         List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
+        //teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
 
         //TODO 2. consultar todos las materias pertenecientes a un programa
         //TODO 2.1 consultar el programa

@@ -38,8 +38,6 @@ public class CourseController {
         return ResponseEntity.ok(this.courseBusiness.findAllBySubjectProgramAndSemester(programId, semester,pageable));
     }
 
-
-
     @GetMapping
     private Response<GenericPageableResponse> findAll(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order){
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order),sort));
