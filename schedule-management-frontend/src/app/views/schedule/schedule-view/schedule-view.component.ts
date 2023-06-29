@@ -26,7 +26,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   contador: number = 0;
   headers: string[] = ["hora", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
   weekDays = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
-  horariosAmbienteColor: ScheduleColor[] = [];
+  horariosAmbienteColor!: ScheduleColor[];
 
 
   horasDia = ["07:00:00", "08:00:00", "09:00:00", "10:00:00", "11:00:00", "12:00:00", "13:00:00", "14:00:00", "15:00:00", "16:00:00", "17:00:00", "18:00:00", "19:00:00", "20:00:00", "21:00:00", "22:00:00"]
@@ -77,9 +77,11 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.initializeHorario();
   }
   ngAfterViewInit(): void {
-    this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
-      this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
-      console.log("response ", response);
+  
+    
+  this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
+    this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
+   
     });
   }
   
@@ -134,8 +136,10 @@ export class ScheduleViewComponent implements AfterViewInit {
   drop(event: any, day: number, hour: string, inicial: string, final: string, dia: string, environmentId: number) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("application/json");
-    const courseId = parseInt(materia.split("")[1]);
-
+    const courseIdCaracter = (materia.split(" ")[0]);
+    console.log("EL IDE DEL CURSO ES: ", courseIdCaracter);
+    const courseId = parseInt(courseIdCaracter.split('"')[1]);
+    console.log("EL IDE DEL CURSO ES: ", courseId);
     // Verificar si las dos franjas horarias consecutivas están vacías
     if (
       this.horario[hour][day].length >= 1 ||
@@ -174,6 +178,7 @@ export class ScheduleViewComponent implements AfterViewInit {
     scheduleCreated.endingTime = this.getNextHour(this.getNextHour(hour));
     scheduleCreated.courseId = courseId
     scheduleCreated.environmentId = environmentId
+    
     console.log("Emitiendo schedule ", scheduleCreated)
     this.scheduleCreated.emit(scheduleCreated)
 
