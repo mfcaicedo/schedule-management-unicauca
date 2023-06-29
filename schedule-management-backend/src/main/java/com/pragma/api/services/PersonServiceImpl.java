@@ -49,6 +49,7 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public GenericPageableResponse findAllPerson(Pageable pageable) {
         Page<Person> personPage = this.iPersonRepository.findAll(pageable);
+//        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId()));
         if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.person.empty", "");
         return this.validatePageList(personPage);
     }

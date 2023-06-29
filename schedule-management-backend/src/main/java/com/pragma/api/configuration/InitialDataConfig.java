@@ -71,7 +71,7 @@ public class InitialDataConfig {
         User userOne = User.builder()
                 .email("mfcaicedo@unicauca.edu.co")
                 .name("Milthon Ferney")
-                .lastName("Caicedo Jurador")
+                .lastName("Caicedo Jurado")
                 .username("mfcaicedo")
                 .password(encoder.encode("mfcaicedo"))
                 .roles(Collections.singleton(scheduleManagerRole))

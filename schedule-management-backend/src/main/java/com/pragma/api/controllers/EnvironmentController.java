@@ -116,7 +116,7 @@ public class EnvironmentController {
         return this.environmentService.getEnvironmentByCode(id);
     }
 
-    @PreAuthorize("hasRole('ROLE_SCHEDULE_MANAGER')")
+    @PreAuthorize("hasRole('ROLE_ACADEMIC_MANAGER')")
     @GetMapping("/allTypes")
     public List<EnvironmentTypeEnumeration> findAllTypes() {
         return this.environmentService.findAllTypesEnvironment();
