@@ -71,12 +71,18 @@ public class ScheduleServiceImpl implements IScheduleService {
         if (eventOptRequest == null && saveRequest.isReserv())
             throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         Course courseDb = courseOptRequest.get();
+
+        
         if (this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
+
+
         if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(),
                 saveRequest.getEndingTime(), saveRequest.getDay(), environmentOptRequest.get()))
-            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",
-                    environmentOptRequest.get().getName());
+            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",environmentOptRequest.get().getName());
+
+
+
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
         // Se calcula la diferencia de horas no sobrepase las establecida que la
         // diferencia no sea negativa y que no sean menor a 1 los bloques
