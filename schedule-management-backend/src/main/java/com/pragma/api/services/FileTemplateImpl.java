@@ -69,6 +69,7 @@ public class FileTemplateImpl implements ITemplateFileService{
         responseExcel.setNameFile("Plantilla_Oferta_Academica_"+programId+".xlsx");
 
         byte[] temporaryFile;
+
         //Procesar el archivo de excel
         temporaryFile = Files.readAllBytes(Path.of(path));
         Workbook workbook = processExcelFile(path, programId, responseExcel);
@@ -169,7 +170,6 @@ public class FileTemplateImpl implements ITemplateFileService{
                     insertRowGeneric(row,27,subjects,indiceAux);
                     break;
             }
-
             //Se elimina la materia que ya se almaceno en el excel
             subjects.remove(indiceAux);
             indiceRow++;

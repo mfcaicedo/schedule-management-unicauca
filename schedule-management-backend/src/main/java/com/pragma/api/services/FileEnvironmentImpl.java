@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.pragma.api.domain.EnvironmentResourceDTO;
+import com.pragma.api.domain.FacultyDTO;
 import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.model.*;
@@ -13,6 +14,8 @@ import com.pragma.api.util.file.templateclasses.FileRowEnvironment;
 //import org.hibernate.mapping.Set;
 import com.pragma.api.util.file.templateclasses.FileRowSubject;
 //import jdk.javadoc.internal.doclint.Env;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     private IFacultyRepository facultyRepository;
 
     private IResourceRepository resourceRepository;
+    @Autowired
+    private IFacultyService iFacultyService;
 
     @Autowired
     public FileEnvironmentImpl(IEnvironmentRepository environmentRepository, IFacultyRepository facultyRepository,
@@ -49,6 +54,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         this.environmentRepository = environmentRepository;
         this.facultyRepository = facultyRepository;
         this.resourceRepository = resourceRepository;
+
 
     }
 
@@ -60,6 +66,45 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         return processFile(logs);
 
     }
+
+
+         private Workbook processExcelFile(String path) throws IOException {
+
+        //TODO 1. consultar todos las facultades
+             //public Response<List<FacultyDTO>> findAllFaculty();
+        //Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty().toUpperCase().trim());
+        //List<FacultyDTO> faculties = iFacultyService.findAllByFaculty();
+        List <Faculty> faculties = facultyRepository.findAll();
+        //teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
+        List <Resource> resources = resourceRepository.findAll();
+        resources.forEach(resource -> System.out.println("hola: " + resource.getName()));
+        //TODO 3. modificar el excel con los datos consultados de profesores y materias
+        // Cargar el archivo existente
+
+        Workbook workbook = WorkbookFactory.create(new File(path));
+
+        //TODO modificar el archivo
+
+        //obtengo la hoja 1 y 3 (Facultades)
+             Sheet sheetResources = workbook.getSheetAt(0);
+             Sheet sheetFaculties = workbook.getSheetAt(2);
+
+             for (int i = 1; i <= resources.size(); i++) {
+                 Row row = sheetResources.getRow(i);
+                 row.getCell(9).setCellValue(resources.get(i-1).getName());
+             }
+
+        //Inserto datos en la hoja 3
+        for (int i = 1; i <= faculties.size(); i++) {
+            Row row = sheetFaculties.getRow(i);
+
+            row.getCell(0).setCellValue(faculties.get(i-1).getFacultyId());
+            row.getCell(1).setCellValue(faculties.get(i-1).getFacultyName());
+        }
+
+        return workbook;
+    }
+
 
     @Override
     public ResponseEntity<org.springframework.core.io.Resource> downloadTemplateFile() throws IOException {
@@ -73,8 +118,9 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     temporaryFile = Files.readAllBytes(Path.of(path));
 
     // Procesar el archivo Excel utilizando un método llamado processExcelFile y obtener el objeto Workbook
-    //Workbook workbook = processExcelFile(path, programId);
-        Workbook workbook = WorkbookFactory.create(new File(path));
+        temporaryFile = Files.readAllBytes(Path.of(path));
+        Workbook workbook = processExcelFile(path);
+        //Workbook workbook = WorkbookFactory.create(new File(path));
 
     // Crear un OutputStream para guardar el archivo Excel en memoria
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -155,7 +201,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
         //----------------------------------------------------------------------
 
-        //List<String> infoLogs = new ArrayList<>();
+        //List<String> infoLogs = newf ArrayList<>();
         int contRows = 0;
         int contSuccess = 0;
         int contError = 0;
