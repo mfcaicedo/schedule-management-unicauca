@@ -1,0 +1,65 @@
+<div class="container">
+    <div class="form-group">
+      <strong class="resenia">Seleccione Facultad :</strong>
+          <br>
+        <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="entrada" >
+            <option value="{{valDefecto}}">Selecciona una Facultad</option>
+            <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+            class="uppercase-text">
+            {{fac.facultyName}} </option>
+        </select>
+             
+    </div>      
+    <div class="form-group">
+        <strong class="resenia">Seleccione Departamento:</strong>
+            <br>
+          <select cSelect id="filtroDepartamento"  (change)="onSelectedDepartamento($event)" class="entrada" >
+              <option value="{{valDefecto}}">Selecciona un Departamento</option>
+              <option *ngFor="let dep of listaDepatamentos" value="{{dep.departmentId}}" 
+              class="uppercase-text">
+              {{dep.departmentName}} </option>
+          </select>
+               
+    </div>      
+    
+    <span *ngIf="isDepartmentSelected">
+        <strong class="resenia">Seleccione Docente(s) :</strong>
+      
+        <div class="alert alert-primary" role="alert">
+          <h4 class="alert-heading">Filtro</h4>
+          <div class="input-group">
+            <input type="text" class="form-control"  [(ngModel)]="filterText" placeholder="Filtrar por parte del nombre" (input)="applyFilter()">
+            
+          </div>
+        <c-row class="mb-3">
+          <c-col md="10">
+            <table cTable  >
+              <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let d of columnsTableDocente">{{d}} </th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let item of filteredData; let i = index">
+                  <td>{{item.personCode}}</td>
+                  <td>{{item.fullName}}</td>
+                  <!--<td>{{item.department_id}}</td>-->
+                  <td>
+                    <input [disabled]="isDisabled" #checkboxes id="{{item.personCode}}" type="checkbox" (click)="onSelectingDocente(item, $event)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-col>
+        </c-row>
+        
+      </div>
+    </span>
+    <input *ngIf="seleccionados.length > 0"
+    id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">
+      
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
+  <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+</div>    
+</div>

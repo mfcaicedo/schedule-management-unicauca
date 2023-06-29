@@ -1,0 +1,106 @@
+
+<c-card>
+  <c-card-header>
+    <strong class="titulo">Reporte Ambientes</strong>
+  </c-card-header>
+
+  <c-card-body>
+    <strong class="cuerpo">Seleccione la Facultad :</strong>
+      <c-row class="mb-3">
+        <c-col md="10">
+          <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
+            <option value="{{valDefecto}}">Selecciona una Facultad</option>
+            <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+                class="uppercase-text" (click)="alerta(fac.facultyName)">
+                  {{fac.facultyName}} </option>
+          </select>
+        </c-col>
+      </c-row>
+        
+    <span *ngIf="isFacSelected">
+      <strong class="cuerpo">Seleccione el Edificio :</strong>
+        <c-row class="mb-3">
+          <c-col md="10">
+            <select cSelect id="filtroEdificio"  (change)="onSelectedEdificio($event)"  >
+              <option value="{{valDefecto}}">Selecciona un Edificio</option>
+              <option *ngFor="let ed of listaEdificios" value="{{ed.id}}" 
+                class="uppercase-text" >
+                  {{ed.name}} </option>
+            </select>
+          </c-col>
+        </c-row>
+        
+      <strong class="cuerpo">Seleccione Tipo de Ambiente :</strong>
+      <c-row class="mb-3">
+        <c-col md="10">        
+          <div class="radio">
+              <div class="form-check form-check-inline" *ngFor="let tipo of environmentTypes; let first = first;">
+                <input class="form-check-input " type="radio" id="{{tipo}}" value="{{tipo}}" name="tipo"  (change)="onSelectedType($event)" #radioInput>
+                <label class="form-check-label" > {{tipo}} </label>
+              </div>
+          </div>
+        </c-col>
+      </c-row>
+
+      <span  *ngIf="isBuildSelected && listaAmbienteHijos.length > 0" >
+        <strong class="cuerpo">Seleccione el Ambiente :</strong>
+        <c-row class="mb-3">
+          <c-col md="10">
+            <table cTable  >
+              <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let c of columns">{{c}} </th>
+                </tr>
+              </thead>
+              <tbody >
+                <tr *ngFor="let item of listaAmbienteHijos; let i = index">
+                  <td>{{item.id}}</td>
+                  <td>{{item.name}}</td>
+                  <td>{{item.location}}</td>
+                  <td>{{item.environmentType}}</td>
+                  <!--<td>{{item.facultyId}}</td>  -->
+                  <td>
+                    <input [disabled]="isDisabled" #checkboxes id="{{item.id}}" type="checkbox" (click)="onSelectingEnvironment(item, $event)">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </c-col>
+        </c-row>
+
+        <div class="centrado" *ngIf="seleccionados.length > 0">
+          <input id="btn-generar"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">      
+        </div>
+      </span>
+    </span>     
+  </c-card-body>
+  <!-- Progreso de descarga -->
+
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
+     <!--         <table cTable #miTablaI>
+                <thead cTableColor="dark">
+                <tr>
+                  <th *ngFor="let c of columnsReporte">{{ c }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of esquema; let i = index"
+                [ngStyle]="{'background-color': getBackgroundColor(item.programColor)}">
+                  <td>{{ item.id }}</td>
+                  <td>{{ item.day }}</td>
+                  <td>{{ item.startingTime }}</td>
+                  <td>{{ item.endingTime }}</td>
+                  <td>{{ item.startingDate }}</td>
+                  <td>{{ item.endingDate }}</td>
+                  <td>{{ item.environmentName }}</td>
+                  <td>{{ item.subjectName }}</td>
+                  <td>{{ item.programName }}</td>
+                  <td>{{ item.programColor }}</td>
+                </tr>
+              </tbody>
+          </table>-->
+  <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+<!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
+</div>
+</c-card>

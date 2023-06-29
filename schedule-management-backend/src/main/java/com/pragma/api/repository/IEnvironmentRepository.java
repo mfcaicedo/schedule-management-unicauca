@@ -59,7 +59,7 @@ public interface IEnvironmentRepository extends JpaRepository<Environment, Integ
     List<Environment> findAllBuildings(@Param("faculty_id") String faculty_id);
 
     //Realizamos la consulta personalizada para traer los ambientes con id, nombre y tipo, pasando el id facultad
-    @Query(value = "SELECT id, name, environmentType FROM environment WHERE parent_id IS NULL AND faculty_id = :faculty_id", nativeQuery = true)
+    @Query(value = "SELECT environment_id, name, environmentType FROM environment WHERE parent_id IS NULL AND faculty_id = :faculty_id", nativeQuery = true)
     List<Object[]> findEnvironmentDataByFacultyId(@Param("faculty_id") String facultyId);
 
     @Query(value = "SELECT * FROM environment  WHERE parent_id = :parent_id AND environmentType = :environmentType", nativeQuery = true)

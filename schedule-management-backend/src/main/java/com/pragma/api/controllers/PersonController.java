@@ -78,4 +78,9 @@ public class PersonController {
     public List<Person> getAllPersonss() {
         return iPersonRepository.findAll();
     }
+
+    @GetMapping("/nameByCode/{personCode}")
+    public Response<String> findNameByPersonCode(@PathVariable String personCode){
+        return this.iPersonService.findNameByPersonCode(personCode);
+    }
 }

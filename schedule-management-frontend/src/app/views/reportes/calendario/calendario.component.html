@@ -1,0 +1,5 @@
+<ng-container *ngIf="esquemas.length > 0">
+<full-calendar *ngIf="showFullCalendar" [options]="calendarOptions" #fullCalendarRef></full-calendar>
+<img  *ngIf="!showFullCalendar" [src]="imageSrc" alt="Generated Image" #miCalendario>
+</ng-container>
+<ng-container *ngIf="esquemas?.length == 0">No se puede generar el horario ya que NO HAY ESQUEMAS ASOCIADOS</ng-container>

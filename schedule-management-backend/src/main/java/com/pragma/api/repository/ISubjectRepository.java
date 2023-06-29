@@ -28,4 +28,11 @@ public interface ISubjectRepository extends JpaRepository<Subject, String> {
     */
     Page<Subject> findAllByProgram_ProgramId(String programId, Pageable pageable);
 
+    //Consulta para verificar si existe una materia que haga parte del programa a consultar
+    boolean existsBy();
+
+    //Metodo para consultar todos los semestres asociados a una materia y a un program_id
+    @Query(value = "SELECT DISTINCT semester,program_id FROM subject WHERE program_id= :program_id ORDER BY semester ASC", nativeQuery = true)
+    List<Object[]> findSemesterByProgramId(@Param("program_id") String program_id);
+
 }

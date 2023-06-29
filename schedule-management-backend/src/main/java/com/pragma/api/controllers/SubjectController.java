@@ -84,5 +84,11 @@ public class SubjectController {
         );
     }
 
+    //Metodo para traer todos los datos semestres asociados a un programa
+    @GetMapping("/consultSemestersByProgramId/{id}")
+    public Response<List<SubjectDTO>> consultSemestersByProgramId(@PathVariable String id) {
+        return this.subjectBusiness.findAllSemesterByProgramId(id);
+    }
+
 
 }

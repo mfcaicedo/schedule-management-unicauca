@@ -1,6 +1,4 @@
 import { INavData } from '@coreui/angular';
-import { IconComponent } from '@coreui/icons-angular';
-import { url } from 'inspector';
 
 export const navItems: INavData[] = [
   // {
@@ -135,26 +133,29 @@ export const navItems: INavData[] = [
     url: '/Reportes',
     iconComponent: { name: 'cilPrint' },
     children: [
-      {
+     /* {
         name: 'Reporte por Facultad',
-        url: '/Reportes/Report_faculty'
-      },
+        url: '/reportes/Report_faculty'
+      },*/
       {
         name: 'Reporte por Programa',
-        url: '/Reportes/Report_program'
+        url: '/reportes/Programa'
       },
       {
-        name: 'Reporte por semestre',
-        url: '/Reportes/Report_semestre'
+        name: 'Reporte por Semestre',
+        url: '/reportes/Semestre'
       },
       {
-        name: 'Reporte por Professor',
-        url: '/Reportes/Report_teacher'
+        name: 'Reporte por Docente',
+        url: '/reportes/Docente'
       },
       {
-        name: 'Reporte por salon',
-        url: '/reportes/salon'
-      }
+        name: 'Reporte por Ambiente',
+        url: '/reportes/Ambiente'
+      }/*, {
+        name: 'Componente Pruebas',
+        url: '/reportes/calendario'
+      }*/
     ]
   },
 ];

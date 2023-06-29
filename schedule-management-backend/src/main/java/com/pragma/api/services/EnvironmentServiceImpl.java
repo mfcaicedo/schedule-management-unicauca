@@ -5,14 +5,12 @@ import com.pragma.api.domain.EnvironmentDTO;
 import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.ResourceList;
 import com.pragma.api.domain.Response;
-import com.pragma.api.model.EnvironmentResource;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Period;
 import com.pragma.api.model.Resource;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
-import com.pragma.api.model.enums.RecurrenceEnumeration;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IPeriodRepository;
 import com.pragma.api.repository.IResourceRepository;
@@ -310,12 +308,20 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         List<Environment> buildings = this.environmentRepository.findAllBuildings(facultyId);
         List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(buildings,new TypeToken<List<EnvironmentDTO>>() {}.getType());
         Response<List<EnvironmentDTO>> response = new Response<>();
+        if(EnvironmentDTOlist.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of buildings Finded successfully");
         response.setDeveloperMessage("List of buildings Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOlist);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 
@@ -324,7 +330,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     @Override
     public Response<List<EnvironmentDTO>> findAllEnvironmentByIdFacultyAndBuilding(String facultyId) {
         //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-        if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+        //if(!this.environmentRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
 
         List<Object[]> environmentsForType = this.environmentRepository.findEnvironmentDataByFacultyId(facultyId);
 
@@ -340,12 +346,20 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
 
         Response<List<EnvironmentDTO>> response = new Response<>();
+        if(EnvironmentDTOList.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of Environments Finded successfully");
         response.setDeveloperMessage("List of Environments Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOList);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
 
@@ -359,12 +373,21 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         Response<List<EnvironmentDTO>> response = new Response<>();
 
         List<EnvironmentDTO> EnvironmentDTOlist = modelMapper.map(environmentPage,new TypeToken<List<EnvironmentDTO>>() {}.getType());
+
+        if(EnvironmentDTOlist.size()>0){
         response.setStatus(200);
         response.setUserMessage("List of buildings Finded successfully");
         response.setDeveloperMessage("List of buildings Finded successfully");
         response.setMoreInfo("localhost:8081/api/enviroment(toDO)");
         response.setErrorCode("");
         response.setData(EnvironmentDTOlist);
+        }else{
+            response.setStatus(500);
+			response.setUserMessage("Data Not Found");
+			response.setDeveloperMessage("Data Not Found");
+			response.setMoreInfo("localhost:8081/api/environment(toDO)");
+			response.setErrorCode(" No data found"); 
+        }
         return response;
     }
     @Override

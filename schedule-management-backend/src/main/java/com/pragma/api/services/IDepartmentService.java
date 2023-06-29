@@ -2,11 +2,19 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.DepartmentDTO;
 import com.pragma.api.model.Department;
+import com.pragma.api.domain.*;
+
+
+
+import com.pragma.api.domain.DepartmentDTO;
 
 import java.util.List;
 
 public interface IDepartmentService {
-    List<DepartmentDTO> findAll();
+    public List<DepartmentDTO> findAll();
 
-    Department findDepartmentByDepartmentName(String name);
+    public Department findDepartmentByDepartmentName(String name);
+
+    public Response<List<DepartmentDTO>> findAllByFacultyId(String faculty_Id);
+
 }

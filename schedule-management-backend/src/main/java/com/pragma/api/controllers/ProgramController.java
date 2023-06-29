@@ -2,6 +2,8 @@ package com.pragma.api.controllers;
 
 import com.pragma.api.services.IProgramService;
 import com.pragma.api.domain.ProgramDTO;
+import com.pragma.api.domain.Response;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,12 @@ public class ProgramController {
     public ResponseEntity<ProgramDTO> getAllPrograms(@PathVariable String id) {
 
         return ResponseEntity.status(HttpStatus.OK).body(this.iProgramService.findByProgramId(id));
+    }
+
+    //Metodo para obtener todos los programas para ser listados, que pertenecen a un id en especifico
+    @GetMapping("/consultProgramsByFacultyId/{id}")
+    public Response<List<ProgramDTO>> consultProgramsByFacultyId(@PathVariable String id) {
+        return this.iProgramService.findAllProgramByFacultyId(id);
     }
 
 }
