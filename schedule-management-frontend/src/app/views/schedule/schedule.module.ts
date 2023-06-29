@@ -69,7 +69,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     ProfessorAllComponent,
     ScheduleRowComponent,
     ScheduleListComponent,
-   
+    ViewComponent,
     ScheduleUpdateComponent,
     OaUploadComponent,
     OaViewFilesComponent,
