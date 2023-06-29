@@ -29,7 +29,7 @@ public interface IReportRepository extends JpaRepository<Schedule, Long> {
      //Metodo para traer los datos necesarios para realizar el reporte facultad/programa por programa id ordenado
      //ascendentemente por el campo semestre de materia
      @Query( value=" SELECT s.id,s.day,s.starting_time,s.ending_time,s.starting_Date,s.ending_Date, su.name as materiaName, "+
-                   " su.semester, c.course_group,c.description,pro.name as programaName,pro.color,e.name as ambienteName FROM SCHEDULE AS s "+
+                   " su.semester, c.course_group,c.type_environment_required,pro.name as programaName,pro.color,e.name as ambienteName FROM SCHEDULE AS s "+
                    " INNER JOIN course AS c on s.course_id=c.course_id INNER JOIN subject AS su on "+
                    " su.subject_code=c.subject_code INNER JOIN environment AS e ON e.environment_id=s.environment_id"+
                    " INNER JOIN program AS pro on pro.program_id=su.program_id WHERE pro.program_id= :program_id"+
@@ -41,7 +41,7 @@ public interface IReportRepository extends JpaRepository<Schedule, Long> {
     //Metodo para traer los datos necesarios para realizar el reporte facultad/programa por programa id ordenado
     //ascendentemente por el campo semestre de materia
     @Query( value=" SELECT s.id,s.day,s.starting_time,s.ending_time,s.starting_Date,s.ending_Date, su.name as materiaName, "+
-                  " su.semester, c.course_group,c.description,pro.name as programaName,pro.color,e.name as ambienteName FROM SCHEDULE AS s "+
+                  " su.semester, c.course_group,c.type_environment_required,pro.name as programaName,pro.color,e.name as ambienteName FROM SCHEDULE AS s "+
                   " INNER JOIN course AS c on s.course_id=c.course_id INNER JOIN subject AS su on "+
                   " su.subject_code=c.subject_code INNER JOIN environment AS e ON e.environment_id=s.environment_id"+
                   " INNER JOIN program AS pro on pro.program_id=su.program_id WHERE pro.program_id= :program_id"+
@@ -53,7 +53,7 @@ public interface IReportRepository extends JpaRepository<Schedule, Long> {
     //Metodo para traer los datos necesarios para realizar el reporte docente por personCode
     //ascendentemente por el campo semestre de materia
     @Query( value=" SELECT cp.course_teacher_id, p.full_name, su.program_id, s.day,s.starting_time,s.ending_time, su.name as materiaName, "+
-                    "c.course_group, pro.name as programaName, pro.color, e.name as ambienteName FROM COURSE_PERSON AS cp "+
+                    "c.course_group, pro.name as programaName, pro.color, e.name as ambienteName FROM COURSE_TEACHER AS cp "+
                   "INNER JOIN course AS c on cp.course_id=c.course_id INNER JOIN subject AS su on "+
                   "su.subject_code=c.subject_code "+
                   "INNER JOIN schedule AS s on s.course_id = cp.course_id "+	

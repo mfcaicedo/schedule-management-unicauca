@@ -234,7 +234,8 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     if (person != null) {
                         CourseTeacher courseTeacher = new CourseTeacher();
                         courseTeacher.setPerson(person);
-                        courseTeacher.setTeacherCategory(contAux == 1 ?
+                        courseTeacher.setTeacherCategory(
+                                contAux == 1 ?
                                 TeacherCategoryEnumeration.PRIMARY : contAux == 2 ?
                                 TeacherCategoryEnumeration.SECONDARY : TeacherCategoryEnumeration.OTHER
                         );

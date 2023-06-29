@@ -17,8 +17,10 @@ public class CourseTeacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_teacher_id")
     private Integer id;
+
     @Column(name = "teacher_category")
-    private Integer teacherCategory;
+    private TeacherCategoryEnumeration teacherCategory;
+
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
@@ -26,5 +28,6 @@ public class CourseTeacher {
     @ManyToOne
     @JoinColumn(name = "personCode")
     private Person person;
+
 
 }

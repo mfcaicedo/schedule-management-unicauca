@@ -54,7 +54,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./views/resource/resource.module').then(m => m.ResourceModule)
       },
-
+      {
+        path:'reportes',
+        loadChildren: ()=>
+        import('./views/reportes/reportes.module').then(m=>m.ReportesModule)
+      },
       {
         path: 'schedule',
         loadChildren: () =>
