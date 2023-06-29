@@ -32,6 +32,9 @@ export class ProgramService {
 
 
   }
+  getProgramIds() {
+    return this.programs.map((program) => program.programId);
+  }
   getProgramById(id:string){
     // const program: Program =this.programs.find(program=> program.programId==id)!;
     // return program;

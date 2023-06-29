@@ -78,14 +78,14 @@ export class ScheduleViewComponent implements AfterViewInit {
   }
   ngAfterViewInit(): void {
 
-  this.showHorario=true;
+
     
   this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
-    this.horariosAmbienteColor = Object.values(response.data) as ScheduleColor[];
+    this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
     
 
 
-      this.scheduleService.getScheduleWithColor(this.horariosAmbienteColor);
+      
    
     });
   }

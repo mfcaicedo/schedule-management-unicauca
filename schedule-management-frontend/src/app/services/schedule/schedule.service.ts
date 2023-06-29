@@ -19,7 +19,7 @@ export class ScheduleService {
 
 
   
-  programs: ProgramService | undefined;
+  programs!: ProgramService;
 
   period: Period = {
     'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",
@@ -174,6 +174,24 @@ export class ScheduleService {
     
     return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
+        
+        map((response: any) => {
+          const scheduleColors: ScheduleColor[] = Object.values(response.data).map((item: any) => {
+            const scheduleColor: ScheduleColor = {
+              id: item.id,
+              day: item.day,
+              startingTime: item.startingTime,
+              endingTime: item.endingTime,
+              color: item.color,
+              course: item.course, // Asigna el valor correspondiente a 'course'
+              environment: item.environment // Asigna el valor correspondiente a 'environment'
+            };
+            return scheduleColor;
+          });
+          return scheduleColors;
+        }),
+        
+        
         catchError((e) => {
 
           console.log('Error obteniendo  horario ocupado del ambiente ', e.error.mensaje, 'error');
@@ -196,7 +214,7 @@ export class ScheduleService {
     let takenEnvironmentSchedules: Schedule[] = []
     this.getTakenEnvironmentSchedule(environmentId).subscribe((response) => {
 
-      takenEnvironmentSchedules =  Object.values(response.data) as Schedule[]
+      takenEnvironmentSchedules =  Object.values(response) as Schedule[]
 
     });
     return of(takenEnvironmentSchedules)
@@ -261,8 +279,11 @@ export class ScheduleService {
   choseRandomColor() {
 
     
-    let randomColorValue: string = this.colores[this.iteradorColores];
-    if (this.iteradorColores < 6) {
+   
+    const numberList: number[] = this.programs.getProgramIds().map((str) => parseInt(str, 10));
+  
+    let randomColorValue: string = this.colores[numberList[this.iteradorColores]];
+    if (numberList.length< 4) {
       this.iteradorColores += 1
     } else {
       this.iteradorColores = 1

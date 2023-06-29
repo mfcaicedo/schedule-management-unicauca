@@ -38,7 +38,7 @@ import {
 import { IconModule } from '@coreui/icons-angular';
 import { ScheduleBeforeCreateFormComponent } from './schedule-before-create-form/schedule-before-create-form.component';
 import { CoursesComponent } from './courses/courses.component';
-import { ViewComponent } from 'src/app/views/schedule/view/view.component';
+
 
 import { FormsModule } from '@angular/forms';
 import { ScheduleEnvironmentsComponent } from './schedule-environments/schedule-environments.component';
@@ -69,7 +69,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     ProfessorAllComponent,
     ScheduleRowComponent,
     ScheduleListComponent,
-    ViewComponent,
+   
     ScheduleUpdateComponent,
     OaUploadComponent,
     OaViewFilesComponent,
