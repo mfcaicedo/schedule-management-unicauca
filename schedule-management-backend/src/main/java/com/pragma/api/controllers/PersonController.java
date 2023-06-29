@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,6 +43,7 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.OK).body(this.iPersonService.findAllPerson(pageable));
     }
 
+    @PreAuthorize("hasRole('ROLE_ACADEMIC_MANAGER')")
     @PostMapping("/uploadFile")
     ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     //ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
