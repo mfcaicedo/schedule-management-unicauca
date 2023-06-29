@@ -81,8 +81,6 @@ export class ScheduleViewComponent implements AfterViewInit {
       this.horariosAmbienteColor = Object.values(response.data) as ScheduleColor[];
       
     });
-    this.scheduleService.getScheduleWithColor(this.horariosAmbienteColor);
-    console.log("el color es: ",this.scheduleService.getScheduleWithColor(this.horariosAmbienteColor))
   }
   
 
