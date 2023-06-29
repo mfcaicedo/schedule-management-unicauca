@@ -125,7 +125,7 @@ export class ScheduleService {
     6: "bg-purple",
     // 7:"bg-lightred"
   }
-  iteradorColores: number = 1
+  iteradorColores: number = 0
   continueCreatingScheduleForCourse: boolean = false;
   // endPoint: String = 'api/schedule'
   endPoint: string = schedule.urlSch;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
@@ -166,14 +166,28 @@ export class ScheduleService {
     //TODO consumir servicio para obtener el horario ocupado del ambiente
     return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
+        map((response: any) => {
+          const scheduleColors: ScheduleColor[] = Object.values(response.data).map((item: any) => {
+            const scheduleColor: ScheduleColor = {
+              id: item.id,
+              day: item.day,
+              startingTime: item.startingTime,
+              endingTime: item.endingTime,
+              color: this.choseRandomColor(),
+              course: item.course, // Asigna el valor correspondiente a 'course'
+              environment: item.environment // Asigna el valor correspondiente a 'environment'
+            };
+            return scheduleColor;
+          });
+          return scheduleColors;
+        }),
         catchError((e) => {
-
-          console.log('Error obteniendo  horario ocupado del ambiente ', e.error.mensaje, 'error');
+          console.log('Error obteniendo horario ocupado del ambiente', e.error.mensaje);
           return throwError(e);
-
         })
-      )
+      );
   }
+  
   fillTakenProfessorSchedule(personCode: string): Observable<Schedule[]> {
     let takenProfessorSchedules: Schedule[] = []
     this.getTakenProfessorSchedule(personCode).subscribe((response) => {
@@ -252,21 +266,16 @@ export class ScheduleService {
 
   choseRandomColor() {
 
-    // let colorKeys:string[] = Object.keys(this.colores);
-    // let randomIndex = Math.floor(Math.random() * colorKeys.length);
-    // let randomColorKey:number = Number(colorKeys[randomIndex]);
+   
     let randomColorValue: string = this.colores[this.iteradorColores];
     if (this.iteradorColores < 6) {
       this.iteradorColores += 1
     } else {
       this.iteradorColores = 1
     }
-
-
     return randomColorValue
-
-
   }
+
   filterSchedulesPaged(
     availableSchedules: Schedule[],
     takenProfessorSchedules: Schedule[],
