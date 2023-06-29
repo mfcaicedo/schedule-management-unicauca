@@ -26,7 +26,7 @@
               <td *ngFor="let dia of weekDays" class="drop-zone" (dragover)="allowDrop($event)"
                 (drop)="drop($event, weekDayToInteger(weekDays, dia), hora,horario.startingTime,horario.endingTime,dia, ambiente.id) ">
                 
-                <div id="franja" *ngFor="let horario of horariosAmbienteColor; let i = index ">
+                <div id="franja" *ngFor="let horario of horariosAmbienteColor; ">
                   <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
                     <div *ngIf="horario.day == dia.toUpperCase() ">
                       <div
@@ -46,7 +46,16 @@
                   </div>
                 </div>
 
+                <div *ngFor="let materia of getMaterias(weekDayToInteger(weekDays, dia), hora); let i = index">
+                  <div class="materia-container">
+                    <div class="materia">{{ materia }}</div>
+                    <button class="eliminar-btn"
+                      (click)="confirmRemoveMateria(weekDayToInteger(weekDays, dia), hora, i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
 
+                </div>
 
 
               </td>
