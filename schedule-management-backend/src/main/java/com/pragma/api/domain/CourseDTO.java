@@ -16,7 +16,7 @@ public class CourseDTO {
     /**
      * Id del curso
      */
-    private Integer courseId;
+    private Integer id;
 
     /**
      * Grupo del curso
@@ -30,6 +30,8 @@ public class CourseDTO {
     @NotNull(message = "La capacidad no puede ser vacio")
     private Integer courseCapacity;
 
+    private Integer remainingHours;
+
     /**
      * Tipo de ambiente requerido
      */
@@ -41,5 +43,5 @@ public class CourseDTO {
     @NotNull(message = "El codigo de la materia no puede ser vacio")
     private Subject subject;
 
-    private Integer remainingHours;
+
 }
