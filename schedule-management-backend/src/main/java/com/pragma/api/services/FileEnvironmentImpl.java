@@ -70,15 +70,10 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
          private Workbook processExcelFile(String path) throws IOException {
 
-        //TODO 1. consultar todos las facultades
-             //public Response<List<FacultyDTO>> findAllFaculty();
-        //Faculty faculty = facultyRepository.findByFacultyIdIs(log.getFaculty().toUpperCase().trim());
-        //List<FacultyDTO> faculties = iFacultyService.findAllByFaculty();
+        //TODO 1. consultar todos las facultades y recursos
         List <Faculty> faculties = facultyRepository.findAll();
-        //teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
         List <Resource> resources = resourceRepository.findAll();
-        resources.forEach(resource -> System.out.println("hola: " + resource.getName()));
-        //TODO 3. modificar el excel con los datos consultados de profesores y materias
+        //TODO 3. modificar el excel con los datos consultados de facultades y recursos
         // Cargar el archivo existente
 
         Workbook workbook = WorkbookFactory.create(new File(path));
@@ -91,7 +86,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
              for (int i = 1; i <= resources.size(); i++) {
                  Row row = sheetResources.getRow(i);
-                 row.getCell(9).setCellValue(resources.get(i-1).getName());
+                     row.getCell(9).setCellValue(resources.get(i-1).getName());
              }
 
         //Inserto datos en la hoja 3
@@ -120,7 +115,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     // Procesar el archivo Excel utilizando un método llamado processExcelFile y obtener el objeto Workbook
         temporaryFile = Files.readAllBytes(Path.of(path));
         Workbook workbook = processExcelFile(path);
-        //Workbook workbook = WorkbookFactory.create(new File(path));
 
     // Crear un OutputStream para guardar el archivo Excel en memoria
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -246,7 +240,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                                 //Validar que el nombre del ambiente no exista en la base de datos
                                 List<Environment> enviromentsDb = this.environmentRepository.findAll();
                                 if (this.existsInBD(enviromentsDb, environmentaux)) {
-                                    responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
+                                    responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
                                     errorRepetidos = true;
                                 }
                             }
