@@ -49,9 +49,13 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public GenericPageableResponse findAllPerson(Pageable pageable) {
         Page<Person> personPage = this.iPersonRepository.findAll(pageable);
-//        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId()));
-        if(personPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.person.empty", "");
-        return this.validatePageList(personPage);
+        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId() +
+                " " + x.getDepartment().getDepartmentName()));
+        List<PersonDTO> personsDTO = new ArrayList<>();
+        personsDTO = personPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
+        personsDTO.forEach(x -> System.out.println( "Erika2: " + x.getDepartment().getDepartmentId() +
+                " " + x.getDepartment().getDepartmentName()));
+        return PageableUtils.createPageableResponse(personPage, personsDTO);
     }
 
     @Override
@@ -74,6 +78,15 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public Response<GenericPageableResponse> findAllByPersonType(Pageable pageable, String personType) {
         Page<Person> personPage = this.iPersonRepository.findAllByPersonType(pageable, personType);
+
+        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId() +
+                " " + x.getDepartment().getDepartmentName()));
+
+        /*List<PersonDTO> personsDTO = new ArrayList<>();
+        personsDTO = personPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
+        personsDTO.forEach(x -> System.out.println( "Erika2: " + x.getDepartment().getDepartmentId() +
+                " " + x.getDepartment().getDepartmentName()));*/
+
 
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);

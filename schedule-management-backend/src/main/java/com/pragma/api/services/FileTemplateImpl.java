@@ -73,9 +73,11 @@ public class FileTemplateImpl implements ITemplateFileService{
         try {
             temporaryFile = Files.readAllBytes(Path.of(path));
         }catch (IOException e){
+            System.out.println("entra al catch");
 //            throw new IOException("No se pudo leer el archivo");
-            temporaryFile = Files.readAllBytes(Path.of("D:/UNIVERSIDAD/OCTAVO SEMESTRE/Proyecto_1/project-1-folder/schedule-management-unicauca/" +
-                    "schedule-management-backend/Plantilla_oferta_academica.xlsx"));
+            temporaryFile = Files.readAllBytes(Path.of("D:/UNIVERSIDAD/OCTAVO SEMESTRE/Proyecto_1/" +
+                    "project-1-folder/schedule-management-unicauca/schedule-management-backend/" +
+                    "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx"));
         }
         System.out.println("temporaryFile: "+temporaryFile.length);
         System.out.println("temporaryFile: "+temporaryFile);
