@@ -11,11 +11,15 @@ import { catchError, map, Observable, of, scheduled, throwError } from 'rxjs';
 import { ResponseData } from 'src/app/models/responseData.model'
 import { schedule } from 'src/schedule/schedule';
 import Swal from 'sweetalert2'
+import { ProgramService } from '../program/program.service';
 @Injectable({
   providedIn: 'root'
 })
 export class ScheduleService {
 
+
+  
+  programs: ProgramService | undefined;
 
   period: Period = {
     'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",
@@ -116,7 +120,10 @@ export class ScheduleService {
     { id: 66, day: "SABADO", startingTime: '18:00:00', endingTime: '22:00:00', course: this.curso, environment: this.envi },
 
   ]
+  iteradorColores: number = 1
   colores: { [key: number]: string; } = {
+
+    
     1: "bg-sky",
     2: "bg-orange",
     3: "bg-green",
@@ -125,7 +132,7 @@ export class ScheduleService {
     6: "bg-purple",
     // 7:"bg-lightred"
   }
-  iteradorColores: number = 1
+
   continueCreatingScheduleForCourse: boolean = false;
   // endPoint: String = 'api/schedule'
   endPoint: string = schedule.urlSch;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
@@ -164,6 +171,7 @@ export class ScheduleService {
   }
   getTakenEnvironmentSchedule(environmentId: number) {
     //TODO consumir servicio para obtener el horario ocupado del ambiente
+    
     return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
         catchError((e) => {
@@ -188,7 +196,7 @@ export class ScheduleService {
     let takenEnvironmentSchedules: Schedule[] = []
     this.getTakenEnvironmentSchedule(environmentId).subscribe((response) => {
 
-      takenEnvironmentSchedules = response as Schedule[]
+      takenEnvironmentSchedules =  Object.values(response.data) as Schedule[]
 
     });
     return of(takenEnvironmentSchedules)
@@ -252,9 +260,7 @@ export class ScheduleService {
 
   choseRandomColor() {
 
-    // let colorKeys:string[] = Object.keys(this.colores);
-    // let randomIndex = Math.floor(Math.random() * colorKeys.length);
-    // let randomColorKey:number = Number(colorKeys[randomIndex]);
+    
     let randomColorValue: string = this.colores[this.iteradorColores];
     if (this.iteradorColores < 6) {
       this.iteradorColores += 1
