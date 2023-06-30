@@ -33,9 +33,7 @@ export class ResourcesCreateComponent {
     this.visible = !this.visible;
   }
 
-  handleLiveDemoChange(event: any) {
-    this.visible = event;
-  }
+  
 
   saveResource(){
     this.resourceService.saveResource(this.resource).subscribe(
