@@ -32,29 +32,38 @@
                       <div
                         class="{{horario.color}} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">
                         <span>{{horario.course.subject.subjectCode}}</span>
+
                       </div>
                       <div class="margin-10px-top font-size14"><strong><span>Curso:{{horario.course.courseGroup}}</span>
                         </strong> </div>
+                      <button class="eliminar-btn"
+                        (click)="confirmRemoveMateriaa(weekDayToInteger(weekDays, dia), hora,horario.id)">
+                        <i class="fas fa-trash"></i>
+                      </button>
+
 
                     </div>
                   </div>
                 </div>
 
+                <div *ngFor="let materia of getMaterias(weekDayToInteger(weekDays, dia), hora); let i = index">
+                  <div class="materia-container">
+                    <div class="materia">{{ materia }}</div>
+                    <button class="eliminar-btn"
+                      (click)="confirmRemoveMateria(weekDayToInteger(weekDays, dia), hora, i)">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
 
+                </div>
 
 
               </td>
               <ng-template cTemplateId="accordionBody">
 
-
-                <!-- Llamar al form paxra crear un schedule el avance de este afecta el progress bar, se emite-->
-                <!-- Se le envia programa y semestre y este emite ambiente para mostrar en schedule view
-                  y el progreso que afecta la barra de progreso
-                -->
-
               </ng-template>
             </tr>
-            <!-- </div> -->
+
           </tbody>
         </table>
       </div>
