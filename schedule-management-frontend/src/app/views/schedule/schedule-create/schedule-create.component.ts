@@ -27,7 +27,8 @@ export class ScheduleCreateComponent {
   program: Program = {
     'programId': '0',
     'name': '',
-    'department_id': ''
+    'department_id': '',
+    'color':''
   };
   // @ViewChild('beforeFormAccordion',{static:true}) beforeFormAccordion !:ElementRef ;
   @ViewChild('beforeForm', { static: false }) beforeForm!: ScheduleBeforeCreateFormComponent;

@@ -5,5 +5,5 @@ export interface Subject{
   weeklyOverload:number;
   timeBlock:boolean;
   semester:number;
-  programId:Program;
+  program:Program;
 }

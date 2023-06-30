@@ -54,7 +54,8 @@ export class ScheduleViewComponent implements AfterViewInit {
   programm: Program = {
     'programId': '0',
     'name': '',
-    'department_id': ''
+    'department_id': '',
+    'color':''
   };
   // @ViewChild('beforeFormAccordion',{static:true}) beforeFormAccordion !:ElementRef ;
   @ViewChild('beforeForm', { static: false }) beforeForm!: ScheduleBeforeCreateFormComponent;
@@ -81,10 +82,11 @@ export class ScheduleViewComponent implements AfterViewInit {
     
   this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
     this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
+    console.log("ESTE ES EL RESPONSE DEL BOBO HPTA DE DANIEL",response);
     
 
 
-      this.scheduleService.getScheduleWithColor(this.horariosAmbienteColor);
+      
    
     });
   }

@@ -12,6 +12,9 @@ import { ResponseData } from 'src/app/models/responseData.model'
 import { schedule } from 'src/schedule/schedule';
 import Swal from 'sweetalert2'
 import { ProgramService } from '../program/program.service';
+import { CourseService } from '../course/course.service';
+import { Color } from 'chart.js';
+import { ReturnStatement } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,19 +23,22 @@ export class ScheduleService {
 
   
   programs!: ProgramService;
-
+  color!:string;
+  subjetc1!: Subject; 
   period: Period = {
     'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",
     initDate: "2023-07-15T00:00:00.000+0000"
   }
-  program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1' }
-  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'programId': this.program }
+  program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1',color:'bg-orange' }
+  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'program': this.program }
   person: Person = { 'personCode': '104618021314', 'fullName': 'PPC', 'personType': 'TEACHER', 'department': { 'departmentId': '1', 'departmentName': 'Ingenieria de sistemas' } }
 
   curso: Course = {
     'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': this.period.periodId,
     'subject': this.subject, 'personCode': this.person.personCode, 'remainingHours': 2, 'typeEnvironmentRequired': 'asd'
   }
+
+   courseprueba!: CourseService;
   course!: Course;
   envi!: Environment;
   schedule: Schedule[] = [
@@ -142,7 +148,7 @@ export class ScheduleService {
       Authorization: 'my-auth-token'
     })
   };
-  constructor(
+  constructor(private courseService: CourseService,
     private http: HttpClient
   ) { }
   getAllAvailableScheduleByEnvironment() {
@@ -168,31 +174,64 @@ export class ScheduleService {
 
         })
       )
+      
   }
+  getColorToSchedule(courseId:number){
+
+    let courseColor: Course
+    
+    console.log("ENTRAAAAAAAAAAAAAAAA",this.courseprueba)
+    return this.courseService.getCourseById(courseId).subscribe((response) => {
+      // console.log("Response de takenprofesor" ,response)
+      courseColor = response as Course
+      console.log(courseColor)
+    
+      this.color=courseColor.subject.program.color;
+  
+      console.log("ESTE ES EL COLOOOOR ",this.color)
+
+
+    });
+   
+   
+    
+  }
+  
+
+  
   getTakenEnvironmentSchedule(environmentId: number) {
     //TODO consumir servicio para obtener el horario ocupado del ambiente
+    
     
     return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
         map((response: any) => {
+
+          
           const scheduleColors: ScheduleColor[] = Object.values(response.data).map((item: any) => {
+            const courseId: number = item.course.courseId;
+            console.log('AQUI DEBE IR EL ID DEL CURSO: '+courseId)
+            this.getColorToSchedule(courseId)
+            console.log("PRUEBAAAAAAAAAAAAAAAAAA", this.getColorToSchedule(courseId))
+
+                                
             const scheduleColor: ScheduleColor = {
               id: item.id,
               day: item.day,
               startingTime: item.startingTime,
               endingTime: item.endingTime,
-              color: this.choseRandomColor(),
+              color: this.color,
               course: item.course, // Asigna el valor correspondiente a 'course'
               environment: item.environment // Asigna el valor correspondiente a 'environment'
+              
             };
+           
+
             return scheduleColor;
           });
           return scheduleColors;
-        }),
-        catchError((e) => {
-          console.log('Error obteniendo horario ocupado del ambiente', e.error.mensaje);
-          return throwError(e);
         })
+      
       );
   }
   
@@ -262,10 +301,15 @@ export class ScheduleService {
   }
 
   getScheduleWithColor(schedules: Schedule[]): ScheduleColor[] {
+
+    
     return this.fillColorSchedule(schedules);
   }
   fillColorSchedule(horariosAmbiente: Schedule[]) {
+
+    
     let horariosColor = horariosAmbiente.map((x) => { return { ...x, color: "" } })
+    
     horariosColor.forEach(x => x.color = this.choseRandomColor())
 
     // console.log("colores de horario ",horariosColor)
@@ -273,10 +317,10 @@ export class ScheduleService {
   }
 
   choseRandomColor() {
-
     
+   
     let randomColorValue: string = this.colores[this.iteradorColores];
-    if (this.iteradorColores < 6) {
+    if (this.iteradorColores < 4) {
       this.iteradorColores += 1
     } else {
       this.iteradorColores = 1

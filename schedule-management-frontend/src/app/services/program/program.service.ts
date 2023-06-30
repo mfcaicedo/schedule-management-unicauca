@@ -13,9 +13,9 @@ export class ProgramService {
     private http : HttpClient
   ) { }
     program !:Program
-  programs:Program[]=[
-    {programId:'PIS',name:'INGENIERIA DE SISTEMAS',department_id:'1'},
-    {programId:'PIET',name:'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES',department_id:'2'}
+ programs:Program[]=[
+    {programId:'PIS',name:'INGENIERIA DE SISTEMAS',department_id:'1',color:'bg-orange'},
+    {programId:'PIET',name:'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES',department_id:'2',color:'bg-blue'}
 
   ]
 
@@ -38,7 +38,7 @@ export class ProgramService {
   getProgramById(id:string){
     // const program: Program =this.programs.find(program=> program.programId==id)!;
     // return program;
-    return this.http.get<any>(this.endPoint+`/${id}`).pipe(
+    return this.http.get<Program>(this.endPoint+`/${id}`).pipe(
       catchError((e) => {
 
         console.log('Error obteniendo todos los RECURSOS', e.error.mensaje, 'error');
