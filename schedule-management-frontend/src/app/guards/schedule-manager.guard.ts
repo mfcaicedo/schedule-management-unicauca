@@ -7,7 +7,7 @@ import Swal from 'sweetalert2'
 @Injectable({
   providedIn: 'root'
 })
-export class AdminGuard implements CanActivate {
+export class ScheduleManagerGuard implements CanActivate {
 
   constructor(
 
@@ -16,18 +16,19 @@ export class AdminGuard implements CanActivate {
   ){
 
   }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
     return this.authService.user$
       .pipe(
         map(user => {
           console.log(user)
-          const esAdministrador = user?.authorities?.some(authority => authority.authority === 'ROLE_ACADEMIC_MANAGER');
+          const esScheduleManager = user?.authorities?.some(authority => authority.authority === 'ROLE_SCHEDULE_MANAGER');
 
-          if(esAdministrador)  {
+          if(esScheduleManager)  {
             //Swal.fire("Welcome", "holaa","success")
+            console.log("Tiene acceso")
             return true;
           }
           this.router.createUrlTree(['/'])
@@ -35,7 +36,6 @@ export class AdminGuard implements CanActivate {
           return false;
         })
       )
-
   }
 
 }

@@ -5,6 +5,7 @@ import { EnvironmentDetailComponent } from './environment-detail/environment-det
 import { EnvironmentEditComponent } from './environment-edit/environment-edit.component';
 import { EnvironmentUploadComponent } from './environment-upload/environment-upload.component';
 import { EnvironmentDeleteComponent} from './environment-delete/environment-delete.component';
+import { ScheduleManagerGuard } from 'src/app/guards/schedule-manager.guard';
 const routes: Routes = [
   {
     path: '',
@@ -14,7 +15,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/all',
+        redirectTo: 'all',
         pathMatch: 'full'
       },
       {
@@ -34,6 +35,7 @@ const routes: Routes = [
       {
         //detalle y de un ambiente
         path: 'create',
+        canActivate:[ScheduleManagerGuard],
         component: EnvironmentDetailComponent,
         data: {
           title: 'Crear'
@@ -41,6 +43,7 @@ const routes: Routes = [
       },
       {
         path: 'edit/:environmentId',
+        canActivate:[ScheduleManagerGuard],
         component: EnvironmentEditComponent,
         data: {
           title: 'Editar'
@@ -48,6 +51,7 @@ const routes: Routes = [
       },
       {
         path: 'upload-env',
+        canActivate:[ScheduleManagerGuard],
         component: EnvironmentUploadComponent,
         data: {
           title: 'Cargar ambiente'
@@ -55,6 +59,7 @@ const routes: Routes = [
       },
       {
         path: 'delete/:environmentId',
+        canActivate:[ScheduleManagerGuard],
         component:EnvironmentDeleteComponent,
         data:{
           title: 'Eliminar'

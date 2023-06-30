@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {TokenService} from '../token/token.service'
-import { Observable, switchMap, tap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Auth } from 'src/app/models/auth.model';
-import {User} from 'src/app/models/profile'
+import {Authority, User} from 'src/app/models/profile'
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 @Injectable({
@@ -58,6 +58,19 @@ export class AuthService {
   logout(){
     this.tokenService.logout()
     this.user.next(null);
+  }
+
+  getUserAuthority():Observable<string[]>{
+
+    return this.user$.pipe(
+      map(user => {
+        let autoridades:string[] = []
+        console.log(user)
+
+        user?.authorities?.forEach(authority => autoridades.push(authority.authority)  );
+        return autoridades;
+      })
+    )
   }
 
 

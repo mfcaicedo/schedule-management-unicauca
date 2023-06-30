@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ResourcesAllComponent } from './resources-all/resources-all.component';
 import { ResourcesCreateComponent } from './resources-create/resources-create.component';
 import { ResourcesEditComponent } from './resources-edit/resources-edit.component';
+import { ScheduleManagerGuard } from 'src/app/guards/schedule-manager.guard';
 
 const routes: Routes = [
   {
@@ -13,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/all',
+        redirectTo: 'all',
         pathMatch: 'full'
       },
       {
@@ -33,6 +34,7 @@ const routes: Routes = [
       {
         //detalle y de un ambiente
         path: 'create',
+        canActivate:[ScheduleManagerGuard],
         component: ResourcesCreateComponent,
         data: {
           title: 'Crear'
@@ -40,6 +42,7 @@ const routes: Routes = [
       },
       {
         path: 'edit/:resourceId',
+        canActivate:[ScheduleManagerGuard],
         component: ResourcesEditComponent,
         data: {
           title: 'Editar'

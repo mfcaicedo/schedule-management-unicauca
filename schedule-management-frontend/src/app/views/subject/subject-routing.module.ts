@@ -2,6 +2,8 @@ import { NgModule, importProvidersFrom } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SubjectUploadComponent } from './subject-upload/subject-upload.component';
 import { SubjectAllComponent } from './subject-all/subject-all.component';
+import {AdminGuard} from '../../guards/admin.guard'
+import {ScheduleManagerGuard} from '../../guards/schedule-manager.guard'
 
 const routes: Routes = [
   {
@@ -12,7 +14,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/all',
+        redirectTo: 'all',
         pathMatch: 'full'
       },
       {
@@ -24,6 +26,7 @@ const routes: Routes = [
       },
       {
         path: 'upload-sub',
+        canActivate:[AdminGuard],
         component: SubjectUploadComponent,
         data: {
           title: 'Cargar asignaturas',

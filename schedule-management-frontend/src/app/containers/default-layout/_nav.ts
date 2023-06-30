@@ -1,32 +1,23 @@
 import { INavData } from '@coreui/angular';
+import {AuthorityMap} from 'src/app/models/AuthorityMap.model';
 
 export const navItems: INavData[] = [
-  // {
-  //   name: 'Dashboard',
-  //   url: '/dashboard',
-  //   iconComponent: { name: 'cil-speedometer' },
-  //   badge: {
-  //     color: 'info',
-  //     text: 'NEW'
-  //   }
-  // },
-  // {
-  //   title: true,
-  //   name: 'Theme'
-  // },
+
   {
     name: 'Oferta académica',
-    url: '/schedule',
+    url: '/schedule/oa',
     iconComponent: { name: 'cilBook' },
+
     children: [
       {
         name: 'Subir oferta',
-        url: '/schedule/upload-oa',
-        iconComponent: { name: 'cilCloudUpload' }
+        url: '/schedule/oa/upload-oa',
+        iconComponent: { name: 'cilCloudUpload' },
+
       },
       {
         name: 'Ver archivos',
-        url: '/schedule/view-files-oa',
+        url: '/schedule/oa/view-files-oa',
         iconComponent: { name: 'cil-file' }
       }
     ]
@@ -138,6 +129,7 @@ export const navItems: INavData[] = [
 
         url: '/reportes/Report_faculty'
       },*/
+
       {
         name: 'Reporte por Programa',
         url: '/reportes/Programa'
@@ -160,3 +152,36 @@ export const navItems: INavData[] = [
     ]
   },
 ];
+
+export const authorityMapping: AuthorityMap[] = [
+  { url: '/schedule/oa', authority: ['ROLE_ACADEMIC_MANAGER' ]},
+  { url: '/schedule/oa/upload-oa', authority: ['ROLE_ACADEMIC_MANAGER' ] },
+  { url: '/schedule/oa/view-files-oa', authority: ['ROLE_ACADEMIC_MANAGER'] },
+  // { url: '/environment', authority: ['ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/environment/create', authority: ['ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/environment/upload-env', authority: ['ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/environment/all', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER' ] },
+  // { url: '/resource', authority: ['ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/resource/create', authority: ['ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/resource/all', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER' ] },
+  // { url: '/teacher', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/teacher/upload-teacher', authority: ['ROLE_ACADEMIC_MANAGER' ] },
+  { url: '/teacher/all', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER' ] },
+  { url: '/subject', authority: ['ROLE_ACADEMIC_MANAGER' ] },
+  { url: '/subject/upload-sub', authority: ['ROLE_ACADEMIC_MANAGER' ] },
+  { url: '/subject/all', authority: ['ROLE_ACADEMIC_MANAGER' ,'ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule', authority: ['ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule/create', authority: ['ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule/reserve', authority: ['ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule/detail', authority: ['ROLE_ACADEMIC_MANAGER' ,'ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule/detailprofessor', authority: ['ROLE_ACADEMIC_MANAGER' ,'ROLE_SCHEDULE_MANAGER'] },
+  { url: '/schedule/all', authority: ['ROLE_SCHEDULE_MANAGER'] },
+  { url: '/reportes', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER'] },
+  { url: '/reportes/Programa', authority: ['ROLE_SCHEDULE_MANAGER'] },
+  { url: '/reportes/Semestre', authority: ['ROLE_ACADEMIC_MANAGER'] },
+  { url: '/reportes/Docente', authority: ['ROLE_ACADEMIC_MANAGER'] },
+  { url: '/reportes/Ambiente', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER'] },
+  { url: '/reportes/all', authority: ['ROLE_ACADEMIC_MANAGER','ROLE_SCHEDULE_MANAGER'] },
+];
+
+

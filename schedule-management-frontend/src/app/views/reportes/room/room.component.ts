@@ -49,7 +49,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
 
 
   //DATOS REPORTE
-  seleccionados: number[] = [];
+  seleccionados: string[] = [];
   seleccionadoDic: Map<string, string> = new Map<string, string>();
   columnsReporte:string[]=['Id-sch','Dia','Hora Inicio','Hora Fin','Fecha Inici','Fecha Fin',
   'Ambiente','Materia','Programa', 'color'];

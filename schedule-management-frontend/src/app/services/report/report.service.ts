@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { Person } from 'src/app/models/person.model';
 import { report } from 'src/report/report';
-import {ReportRoom} from 'src/app/models/reportRoom.model'
+import {ReportRoom} from 'src/app/models/ReportRoom.model'
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +37,7 @@ export class ReportService {
  * @param idEnviroment  el id de ambientes
  * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id
  */
-getReportRoom(idEnviroment:number): Observable<ReportRoom[]> {
+getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
   return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
     map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
     catchError((e) => {

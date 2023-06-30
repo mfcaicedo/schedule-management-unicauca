@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Environment } from 'src/app/models/environment.model';
-import {ReportRoom} from 'src/app/models/reportRoom.model'
+import {ReportRoom} from 'src/app/models/ReportRoom.model'
 import {ReportService} from 'src/app/services/report/report.service'
 
 import * as pdfMake from 'pdfmake/build/pdfmake';
@@ -35,9 +35,11 @@ export class ReportEnvironmentComponent {
   getSelectedEnvironment(environment:Environment | null ){
     this.ambiente = environment
 
+    console.log(environment?.id.toString())
+
     if(environment){
       //consultar reprotes de ese environment
-      this.reportService.getReportRoom(environment.id).subscribe((response)=>{
+      this.reportService.getReportRoom(environment.id.toString()).subscribe((response)=>{
         console.log(response)
         this.reportes = response
       })
