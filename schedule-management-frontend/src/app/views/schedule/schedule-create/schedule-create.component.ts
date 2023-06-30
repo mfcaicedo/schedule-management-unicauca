@@ -59,6 +59,7 @@ export class ScheduleCreateComponent {
     this.course = course
 
   }
+  
   getProgressMadeProgramSemester(progress: number) {
     this.progressMadeProgramSemester += progress
     if (this.progressMadeProgramSemester == 100) {
