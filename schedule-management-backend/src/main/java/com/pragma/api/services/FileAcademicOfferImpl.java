@@ -130,10 +130,10 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         }
 
         //Validar si hay un archivo para un mismo programa, en el mismo periodo y que su estado no sea finalizado
-        AcademicOfferFile academicOfferFile1 = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
+        AcademicOfferFile academicOfferFileAux = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
                 academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
                 StateAcOfferFileEnumeration.FINALIZADO);
-        if(academicOfferFile1 != null){
+        if(academicOfferFileAux != null){
             responseFile.addLogsGeneric("Lo sentimos, no podemos procesar el archivo porque " +
                     "ya existe un archivo perteneciente al programa " +
                     academicOfferFile.getProgram().getProgramId() +
@@ -141,6 +141,46 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     " y su estado no es Finalizado");
             responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             return responseFile;
+        }else{
+            System.out.println("llega la que sabemos");
+            //TODO Guardamos los cursos del archivo nuevo
+            //1. Buscamos un archivo en finalizado para el archivo a subir
+//            List<AcademicOfferFile> academicOfferFileSearch = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFile(
+            List<AcademicOfferFile> academicOfferFileSearchList = iAcademicOfferFileRepository.findAllByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileOrderByDateRegisterFileDesc(
+                    academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
+                    StateAcOfferFileEnumeration.FINALIZADO);
+            AcademicOfferFile academicOfferFileSearch = null;
+            if(academicOfferFileSearchList.size() > 0){
+                academicOfferFileSearch = academicOfferFileSearchList.get(0);
+            }
+            academicOfferFileSearchList.forEach(x-> System.out.println("Archivo: " + x.getNameFile()));
+
+            System.out.println("holiii " + academicOfferFileSearch.getProgram().getName());
+            if(academicOfferFileSearch != null){
+                System.out.println("estamos melos");
+                //2. Validamos que no hayan cursos repetidos pertenecientes al mismo programa del archivo a subir
+                //2.1 Recupero los cursos pertenecientes al programa del archivo a subir
+                List<Course> courses = iCourseService.finAllByProgram_ProgramaId(academicOfferFileSearch.getProgram().getProgramId());
+                courses.forEach(x-> System.out.println("Curso: " + x.getId() + x.getSubject().getProgram().getName()));
+                //2.2 Comparar los cursos del archivo a subir con los cursos del archivo finalizado encontrado que
+                //pertenezcan al mismo programa
+                boolean flag = false;
+                for (Course course: courses){
+                    for (FileRowAcademicOffer value : data) {
+                        if(course.getSubject().getSubjectCode().equals(value.getSubjectCode()) &&
+                        course.getCourseGroup().equals(value.getGroup())
+                        ){
+                            responseFile.addLogsGeneric("Ya existe un curso con el mismo grupo " +
+                                    value.getSubjectCode() + ". Verifique el archivo");
+                            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+                            flag = true;
+                        }
+                    }
+                }
+                //Si hay un curso repetido o más, no se puede procesar el archivo
+                if(flag) return responseFile;
+
+            }
         }
 
         //eliminar el la primera posición de la lista
@@ -169,12 +209,11 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
 
             if (!value.getSubjectCode().isEmpty()) {
                 System.out.println("codigo materia: " + value.getSubjectCode());
-                Response<SubjectDTO> prueba = iSubjectService.getSubjectByCode(value.getSubjectCode());
-                System.out.println("prueba: " + prueba.getData().getSubjectCode());
-                Subject subject = modelMapper.map(iSubjectService.getSubjectByCode(value.getSubjectCode()).getData(), Subject.class);
-                if (subject != null) {
-                    course.setSubject(subject);
-
+                Response<SubjectDTO> subjectDTO = iSubjectService.getSubjectByCode(value.getSubjectCode());
+                System.out.println("subjectDTO: " + subjectDTO.getData());
+                if (subjectDTO.getData() != null) {
+                    Subject subjectFinal = modelMapper.map(subjectDTO.getData(), Subject.class);
+                    course.setSubject(subjectFinal);
                 } else {
                     responseFile.addLogsGeneric("La materia no existe");
                 }
@@ -195,7 +234,8 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                     if (person != null) {
                         CourseTeacher courseTeacher = new CourseTeacher();
                         courseTeacher.setPerson(person);
-                        courseTeacher.setTeacherCategory(contAux == 1 ?
+                        courseTeacher.setTeacherCategory(
+                                contAux == 1 ?
                                 TeacherCategoryEnumeration.PRIMARY : contAux == 2 ?
                                 TeacherCategoryEnumeration.SECONDARY : TeacherCategoryEnumeration.OTHER
                         );

@@ -38,4 +38,10 @@ public class SubjectDTO {
     /** Id del programa de la materia */
     @NotBlank(message = "El id del programa no puede ser vacio")
     private String programId;
+
+    //Constructor para devolver el semestre asociado a un programa
+    public SubjectDTO(Integer semester,String programId){
+        this.semester=semester;
+        this.programId=programId;
+    }
 }

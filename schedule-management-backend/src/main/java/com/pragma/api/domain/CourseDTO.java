@@ -2,10 +2,13 @@ package com.pragma.api.domain;
 
 import java.util.Set;
 
+import com.pragma.api.model.CourseTeacher;
+import com.pragma.api.model.Schedule;
 import com.pragma.api.model.Subject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -16,7 +19,7 @@ public class CourseDTO {
     /**
      * Id del curso
      */
-    private Integer courseId;
+    private Integer id;
 
     /**
      * Grupo del curso
@@ -30,6 +33,8 @@ public class CourseDTO {
     @NotNull(message = "La capacidad no puede ser vacio")
     private Integer courseCapacity;
 
+    private Integer remainingHours;
+
     /**
      * Tipo de ambiente requerido
      */
@@ -41,6 +46,8 @@ public class CourseDTO {
     @NotNull(message = "El codigo de la materia no puede ser vacio")
     private Subject subject;
 
-    @NotNull(message = "")
-    private Integer remainingHours;
+    //private Set<CourseTeacherDTO> assignedTeachers;
+   // private Set<Schedule> schedules;
+
+
 }

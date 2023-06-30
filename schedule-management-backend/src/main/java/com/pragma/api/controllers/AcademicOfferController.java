@@ -25,6 +25,7 @@ import java.util.List;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class AcademicOfferController {
 
+    //test a
     private final IFileAcademicOffer iFileAcademicOffer;
 
     private final ITemplateFileService iTemplateFileService;

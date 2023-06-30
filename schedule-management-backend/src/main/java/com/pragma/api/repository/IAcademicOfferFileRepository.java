@@ -4,6 +4,8 @@ import com.pragma.api.model.AcademicOfferFile;
 import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface IAcademicOfferFileRepository extends JpaRepository<AcademicOfferFile, Integer>{
 
     /**
@@ -15,6 +17,9 @@ public interface IAcademicOfferFileRepository extends JpaRepository<AcademicOffe
      * @return
      */
     public AcademicOfferFile findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
+            String programId, String periodId, StateAcOfferFileEnumeration stateFile);
+
+    public List<AcademicOfferFile> findAllByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileOrderByDateRegisterFileDesc(
             String programId, String periodId, StateAcOfferFileEnumeration stateFile);
 
 }

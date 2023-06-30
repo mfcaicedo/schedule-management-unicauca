@@ -29,4 +29,5 @@ public class CourseTeacher {
     @JoinColumn(name = "personCode")
     private Person person;
 
+
 }

@@ -1,5 +1,7 @@
 package com.pragma.api.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pragma.api.model.Department;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.model.enums.PersonTypeEnumeration;
 import lombok.*;
@@ -10,6 +12,8 @@ import javax.validation.constraints.NotBlank;
 
 import com.pragma.api.model.enums.PersonTypeEnumeration;
 
+import java.util.Set;
+
 @Builder
 @Getter
 @Setter
@@ -18,14 +22,12 @@ import com.pragma.api.model.enums.PersonTypeEnumeration;
 public class PersonDTO {
 
     private String personCode;
-    @NotBlank
-    @NonNull
     private String fullName;
-    @NotBlank
-    @NonNull
+  //  @Getter(onMethod_= @JsonIgnore)
+  //  private Set<CourseTeacherDTO> assignedSubjects;
     private DepartmentDTO department;
-
-    @Enumerated(EnumType.STRING)
+    private ProgramDTO programHead;
+    private DepartmentDTO departmentHead;
     private PersonTypeEnumeration personType;
 
 

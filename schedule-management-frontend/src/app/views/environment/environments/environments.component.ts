@@ -82,13 +82,41 @@ export class EnvironmentsComponent {
     }
   }
   onDeleteEnvironment(environmentId: number) {
-    console.log("entra a eliminar")
-    this.environmentService.deleteEnvironment(environmentId).subscribe(() =>
-      //   Swal.fire('Ambiente eliminado',
-      // `El ambiente : ${environmentId}  \nfue eliminado exitosamente`, 'success')
-      this.routeNav.navigate(['//environment/all'])
-    )
-    //this.routeNav.navigate(['//environment/all'])
+    Swal.fire({
+      title: '¿Está seguro de eliminar el ambiente?',
+      text: 'No se podrá recuperar el ambiente una vez eliminado',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No, cancelar', 
+      confirmButtonColor: '#0A266F',
+      
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.environmentService.deleteEnvironment(environmentId).subscribe({
+          next: response => {
+            Swal.fire({
+              title: 'Ambiente eliminado',
+              text: 'El ambiente ha sido eliminado correctamente',
+              icon: 'success',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            //solo actualiza la tabla si se elimina correctamente
+            this.loadTableEnvironments([1, 5])
+          }, 
+          error: error => {
+            Swal.fire({
+              title: 'Error al eliminar el ambiente',
+              text: 'El ambiente no ha sido eliminado correctamente',
+              icon: 'error',
+              showConfirmButton: false,
+              timer: 1500
+            })
+          }
+        })
+      }
+    })
   }
 
   // aqui viene el numero de pagina solicitada y el tamaño que debe tener

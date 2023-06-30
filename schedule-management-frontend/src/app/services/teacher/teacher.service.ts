@@ -90,8 +90,8 @@ export class TeacherService {
     });
   }
   downloadTemplateService() {
-    console.log("llega al metodo al servicio ", this.endPoint);
-    return this.http.get(this.endPoint + '/downloadTemplate', { responseType: 'blob' });
+    console.log("llega al metodo al servicio vererrr", this.endPoint);
+    return this.http.get(this.endPoint + '/downloadTeacherTemplate', { responseType: 'blob' });
   }
 }
 

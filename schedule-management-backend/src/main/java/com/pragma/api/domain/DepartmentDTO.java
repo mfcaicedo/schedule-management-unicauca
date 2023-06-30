@@ -19,9 +19,11 @@ import java.util.Set;
 public class DepartmentDTO {
     private String departmentId;
     private String departmentName;
-    private Faculty faculty;
-//    private Set<Person> persons;
-//    private PersonDTO person;
-//    private Set<Program> programs;
+    private FacultyDTO faculty;
+    //@Getter(onMethod_= @JsonIgnore)
+    //private Set<PersonDTO> persons;
+    private PersonDTO person;
+    //@Getter(onMethod_= @JsonIgnore)
+    //private Set<ProgramDTO> programs;
 
 }

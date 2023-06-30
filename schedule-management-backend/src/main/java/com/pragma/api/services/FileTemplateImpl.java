@@ -70,7 +70,17 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         byte[] temporaryFile;
         //Procesar el archivo de excel
-        temporaryFile = Files.readAllBytes(Path.of(path));
+        try {
+            temporaryFile = Files.readAllBytes(Path.of(path));
+        }catch (IOException e){
+            System.out.println("entra al catch");
+//            throw new IOException("No se pudo leer el archivo");
+            temporaryFile = Files.readAllBytes(Path.of("D:/UNIVERSIDAD/OCTAVO SEMESTRE/Proyecto_1/" +
+                    "project-1-folder/schedule-management-unicauca/schedule-management-backend/" +
+                    "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx"));
+        }
+        System.out.println("temporaryFile: "+temporaryFile.length);
+        System.out.println("temporaryFile: "+temporaryFile);
         Workbook workbook = processExcelFile(path, programId, responseExcel);
         //Ahora se guarda el archivo en un OutputStream
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -95,6 +105,7 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         //TODO 1. consultar los todos los profesores
         List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
+        //teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
 
         //TODO 2. consultar todos las materias pertenecientes a un programa
         //TODO 2.1 consultar el programa
@@ -110,7 +121,6 @@ public class FileTemplateImpl implements ITemplateFileService{
             responseExcel.setModified(false);
             responseExcel.setMessage("El programa "+programId+" no tiene asignaturas registradas" );
         }
-
 
         //TODO 3. modificar el excel con los datos consultados de profesores y materias
         // Cargar el archivo existente
@@ -201,20 +211,21 @@ public class FileTemplateImpl implements ITemplateFileService{
      */
     private String getPathTemplate(String nameFile) {
         //comenta una o la otra
-        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-//        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+//        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
             File file = resource.getFile();
             String absolutePath = file.getAbsolutePath();
+            System.out.println("ruta " + absolutePath);
             //Cambio e \ por / para que la ruta sea correcta
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
             //dependiendo del path
-//            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
+            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
+//            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
             return pathComplete;
         } catch (Exception e) {
             e.printStackTrace();
@@ -228,7 +239,6 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @param path ruta de la plantilla existente
      *
      */
-
     private void restoreFileBytes(byte[] temporary, String path) throws IOException {
         if (temporary != null) {
             // Restaura el archivo original desde la copia temporal en memoria RAM

@@ -1,0 +1,96 @@
+<c-card>
+    <c-card-header>
+      <strong class="titulo">{{title}} </strong>
+    </c-card-header>
+  
+    <c-card-body>
+      
+      <strong class="cuerpo">Seleccione la Facultad :</strong>
+        <c-row class="mb-3">
+            <c-col md="10">
+              <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
+                <option value="{{valDefecto}}">Selecciona una Facultad</option>
+                <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+                class="uppercase-text" >
+                  {{fac.facultyName}} </option>
+              </select>
+            </c-col>
+        </c-row>
+        
+        <span *ngIf="isFacSelected">
+
+          <strong class="cuerpo">Seleccione el Semestre :</strong>
+          <c-row class="mb-3">
+            <c-col md="10">
+              <div class="checkbox">
+                <div class="form-check form-check-inline" *ngFor="let semestre of semestres; let first = first;">
+                  <input class="form-check-input" type="checkbox" id="{{semestre}}" value="{{semestre}}"  (change)="onSelectedSemestre($event)">
+                  <label class="form-check-label" for="{{semestre}}">{{semestre}}</label>
+                </div>
+              </div>
+            </c-col>
+          </c-row>          
+
+          <strong class="cuerpo">Seleccione el Programa :</strong>
+          <c-row class="mb-3">
+            <c-col md="10">
+              <table cTable>
+                <thead cTableColor="dark">
+                  <tr>
+                      <th *ngFor="let c of columnsTableProgramas">{{c}} </th>
+                  </tr>
+                </thead>
+                <tbody >
+                  <tr *ngFor="let item of listasProgramas; let i = index">
+                    <td>{{item.programId}}</td>
+                    <td>{{item.name}}</td>
+                    <!--<td>{{item.department_id}}</td>-->
+                    <td>
+                      <input [disabled]="isDisabled" #checkboxes id="{{item.programId}}" type="checkbox" (click)="onSelectingPrograms(item, $event)">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </c-col>
+          </c-row>
+
+          <div class="centrado" *ngIf="seleccionados.length > 0 && listaSemestres.length > 0">
+            <input *ngIf="esquemas.length  == 0" type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()"> 
+            <input *ngIf="esquemas.length  > 0" type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="descargartablas()"> 
+          </div>
+          
+          <div *ngFor="let esquema of esquemas; let i=index">
+            <!-- Desplegable-->
+            <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>        
+              <c-accordion-item >
+                <ng-template cTemplateId="accordionHeader">
+                  <h2>{{listaTitulosReporte[i]}}</h2>
+                </ng-template>
+                <ng-template cTemplateId="accordionBody">
+                  <h3 #miTablaTITULO>{{listaTitulosReporte[i]}} </h3>    
+                  <table cTable #miTablaI>
+                    <thead cTableColor="dark">
+                      <tr>
+                        <th *ngFor="let c of columnsReporte">{{ c }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of esquema; let i = index">
+                        <td>{{ item.subjectName }}</td>
+                        <td>{{ item.courseGroup }}</td>
+                        <td>{{ item.environmentName }}</td>
+                        <td>{{ item.day }}</td>
+                        <td>{{ item.startingTime }}</td>
+                        <td>{{ item.endingTime }}</td>
+                        <td>{{ item.startingDate }}</td>
+                        <td>{{ item.endingDate }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </ng-template>
+              </c-accordion-item>
+            </c-accordion>
+          </div>
+        </span>
+    </c-card-body>  
+</c-card>

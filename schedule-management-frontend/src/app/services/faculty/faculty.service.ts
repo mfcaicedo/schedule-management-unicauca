@@ -2,7 +2,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { faculty } from 'src/faculty/faculty';
 
@@ -10,7 +9,7 @@ import { faculty } from 'src/faculty/faculty';
   providedIn: 'root'
 })
 export class FacultyService {
-  environments: Environment[] = [];
+  //environments: Environment[] = [];
   endPoint: string = faculty.urlAllFac;
   // endPoint:String = 'api/environment'
 

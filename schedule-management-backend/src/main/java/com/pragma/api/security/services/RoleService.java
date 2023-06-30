@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RoleService implements IRoleService{
+public class RoleService{
 
     @Autowired
     RoleRepository roleRepository;
 
-    @Override
+    //@Override
     public Optional<Role> getByTypeRole(TypeRole roleName) {
         return roleRepository.findByTypeRole(roleName);
     }
 
-    @Override
+    //@Override
     public void save(Role role) {
         roleRepository.save(role);
     }

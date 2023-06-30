@@ -1,5 +1,6 @@
 package com.pragma.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -35,14 +36,7 @@ public class Environment {
     @JoinColumn(name = "faculty_id")
     private Faculty faculty;
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "available_resources",
-            joinColumns = @JoinColumn(name = "environment_id"),
-            inverseJoinColumns = @JoinColumn(name = "resource_id"))
-    private Set<Resource> availableResources;
-    */
+
     @OneToMany(mappedBy = "environment")
     private Set<EnvironmentResource> availableResources;
 

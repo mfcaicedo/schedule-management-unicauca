@@ -36,6 +36,7 @@
             ],
             "styles": [
               "src/scss/styles.scss",
+              "src/scss/ReportesFullCalendar-styles.scss",
               "node_modules/@coreui/icons/css/all.css", 
               "node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "node_modules/ngx-spinner/animations/ball-beat.css",

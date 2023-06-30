@@ -30,13 +30,6 @@ public class Course {
     @Column(name = "type_environment_required")
     private String typeEnvironmentRequired;
 
-    public Course(String courseGroup, Integer courseCapacity, Integer remainingHours, String typeEnvironmentRequired) {
-        this.courseGroup = courseGroup;
-        this.courseCapacity = courseCapacity;
-        this.remainingHours = remainingHours;
-        this.typeEnvironmentRequired = typeEnvironmentRequired;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "subject_code")
     private Subject subject;
@@ -46,4 +39,11 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private Set<Schedule> schedules;
+
+    public Course(String courseGroup, Integer courseCapacity, Integer remainingHours, String typeEnvironmentRequired) {
+        this.courseGroup = courseGroup;
+        this.courseCapacity = courseCapacity;
+        this.remainingHours = remainingHours;
+        this.typeEnvironmentRequired = typeEnvironmentRequired;
+    }
 }
