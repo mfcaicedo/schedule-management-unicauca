@@ -189,11 +189,17 @@ public class FileTeachersImpl implements IFileTeachersService {
 
     @Override
     public ResponseEntity<Resource> donwloadTeacherTemplateFile() throws IOException {
-        String path = getPathTemplate("Plantilla_profesores.xlsx");
+        List<String> listPath = getPathTemplate("Plantilla_profesores.xlsx");
+        String path = listPath.get(0);
         byte[] temporaryFile;
 
         //Procesar el archivo de excel
-        temporaryFile = Files.readAllBytes(Path.of(path));
+        try {
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(0)));
+        }catch (IOException e){
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(1)));
+            path = listPath.get(1);
+        }
         Workbook workbook = processExcelFile(path);
 
         //Ahora se guarda el archivo en un OutputStream
@@ -223,9 +229,10 @@ public class FileTeachersImpl implements IFileTeachersService {
     }
 
 
-    private String getPathTemplate(String nameFile) {
-        final String pathProjectFileMilthon = "src/main/resources/files/templates/Plantilla_profesores.xlsx";
-
+    private List<String> getPathTemplate(String nameFile) {
+        //final String pathProjectFileMilthon = "src/main/resources/files/templates/Plantilla_profesores.xlsx";
+        final String pathProjectFileMain = "schedule-management-backend/src/main/resources/files/templates/Plantilla_profesores.xlsx";
+        final String pathProjectFileAux = "src/main/resources/files/templates/Plantilla_profesores.xlsx";
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
             File file = resource.getFile();
@@ -234,8 +241,14 @@ public class FileTeachersImpl implements IFileTeachersService {
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
-            return pathComplete;
+            //String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
+            String pathCompleteMain = String.join("/",pathFormat) + pathProjectFileMain;
+            String pathCompleteAux = String.join("/",pathFormat) + pathProjectFileAux;
+
+            List<String> listPathComplete = new ArrayList<>();
+            listPathComplete.add(pathCompleteMain);
+            listPathComplete.add(pathCompleteAux);
+            return listPathComplete;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

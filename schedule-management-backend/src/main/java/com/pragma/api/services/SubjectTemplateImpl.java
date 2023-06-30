@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -47,11 +48,17 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
 
     @Override
     public ResponseEntity<Resource> downloadTemplateSubject(String programId) throws IOException {
-        String path = getPathTemplate("Plantilla_Materias.xlsx");
+        List<String> listPath = getPathTemplate("Plantilla_Materias.xlsx");
+        String path = listPath.get(0);
         byte[] temporaryFile;
 
         //Procesar el archivo de excel
-        temporaryFile = Files.readAllBytes(Path.of(path));
+        try {
+            temporaryFile = Files.readAllBytes(Path.of(path));
+        }catch (IOException e){
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(1)));
+            path = listPath.get(1);
+        }
         //Workbook workbook = processExcelFile(path,pathBackup, programId);
         Workbook workbook = processExcelFile(path, programId);
 
@@ -117,10 +124,9 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
      * @param nameFile nombre del archivo de plantilla de excel
      * @return ruta del archivo de plantilla de excel
      */
-    private String getPathTemplate(String nameFile) {
-//        final String pathProjectFile = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Materias.xlsx";
-        final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Materias.xlsx";
-
+    private List<String> getPathTemplate(String nameFile) {
+        final String pathProjectFileMain = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Materias.xlsx";
+        final String pathProjectFileAux = "src/main/resources/files/templates/Plantilla_Materias.xlsx";
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
             File file = resource.getFile();
@@ -129,8 +135,13 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
             absolutePath = absolutePath.replace("\\", "/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length - 1] = "";
-            String pathComplete = String.join("/", pathFormat) + pathProjectFile;
-            return pathComplete;
+            String pathCompleteMain = String.join("/",pathFormat) + pathProjectFileMain;
+            String pathCompleteAux = String.join("/",pathFormat) + pathProjectFileAux;
+            List<String> listPathComplete = new ArrayList<>();
+            listPathComplete.add(pathCompleteMain);
+            listPathComplete.add(pathCompleteAux);
+            return listPathComplete;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;

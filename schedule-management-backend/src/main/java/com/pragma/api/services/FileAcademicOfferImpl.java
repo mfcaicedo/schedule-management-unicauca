@@ -93,9 +93,13 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             System.out.println("id de curso: " + log.getCourseId());
             System.out.println("-----------------------------------");
 
-
         });
-        return processFile(logs, responseFile);
+
+        if (logs.isEmpty()) {
+            return responseFile;
+        }else {
+            return processFile(logs, responseFile);
+        }
     }
 
     private ResponseFile processFile(List<FileRowAcademicOffer> data,  ResponseFile responseFile) {
@@ -133,6 +137,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         AcademicOfferFile academicOfferFileAux = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFileNot(
                 academicOfferFile.getProgram().getProgramId(), academicOfferFile.getPeriod().getPeriodId(),
                 StateAcOfferFileEnumeration.FINALIZADO);
+
         if(academicOfferFileAux != null){
             responseFile.addLogsGeneric("Lo sentimos, no podemos procesar el archivo porque " +
                     "ya existe un archivo perteneciente al programa " +
@@ -170,8 +175,8 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                         if(course.getSubject().getSubjectCode().equals(value.getSubjectCode()) &&
                         course.getCourseGroup().equals(value.getGroup())
                         ){
-                            responseFile.addLogsGeneric("Ya existe un curso con el mismo grupo " +
-                                    value.getSubjectCode() + ". Verifique el archivo");
+                            responseFile.addLogsGeneric("Ya existe un curso: "+ value.getSubjectCode()+" con el mismo grupo: " +
+                                    value.getGroup() + ". Verifique el archivo");
                             responseFile.setStatusFile(StatusFileEnumeration.ERROR);
                             flag = true;
                         }
@@ -207,7 +212,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                 course.setTypeEnvironmentRequired(value.getTypeEnvironmentRequired());
             }
 
-            if (!value.getSubjectCode().isEmpty()) {
+            if (value.getSubjectCode() != null && !value.getSubjectCode().isEmpty()) {
                 System.out.println("codigo materia: " + value.getSubjectCode());
                 Response<SubjectDTO> subjectDTO = iSubjectService.getSubjectByCode(value.getSubjectCode());
                 System.out.println("subjectDTO: " + subjectDTO.getData());
