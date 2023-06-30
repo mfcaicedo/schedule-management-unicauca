@@ -37,7 +37,7 @@ export class ReportService {
  * @param idEnviroment  el id de ambientes
  * @returns un objeto de tipo reportRum que contiene los datos del horario asociado a  el id
  */
-getReportRoom(idEnviroment:string): Observable<ReportRoom[]> {
+getReportRoom(idEnviroment:number): Observable<ReportRoom[]> {
   return this.http.get<any>(this.endPoint+"/byEnvironmentId/"+idEnviroment).pipe(
     map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
     catchError((e) => {
