@@ -5,13 +5,7 @@
 
       <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
 
-        <!-- Seleccionar ambiente
-                (isEnvironmentSelected)="getIfEnvironmentSelected($event)"
-            -->
-        <div>
-          <app-schedule-environments #scheduleenvironments
-            (selectedEnvironment)="getSelectedEnvironment($event)"></app-schedule-environments>
-        </div>
+
 
         <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
         <div>
@@ -19,7 +13,13 @@
             (selectedCourse)="getSelectedCourse($event)"></app-courses>
         </div>
 
-
+        <!-- Seleccionar ambiente
+                (isEnvironmentSelected)="getIfEnvironmentSelected($event)"
+            -->
+        <div *ngIf="courses.isCourseSelected">
+          <app-schedule-environments #scheduleenvironments
+            (selectedEnvironment)="getSelectedEnvironment($event)"></app-schedule-environments>
+        </div>
 
 
 
@@ -32,6 +32,6 @@
     </form>
   </div>
   <br>
-  
+
 
 </div>

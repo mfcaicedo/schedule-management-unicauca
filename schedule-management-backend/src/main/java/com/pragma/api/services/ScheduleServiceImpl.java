@@ -72,24 +72,29 @@ public class ScheduleServiceImpl implements IScheduleService {
             throw new ScheduleBadRequestException("bad.request.event.id", saveRequest.getEventId().toString());
         Course courseDb = courseOptRequest.get();
 
-        
         if (this.scheduleRepository.existsByCourseAndDay(courseDb, saveRequest.getDay()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day", saveRequest.getDay().toString());
 
-
         if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(),
                 saveRequest.getEndingTime(), saveRequest.getDay(), environmentOptRequest.get()))
-            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",environmentOptRequest.get().getName());
-         // Obtener la hora de inicio y fin del nuevo curso
+            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",
+                    environmentOptRequest.get().getName());
+        // Obtener la hora de inicio y fin del nuevo curso
         LocalTime newCourseStartingTime = saveRequest.getStartingTime();
-        
 
         // Verificar que la segunda hora del nuevo curso esté disponible
         LocalTime newCourseSecondHour = newCourseStartingTime.plusHours(1);
-        if (this.scheduleRepository.existsByStartingTimeAndDayAndEnvironment(newCourseSecondHour, saveRequest.getDay(), environmentOptRequest.get())) {
-        throw new ScheduleBadRequestException("bad.request.schedule.course.day.time", environmentOptRequest.get().getName());
-    }
+        if (this.scheduleRepository.existsByStartingTimeAndDayAndEnvironment(newCourseSecondHour, saveRequest.getDay(),
+                environmentOptRequest.get())) {
+            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time",
+                    environmentOptRequest.get().getName());
+        }
 
+        //verifica que el curso sea en el ambiente ideal
+        if (!courseOptRequest.get().getTypeEnvironmentRequired().equals(environmentOptRequest.get().getEnvironmentType().toString())) {
+            throw new ScheduleBadRequestException("bad.request.schedule.course.environment", environmentOptRequest.get().getName());
+                    
+        }
 
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
         // Se calcula la diferencia de horas no sobrepase las establecida que la
@@ -109,10 +114,10 @@ public class ScheduleServiceImpl implements IScheduleService {
         requestSchedule.setCourse(courseDb);
         courseDb.setRemainingHours((courseDb.getRemainingHours() - differenceHours));
         this.courseRepository.save(courseDb);
-        if(saveRequest.isReserv()){
+        if (saveRequest.isReserv()) {
             requestSchedule.setEvent(eventOptRequest.get());
         }
-        
+
         return modelMapper.map(this.scheduleRepository.save(requestSchedule), ScheduleResponseDTO.class);
     }
 
@@ -126,24 +131,31 @@ public class ScheduleServiceImpl implements IScheduleService {
         Optional<Schedule> scheduleOptRequest = this.scheduleRepository.findById(code);
         if (!scheduleOptRequest.isPresent())
             throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
-        
-        if(scheduleOptRequest.get().isReserve()== true && scheduleOptRequest.get().getCourse()==null){
-          //  throw new ScheduleBadRequestException("bad.request.course.id",updateRequest.getCourseId().toString()); 
-            if(updateRequest.getCourseId()!= null && updateRequest.isReserv()== false){
+
+        if (scheduleOptRequest.get().isReserve() == true && scheduleOptRequest.get().getCourse() == null) {
+            // throw new
+            // ScheduleBadRequestException("bad.request.course.id",updateRequest.getCourseId().toString());
+            if (updateRequest.getCourseId() != null && updateRequest.isReserv() == false) {
                 Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
                 if (courseOptRequest.isEmpty())
-                    throw new ScheduleBadRequestException("bad.request.course.id", updateRequest.getCourseId().toString());
-                Optional<Environment> environmentOptRequest = this.environmentRepository.findById(updateRequest.getEnvironmentId());
+                    throw new ScheduleBadRequestException("bad.request.course.id",
+                            updateRequest.getCourseId().toString());
+                Optional<Environment> environmentOptRequest = this.environmentRepository
+                        .findById(updateRequest.getEnvironmentId());
                 if (environmentOptRequest.isEmpty())
-                    throw new ScheduleBadRequestException("bad.request.environment.id",updateRequest.getEnvironmentId().toString());
+                    throw new ScheduleBadRequestException("bad.request.environment.id",
+                            updateRequest.getEnvironmentId().toString());
                 Course courseDb = courseOptRequest.get();
                 if (this.scheduleRepository.existsByCourseAndDay(courseDb, updateRequest.getDay()))
-                        throw new ScheduleBadRequestException("bad.request.schedule.course.day", updateRequest.getDay().toString());
-                if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(updateRequest.getStartingTime(),
-                            updateRequest.getEndingTime(), updateRequest.getDay(), environmentOptRequest.get()))
-                            throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",
-                                environmentOptRequest.get().getName());
-                int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(), updateRequest.getEndingTime());
+                    throw new ScheduleBadRequestException("bad.request.schedule.course.day",
+                            updateRequest.getDay().toString());
+                if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(
+                        updateRequest.getStartingTime(),
+                        updateRequest.getEndingTime(), updateRequest.getDay(), environmentOptRequest.get()))
+                    throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",
+                            environmentOptRequest.get().getName());
+                int differenceHours = (int) getDifferenceHours(updateRequest.getStartingTime(),
+                        updateRequest.getEndingTime());
                 // Se calcula la diferencia de horas no sobrepase las establecida que la
                 // diferencia no sea negativa y que no sean menor a 1 los bloques
                 if (differenceHours > courseDb.getRemainingHours() || differenceHours < 2)
@@ -151,7 +163,7 @@ public class ScheduleServiceImpl implements IScheduleService {
                 Schedule scheduleDb = scheduleOptRequest.get();
                 scheduleDb.setCourse(courseOptRequest.get());
                 scheduleDb.setEnvironment(environmentOptRequest.get());
-                scheduleDb.setEvent(null);    
+                scheduleDb.setEvent(null);
                 scheduleDb.setEndingDate(updateRequest.getEndingDate());
                 scheduleDb.setStartingDate(updateRequest.getStartinDate());
                 scheduleDb.setStartingTime(updateRequest.getStartingTime());
@@ -160,8 +172,8 @@ public class ScheduleServiceImpl implements IScheduleService {
                 scheduleDb.setDay(updateRequest.getDay());
                 courseDb.setRemainingHours(courseDb.getRemainingHours() - differenceHours);
                 this.courseRepository.save(courseDb);
-                
-                return modelMapper.map(this.scheduleRepository.save(scheduleDb), ScheduleResponseDTO.class);            
+
+                return modelMapper.map(this.scheduleRepository.save(scheduleDb), ScheduleResponseDTO.class);
             }
         }
         Optional<Course> courseOptRequest = this.courseRepository.findById(updateRequest.getCourseId());
@@ -210,16 +222,16 @@ public class ScheduleServiceImpl implements IScheduleService {
             if (!scheduleOptRequest.isPresent())
                 throw new ScheduleBadRequestException("bad.request.schedule.id", code.toString());
             Course courseDb2 = null;
-            if(!scheduleOptRequest.get().isReserve()){
+            if (!scheduleOptRequest.get().isReserve()) {
                 Course courseDb = scheduleOptRequest.get().getCourse();
                 int differenceHours = (int) getDifferenceHours(scheduleOptRequest.get().getStartingTime(),
-                      scheduleOptRequest.get().getEndingTime());
+                        scheduleOptRequest.get().getEndingTime());
                 courseDb.setRemainingHours((courseDb.getRemainingHours() + differenceHours));
-                courseDb2=courseDb;
+                courseDb2 = courseDb;
             }
             this.scheduleRepository.deleteById(code);
-            if(!scheduleOptRequest.get().isReserve())
-             this.courseRepository.save(courseDb2);
+            if (!scheduleOptRequest.get().isReserve())
+                this.courseRepository.save(courseDb2);
             return true;
         } catch (Exception e) {
             throw new ScheduleIntegrityException(e.getMessage(), "");
@@ -235,17 +247,21 @@ public class ScheduleServiceImpl implements IScheduleService {
         return schedules.stream()
                 .map(schedule -> {
                     ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
-                    if(scheduleResponseDTO.getCourse()!= null){
+                    if (scheduleResponseDTO.getCourse() != null) {
                         scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
                         // scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
                         scheduleResponseDTO.setColor(schedule.getCourse().getSubject().getProgram().getColor());
-                        }
-                        /*else{
-                            scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());
-                            // scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
-                            scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());      
-                        }*/
-                        return scheduleResponseDTO;
+                    }
+                    /*
+                     * else{
+                     * scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());
+                     * //
+                     * scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().
+                     * getColor());
+                     * scheduleResponseDTO.setColor(schedule.getEvent().getProgram().getColor());
+                     * }
+                     */
+                    return scheduleResponseDTO;
                 })
                 .collect(Collectors.toList());
     }
@@ -288,14 +304,18 @@ public class ScheduleServiceImpl implements IScheduleService {
         }
     }
 
-
     @Override
     public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer environmentId) {
-        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de ambiente
-//        if(!this.scheduleRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
-        //System.out.println("Esto ocurre en la implementacion de servicios"+environmentId);
+        // Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de
+        // ambiente
+        // if(!this.scheduleRepository.existsBy()) throw new
+        // ScheduleBadRequestException("bad.request.event.event_name","");
+        // System.out.println("Esto ocurre en la implementacion de
+        // servicios"+environmentId);
         List<Schedule> schedules = this.scheduleRepository.findAllByEnvironmentId(environmentId);
-        List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,new TypeToken<List<ScheduleResponseDTO>>() {}.getType());
+        List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,
+                new TypeToken<List<ScheduleResponseDTO>>() {
+                }.getType());
         Response<List<ScheduleResponseDTO>> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("List of schedules Finded successfully");
@@ -306,10 +326,12 @@ public class ScheduleServiceImpl implements IScheduleService {
         return response;
     }
 
-
-/*    @Override
-    public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllByEnvironment'");
-    }*/
+    /*
+     * @Override
+     * public List<ScheduleResponseDTO> getAllByEnvironment(Integer environmentId) {
+     * // TODO Auto-generated method stub
+     * throw new
+     * UnsupportedOperationException("Unimplemented method 'getAllByEnvironment'");
+     * }
+     */
 }
