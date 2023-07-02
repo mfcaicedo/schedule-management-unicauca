@@ -28,6 +28,8 @@
                 <td >
                   <div class="materia-box" draggable="true" (dragstart)="dragStart($event, course) " (click)="selectCourse(course)"  >
                     {{course.subject.subjectCode}}&nbsp;{{course.courseGroup}}
+                    <div><strong>&nbsp;{{course.typeEnvironmentRequired}}</strong></div>
+                    
                   </div>
                 </td>
               </tr>
