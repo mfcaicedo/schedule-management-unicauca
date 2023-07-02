@@ -19,6 +19,7 @@ import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.lang.model.element.ModuleElement;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,11 +51,6 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
     public Response<GenericPageableResponse> findAll(Pageable pageable) {
 
         Page<AcademicOfferFile> academicOfferFilePage = this.iAcademicOfferFileRepository.findAll(pageable);
-        System.out.println("-----------Numero:"+academicOfferFilePage);
-
-        //if (academicOfferFilePage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
-        //academicOfferFilePage.forEach(x -> System.out.println("nombre:"+x.getNameFile()));
-        //academicOfferFilePage.map(x -> System.out.println("Mapa: "+x.getNameFile()+"---"+x.getStateFile()));
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("File Academy Offer found");
@@ -62,6 +58,69 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         response.setMoreInfo("localhost:8080/api/academicOffer");
         response.setErrorCode("");
         response.setData(this.validatePageList(academicOfferFilePage));
+        return response;
+    }
+
+    @Override
+    public Response<AcademicOfferFileDTO> updateStateFile(Integer id, String stateFile) {
+        AcademicOfferFile academicOfferFile = this.iAcademicOfferFileRepository.findById(id).get();
+        ModelMapper modelMapper = new ModelMapper();
+        AcademicOfferFileDTO academicOfferFileDTO = new AcademicOfferFileDTO();
+        Response response = new Response();
+        //modifico el estado del archivo
+        StateAcOfferFileEnumeration stateAcOfferFileEnumeration = null;
+        if(stateFile.equals("Sin iniciar")){
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.SIN_INICIAR;
+        }else if(stateFile.equals("En proceso")) {
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.EN_PROCESO;
+        }else if(stateFile.equals("Finalizado")) {
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.FINALIZADO;
+        }else {
+            //no actualizo el estado del archivo
+            academicOfferFileDTO = modelMapper.map(academicOfferFile, AcademicOfferFileDTO.class);
+            response.setData(academicOfferFileDTO);
+            response.setStatus(200);
+            return response;
+        }
+        //actualizo el estado del archivo
+        academicOfferFile.setStateFile(stateAcOfferFileEnumeration);
+        //guardo el archivo en la base de datos
+        iAcademicOfferFileRepository.save(academicOfferFile);
+        response.setData(academicOfferFile);
+        response.setStatus(200);
+        return response;
+    }
+
+    @Override
+    public Response<List<AcademicOfferFileDTO>> findAllByStatefile(String stateFile) {
+        StateAcOfferFileEnumeration stateAcOfferFileEnumeration = null;
+        Response<List<AcademicOfferFileDTO>> response = new Response();
+
+        if(stateFile.equals("Sin iniciar")){
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.SIN_INICIAR;
+        }else if(stateFile.equals("En proceso")) {
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.EN_PROCESO;
+        }else if(stateFile.equals("Finalizado")) {
+            stateAcOfferFileEnumeration = StateAcOfferFileEnumeration.FINALIZADO;
+        }else {
+            //no hago la consulta y devuelvo un error
+            response.setStatus(400);
+            response.setErrorCode("400");
+            response.setDeveloperMessage("Estado de archivo no valido");
+            response.setUserMessage("Estado de archivo no valido");
+            response.setMoreInfo("localhost:8080/api/academicOffer");
+            response.setData(null);
+            return response;
+        }
+        List<AcademicOfferFileDTO> academicOfferFileDTOS = new ArrayList<>();
+        List<AcademicOfferFile> academicOfferFiles = iAcademicOfferFileRepository.findAllByStateFile(stateAcOfferFileEnumeration);
+        academicOfferFileDTOS = academicOfferFiles.stream().map(x -> modelMapper.map(x, AcademicOfferFileDTO.class)).collect(Collectors.toList());
+        response.setStatus(200);
+        response.setErrorCode("");
+        response.setDeveloperMessage("Exito");
+        response.setUserMessage("Exito");
+        response.setMoreInfo("localhost:8080/api/academicOffer");
+        response.setData(academicOfferFileDTOS);
         return response;
     }
 
@@ -76,24 +135,6 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         FileAcademicOffer fileAcademicOffer = new FileAcademicOffer();
         ResponseFile responseFile = new ResponseFile();
         List<FileRowAcademicOffer> logs = fileAcademicOffer.getLogs(file, responseFile);
-        logs.forEach(log -> {
-            System.out.println("-----------------------------------");
-            System.out.println("nombre: " + log.getNameFile());
-            System.out.println("codigo materia: " + log.getSubjectCode());
-            System.out.println("codigo profesor: " + log.getPersonCode());
-            System.out.println("perido: " + log.getPeriod());
-            System.out.println("horas restantes: " + log.getWeeklyOverload());
-            System.out.println("En bloque: " + log.getInBlock());
-            System.out.println("Estado archivo: " + log.getStateFile());
-            System.out.println("Grupo: " + log.getGroup());
-            System.out.println("tipo ambiente requerido: " + log.getTypeEnvironmentRequired());
-            System.out.println("id programa: " + log.getProgramId());
-            System.out.println("capacidad: " + log.getCapacity());
-            System.out.println("fecha registro: " + log.getDateRegisterFile());
-            System.out.println("id de curso: " + log.getCourseId());
-            System.out.println("-----------------------------------");
-
-        });
 
         if (logs.isEmpty()) {
             return responseFile;
