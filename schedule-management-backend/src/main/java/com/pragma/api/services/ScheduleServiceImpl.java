@@ -80,7 +80,15 @@ public class ScheduleServiceImpl implements IScheduleService {
         if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndEnvironment(saveRequest.getStartingTime(),
                 saveRequest.getEndingTime(), saveRequest.getDay(), environmentOptRequest.get()))
             throw new ScheduleBadRequestException("bad.request.schedule.course.day.time.environment",environmentOptRequest.get().getName());
+         // Obtener la hora de inicio y fin del nuevo curso
+        LocalTime newCourseStartingTime = saveRequest.getStartingTime();
+        
 
+        // Verificar que la segunda hora del nuevo curso esté disponible
+        LocalTime newCourseSecondHour = newCourseStartingTime.plusHours(1);
+        if (this.scheduleRepository.existsByStartingTimeAndDayAndEnvironment(newCourseSecondHour, saveRequest.getDay(), environmentOptRequest.get())) {
+        throw new ScheduleBadRequestException("bad.request.schedule.course.day.time", environmentOptRequest.get().getName());
+    }
 
 
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
