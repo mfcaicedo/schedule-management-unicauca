@@ -293,13 +293,26 @@ export class ScheduleViewComponent implements AfterViewInit {
   }
 
   confirmRemoveMateriaa(day: number, hour: string, id: number): void {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este curso?")) {
-      this.removeMateriaa(day, hour, id);
-      window.location.reload();
-
-    }
-
+    const confirmationTitle = "Eliminar curso";
+    const confirmationMessage = "¿Estás seguro de que deseas eliminar este curso?";
+  
+    Swal.fire({
+      title: confirmationTitle,
+      text: confirmationMessage,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Eliminar",
+      cancelButtonText: "Cancelar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.removeMateriaa(day, hour, id);
+        window.location.reload();
+      }
+    });
   }
+  
   removeMateriaa(day: number, hour: string, id: number) {
     const previousHour = this.getPreviousHour(hour);
     const nextHour = this.getNextHour(hour);
