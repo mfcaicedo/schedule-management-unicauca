@@ -142,6 +142,7 @@ export class ScheduleViewComponent implements AfterViewInit {
   drop(event: any, day: number, hour: string, inicial: string, final: string, dia: string, environmentId: number) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("application/json");
+    console.log("verrrrrrrrrrrrr " + materia);
     const courseIdCaracter = (materia.split(" ")[0]);
     console.log("EL IDE DEL CURSO ES: ", courseIdCaracter);
     const courseId = parseInt(courseIdCaracter.split('"')[1]);
@@ -190,9 +191,9 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.scheduleCreated.emit(scheduleCreated)
     console.log("EL ID DEL HORARIO ES", this.horarioId);
     
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    // setTimeout(() => {
+    //   window.location.reload();
+    // }, 2000);
   }
 
 
@@ -308,7 +309,7 @@ export class ScheduleViewComponent implements AfterViewInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.removeMateriaa(day, hour, id);
-        window.location.reload();
+        // window.location.reload();
       }
     });
   }
@@ -346,6 +347,8 @@ export class ScheduleViewComponent implements AfterViewInit {
 
   getid(horario: number) {
     this.horarioId = horario;
+    console.log("horario oooooo: ", horario);
+    console.log("ver WWWWWWWWWWWWW: ", this.horarioId);
   }
   weekDayToInteger(weekDays: String[], day: string) {
     for (let i = 0; i < weekDays.length; i++) {

@@ -52,7 +52,7 @@ export class ProgramService {
     // return this.program
   }
   getProgramByFacultyId(idFaculty:string): Observable<Program[]> {
-    return this.http.get<any>(this.EndPoint+"/consultProgramsByFacultyId/"+idFaculty).pipe(
+    return this.http.get<any>(this.endPoint+"/consultProgramsByFacultyId/"+idFaculty).pipe(
       map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
       catchError((e) => {
         console.log('Error obteniendo programas por Facultad', e.error.mensaje, 'error');

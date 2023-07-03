@@ -37,5 +37,4 @@ public interface ICourseRepository extends JpaRepository<Course, Integer> {
 
     List<Course> findAllBySubject_Program_ProgramId(String programId);
 
-    List<Course> findAllBySubject_Program_ProgramId(String programId);
 }
