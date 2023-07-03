@@ -11,6 +11,7 @@ import { ignoreElements } from 'rxjs';
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-form/schedule-before-create-form.component';
+import { academicOferFile } from 'src/app/models/academicOferFIle.model';
 
 @Component({
   selector: 'app-schedule-create',
@@ -19,6 +20,7 @@ import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-for
 })
 export class ScheduleCreateComponent {
   items = [1, 2, 3, 4];
+ 
   progressMadeProgramSemester: number = 0;
   progressMadeForm: number = 0;
   sumProgress: number = 10;
@@ -30,6 +32,8 @@ export class ScheduleCreateComponent {
     'department_id': '',
     'color':''
   };
+
+  oferFile!:academicOferFile;
   // @ViewChild('beforeFormAccordion',{static:true}) beforeFormAccordion !:ElementRef ;
   @ViewChild('beforeForm', { static: false }) beforeForm!: ScheduleBeforeCreateFormComponent;
   showSelectedProgramAndSemester: boolean = false;
@@ -45,11 +49,15 @@ export class ScheduleCreateComponent {
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
+     
   ) { }
   getSelectedProgram(program: Program) {
 
-    this.program = program;
+    this.program=program
+
+ 
   }
+  
   getSelectedSemester(semestre: number) {
 
     this.semester = semestre;
