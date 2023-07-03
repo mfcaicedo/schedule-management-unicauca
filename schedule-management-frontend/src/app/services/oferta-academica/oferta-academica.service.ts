@@ -76,9 +76,9 @@ export class OfertaAcademicaService {
    * Metodo que invoca al servicio para obtener los archivos dependiendo del estado
    * @returns lista con la respuesta del servicio
    */
-  findByStateFile(page: number, pageSize: number, statefile:string): Observable<any> {
+  findByStateFile(statefile:string): Observable<any> {
     return this.http.get<any>(
-      this.endPoint +this.offers + `?stateFile=${statefile}`+`?page=${page - 1}&size=${pageSize}&sort=dateRegisterFile&order=ASC` )
+      this.endPoint +this.offers +`?stateFile=${statefile}` )
       .pipe(
         catchError((e) => {
           console.log('Error obteniendo los archivos de la oferta académica por estado ', e.error.mensaje, 'error');

@@ -46,12 +46,17 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
   }
   ngOnInit(){
 
-    this.buildForm();
-      this.ofertaService.findAllFiles(1,5).subscribe((response) => {
-       this.aoFile = response.data.elements as academicOferFile[]
+      this.buildForm();
+      this.ofertaService.findByStateFile("Sin iniciar").subscribe((response) => {
+        console.log("response ",response)
+        
+       this.aoFile = response.data as academicOferFile[]
+       this.aoFile.reverse();
+       //console.log(this.aoFile[0]);
 
-      console.log("Programas cargados ",this.aoFile)
+      
     })
+
 
 
   }
