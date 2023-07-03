@@ -40,7 +40,7 @@ export class SubjectAllComponent implements OnInit {
 
     this.SubjectService.getAllPrograms().subscribe(response =>{
       this.programs = response as Program[]
-      this.programs.unshift({programId:'TODOS',name:'TODOS',department_id:''})
+      this.programs.unshift({programId:'TODOS',name:'TODOS',department_id:'',color:''})
     });
 
     this.totalItems = 1

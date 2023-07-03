@@ -26,7 +26,7 @@ public class ScheduleController {
         return ResponseEntity.ok(this.scheduleService.saveSchedule(scheduleRequest));
     }
 
-    @GetMapping("/byEnvironment")
+    @GetMapping
     public ResponseEntity<List<ScheduleResponseDTO>> getAllByEnvironment(@RequestParam Integer environmentId) {
         return ResponseEntity.ok(this.scheduleService.getAllByEnvironment(environmentId));
     }

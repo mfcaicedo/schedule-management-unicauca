@@ -143,18 +143,19 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         }
     }
 
-    private ResponseFile processFile(List<FileRowAcademicOffer> data,  ResponseFile responseFile) {
+    private ResponseFile processFile(List<FileRowAcademicOffer> data, ResponseFile responseFile) {
         boolean bandera = false;
-        //TODO data procesada del archivo excel
-        //ACADEMIC OFFER FILE
+        // TODO data procesada del archivo excel
+        // ACADEMIC OFFER FILE
         AcademicOfferFile academicOfferFile = new AcademicOfferFile();
-        //Sacar toda la información correspondiente a AcademicOfferFile
+        // Sacar toda la información correspondiente a AcademicOfferFile
         academicOfferFile.setStateFile(data.get(0).getStateFile());
-        if (!data.get(0).getNameFile().isEmpty()) academicOfferFile.setNameFile(data.get(0).getNameFile());
+        if (!data.get(0).getNameFile().isEmpty())
+            academicOfferFile.setNameFile(data.get(0).getNameFile());
         academicOfferFile.setDateRegisterFile(data.get(0).getDateRegisterFile());
-        //Periodo correspondiente del archivo
+        // Periodo correspondiente del archivo
         if (data.get(0).getPeriod() != null && !data.get(0).getPeriod().isEmpty()) {
-            //Busco el periodo
+            // Busco el periodo
             Optional<Period> period = iPeriodRepository.findById(data.get(0).getPeriod());
             if (period.isPresent()) {
                 academicOfferFile.setPeriod(period.get());
@@ -163,13 +164,14 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                         "correctamente: Ej: 2023-1");
             }
         }
-        //Programa correspondiente del archivo
-        if (data.get(0).getProgramId() !=null && !data.get(0).getProgramId().isEmpty()) {
+        // Programa correspondiente del archivo
+        if (data.get(0).getProgramId() != null && !data.get(0).getProgramId().isEmpty()) {
             ProgramDTO programDTO = iProgramService.findByProgramId(data.get(0).getProgramId());
-            if(programDTO != null){
-                Program program = modelMapper.map(iProgramService.findByProgramId(data.get(0).getProgramId()), Program.class);
+            if (programDTO != null) {
+                Program program = modelMapper.map(iProgramService.findByProgramId(data.get(0).getProgramId()),
+                        Program.class);
                 academicOfferFile.setProgram(program);
-            }else {
+            } else {
                 responseFile.addLogsGeneric("El programa no existe");
             }
         }
@@ -229,14 +231,14 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             }
         }
 
-        //eliminar el la primera posición de la lista
+        // eliminar el la primera posición de la lista
         data.remove(0);
         int auxIndice = 11;
-        //recorremos para sacar la información de los cursos y para courseTeacher
+        // recorremos para sacar la información de los cursos y para courseTeacher
         for (FileRowAcademicOffer value : data) {
             Course course = new Course();
 
-            //COURSE
+            // COURSE
             if (value.getCapacity() != null && value.getCapacity() != 0) {
                 course.setCourseCapacity(value.getCapacity());
             }
@@ -249,7 +251,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                 course.setRemainingHours(value.getWeeklyOverload());
             }
 
-            if (value.getTypeEnvironmentRequired()!= null && !value.getTypeEnvironmentRequired().isEmpty()) {
+            if (value.getTypeEnvironmentRequired() != null && !value.getTypeEnvironmentRequired().isEmpty()) {
                 course.setTypeEnvironmentRequired(value.getTypeEnvironmentRequired());
             }
 
@@ -265,10 +267,11 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                 }
 
             } else {
-                responseFile.addLogsEmptyFields("[Fila: " + auxIndice + " - Columna: B]  El código de la materia está vacío");
+                responseFile.addLogsEmptyFields(
+                        "[Fila: " + auxIndice + " - Columna: B]  El código de la materia está vacío");
             }
 
-            //COURSE TEACHER
+            // COURSE TEACHER
             List<CourseTeacher> lstCourseTeacher = new ArrayList<>();
             int contAux = 1;
             if (value.getPersonCode().size() != 0) {
@@ -288,35 +291,37 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
                         contAux++;
                         lstCourseTeacher.add(courseTeacher);
                     } else {
-                        responseFile.addLogsGeneric("El profesor con código: "+personCode+" no existe");
+                        responseFile.addLogsGeneric("El profesor con código: " + personCode + " no existe");
                     }
                 }
 
             }
-            //TODO guardar curso, cursoTeacher y academicOfferFile
-            //ANTES DE GUARDAR VALIDAMOS QUE NO HAYAN ERRORES
+            // TODO guardar curso, cursoTeacher y academicOfferFile
+            // ANTES DE GUARDAR VALIDAMOS QUE NO HAYAN ERRORES
             System.out.println("lista de errores genericos: " + responseFile.getLogsGeneric().size());
             System.out.println("lista de errores vacios: " + responseFile.getLogsEmptyFields().size());
             System.out.println("lista de errores tipo: " + responseFile.getLogsType().size());
             if (responseFile.getLogsEmptyFields().size() == 0 && responseFile.getLogsGeneric().size() == 0 &&
                     responseFile.getLogsType().size() == 0) {
 
-                Response<CourseDTO> courseResponse = iCourseService.createCourse(modelMapper.map(course, CourseDTO.class));
+                Response<CourseDTO> courseResponse = iCourseService
+                        .createCourse(modelMapper.map(course, CourseDTO.class));
                 for (CourseTeacher courseTeacher : lstCourseTeacher) {
                     System.out.println("entro a guardar COURSE TEACHER");
                     courseTeacher.setCourse(modelMapper.map(courseResponse.getData(), Course.class));
                     iCourseTeacherService.save(modelMapper.map(courseTeacher, CourseTeacherDTO.class));
                 }
                 auxIndice++;
-                bandera=true;
-            }else {
+                bandera = true;
+            } else {
                 System.out.println("entro al else de guardar informacion");
                 responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             }
 
         }
 
-        if(bandera) iAcademicOfferFileRepository.save(academicOfferFile);
+        if (bandera)
+            iAcademicOfferFileRepository.save(academicOfferFile);
 
         return responseFile;
 

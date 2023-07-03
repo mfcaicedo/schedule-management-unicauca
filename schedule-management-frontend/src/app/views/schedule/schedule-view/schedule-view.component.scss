@@ -1,9 +1,99 @@
+
 body{
   margin-top:20px;
 }
 .bg-light-gray {
   background-color: #e0e8f8;
 }
+.table-container {
+  width: max-content; /* Permitir que la tabla exceda el ancho del contenedor */
+}
+.container {
+  margin-top: 20px;
+  display: flex;
+  align-items: flex-start;
+  overflow: auto;
+  height: 800px; 
+  
+}
+.contenedor{
+  border: 1px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-left: 20px;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+.drop-zone {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  position: relative;
+}
+
+.materia-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.materia {
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
+.eliminar-btn {
+  
+  border: none;
+  
+  padding: 5px;
+ 
+}
+
+.eliminar-btn i {
+  font-size: 14px;
+}
+
+.eliminar-btn i.fa-trash {
+  margin-right: 5px;
+}
+
+.materias {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+
+.materia-box {
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  cursor: move;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
+}
+
 .table-bordered thead td, .table-bordered thead th {
   border-bottom-width: 2px;
 }

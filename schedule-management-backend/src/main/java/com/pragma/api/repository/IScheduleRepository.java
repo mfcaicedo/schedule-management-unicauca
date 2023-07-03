@@ -14,6 +14,7 @@ import java.util.List;
 public interface IScheduleRepository extends JpaRepository<Schedule, Long> {
     Boolean existsByStartingTimeAndEndingTimeAndDayAndEnvironment(LocalTime startingTime, LocalTime endingTime, DaysEnumeration day, Environment environment);
     Boolean existsByCourseAndDay(Course course, DaysEnumeration day);
+    boolean existsByStartingTimeAndDayAndEnvironment(LocalTime startingTime, DaysEnumeration day, Environment environment);
     List<Schedule>findAllByEnvironment(Environment environment);
     
 //    List<Schedule>findAllByCoursePerson(Person person);

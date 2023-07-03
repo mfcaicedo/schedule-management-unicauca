@@ -1,6 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { academicOferFile } from 'src/app/models/academicOferFIle.model';
 import { Program } from 'src/app/models/program.model';
+import { OfertaAcademicaService } from 'src/app/services/oferta-academica/oferta-academica.service';
 import { ProgramService } from 'src/app/services/program/program.service';
 
 @Component({
@@ -18,11 +20,18 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
   @Input('changeSelected') changeSelected:boolean=false;
   @ViewChild('selectRefPrograma') selectRefPrograma !:ElementRef;
   @ViewChild('selectRefSemestre') selectRefSemestre !:ElementRef;
-  selectedProgram!:Program;
+  selectedProgram:Program= {
+    'programId': '0',
+    'name': '',
+    'department_id': '',
+    'color':''
+  };
   selectedSemester!:number;
   progressMade:number=0;
   form!: FormGroup;
   sumProgres:number=50;
+  aoFile: academicOferFile[] = [];
+  aoFilebyState!: academicOferFile;
 
   programs:Program[]=[];
   semesters:number[]=[1,2,3,4,5,6,7,8,9,10];
@@ -30,7 +39,7 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
   verSeleccion: string        = '';
   constructor(
     private formBuilder:FormBuilder,
-    private programService:ProgramService,
+    private programService:ProgramService, private ofertaService:OfertaAcademicaService,
 
   ){
 
@@ -38,10 +47,10 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
   ngOnInit(){
 
     this.buildForm();
-    // this.programs= this.programService.getAllPrograms()
-    this.programService.getAllPrograms().subscribe(x=>{
-      this.programs = x
-      console.log("Programas cargados ",this.programs)
+      this.ofertaService.findAllFiles(1,5).subscribe((response) => {
+       this.aoFile = response.data.elements as academicOferFile[]
+
+      console.log("Programas cargados ",this.aoFile)
     })
 
 
@@ -66,10 +75,11 @@ export class ScheduleBeforeCreateFormComponent implements OnInit{
     this.form.controls['program'].setValue((event.target as HTMLOptionElement).value);
     //emitir el programa
     console.log("valor a emitir desde before create ",(event.target as HTMLOptionElement).value )
-    // this.selectedProgram=this.programService.getProgramById( (event.target as HTMLOptionElement).value)
-    this.programService.getProgramById((event.target as HTMLOptionElement).value).subscribe(resp =>{
+      //this.ofertaService.findByStateFile(1,5,(event.target as HTMLOptionElement).value).subscribe(resp =>{
+      this.programService.getProgramById((event.target as HTMLOptionElement).value).subscribe(resp =>{
       this.selectedProgram= resp
-      console.log("Programa ", this.selectedProgram )
+      
+      console.log("Programa ", this.selectedProgram.name)
     this.programa.emit(this.selectedProgram)
     this.progress.emit(this.sumProgres)
     })

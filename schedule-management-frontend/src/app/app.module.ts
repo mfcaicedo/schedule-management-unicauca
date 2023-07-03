@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule } from 'ngx-spinner';
 
-
 import {
   PERFECT_SCROLLBAR_CONFIG,
   PerfectScrollbarConfigInterface,
@@ -54,6 +53,8 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import {TokenInterceptor} from 'src/app/interceptors/token.interceptor'
 import { InterceptorService } from './services/spinner/interceptor.service';
 import { ScheduleReserveComponent } from './src/app/views/schedule/schedule-reserve/schedule-reserve/schedule-reserve.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+//import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { DirectiveDropFileDirective } from './directives/directive-drop-file.directive';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -70,6 +71,7 @@ const APP_CONTAINERS = [
   declarations: [AppComponent, ...APP_CONTAINERS, DirectiveDropFileDirective ,ScheduleReserveComponent],
   imports: [
     HttpClientModule,
+    DragDropModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -97,8 +99,7 @@ const APP_CONTAINERS = [
     ListGroupModule,
     CardModule,
     PaginationModule,
-    NgxSpinnerModule,
-
+    NgxSpinnerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   exports:[

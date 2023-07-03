@@ -11,7 +11,7 @@ import {CourseService} from 'src/app/services/course/course.service'
 })
 export class CoursesComponent implements OnInit{
 
-  columns:string[]=['Id curso','Grupo','Capacidad','Periodo','Materia','Profesor','Horas por asignar','Seleccionar'];
+  columns:string[]=['Curso'];
   courses:Course[]=[]; //todos los cursos
   curso!:Course;  // curso seleccionado
   isCourseSelected:boolean=false;
@@ -52,17 +52,27 @@ export class CoursesComponent implements OnInit{
     }
 
   }
-  changeSelectedCourse(){
-
-    this.isCheckboxDisabled=false
-    this.isCourseSelected=false
-    this.showSelectedCourse=false
-    this.checkboxes.forEach((element) => {
-      element.nativeElement.checked = false;
-    });
-    this.selectedCourse.emit(null)
+  dragStart(event: DragEvent, course: Course) {
+    const courseData = `${course.courseId} ${course.subject.subjectCode} ${course.courseGroup}`;
+    event.dataTransfer?.setData('application/json', JSON.stringify(courseData));
+    console.log("El curso id es = ", courseData);
+    this.curso = course;
+    this.selectedCourse.emit(course);
+    this.isCourseSelected = true;
+    this.isCheckboxDisabled = true;
+    this.showSelectedCourse = true;
   }
-
+  
+  selectCourse(course: Course) {
+    const courseData = `${course.courseId} ${course.subject.subjectCode} ${course.courseGroup}`;
+    console.log("el curso id es= ", courseData);
+    this.curso = course;
+    this.selectedCourse.emit(course);
+    this.isCourseSelected = true;
+    this.isCheckboxDisabled = true;
+    this.showSelectedCourse = true;
+  }
+  
   loadTableCourses(args: number[]){
     let pageSolicitud:number = args[0];
     let pageSize: number = args[1]

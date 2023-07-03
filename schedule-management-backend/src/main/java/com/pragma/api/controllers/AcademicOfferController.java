@@ -36,28 +36,28 @@ public class AcademicOfferController {
         this.iTemplateFileService = iTemplateFileService;
     }
 
-
     @PostMapping("/uploadFile")
     ResponseEntity<ResponseFile> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         return new ResponseEntity<>(this.iFileAcademicOffer.uploadFile(file), HttpStatus.OK);
     }
 
     @PostMapping("/uploadTemplate")
-    ResponseEntity<TemplateFileDTO> uploadTemplate(@RequestParam("file") MultipartFile file) throws IOException{
-        return new ResponseEntity<>(this.iTemplateFileService.uploadTemplateFile(file),HttpStatus.OK);
+    ResponseEntity<TemplateFileDTO> uploadTemplate(@RequestParam("file") MultipartFile file) throws IOException {
+        return new ResponseEntity<>(this.iTemplateFileService.uploadTemplateFile(file), HttpStatus.OK);
     }
 
     @GetMapping("/downloadTemplate/{programId}")
     ResponseEntity<ResponseExcel> downloadTemplate(@PathVariable String programId) throws IOException {
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + "template"+programId+".xlsx" + "\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + "template" + programId + ".xlsx" + "\"")
                 .body(this.iTemplateFileService.donwloadTemplateFile(programId));
     }
 
     @GetMapping()
     public Response<GenericPageableResponse> findAll(@RequestParam Integer page, @RequestParam Integer size,
-                                                     @RequestParam String sort, @RequestParam String order) {
+            @RequestParam String sort, @RequestParam String order) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.iFileAcademicOffer.findAll(pageable);
     }
@@ -71,5 +71,16 @@ public class AcademicOfferController {
     public Response<List<AcademicOfferFileDTO>> findAllByStatefile(@RequestParam String stateFile) {
         return this.iFileAcademicOffer.findAllByStatefile(stateFile);
     }
+    /**
+     *  @PutMapping("/updateStateFile")
+     *     public Response<AcademicOfferFileDTO> updateStateFile(@RequestParam Integer id, @RequestParam String stateFile) {
+     *         return this.iFileAcademicOffer.updateStateFile(id, stateFile);
+     *     }
+     *
+     *     @GetMapping("/findAllByStatefile")
+     *     public Response<List<AcademicOfferFileDTO>> findAllByStatefile(@RequestParam String stateFile) {
+     *         return this.iFileAcademicOffer.findAllByStatefile(stateFile);
+     *     }
+     */
 
 }
