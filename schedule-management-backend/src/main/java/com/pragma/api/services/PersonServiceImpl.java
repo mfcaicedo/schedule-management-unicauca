@@ -49,23 +49,13 @@ public class PersonServiceImpl implements IPersonService {
     @Override
     public GenericPageableResponse findAllPerson(Pageable pageable) {
         Page<Person> personPage = this.iPersonRepository.findAll(pageable);
-        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId() +
-                " " + x.getDepartment().getDepartmentName()));
-        List<PersonDTO> personsDTO = new ArrayList<>();
-        personsDTO = personPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
-        personsDTO.forEach(x -> System.out.println( "Erika2: " + x.getDepartment().getDepartmentId() +
-                " " + x.getDepartment().getDepartmentName()));
-        return PageableUtils.createPageableResponse(personPage, personsDTO);
+        return this.validatePageList(personPage);
     }
 
     @Override
-    public List<PersonDTO> findAllPersonByTypeTeacher() {
-
+    public List<Person> findAllPersonByTypeTeacher() {
         List<Person> teachers = this.iPersonRepository.findAllByPersonType(PersonTypeEnumeration.TEACHER);
-        List<PersonDTO> personsDTO = new ArrayList<>();
-        personsDTO = teachers.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
-        return personsDTO;
-
+        return teachers;
     }
     @Override
     public PersonDTO findByCode(String code) {
@@ -79,21 +69,13 @@ public class PersonServiceImpl implements IPersonService {
     public Response<GenericPageableResponse> findAllByPersonType(Pageable pageable, String personType) {
         Page<Person> personPage = this.iPersonRepository.findAllByPersonType(pageable, personType);
 
-        personPage.forEach(x -> System.out.println( "Erika: " + x.getDepartment().getDepartmentId() +
-                " " + x.getDepartment().getDepartmentName()));
-
-        /*List<PersonDTO> personsDTO = new ArrayList<>();
-        personsDTO = personPage.stream().map(x->modelMapper.map(x, PersonDTO.class)).collect(Collectors.toList());
-        personsDTO.forEach(x -> System.out.println( "Erika2: " + x.getDepartment().getDepartmentId() +
-                " " + x.getDepartment().getDepartmentName()));*/
-
-
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Teachers found");
         response.setDeveloperMessage("Teachers found");
         response.setErrorCode("");
-        response.setData(this.validatePageList(personPage));
+        List<Person> resources = personPage.stream().map(x->modelMapper.map(x, Person.class)).collect(Collectors.toList());
+        response.setData(PageableUtils.createPageableResponse(personPage, resources));
 
         return response;
     }

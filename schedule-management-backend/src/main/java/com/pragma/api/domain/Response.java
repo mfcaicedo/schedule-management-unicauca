@@ -4,7 +4,7 @@ package com.pragma.api.domain;
  * Clase que define un DTO generico para las respuestas de las peticiones a los servicios Rest. Este encapsula el resultado del consumo de
  * las Apis y le adiciona atributos de control
  * 
- * @author ricardo.ayala@pragma.com.co
+ * @author
  *
  * @param <T>
  *            Objeto de respuesta para las transacciones realizadas en cada Api

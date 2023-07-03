@@ -2,6 +2,7 @@ package com.pragma.api.services;
 
 import com.google.gson.annotations.Since;
 import com.pragma.api.domain.*;
+import com.pragma.api.model.Person;
 import com.pragma.api.model.Program;
 import com.pragma.api.model.Subject;
 import com.pragma.api.model.TemplateFile;
@@ -26,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -64,21 +66,20 @@ public class FileTemplateImpl implements ITemplateFileService{
 
     @Override
     public ResponseExcel donwloadTemplateFile(String programId) throws IOException {
-        String path = getPathTemplate("Plantilla_oferta_academica.xlsx");
+        List<String> listPath = getPathTemplate("Plantilla_oferta_academica.xlsx");
+        String path = listPath.get(0);
         ResponseExcel responseExcel = new ResponseExcel();
         responseExcel.setNameFile("Plantilla_Oferta_Academica_"+programId+".xlsx");
 
         byte[] temporaryFile;
         //Procesar el archivo de excel
         try {
-            temporaryFile = Files.readAllBytes(Path.of(path));
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(0)));
         }catch (IOException e){
-            System.out.println("entra al catch");
-//            throw new IOException("No se pudo leer el archivo");
-            temporaryFile = Files.readAllBytes(Path.of("D:/UNIVERSIDAD/OCTAVO SEMESTRE/Proyecto_1/" +
-                    "project-1-folder/schedule-management-unicauca/schedule-management-backend/" +
-                    "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx"));
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(1)));
+            path = listPath.get(1);
         }
+
         System.out.println("temporaryFile: "+temporaryFile.length);
         System.out.println("temporaryFile: "+temporaryFile);
         Workbook workbook = processExcelFile(path, programId, responseExcel);
@@ -104,8 +105,8 @@ public class FileTemplateImpl implements ITemplateFileService{
     private Workbook processExcelFile(String path, String programId, ResponseExcel responseExcel) throws IOException {
 
         //TODO 1. consultar los todos los profesores
-        List<PersonDTO> teachers = iPersonService.findAllPersonByTypeTeacher();
-        //teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
+        List<Person> teachers = iPersonService.findAllPersonByTypeTeacher();
+//        teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
 
         //TODO 2. consultar todos las materias pertenecientes a un programa
         //TODO 2.1 consultar el programa
@@ -209,10 +210,9 @@ public class FileTemplateImpl implements ITemplateFileService{
      * @param nameFile nombre del archivo de plantilla de excel
      * @return ruta del archivo de plantilla de excel
      */
-    private String getPathTemplate(String nameFile) {
-        //comenta una o la otra
-//        final String pathProjectFileMilthon = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
-        final String pathProjectFileBrandon = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+    private List<String> getPathTemplate(String nameFile) {
+        final String pathProjectFileMain = "src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
+        final String pathProjectFileAux = "schedule-management-backend/src/main/resources/files/templates/Plantilla_oferta_academica.xlsx";
 
         try {
             Resource resource = resourceLoader.getResource("file:" + nameFile);
@@ -223,10 +223,12 @@ public class FileTemplateImpl implements ITemplateFileService{
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");
             pathFormat[pathFormat.length-1] = "";
-            //dependiendo del path
-            String pathComplete = String.join("/",pathFormat) + pathProjectFileBrandon;
-//            String pathComplete = String.join("/",pathFormat) + pathProjectFileMilthon;
-            return pathComplete;
+            String pathCompleteMain = String.join("/",pathFormat) + pathProjectFileMain;
+            String pathCompleteAux = String.join("/",pathFormat) + pathProjectFileAux;
+            List<String> listPathComplete = new ArrayList<>();
+            listPathComplete.add(pathCompleteMain);
+            listPathComplete.add(pathCompleteAux);
+            return listPathComplete;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

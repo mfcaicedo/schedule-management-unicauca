@@ -64,28 +64,28 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
     @Override
     public ResponseEntity<org.springframework.core.io.Resource> downloadTemplateFile() throws IOException {
          // Obtener la ruta del archivo de plantilla
-    String path = getPathTemplate("Plantilla_Ambientes.xlsx");
+        List<String> listPath = getPathTemplate("Plantilla_Ambientes.xlsx");
+        String path = listPath.get(0);
+        // Definir una variable para el archivo temporal
+        byte[] temporaryFile;
+        // Leer todo el contenido del archivo y almacenarlo en la variable temporaryFile
+        try {
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(0)));
+        }catch (IOException e){
+            temporaryFile = Files.readAllBytes(Path.of(listPath.get(1)));
+            path = listPath.get(1);
+        }
 
-    // Definir una variable para el archivo temporal
-    byte[] temporaryFile;
-
-    // Leer todo el contenido del archivo y almacenarlo en la variable temporaryFile
-    temporaryFile = Files.readAllBytes(Path.of(path));
 
     // Procesar el archivo Excel utilizando un método llamado processExcelFile y obtener el objeto Workbook
-    //Workbook workbook = processExcelFile(path, programId);
-        Workbook workbook = WorkbookFactory.create(new File(path));
-
+    Workbook workbook = WorkbookFactory.create(new File(path));
     // Crear un OutputStream para guardar el archivo Excel en memoria
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
     // Escribir el contenido del libro (workbook) en el OutputStream (baos)
     workbook.write(baos);
     workbook.close();
-
     // Crear un recurso a partir del contenido del archivo almacenado en el OutputStream
     ByteArrayResource resource = new ByteArrayResource(baos.toByteArray());
-
     // Configurar las cabeceras de respuesta HTTP
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Disposition", "attachment; filename=Plantilla_Ambientes.xlsx");
@@ -105,11 +105,9 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
     }
 
-    private String getPathTemplate(String nameFile) {
-
-        // Ruta del archivo de plantilla
-//        final String pathProjectFile = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
-        final String pathProjectFile = "src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
+    private List<String> getPathTemplate(String nameFile) {
+        final String pathProjectFileMain = "schedule-management-backend/src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
+        final String pathProjectFileAux = "src/main/resources/files/templates/Plantilla_Ambientes.xlsx";
 
         try {
             // Obtener el recurso del archivo utilizando resourceLoader y agregando "file:" al nombre del archivo
@@ -120,21 +118,21 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
             // Obtener la ruta absoluta del archivo
             String absolutePath = file.getAbsolutePath();
-
             // Reemplazar todas las ocurrencias de "\" por "/" en la ruta absoluta para que sea compatible con el sistema de archivos
             absolutePath = absolutePath.replace("\\","/");
-
             // Dividir la ruta absoluta en un arreglo utilizando "/" como separador
             String pathFormat[] = absolutePath.split("/");
-
             // Reemplazar el último elemento del arreglo por una cadena vacía para eliminar el nombre del archivo
             pathFormat[pathFormat.length-1] = "";
-
             // Unir los elementos del arreglo nuevamente en una cadena utilizando "/" como separador y agregar el path del proyecto
-            String pathComplete = String.join("/", pathFormat) + pathProjectFile;
-
+            //String pathComplete = String.join("/", pathFormat) + pathProjectFile;
+            String pathCompleteMain = String.join("/",pathFormat) + pathProjectFileMain;
+            String pathCompleteAux = String.join("/",pathFormat) + pathProjectFileAux;
             // Devolver la ruta completa
-            return pathComplete;
+            List<String> listPathComplete = new ArrayList<>();
+            listPathComplete.add(pathCompleteMain);
+            listPathComplete.add(pathCompleteAux);
+            return listPathComplete;
         } catch (Exception e) {
             // Imprimir la traza de la excepción en caso de error
             e.printStackTrace();

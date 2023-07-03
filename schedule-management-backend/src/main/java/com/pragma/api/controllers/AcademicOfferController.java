@@ -59,7 +59,17 @@ public class AcademicOfferController {
     public Response<GenericPageableResponse> findAll(@RequestParam Integer page, @RequestParam Integer size,
                                                      @RequestParam String sort, @RequestParam String order) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
-        System.out.println("--------------------------------------------------LLEGA AL CONTROLADOR");
         return this.iFileAcademicOffer.findAll(pageable);
     }
+
+    @PutMapping("/updateStateFile")
+    public Response<AcademicOfferFileDTO> updateStateFile(@RequestParam Integer id, @RequestParam String stateFile) {
+        return this.iFileAcademicOffer.updateStateFile(id, stateFile);
+    }
+
+    @GetMapping("/findAllByStatefile")
+    public Response<List<AcademicOfferFileDTO>> findAllByStatefile(@RequestParam String stateFile) {
+        return this.iFileAcademicOffer.findAllByStatefile(stateFile);
+    }
+
 }

@@ -23,8 +23,8 @@ public class PersonDTO {
 
     private String personCode;
     private String fullName;
-  //  @Getter(onMethod_= @JsonIgnore)
-  //  private Set<CourseTeacherDTO> assignedSubjects;
+   // @Getter(onMethod_= @JsonIgnore)
+   // private Set<CourseTeacherDTO> assignedSubjects;
     private DepartmentDTO department;
     private ProgramDTO programHead;
     private DepartmentDTO departmentHead;
