@@ -46,7 +46,15 @@ export class LoginComponent implements OnInit {
         console.log("Login exitoso!", response)
         this.authService.saveToken(response.token)
         this.router.navigate(['dashboard'])
-      })
+      } 
+      ,error=>{
+        console.log("Error en login", error)
+        
+      }
+      )
+      
+    }else{
+      console.log("Formulario invalido")
     }
     return
   }
