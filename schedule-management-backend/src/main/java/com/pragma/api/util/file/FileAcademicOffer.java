@@ -2,6 +2,7 @@ package com.pragma.api.util.file;
 
 import com.pragma.api.domain.ResponseFile;
 import com.pragma.api.model.enums.StateAcOfferFileEnumeration;
+import com.pragma.api.model.enums.StatusFileEnumeration;
 import com.pragma.api.util.file.templateclasses.FileRowAcademicOffer;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -30,33 +31,83 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
 
         int rowNum = sheet.getLastRowNum();
         System.out.println("FILAS EXCEL: " + rowNum);
+        //Valido que no suba un archivo vacio o diferente al de la plantilla
+        if (rowNum == -1){
+            responseFile.addLogsGeneric("El archivo que intenta subir no " +
+                    "corresponde al de la plantilla del sistema");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
+        }else{
+            //Verifico que el archivo tenga el formato correcto
+            if(
+                    validateFieldGeneric(sheet, 0,responseFile, "INFORMACION DEL PROGRAMA", 0) ||
+                    validateFieldGeneric(sheet, 1,responseFile, "NOMBRE", 0) ||
+                    validateFieldGeneric(sheet, 2,responseFile, "CODIGO", 0) ||
+                    validateFieldGeneric(sheet, 4,responseFile, "INFORMACION DEL PERIODO", 0) ||
+                    validateFieldGeneric(sheet, 5,responseFile, "PERIODO", 0) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "SEMESTRE", 0) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "MATERIA", 1) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "EN BLOQUE", 2) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "INTENSIDAD SEMANAL", 3) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "GRUPO", 4) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "CUPO", 5) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "TIPO(S) DE AMBIENTE(S) REQUERIDO(S)", 6) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "PROFESOR PRINCIPAL", 7) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "PROFESOR 2", 8) ||
+                    validateFieldGeneric(sheet, 9,responseFile, "PROFESOR 3", 9)
+            ){
+                return fileRows;
+            }
+        }
 
         FileRowAcademicOffer fileRowAux = new FileRowAcademicOffer();
         //Recupero la información del archivo correspondiente a la clase academicOfferFile solo una vez
         fileRowAux.setDateRegisterFile(new Date());
         fileRowAux.setNameFile(file.getOriginalFilename());
         fileRowAux.setStateFile(StateAcOfferFileEnumeration.SIN_INICIAR);
-        if(sheet.getRow(4).getCell(1) == null ||
-                sheet.getRow(4).getCell(1).getCellType().equals(CellType.BLANK)){
-            responseFile.addLogsEmptyFields("[Fila: 5 - Columna: B]  El periodo está vacío");
-        }else if(sheet.getRow(4).getCell(1).getCellType().equals(CellType.STRING)){
-            fileRowAux.setPeriod(sheet.getRow(4).getCell(1).getStringCellValue());
-        }else{
-            responseFile.addLogsType("[Fila: 5 Columna: B] El periodo debe ser tipo texto");
-        }
+        //Programa
         if(sheet.getRow(2).getCell(1) == null ||
                 sheet.getRow(2).getCell(1).getCellType().equals(CellType.BLANK)){
             responseFile.addLogsEmptyFields("[Fila: 3 - Columna: B]  El código del programa está vacío");
+            responseFile.addLogsGeneric("No se puede procesar el archivo si no digita el código del programa");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
         } else if(sheet.getRow(2).getCell(1).getCellType().equals(CellType.STRING)){
             fileRowAux.setProgramId(sheet.getRow(2).getCell(1).getStringCellValue());
         }else{
             responseFile.addLogsType("[Fila: 3 Columna: B] El programa debe ser tipo texto");
+            responseFile.addLogsGeneric("No se puede procesar el archivo si el programa no tiene información válida");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
+        }
+        //Periodo
+        System.out.println("PERIODO: " + sheet.getRow(5).getCell(1).getCellType());
+        if(sheet.getRow(5).getCell(1) == null ||
+                sheet.getRow(5).getCell(1).getCellType().equals(CellType.BLANK)){
+            responseFile.addLogsEmptyFields("[Fila: 6 - Columna: B]  El periodo está vacío");
+            responseFile.addLogsGeneric("No se puede procesar el archivo si no digita el campo periodo");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
+        }else if(sheet.getRow(5).getCell(1).getCellType().equals(CellType.STRING)){
+            fileRowAux.setPeriod(sheet.getRow(5).getCell(1).getStringCellValue());
+        }else{
+            responseFile.addLogsType("[Fila: 6 Columna: B] El periodo debe ser tipo texto");
+            responseFile.addLogsGeneric("No se puede procesar el archivo si el perido no tiene información válida");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
         }
         //agrego en la primera posición del array la información del archivo
         fileRows.add(fileRowAux);
 
         //Establezco el número de filas a recorrer.
         int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
+        //Si el archivo no tiene cursos para procesar capaturo el error
+        if(rowNumOriginal <10){
+            responseFile.addLogsGeneric("El archivo no tiene cursos para cargar al sistema");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return fileRows;
+        }
+
         System.out.println("filas a recorrer: " + rowNumOriginal);
         for (int i = 10; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
@@ -70,6 +121,27 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             fileRows.add(fileRow);
         }
         return fileRows;
+    }
+
+    /**
+     * Método que valida los campos de la plantilla (campos que no se deben modificar)
+     * @param sheet hoja de excel
+     * @param rowNum número de fila
+     * @param responseFile objeto que contiene la información de los logs
+     * @param textField texto que debe contener la celda
+     * @param cellNum número de celda
+     */
+    private boolean validateFieldGeneric(Sheet sheet, int rowNum, ResponseFile responseFile,
+                                      String textField, int cellNum){
+        if(sheet.getRow(rowNum).getCell(cellNum) == null ||
+                sheet.getRow(rowNum).getCell(cellNum).getCellType().equals(CellType.BLANK) ||
+                !sheet.getRow(rowNum).getCell(cellNum).getStringCellValue().equals(textField)) {
+            responseFile.addLogsGeneric("El archivo que intenta subir no " +
+                    "corresponde a la plantilla. Descargue la plantilla, he intente nuevamente");
+            responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+            return true;
+        }
+        return false;
     }
 
     @Override

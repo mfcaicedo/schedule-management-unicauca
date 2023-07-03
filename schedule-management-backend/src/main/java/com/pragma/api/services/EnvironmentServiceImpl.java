@@ -69,7 +69,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     @Override
     public Response<EnvironmentDTO> updateEnvironment(EnvironmentDTO environmentDTO, Integer id) {
         Response<EnvironmentDTO> response = new Response<>();
-        logger.debug("Init updateEnvironment Business Environment: {}", environmentDTO.toString());
+        logger.debug("Miremos esto: {}", environmentDTO.toString());
 
         // Busco el environment a actualizar
         Environment environment = null;

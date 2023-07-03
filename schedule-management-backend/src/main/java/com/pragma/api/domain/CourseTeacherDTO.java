@@ -10,8 +10,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CourseTeacherDTO {
+
     private Integer id;
+
     private TeacherCategoryEnumeration teacherCategory;
+
     private CourseDTO course;
+
     private PersonDTO person;
+
 }

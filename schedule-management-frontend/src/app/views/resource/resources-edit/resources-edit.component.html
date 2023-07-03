@@ -3,10 +3,13 @@
     <strong class="titulo">Editar Recurso</strong>
   </c-card-header>
   <c-card-body>
-    <app-resources-form #child [isEdit]="true" [resource]="resource" (emitterForm)="getResourceForm($event)"></app-resources-form>
+    <app-resources-form #child [isEdit]="true" [resource]="resource" 
+    (emitterForm)="getResourceForm($event)">
+    </app-resources-form>
 
     <div class="d-grid gap-2 ">
-      <button cButton color="primary" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid" (click)="child.setValues();onShowEnvironments()">
+      <button cButton color="primary" variant="outline" size="lg" type="submit" [disabled]="child.form.invalid"
+        (click)="child.setValues();onShowEnvironments()">
         Ver los ambientes que contienen a este recurso
       </button>
     </div>
@@ -25,7 +28,7 @@
 </c-card>
 
 <br>
-<button cButton color="primary" size="lg" [disabled]= "child.form.invalid" (click)="child.setValues() ;getInfoRecurso();onUpdateResource()" >
+<button cButton color="primary" size="lg" [disabled]="child.form.invalid"
+  (click)="child.setValues() ;getInfoRecurso();onUpdateResource()">
   Actualizar este recurso
 </button>
-

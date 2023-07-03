@@ -59,6 +59,7 @@ public class EnvironmentController {
     @ResponseBody
     public Response<EnvironmentDTO> updateEnvironment(@Valid @RequestBody EnvironmentDTO environmentDTO,
                                                       @PathVariable Integer id) {
+        System.out.println("llega al controlador de update");
         return this.environmentService.updateEnvironment(environmentDTO, id);
     }
 

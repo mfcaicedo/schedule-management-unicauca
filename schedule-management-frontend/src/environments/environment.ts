@@ -15,6 +15,7 @@ export const environment = {
   urlEnvBuildingByFac: 'http://localhost:8081/api/environment/consultBuildingsByFacultyId/',
   urlProgram: 'http://localhost:8081/api/program',
   urlDepartment: 'http://localhost:8081/api/department',
+  urlFaculty: 'http://localhost:8081/api/faculty',
 };
 
 /*
