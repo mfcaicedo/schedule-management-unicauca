@@ -18,14 +18,17 @@ export class LoginService {
     private authService: AuthService
   ) { }
 
-  singin(credentials:{email:string,password:string}){
-    const username = credentials.email
-    const password = credentials.password
+  singin(credentials:{username:string,password:string}){
+    // const username = credentials.email
+    // const password = credentials.password
 
-    return this.http.post<Auth>(`${this.endpPoint}/login`,{username,password})
-    .pipe(
-      tap(response => {this.authService.saveToken(response.token)})
+    // return this.http.post<Auth>(`${this.endpPoint}/login`,{username,password})
+    // .pipe(
+    //   tap(response => {this.authService.saveToken(response.token)})
 
-    )
+    // )
+
+    return this.authService.loginAndGet(credentials);
+
   }
 }

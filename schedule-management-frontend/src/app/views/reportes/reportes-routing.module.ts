@@ -6,17 +6,19 @@ import { ReportProgramComponent } from './report-program/report-program.componen
 import { ReportSemestreComponent } from './report-semestre/report-semestre.component';
 import { ReportTeacherComponent } from './report-teacher/report-teacher.component';
 import { RoomComponent } from './room/room.component';
+import { ScheduleManagerGuard } from 'src/app/guards/schedule-manager.guard';
+import { AdminGuard } from 'src/app/guards/admin.guard';
 
 const routes: Routes = [
     {
       path: '',
       data: {
-        title: 'Recurso',
+        title: 'Reporte',
       },
       children: [
         {
           path: '',
-          redirectTo: '/all',
+          redirectTo: 'all',
           pathMatch: 'full'
         },
         {
@@ -44,6 +46,7 @@ const routes: Routes = [
         {
           //detalle y de un ambiente
           path: 'Report_faculty',
+          canActivate:[ScheduleManagerGuard],
           component: ReportFacultyComponent,
           data: {
             title: 'Report_faculty'
@@ -52,6 +55,7 @@ const routes: Routes = [
         {
           //detalle y de un ambiente
           path: 'Programa',
+          canActivate:[ScheduleManagerGuard],
           component: ReportProgramComponent,
           data: {
             title: 'Programa'
@@ -60,6 +64,7 @@ const routes: Routes = [
         {
           //detalle y de un ambiente
           path: 'Semestre',
+          canActivate: [ AdminGuard ],
           component: ReportSemestreComponent,
           data: {
             title: 'Semestre'
@@ -68,6 +73,7 @@ const routes: Routes = [
         {
           //detalle y de un ambiente
           path: 'Docente',
+          canActivate: [ AdminGuard ],
           component: ReportTeacherComponent,
           data: {
             title: 'Docente'

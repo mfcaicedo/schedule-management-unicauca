@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input ,Output, EventEmitter} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SlicePipe } from '@angular/common';
 
@@ -28,9 +28,11 @@ export class EnvironmentsComponent {
   totalNumberPage: number = 1;
   pageSize: number = 0;
 
+  @Input()editar:boolean = true
+
   @Input('fromResource') fromResource: boolean = false;
   @Input('resourceId') resourceId: number = 0;
-
+  @Output() checkEnvironment= new EventEmitter<Environment | null>();
 
   constructor(
     private environmentService: EnvironmentService,
@@ -70,6 +72,15 @@ export class EnvironmentsComponent {
 
   }
 
+  onCheckedEnvironment(ambiente:Environment, e:Event){
+    const x = e.target as HTMLInputElement
+    if(x.checked){
+      this.checkEnvironment.emit(ambiente)
+
+    }else{
+      this.checkEnvironment.emit(null)
+    }
+  }
   onDeleteEnvironment(environmentId: number) {
     Swal.fire({
       title: '¿Está seguro de eliminar el ambiente?',

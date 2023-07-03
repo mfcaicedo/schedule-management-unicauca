@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { TokenService } from '../services/token/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OpenSesionGuard implements CanActivate {
-  constructor(private router:Router,private outSVC:AuthService){
+  constructor(private router:Router,private outSVC:TokenService){
 
   }
 
@@ -16,5 +16,5 @@ export class OpenSesionGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.outSVC.getToken()?true:this.router.createUrlTree(['login']);
   }
-  
+
 }

@@ -37,7 +37,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   isDisabled:boolean=false;//usado en html para los checkbox
   //showSelectedEnvironment:boolean=false;
  // ambiente!:Environment;
-  
+
   //totalItems:number=0;
   //totalNumberPage:number=1;
   //paginadorEnvironment: any;
@@ -47,7 +47,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   //@Output()isEnvironmentSelected = new EventEmitter<boolean>();
   //@ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
 
-  
+
   //DATOS REPORTE
   seleccionados: string[] = [];
   seleccionadoDic: Map<string, string> = new Map<string, string>();
@@ -57,14 +57,14 @@ export class RoomComponent implements OnInit,AfterViewInit {
 
   //Constante
   readonly valDefecto:string="defecto";///valor por defecto que tiene una opcion del Formulario antes de ser seleccionada
-  
+
   //cadenas que contienen la seleccion del formulario
   seleccionEdificio:string="";
   seleccionTipo:string="";
 
   //Encabezados de Tabla
   columns:string[]=['Id','Nombre','Ubicacion','Tipo Ambiente','Seleccionar'];
-  
+
   //listas
   environmentTypes:string[]=[];   ///lista que contiene los tipos de ambientes definidos en el servicio y mostrados en los radios
   environmentType!: string ;      ///indica que no puede ser nulo
@@ -80,8 +80,8 @@ export class RoomComponent implements OnInit,AfterViewInit {
 
 //#endregion declaracionVariables
   //-----------------------------CARGANDO LOS RECURSOS--------------------------------------------
- 
-//#region constructores 
+
+//#region constructores
   constructor(
     private render2:Renderer2,
     private route : ActivatedRoute,
@@ -91,7 +91,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
     private pdfService: PdfService,
     protected calendaroptionsService: OptionsFullCalendarService
-  ){ 
+  ){
     /*
     this.cambiarNombreVistaPreviaGenerar();// funcion constante ejecucion para ver si hay vistas previas
     */
@@ -106,7 +106,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     this.facservice.getAllFaculty().subscribe(
       (data: Faculty[]) => {
         this.listafacultades = data as Faculty[]; // Asignar los datos emitidos a la variable listafacultades
-        //alert(this.listafacultades[0].facultyName);    
+        //alert(this.listafacultades[0].facultyName);
       },
       (error) => {
         console.log('Error obteniendo todas las facultades', error);
@@ -114,7 +114,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     );
     //llena tipo Ambientes para cargarse desde el inicio del componente
     this.environmentTypes=this.envService.getAllEnvironmentTypes();
-    //this.lista();//COMENTADO DE METODOS YA NO USADOS 
+    //this.lista();//COMENTADO DE METODOS YA NO USADOS
   }
  /**
   * permite detectar cambios en la instanciacion correcta de elementos creados en tiempo de ejecucion
@@ -128,23 +128,23 @@ export class RoomComponent implements OnInit,AfterViewInit {
   alerta(msj:string){
     alert(msj);
   }
-//#endregion constructores 
+//#endregion constructores
   //-----------------------------------LLENA DATOS--------------------------------------
 
-//#region llenarListas 
+//#region llenarListas
   /**
-   * Metodo que obtiene todos los edificios desde el id de una facultad 
+   * Metodo que obtiene todos los edificios desde el id de una facultad
    * y los almacena en la variable ${listaEdificios}
-   * @param variableIdFac 
+   * @param variableIdFac
    */
   llenarEdificios(variableIdFac:string){
     //llenamos los Edificios lamando un metodo del servicio
     this.envService.getBuildingsByFac(variableIdFac).subscribe(
       (data: Environment[]) => {
         this.listaEdificios = data as Environment[]; // Asignar los datos emitidos a la variable listaEdificios
-        //alert(this.listafacultades[0].facultyName);    
+        //alert(this.listafacultades[0].facultyName);
         // Otro código que depende de this.listafacultades.length
-    
+
       },
       (error) => {
         console.log('Error obteniendo todos Edificios', error);
@@ -163,7 +163,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     paramTipo.forEach((tipo: string) => {
       this.envService.getEnvironmentByBuildings(tipo,this.seleccionEdificio).subscribe(
         (data: Environment[]) => {
-          this.listaAmbienteHijos = this.listaAmbienteHijos.concat(data); // Asignar los datos emitidos a la variable listafacultades        
+          this.listaAmbienteHijos = this.listaAmbienteHijos.concat(data); // Asignar los datos emitidos a la variable listafacultades
         },
         (error) => {
           console.log('Error obteniendo todas las ambientes', error);
@@ -171,13 +171,13 @@ export class RoomComponent implements OnInit,AfterViewInit {
       );
     });
   }
-//#endregion llenarListas 
+//#endregion llenarListas
   //----------------------METODOS DISPARADOS POR EVENTOS DE SELECCION----------------------------------------
  //#region  Metodos para enventos html
   /**
    * Este metodo se lanza cuando se selecciona la facultad
    * llama al metodo parallena los edificios
-   *  y altera la bandera de facultad para informar 
+   *  y altera la bandera de facultad para informar
    * que se puede seguir al siguiente paso(seleccionar edificio)
    * @param event  contine el evento que disparo  la funcion
    */
@@ -193,7 +193,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   }
    /**
    * Este metodo se lanza cuando se selecciona el edificio
-   *  altera la bandera  edificio seleccionado para informar 
+   *  altera la bandera  edificio seleccionado para informar
    * que se puede seguir al siguiente paso(seleccionar los ambientes que el edificio Contiene)
    * @param event  contine el evento que disparo  la funcion
    */
@@ -202,27 +202,27 @@ export class RoomComponent implements OnInit,AfterViewInit {
     this.seleccionEdificio= (event.target as HTMLInputElement).value
     if ((this.seleccionEdificio)!=this.valDefecto){
       this.isBuildSelected=true;//cambia el valor de esta variable para que se activen los otros campos
-      
+
       //TODO: falta llenar la tabla y comprobar si hay un tipo seleccionado
     }else{this.isBuildSelected=false;//al ser la por defecto opcion deshabilita
     }
   }
   /**
-   * 
-   * @param event 
+   *
+   * @param event
    */
-  onSelectedType(event:Event){  
-    this.resetearTabla(); 
+  onSelectedType(event:Event){
+    this.resetearTabla();
     this.seleccionTipo =(event.target as HTMLInputElement).value;
     this.llenarAmbientesDeEdificio();
     //TODO:se debe filtrar por tipo la tabla al lanzarse este evento
   }
   /**
    * este metodo se dispara al seleccionar los checkbox de la tabla de ambientes filtrados
-   * cuando el evento es de check se agrega a la lista 
-   * en caso contrario se saca y quita un indice y  desplaza la lisa una posicion 
-   * @param item 
-   * @param event 
+   * cuando el evento es de check se agrega a la lista
+   * en caso contrario se saca y quita un indice y  desplaza la lisa una posicion
+   * @param item
+   * @param event
    */
   onSelectingEnvironment(item: any, event: any): void {
     this.esquemas=[];
@@ -246,7 +246,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
       this.reportService.getReportRoom(id).subscribe(
         (data: ReportRoom[]) => {
           const esquema = data as ReportRoom[]; // Asignar los datos emitidos a la variable esquema
-  
+
           // Agregar el esquema al arreglo esquemas
           this.esquemas.push(esquema);
           this.listaTitulosReporte.push("Reporte de "+this.getNombreAmbientedesdeId(id)+"(COD: "+id+").");
@@ -259,7 +259,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     this.generarPDF(0);
   }
   /**
-   * 
+   *
    * @param opcion si se desea descargar las imagenes enviar 1, si se desea descargar las tablas 2 sino se desea hacer descargas 0
    */
   generarPDF(opcion:number){
@@ -281,11 +281,11 @@ export class RoomComponent implements OnInit,AfterViewInit {
     });
       this.pdfService._generarPDFsDeImagenes( imgElements);
   }
-  resetearTabla(){    
+  resetearTabla(){
     this.listaAmbienteHijos=[];
     this.seleccionados=[];//al volver a cargar la tabla de opciones los seleccionados vuelven a iniciar
   }
-  deselecciondeInputs(){  
+  deselecciondeInputs(){
     if (this.radioInput) {
     this.radioInput.nativeElement.checked = false;
     }
@@ -293,12 +293,12 @@ export class RoomComponent implements OnInit,AfterViewInit {
   }
 //#endregion Metodos para enventos html
 //------------------------------OTROS METODOS (NO USADOS ecepto los de la tabla)---------------------------------------------------
-//#region otros 
- 
-//#endregion otros 
+//#region otros
+
+//#endregion otros
 ////-------------------METODOS DE TABLA---------------------------
 /**
- * es un metodo usado den un atributo de tipongstyle 
+ * es un metodo usado den un atributo de tipongstyle
  * para poder cambiar el color segun el que se reciva
  * @param programColor resive un color obtenido en formato de la base de datos
  * @returns lo transforma en un color admitido por css
@@ -326,17 +326,17 @@ getBackgroundColor(programColor: string) {
   return colorMap[programColor] || 'white';
 }
 /**
- *como tenemos los id de los seleccionados buscamos el nombre en un diccionario que 
+ *como tenemos los id de los seleccionados buscamos el nombre en un diccionario que
  tiene el id y nombre de los ambientes
  * @param i id del ambiente
  * @returns  nombre del ambiente
  */
 getNombreAmbientedesdeId(i:string): string | undefined {
-  
+
   return this.seleccionadoDic.get(i);
  }
 /**
- * esta funcion nos permite cambiar el nombre del boton 
+ * esta funcion nos permite cambiar el nombre del boton
  * cada vez que se cree o eliminen las vistas previas
  */
  cambiarNombreVistaPreviaGenerar():void {
@@ -355,7 +355,7 @@ getNombreAmbientedesdeId(i:string): string | undefined {
 getOptionesCalendar(eventosParaCalendario: ReportRoom[]):CalendarOptions{
   //alert("dlpdlc");
  //return this.calendaroptionsService.getCalendarOptions(eventosParaCalendario);
- 
+
  let calendarOptions: CalendarOptions = {//quita opciones de navegacion entre dias
   headerToolbar: {
     left: '',
@@ -375,12 +375,12 @@ getOptionesCalendar(eventosParaCalendario: ReportRoom[]):CalendarOptions{
     backgroundColor: 'rgba(0, 0, 255, 1)',
   }],
   plugins: [timeGridPlugin],
- 
+
   locale: esLocale,//pone en espaniol el calendario
   slotMinTime: '07:00:00', // Establece el intervalo de tiempo mínimo a las 7 AM
   slotMaxTime: '22:00:00',// hasta las 10pm
   slotDuration: '01:00:00', // Establece la duración de la ranura en 2 horas
-  contentHeight: 'auto', // Ajusta automáticamente el tamaño al contenido   
+  contentHeight: 'auto', // Ajusta automáticamente el tamaño al contenido
   eventDidMount: function(info) {
     info.el.style.borderColor = 'blue';
     info.el.style.color = 'white';

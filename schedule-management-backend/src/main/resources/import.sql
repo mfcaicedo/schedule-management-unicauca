@@ -179,6 +179,7 @@ INSERT INTO `resource` (`resource_id`, `name`, `resource_type`) VALUES (NULL, 'C
 
 
 --resource course
+
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('20', '25', 'A', 'descripcion ', '4', 'CAL_II');
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('21', '25', 'A', 'descripcion ', '4', 'ALG');
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('22', '25', 'A', 'descripcion ', '4', 'MEC');
@@ -271,6 +272,30 @@ INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_nam
 --horario
 
 --resource event
+
+INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`)VALUES (NULL, 'conferencia', 'conferencia', 'conferenciado', 'CONFERENCIA',  '1061');
+--resource Schedule
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'LUNES', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:19:18', '3', '8', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'MARTES', '2023-05-20 11:19:18', '8:19:18', b'1', '2023-05-18 10:19:18', '07:19:18', '6', '8', '2');
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'MIERCOLES', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:00:18', '3', '6', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'JUEVES', '2023-05-20 11:19:18', '8:19:18', b'1', '2023-05-18 10:19:18', '07:00:18', '4', '6', '2');
+
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'LUNES', '2023-05-18 11:19:18', '13:19:18', b'0', '2023-05-16 10:19:18', '05:19:18', '3', '12', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'VIERNES', '2023-05-20 11:19:18', '11:19:18', b'1', '2023-05-18 10:19:18', '04:19:18', '5', '10', '2');
+
+---schedule civil
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'LUNES', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:19:18', '3', '14', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'MARTES', '2023-05-20 11:19:18', '8:19:18', b'1', '2023-05-18 10:19:18', '07:19:18', '4', '14', '2');
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'MIERCOLES', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:00:18', '5', '14', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'JUEVES', '2023-05-20 11:19:18', '8:19:18', b'1', '2023-05-18 10:19:18', '07:00:18', '6', '14', '2');
+
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'LUNES', '2023-05-18 11:19:18', '13:19:18', b'0', '2023-05-16 10:19:18', '05:19:18', '7', '14', '2');
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'VIERNES', '2023-05-20 11:19:18', '11:19:18', b'1', '2023-05-18 10:19:18', '04:19:18', '7', '14', '2');
+
 INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `program_id`, `person_code`)VALUES ('2', 'conferencia', 'conferencia', 'conferenciado', 'CONFERENCIA', 'PIS', '1061');
 --resource Schedule SALON 101(COD:9)
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'LUNES', '2023-05-18 11:00:18', '09:00:18', b'0', '2023-05-16 10:19:18', '07:00:18', '11', '9', NULL);
@@ -362,6 +387,7 @@ INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`,
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'MARTES', '2023-05-18 11:00:18', '15:00:18', b'0', '2023-05-16 10:19:18', '13:00:18', '76', '11', NULL);
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'MARTES', '2023-05-18 11:00:18', '19:00:18', b'0', '2023-05-16 10:19:18', '17:00:18', '77', '11', NULL);
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'MARTES', '2023-05-18 11:00:18', '20:00:18', b'0', '2023-05-16 10:19:18', '19:00:18', '72', '11', NULL);
+
 
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'MIERCOLES', '2023-05-18 11:00:18', '09:00:18', b'0', '2023-05-16 10:19:18', '07:00:18', '74', '11', NULL);
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'MIERCOLES', '2023-05-18 11:00:18', '13:00:18', b'0', '2023-05-16 10:19:18', '11:00:18', '81', '11', NULL);

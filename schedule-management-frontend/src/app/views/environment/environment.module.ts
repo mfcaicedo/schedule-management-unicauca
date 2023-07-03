@@ -86,6 +86,9 @@ import {
     TooltipModule,
     UtilitiesModule,
     NgxSpinnerModule,
+  ],
+  exports:[
+    EnvironmentsComponent
   ]
 })
 export class EnvironmentModule { }
