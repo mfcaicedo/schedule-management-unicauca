@@ -38,8 +38,8 @@ export class EnvironmentFormComponent {
   };
 
   environmentTypes: string[] = []
-  // facultys:Faculty[]=[];
-  facultys: string[] = [];
+  facultys:Faculty[]=[];
+  // facultys: string[] = [];
 
   constructor(
     private formBuilder:FormBuilder,
@@ -57,7 +57,10 @@ export class EnvironmentFormComponent {
   ngOnInit():void{
     /*Consulto los tipos de ambientes y las facultades*/
     this.environmentTypes=this.environmentService.getAllEnvironmentTypes();
-    this.facultys=this.environmentService.getAllFacultys();
+    this.environmentService.getAllFacultys().subscribe(response => {
+      this.facultys = response.data;
+      console.log("llega a facultys",this.facultys);
+    });
     // this.fillForm();
   }
 
