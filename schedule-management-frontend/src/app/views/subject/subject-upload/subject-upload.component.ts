@@ -121,11 +121,11 @@ export class SubjectUploadComponent implements OnInit {
                         this.responseFile.logsEmptyFields.join('<br>').toLowerCase()
                       }</p>
                     <p>${this.responseFile.logsType.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
+                        '<h5>Tipo de dato: </h5>' +
                         this.responseFile.logsType.join('<br>').toLowerCase()
                       }</p>
                     <p>${this.responseFile.logsGeneric.length === 0 ? '' :
-                        '<h5>Campos vacíos: </h5>' +
+                        '<h5>Otros errores: </h5>' +
                         this.responseFile.logsGeneric.join('<br>').toLowerCase()
                       }</p>
                   </div>
