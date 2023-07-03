@@ -38,7 +38,10 @@ public class CourseServiceImpl implements ICourseService {
     private final IPeriodRepository iPeriodRepository;
 
     private final IProgramRepository programRepository;
-    public CourseServiceImpl(ModelMapper modelMapper, ICourseRepository iCourseRepository, IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository, IPeriodRepository iPeriodRepository, IProgramRepository programRepository) {
+
+    public CourseServiceImpl(ModelMapper modelMapper, ICourseRepository iCourseRepository,
+            IPersonRepository iPersonRepository, ISubjectRepository iSubjectRepository,
+            IPeriodRepository iPeriodRepository, IProgramRepository programRepository) {
         this.modelMapper = modelMapper;
         this.iCourseRepository = iCourseRepository;
         this.iPersonRepository = iPersonRepository;
@@ -52,8 +55,8 @@ public class CourseServiceImpl implements ICourseService {
     public Response<CourseDTO> createCourse(CourseDTO courseDTO) {
         logger.debug("Init createCourse Business Course: {}", courseDTO.toString());
         Response<CourseDTO> response = new Response<>();
-        Course course = modelMapper.map(courseDTO,Course.class);
-        CourseDTO courseDTO1 = modelMapper.map(iCourseRepository.save(course),CourseDTO.class);
+        Course course = modelMapper.map(courseDTO, Course.class);
+        CourseDTO courseDTO1 = modelMapper.map(iCourseRepository.save(course), CourseDTO.class);
         response.setStatus(200);
         response.setUserMessage("Curso creado exitosamente");
         response.setDeveloperMessage("Courso creado exitosamente");
@@ -65,8 +68,6 @@ public class CourseServiceImpl implements ICourseService {
         return response;
     }
 
-
-
     @Override
     public Response<SubjectDTO> getCourseByCode(String code) {
         return null;
@@ -76,7 +77,8 @@ public class CourseServiceImpl implements ICourseService {
     public Response<GenericPageableResponse> findAll(Pageable pageable) {
         logger.debug("Start findAllCourses Business");
         Page<Course> coursePage = this.iCourseRepository.findAll(pageable);
-        if(coursePage.isEmpty()) throw new ScheduleBadRequestException("bad.request.course.empty", "");
+        if (coursePage.isEmpty())
+            throw new ScheduleBadRequestException("bad.request.course.empty", "");
 
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
@@ -90,31 +92,44 @@ public class CourseServiceImpl implements ICourseService {
     }
 
     @Override
-    public GenericPageableResponse findAllBySubjectProgramAndSemester(String programId, Integer semester, Pageable pageable) {
-        Program programDb = this.programRepository.findById(programId).orElseThrow(()->new ScheduleBadRequestException("bad.request.program.id", programId));
-        Page<Course> coursePage = this.iCourseRepository.findAllBySubject_ProgramAndSubject_Semester(programDb, semester, pageable);
+    public GenericPageableResponse findAllBySubjectProgramAndSemester(String programId, Integer semester,
+            Pageable pageable) {
+        Program programDb = this.programRepository.findById(programId)
+                .orElseThrow(() -> new ScheduleBadRequestException("bad.request.program.id", programId));
+        Page<Course> coursePage = this.iCourseRepository.findAllBySubject_ProgramAndSubject_Semester(programDb,
+                semester, pageable);
         return this.validatePageList(coursePage);
     }
 
     @Override
     public GenericPageableResponse findAllByAvailable(String programId, Integer semester, Pageable pageable) {
-        Program programDb = this.programRepository.findById(programId).orElseThrow(()->new ScheduleBadRequestException("bad.request.program.id", programId));
-        Page<Course> coursePage = this.iCourseRepository.findAllBySubject_ProgramAndSubject_SemesterAndRemainingHoursGreaterThan(programDb, semester,0, pageable);
+        Program programDb = this.programRepository.findById(programId)
+                .orElseThrow(() -> new ScheduleBadRequestException("bad.request.program.id", programId));
+        Page<Course> coursePage = this.iCourseRepository
+                .findAllBySubject_ProgramAndSubject_SemesterAndRemainingHoursGreaterThan(programDb, semester, 0,
+                        pageable);
         return this.validatePageList(coursePage);
     }
 
     @Override
     public CourseDTO findById(Integer id) {
-        System.out.println("llego al servicio con el id: "+id);
+        System.out.println("llego al servicio con el id: " + id);
         Optional<Course> course = this.iCourseRepository.findById(id);
-        System.out.println("id curso: "+course.get().getId());
-        System.out.println("id descripcion : "+course.get().getTypeEnvironmentRequired());
+        System.out.println("id curso: " + course.get().getId());
+        System.out.println("id descripcion : " + course.get().getTypeEnvironmentRequired());
 
         return modelMapper.map(this.iCourseRepository.findById(id), CourseDTO.class);
     }
 
-    private GenericPageableResponse validatePageList(Page<Course> coursesPage){
-        List<CourseDTO> coursesDTOS = coursesPage.stream().map(x->modelMapper.map(x, CourseDTO.class)).collect(Collectors.toList());
+    private GenericPageableResponse validatePageList(Page<Course> coursesPage) {
+        List<CourseDTO> coursesDTOS = coursesPage.stream().map(x -> modelMapper.map(x, CourseDTO.class))
+                .collect(Collectors.toList());
         return PageableUtils.createPageableResponse(coursesPage, coursesDTOS);
     }
+
+    @Override
+    public List<Course> finAllByProgram_ProgramaId(String programId) {
+        return this.iCourseRepository.findAllBySubject_Program_ProgramId(programId);
+    }
+
 }
