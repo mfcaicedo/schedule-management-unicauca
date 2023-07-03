@@ -106,24 +106,24 @@ export const navItems: INavData[] = [
     ]
   },
   {
-    name: 'Schedule',
+    name: 'Horarios',
     url: '/schedule',
     iconComponent: { name: 'cil-puzzle' },
     children: [
       {
-        name: 'Create schedule',
+        name: 'Crear horario',
         url: '/schedule/create'
       },
       {
-        name: 'Reserve Enviroment',
+        name: 'Reservar ambientes',
         url: '/schedule/reserve'
       },
       {
-        name: 'Detail Environment',
+        name: 'Ver ambientes',
         url: '/schedule/detail'
       },
       {
-        name: 'Detail Professor',
+        name: 'Ver docentes',
         url: '/schedule/detailprofessor'
       }
     ]

@@ -191,9 +191,9 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.scheduleCreated.emit(scheduleCreated)
     console.log("EL ID DEL HORARIO ES", this.horarioId);
     
-    // setTimeout(() => {
-    //   window.location.reload();
-    // }, 2000);
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   }
 
 
@@ -309,7 +309,7 @@ export class ScheduleViewComponent implements AfterViewInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.removeMateriaa(day, hour, id);
-        // window.location.reload();
+        window.location.reload();
       }
     });
   }

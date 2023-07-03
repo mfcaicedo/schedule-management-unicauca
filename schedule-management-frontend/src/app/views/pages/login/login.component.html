@@ -66,13 +66,13 @@
   <div class="background"></div>
   <div class="card">
       <img class="logo" src="../../../../assets/png/unicauca.png"/>
-      <h2>Login to SIMCA 2.0</h2>
+      <h2>SIMCA 3.0</h2>
       <form class="form" [formGroup]="formLogin" >
-          <input type="text" placeholder="usuario" formControlName="email" />
+          <input type="text" placeholder="Usuario" formControlName="email" />
           <p *ngIf="(formLogin.get('email')?.touched || buttontouched) && formLogin.get('email')?.invalid">{{getError("email")}}</p>
-          <input type="password" placeholder="Password" formControlName="password"/>
+          <input type="password" placeholder="Contraseña" formControlName="password"/>
           <p *ngIf="(formLogin.get('password')?.touched || buttontouched) && formLogin.get('password')?.invalid">{{getError("password")}}</p>
-          <button type="submit" (click)="enviarDatos()" >Sing in</button>
+          <button type="submit" (click)="enviarDatos()" >Iniciar sesión</button>
       </form>
       <footer>
       </footer>
