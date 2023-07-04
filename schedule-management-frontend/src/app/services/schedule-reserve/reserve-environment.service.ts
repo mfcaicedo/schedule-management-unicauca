@@ -33,6 +33,7 @@ httpOptions = {
 
 endPoint: String = environment.urlReserve;
 endPointSchedule: String = environment.urlReserveInSchedule;
+endPointScheduleGetReserves: String = environment.urlGetReserve;
 
 ngOnInit() {
   //TODO llamar metodo para cargar todos los tipos de ambientes
@@ -77,6 +78,19 @@ postAllEnvironmentsByEnvironmentALL(page: number, pageSize: number,availabilityE
       console.log(error+"error")
       console.log('Error obteniendo todos los ambientes', error.error.mensaje, 'error');
       return throwError(error);
+
+    })
+  );
+}
+
+
+getReserveScheduleList(personCode:string){
+  
+  return this.http.get<any>(` ${this.endPointScheduleGetReserves}${personCode}`).pipe(
+    catchError((e) => {
+      
+      console.log('Error obteniendo todos lista reservas', e.error.mensaje, 'error');
+      return throwError(e);
 
     })
   );
