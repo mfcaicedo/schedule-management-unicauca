@@ -1,4 +1,13 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { academicOferFile } from 'src/app/models/academicOferFIle.model';
 import { Program } from 'src/app/models/program.model';
@@ -8,94 +17,146 @@ import { ProgramService } from 'src/app/services/program/program.service';
 @Component({
   selector: 'app-schedule-before-create-form',
   templateUrl: './schedule-before-create-form.component.html',
-  styleUrls: ['./schedule-before-create-form.component.scss']
+  styleUrls: ['./schedule-before-create-form.component.scss'],
 })
-export class ScheduleBeforeCreateFormComponent implements OnInit{
-
-  @Output() progress = new EventEmitter<number>()
-  @Output() programa= new EventEmitter<Program>()
-  @Output() semestre= new EventEmitter<number>()
+export class ScheduleBeforeCreateFormComponent implements OnInit {
+  @Output() progress = new EventEmitter<number>();
+  @Output() programa = new EventEmitter<Program>();
+  @Output() semestre = new EventEmitter<number>();
   @Output() activateFunction = new EventEmitter();
-  @Input('isEdit')isEdit!:boolean;
-  @Input('changeSelected') changeSelected:boolean=false;
-  @ViewChild('selectRefPrograma') selectRefPrograma !:ElementRef;
-  @ViewChild('selectRefSemestre') selectRefSemestre !:ElementRef;
-  selectedProgram:Program= {
-    'programId': '0',
-    'name': '',
-    'department_id': '',
-    'color':''
+  @Input('isEdit') isEdit!: boolean;
+  @Input('changeSelected') changeSelected: boolean = false;
+  @ViewChild('selectRefPrograma') selectRefPrograma!: ElementRef;
+  @ViewChild('selectRefSemestre') selectRefSemestre!: ElementRef;
+  selectedProgram: Program = {
+    programId: '0',
+    name: '',
+    department_id: '',
+    color: '',
   };
-  selectedSemester!:number;
-  progressMade:number=0;
+  selectedSemester!: number;
+  progressMade: number = 0;
   form!: FormGroup;
-  sumProgres:number=50;
-  aoFile: academicOferFile[] = [];
+  sumProgres: number = 50;
+  aoFileSinIniciar: academicOferFile[] = [];
+  aoFileEnProceso: academicOferFile[] = [];
   aoFilebyState!: academicOferFile;
+  archivoId!: number;
+  programId!: string;
 
-  programs:Program[]=[];
-  semesters:number[]=[1,2,3,4,5,6,7,8,9,10];
-  opcionSeleccionado: string  = '0';
-  verSeleccion: string        = '';
+  programs: Program[] = [];
+  semesters: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  opcionSeleccionado: string = '0';
+  verSeleccion: string = '';
   constructor(
-    private formBuilder:FormBuilder,
-    private programService:ProgramService, private ofertaService:OfertaAcademicaService,
+    private formBuilder: FormBuilder,
+    private programService: ProgramService,
+    private ofertaService: OfertaAcademicaService
+  ) {}
 
-  ){
+  ngOnInit() {
+    this.buildForm();
 
-  }
-  ngOnInit(){
+    this.ofertaService.findByStateFile('En proceso').subscribe((response) => {
+      //console.log("response ",response)
 
-      this.buildForm();
-      this.ofertaService.findByStateFile("Sin iniciar").subscribe((response) => {
-        console.log("response ",response)
-        
-       this.aoFile = response.data as academicOferFile[]
-       this.aoFile.reverse();
-       //console.log(this.aoFile[0]);
+      this.aoFileEnProceso = response.data as academicOferFile[];
+      this.aoFileEnProceso.reverse();
+      console.log('En Proceso', this.aoFileEnProceso);
+    });
 
-      
-    })
+    this.ofertaService.findByStateFile('Sin iniciar').subscribe((response) => {
+      //console.log("response ",response)
 
-
-
-  }
-
-  private buildForm(){
-    console.log("entra a build form")
-    this.form = this.formBuilder.group({
-      program:['', [Validators.required]],
-      semester:['', [Validators.required]]
+      this.aoFileSinIniciar = response.data as academicOferFile[];
+      this.aoFileSinIniciar.reverse();
+      console.log('Sin Iniciar', this.aoFileSinIniciar);
     });
   }
 
-  cleanSelect(){
+  private buildForm() {
+    console.log('entra a build form');
+    this.form = this.formBuilder.group({
+      program: ['', [Validators.required]],
+      semester: ['', [Validators.required]],
+    });
+  }
+
+  cleanSelect() {
     this.selectRefPrograma.nativeElement.value = '';
     this.selectRefSemestre.nativeElement.value = '';
   }
-  onSelectedProgram(event:Event){
+  onSelectedProgram(event: Event) {
     //TODO traer el numero de semestres de ese programa
 
-    console.log("EVNT  ",event.target)
-    this.form.controls['program'].setValue((event.target as HTMLOptionElement).value);
-    //emitir el programa
-    console.log("valor a emitir desde before create ",(event.target as HTMLOptionElement).value )
-      //this.ofertaService.findByStateFile(1,5,(event.target as HTMLOptionElement).value).subscribe(resp =>{
-      this.programService.getProgramById((event.target as HTMLOptionElement).value).subscribe(resp =>{
-      this.selectedProgram= resp
-      
-      console.log("Programa ", this.selectedProgram.name)
-    this.programa.emit(this.selectedProgram)
-    this.progress.emit(this.sumProgres)
-    })
+    console.log('EVNT  ', event.target);
+    this.form.controls['program'].setValue(
+      (event.target as HTMLOptionElement).value.toString()
+    );
 
+    //Agarro El id del Archivo donde se encuentra el programa seleccionado
+    console.log(
+      'valor a emitir desde before create ',
+      (event.target as HTMLOptionElement).value.toString()
+    );
+    let newArchivoId = (event.target as HTMLOptionElement).value.toString();
+    this.archivoId = Number(newArchivoId);
+    if (this.aoFileEnProceso.length > 0) {
+      this.guardarArchivoEnProceso(this.archivoId);
+    } else {
+      this.guardarArchivoSinIniciar(this.archivoId);
+      this.ofertaService
+        .updateStateFile(this.archivoId, 'En proceso')
+        .subscribe((resp) => {
+          console.log('Archivo actualizado', resp);
+        });
+    }
+
+    this.programService.getProgramById(this.programId).subscribe((resp) => {
+      this.selectedProgram = resp;
+
+      console.log('Programa ', this.selectedProgram);
+      this.programa.emit(this.selectedProgram);
+      this.progress.emit(this.sumProgres);
+    });
   }
-  onSelectedSemester(event:Event){
-    console.log("valor a emitir desde before create ",(event.target as HTMLOptionElement).value )
-    this.form.controls['semester'].setValue((event.target as HTMLOptionElement).value);
-    this.selectedSemester = Number((event.target as HTMLOptionElement).value)
-    this.progress.emit(this.sumProgres)
-    this.semestre.emit(this.selectedSemester)
+
+  //Crear Funcion para guardar el id del archivo en proceso
+  guardarArchivoSinIniciar(archivoId: Number) {
+    console.log('Entreo sin iniciar');
+    let archivoEncontrado = this.aoFileSinIniciar.find(
+      (archivo) => archivo.id == this.archivoId
+    );
+
+    if (archivoEncontrado != undefined) {
+      this.programId = archivoEncontrado.program.programId.toString();
+      console.log(this.programId);
+    }
+  }
+
+  // Crear Funcion para guardar el id del archivo en proceso
+  guardarArchivoEnProceso(archivoId: Number) {
+    console.log('Entreo en proceso');
+    let archivoEncontrado = this.aoFileEnProceso.find(
+      (archivo) => archivo.id == this.archivoId
+    );
+
+    if (archivoEncontrado != undefined) {
+      this.programId = archivoEncontrado.program.programId.toString();
+      console.log(this.programId);
+    }
+  }
+
+  onSelectedSemester(event: Event) {
+    console.log(
+      'valor a emitir desde before create ',
+      (event.target as HTMLOptionElement).value
+    );
+    this.form.controls['semester'].setValue(
+      (event.target as HTMLOptionElement).value
+    );
+    this.selectedSemester = Number((event.target as HTMLOptionElement).value);
+    this.progress.emit(this.sumProgres);
+    this.semestre.emit(this.selectedSemester);
   }
 }
-
