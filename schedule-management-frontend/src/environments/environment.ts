@@ -9,6 +9,7 @@ export const environment = {
   urlCrs: 'http://localhost:8081/api/course',
   urlEnv: 'http://localhost:8081/api/environment',
   urlAuth: 'http://localhost:8081/api/auth',
+  urlPassword: 'localhost:8081/api/emailPassword',
   urlAcadOffer: 'http://localhost:8081/api/academicOffer',
   urlPerson: 'http://localhost:8081/api/person',
   urlSub: 'http://localhost:8081/api/subject',

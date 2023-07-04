@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Auth } from 'src/app/models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +24,14 @@ export class TokenService {
 
     localStorage.clear();
     this.router.navigate(['login']);
+  }
+  save(auth:Auth){
+
+    let authority = auth.authorities[0].authority
+    if (authority == ''){
+      authority="ROLE_SCHEDULE_MANAGER"
+    }
+    localStorage.setItem('aut',authority)
+
   }
 }

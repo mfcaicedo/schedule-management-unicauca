@@ -79,9 +79,8 @@ public class AuthenticationController {
                         (loginDTO.getUsername(),loginDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt = jwtProvider.generateToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+        String jwt = jwtProvider.generateToken(authentication);
 
         JwtDTO jwtDTO = new JwtDTO(jwt,userDetails.getUsername(),userDetails.getAuthorities());
 
