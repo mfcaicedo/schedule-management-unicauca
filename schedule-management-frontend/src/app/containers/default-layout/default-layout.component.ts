@@ -1,6 +1,8 @@
 import { Component, SimpleChanges } from '@angular/core';
 
 import { navItems,authorityMapping } from './_nav';
+import {navItemsAdmin }from './_nav-admin';
+import {navItemsManager} from './_nav-manager';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { map } from 'rxjs';
 import { INavData } from '@coreui/angular';
@@ -13,25 +15,7 @@ import { AuthorityMap } from 'src/app/models/AuthorityMap.model';
 export class DefaultLayoutComponent {
 
   // public navItems = [];
-  navItems: INavData[] = [{
-    name: 'Oferta académica',
-    url: '/schedule',
-    iconComponent: { name: 'cilBook' },
-
-    children: [
-      {
-        name: 'Subir oferta',
-        url: '/schedule/upload-oa',
-        iconComponent: { name: 'cilCloudUpload' },
-
-      },
-      {
-        name: 'Ver archivos',
-        url: '/schedule/view-files-oa',
-        iconComponent: { name: 'cil-file' }
-      }
-    ]
-  },];
+  navItems!: INavData[] ;
 
   public perfectScrollbarConfig = {
     suppressScrollX: true,
@@ -42,42 +26,19 @@ export class DefaultLayoutComponent {
   ) {}
 
   ngOnInit(){
-    let userAuthority: string[] = [];
+    // this.navItems = navItems
     this.authService.getUserAuthority().subscribe(userAuthority => {
-      this.navItems = this.filterNavItems(navItems, authorityMapping, userAuthority);
-      console.log(this.navItems);
+
+      if(userAuthority.includes("ROLE_SCHEDULE_MANAGER")){
+        this.navItems = navItemsManager;
+      }else if (userAuthority.includes("ROLE_ACADEMIC_MANAGER")){
+        this.navItems = navItemsAdmin;
+      }
+     
     });
 
   }
 
- filterNavItems(navItems: INavData[], authorityMapping: AuthorityMap[], userAuthority: string[]): INavData[] {
-    return navItems.filter(item => {
-      const mapping = authorityMapping.find(map => map.url === item.url);
-
-      if (mapping) {
-        if (Array.isArray(mapping.authority)) {
-          // Si el authority es un array, verifica si alguno de los roles coincide con el userAuthority
-          if (mapping.authority.some(role => userAuthority.includes(role))) {
-            return true;
-          }
-        } else {
-          // Si el authority es un solo rol, verifica si coincide con el userAuthority
-          if (userAuthority.includes(mapping.authority)) {
-            return true;
-          }
-        }
-      }
-
-      if (item.children) {
-        // Filtra los hijos recursivamente
-        item.children = this.filterNavItems(item.children, authorityMapping, userAuthority);
-        // Devuelve true si al menos uno de los hijos pasó el filtro
-        return item.children.length > 0;
-      }
-
-      return false;
-    });
-  }
 
 
 

@@ -7,36 +7,41 @@ import com.pragma.api.security.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
-@RequestMapping("/user")
-@CrossOrigin
+@RequestMapping("/usercontroller")
+@CrossOrigin(origins = "http://localhost:4200/#")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @Autowired
-    private JwtProvider jwtProvider;
 
-    /*@GetMapping("/{token}")
-    public ResponseEntity<UserDTO> getUser(@PathVariable String token){
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtProvider.getSecretKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
 
-        String username = claims.getSubject();
+    @GetMapping("/{username}")
+    public ResponseEntity<UserDTO> getUser(@PathVariable String username){
+        User user = userService.getByUsername(username).orElse(null);
+        if(user==null)
+            return new ResponseEntity("No existe ningun usuario con ese username ", HttpStatus.NOT_FOUND);
 
-        List<String> authorities = claims.get("authorities", List.class);
-        UserDTO dto = new UserDTO(username,authorities);
-        return new ResponseEntity("Obteniendo usuario", HttpStatus.OK);
-    }*/
+        UserDTO dto = new UserDTO();
+        dto.setUsername(user.getUsername());
+
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getTypeRole().name()))
+                .collect(Collectors.toList());
+
+        dto.setAuthorities(authorities);
+
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
+    }
 }

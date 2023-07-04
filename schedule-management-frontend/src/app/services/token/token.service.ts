@@ -25,13 +25,5 @@ export class TokenService {
     localStorage.clear();
     this.router.navigate(['login']);
   }
-  save(auth:Auth){
-
-    let authority = auth.authorities[0].authority
-    if (authority == ''){
-      authority="ROLE_SCHEDULE_MANAGER"
-    }
-    localStorage.setItem('aut',authority)
-
-  }
+  
 }

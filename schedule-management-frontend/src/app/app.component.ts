@@ -30,15 +30,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.router.events.subscribe((evt) => {
-      if (!(evt instanceof NavigationEnd)) {
-        return;
-      }
-    });
+    // this.router.events.subscribe((evt) => {
+    //   if (!(evt instanceof NavigationEnd)) {
+    //     return;
+    //   }
+    // });
 
     const token = this.tokenService.getToken();
     if(token){
-      
+      this.authService.guardarUsuario(token).subscribe()
     }
   }
 }
