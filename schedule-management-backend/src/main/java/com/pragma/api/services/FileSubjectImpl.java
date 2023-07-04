@@ -156,6 +156,10 @@ public class FileSubjectImpl implements IFileSubjectService {
                     }
                 }
             }
+        } else {
+            statusFile = StatusFileEnumeration.ERROR;
+            infoErrores.add("EL ARCHIVO NO CONTIENE REGISTROS");
+            contError++;
         }
         responseFile.setStatusFile(statusFile);
         responseFile.setContRows(contRows);
