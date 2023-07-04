@@ -1,9 +1,5 @@
 package com.pragma.api.domain;
 
-<<<<<<< HEAD
-import java.util.Set;
-=======
->>>>>>> e4e9f9960ca34ea87ffab48316d32f4392ec6e61
 import javax.validation.constraints.NotBlank;
 
 public class ChangePasswordDTO {

@@ -31,15 +31,11 @@ public class EmailController {
     @Value("${spring.mail.username}")
     private String mailFrom;
 
-<<<<<<< HEAD
     private static final String subject = "Cambio de Contraseña";
 
-=======
->>>>>>> e4e9f9960ca34ea87ffab48316d32f4392ec6e61
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    private static final  String subject = "Cambio de contraseña";
     @GetMapping("/email/send")
     public ResponseEntity<?> sendEmail(){
         emailService.sendEmail();
@@ -68,19 +64,11 @@ public class EmailController {
     }
 
     @PostMapping("/changePassword")
-<<<<<<< HEAD
-    public ResponseEntity<?> changePassword(@RequestBody ChangePasswordDTO dto, BindingResult bindingResult){
-        if(bindingResult.hasFieldErrors())
-            return new ResponseEntity("Campos mal diligenciados ", HttpStatus.BAD_REQUEST);
-        if(dto.getPassword().equals(dto.getConfirmPassword()))
-            return new ResponseEntity("Las contraseñas no coinciden ", HttpStatus.BAD_REQUEST);
-=======
     public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult){
         if(bindingResult.hasFieldErrors())
             return new ResponseEntity("Campos mal diligenciados", HttpStatus.BAD_REQUEST);
         if(!dto.getPassword().equals(dto.getConfirmPassword()))
             return new ResponseEntity("Las contraseñas no coinciden", HttpStatus.BAD_REQUEST);
->>>>>>> e4e9f9960ca34ea87ffab48316d32f4392ec6e61
         Optional<User> userOptional = userService.getByTokenPassword(dto.getTokenPassword());
         if(!userOptional.isPresent())
             return new ResponseEntity("No existe ningun usuario con estas credenciales ", HttpStatus.NOT_FOUND);
@@ -89,11 +77,8 @@ public class EmailController {
         user.setPassword(newPassword);
         user.setTokenPassword(null);
         userService.save(user);
-<<<<<<< HEAD
         return new ResponseEntity("Contraseña actualizada con exito", HttpStatus.OK);
-=======
-        return new ResponseEntity("Contraseña Actualizada", HttpStatus.OK);
->>>>>>> e4e9f9960ca34ea87ffab48316d32f4392ec6e61
+
     }
 
 }
