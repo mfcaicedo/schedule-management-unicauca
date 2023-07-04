@@ -1,18 +1,20 @@
 package com.pragma.api.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import com.pragma.api.security.entities.Role;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
-import java.util.List;
+
+import java.util.Collection;
+import java.util.Set;
 
 @Builder
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
 
     private String username;
-    private List<String> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 }

@@ -35,7 +35,7 @@ export class AuthService {
     .pipe(
       tap(response => {
         this.tokenService.saveToken(response.token)
-        this.tokenService.save(response)
+
       }),
 
     );
@@ -72,17 +72,19 @@ export class AuthService {
     }
     return null;
   }
-  guardarUsuario(accessToken: string):Auth {
+  guardarUsuario(accessToken: string) :Observable<Auth>{
 
     // console.log("save User",programa)
     let payload = this.obtenerDatosToken(accessToken);
     const username = payload.sub;
-    let authority = localStorage.getItem('aut');
-    if (authority == null){
-      authority="ROLE_SCHEDULE_MANAGER"
-    }
-    const auth : Auth = {username:username , authorities:[{authority:authority}] ,token:accessToken, bearer:"Bearer"}
-    return auth
+
+    const url = environment.urlProfile + `/${username}`
+    console.log("esta es la url ",url)
+    return this.http.get<Auth>(url).pipe(
+      tap((response)=> {
+        console.log(response)
+        this.getProfile(response)})
+    )
   }
 
   getUserAuthority():Observable<string[]>{
@@ -100,9 +102,10 @@ export class AuthService {
 
   sendEmailChangePassword(emailValues:emailValues):Observable<string>{
     console.log("email send ", emailValues)
-
-
-    return this.http.post<string>(`${this.apiPasswordUrl}/email/sendHtml`,emailValues)
+    const url =`${this.apiPasswordUrl}/email/sendHtml`
+    
+    console.log(url)
+    return this.http.post<string>(url,emailValues)
   }
 
   changePassword(credentials:{username:string,password:string }):Observable<any>{

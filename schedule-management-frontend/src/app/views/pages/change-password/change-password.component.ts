@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 })
 export class ChangePasswordComponent implements OnInit{
 
-  id:number=0;
+  id:string='';
   username:string='';
   public formChangePassword!: FormGroup;
   constructor(
@@ -27,7 +27,8 @@ export class ChangePasswordComponent implements OnInit{
       this.formChangePassword=this.formBuilder.group({
         // username:['',[Validators.required]],
         password:['',[Validators.required]],
-        confirmPassword:['',[Validators.required]]
+        confirmPassword:['',[Validators.required]],
+        token:['',[Validators.required]]
       },
       {validator: passwordMatchValidator } // Aplica el validador personalizado}
       );
@@ -37,10 +38,11 @@ export class ChangePasswordComponent implements OnInit{
 
     this.route.paramMap.subscribe(
       params => {
-        this.id = Number(params.get('id'));
+        this.id = String(params.get('id'));
 
         if (this.id != null) {
           console.log("id del back ",this.id)
+          this.setToken(this.id)
         }
 
       })
@@ -61,8 +63,12 @@ export class ChangePasswordComponent implements OnInit{
   getError(controlname:string){
     let control = this.formChangePassword.get(controlname)
     if(control?.hasError("required")) return "campo obligatorio."
-    
+
     return ""
+  }
+
+  setToken(id:string){
+    this.formChangePassword.get('token')?.setValue(id)
   }
 
 

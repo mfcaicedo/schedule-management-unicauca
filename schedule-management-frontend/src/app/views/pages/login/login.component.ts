@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
 
   enviarCorreo(){
 
-    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" }
+    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" ,token:"",username:""}
     console.log(emailValues)
     this.authService.sendEmailChangePassword(emailValues).subscribe(
       (respuesta => {
@@ -92,5 +92,5 @@ export class LoginComponent implements OnInit {
   getEmail(){
     return this.formPassword.get('correo')?.value;
   }
-  
+
 }
