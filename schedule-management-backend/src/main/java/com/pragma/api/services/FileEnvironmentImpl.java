@@ -194,8 +194,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         List<String> environmentLocation = new ArrayList<>();
 
         //----------------------------------------------------------------------
-
-        //List<String> infoLogs = newf ArrayList<>();
         int contRows = 0;
         int contSuccess = 0;
         int contError = 0;
@@ -212,6 +210,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
 
                 if (faculty == null) {
                     responseFile.getLogsGeneric().add("[FILA "+ (log.getRowNum()+1) + "] LA FACULTAD ESTA VACIA");
+                    statusFile = StatusFileEnumeration.ERROR;
+                    errorTipos = true;
                 }else {
                     int rowNum = log.getRowNum();
                     if (rowNum != -1) {
@@ -231,30 +231,36 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                             Environment environmentaux = new Environment();
                             environmentaux.setName(log.getName());
                             environmentaux.setLocation(log.getLocation());
+                            List<Environment> enviromentsDb = this.environmentRepository.findAll();
 
                             if(this.existsInList(logs, environmentaux)){
                                 responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL NOMBRE DEL AMBIENTE ESTA REPETIDO: " + log.getName());
                                 errorRepetidos = true;
-
                             }else{
                                 //Validar que el nombre del ambiente no exista en la base de datos
-                                List<Environment> enviromentsDb = this.environmentRepository.findAll();
                                 if (this.existsInBD(enviromentsDb, environmentaux)) {
                                     responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL AMBIENTE INDICADO YA EXISTE EN LA BASE DE DATOS: " + log.getName());
                                     errorRepetidos = true;
+                                }
+                                if(!log.getAvailableResources().toUpperCase().equals("NO APLICA") && (log.getLocation().toUpperCase().equals("NO APLICA")||log.getEnvironmentType().equals("EDIFICIO"))){
+                                    responseFile.getLogsGeneric().add("[FILA " + rowNum + "]  EL AMBIENTE ESTA MAL DIGITADO ");
+                                    errorTipos = true;
                                 }
                             }
                         }
 
                         //-------------------------------Location-------------------------------
-
+                        if(!this.locationInList(logs, log.getLocation().toUpperCase())){
+                            errorTipos = true;
+                            responseFile.getLogsGeneric().add("[FILA" + rowNum + "] DIGITE PRIMERO LA UBICACION DEL AMBIENTE, ESTA UBICACION NO EXISTE");
+                        }
                         if (log.getLocation().trim().length() == 0) {
                             errorVacias = true;
-                            responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE UBICACION ESTA VACIO");
+                            responseFile.getLogsEmptyFields().add("[FILA" + rowNum + "] EL CAMPO DE UBICACION ESTA VACIO");
                         } else {
                             if (log.getEnvironmentType().equals("EDIFICIO") && !(log.getLocation().toUpperCase().equals("NO APLICA"))) {
                                 errorEnvironment = true;
-                                responseFile.getLogsGeneric().add("FILA" + rowNum + "] SI ES EDIFICIO UBICACION DEBE DECIR 'NO APLICA'");
+                                responseFile.getLogsGeneric().add("[FILA" + rowNum + "] SI ES EDIFICIO UBICACION DEBE DECIR 'NO APLICA'");
 
                             }else if (log.getLocation().toUpperCase().equals("NO APLICA")) {
                                 environment.setParentEnvironment(null);
@@ -296,6 +302,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                             errorVacias = true;
                             responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA MAL DIGITADO");
                         }
+
                         if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
                             System.out.println("----------que hay:"+errorEnvironment);
                             responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
@@ -443,27 +450,30 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         }
         return encontrado;
     }
+    private boolean locationInList(List<FileRowEnvironment> logs, String locationaux) {
+        boolean encontrado = false;
+        int cont = 0;
+        for (FileRowEnvironment elementoEnvironment : logs) {
+            if (elementoEnvironment.getName().toUpperCase().equals(locationaux)) {
+                encontrado= true;
+            }
+        }
+        return encontrado;
+    }
+
+
     private boolean existsInBD(List<Environment> logs, Environment environmentaux) {
         boolean encontrado = false;
         int cont = 0;
         for (Environment elementoEnvironment : logs) {
 
             if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
-                System.out.println("Nombre Ambiente: " + elementoEnvironment.getName());
-                System.out.println("Nombre ambiente: " + environmentaux.getName());
-                System.out.println("Location: " + elementoEnvironment.getLocation());
-                System.out.println("Location aux Ambiente: " + environmentaux.getLocation());
                 encontrado = true;
                 break;
             }
-
-
         }
         return encontrado;
     }
-
-
-
 }
 
 
