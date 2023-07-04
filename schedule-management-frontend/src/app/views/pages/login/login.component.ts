@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { navItems } from 'src/app/containers/default-layout/_nav';
 import{LoginService} from 'src/app/services/login/login.service'
 import {AuthService} from 'src/app/services/auth/auth.service'
+
+import{emailValues} from'src/app/models/emailValues'
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,6 +17,8 @@ import {AuthService} from 'src/app/services/auth/auth.service'
 export class LoginComponent implements OnInit {
   public navItems = navItems;
   public formLogin!: FormGroup;
+
+  formPassword !: FormGroup;
   buttontouched!:boolean;
 
   public perfectScrollbarConfig = {
@@ -32,6 +38,11 @@ export class LoginComponent implements OnInit {
       username:['',[Validators.required]],
       password:['',[Validators.required]]
     });
+
+    this.formPassword=this.formBuilder.group({
+      correo:['',[Validators.required]]
+    });
+
   }
 
   buildForm(){
@@ -39,7 +50,7 @@ export class LoginComponent implements OnInit {
   }
 
   enviarDatos(){
-    console.log("entra a enviar datos")
+    // console.log("entra a enviar datos")
     this.buttontouched=true
     if(this.formLogin.valid){
       this.loginService.singin(this.formLogin.value).subscribe(response =>{
@@ -57,6 +68,29 @@ export class LoginComponent implements OnInit {
     return ""
   }
 
+  public visible = false;
 
+  toggleLiveDemo() {
+    this.visible = !this.visible;
+  }
 
+  handleLiveDemoChange(event: any) {
+    this.visible = event;
+  }
+
+  enviarCorreo(){
+
+    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" }
+    console.log(emailValues)
+    this.authService.sendEmailChangePassword(emailValues).subscribe(
+      (respuesta => {
+        Swal.fire("Mensaje",`Respuesta : ${respuesta}`,"success");
+      })
+    )
+  }
+
+  getEmail(){
+    return this.formPassword.get('correo')?.value;
+  }
+  
 }

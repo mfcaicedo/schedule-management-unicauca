@@ -75,8 +75,8 @@ export class ScheduleReserveCreateComponent {
   environmentTypes:string[]=[]
   eventTypes:string[]=[]
   recurrenciaTypes:string[]=[]
-  // facultys:Faculty[]=[];
-  facultys:string[]=[];
+  facultys: Faculty[] = [];
+  // facultys:string[]=[];
 
   constructor(
     private formBuilder:FormBuilder,
@@ -93,7 +93,9 @@ export class ScheduleReserveCreateComponent {
 
   ngOnInit():void{
     this.environmentTypes=this.environmentService.getAllEnvironmentTypes();
-    this.facultys=this.environmentService.getAllFacultys();
+    this.environmentService.getAllFacultys().subscribe(response => {
+      this.facultys = response;
+    });
 
     this.eventTypes = this.environmentService.getAllEventTypes();
     this.recurrenciaTypes = this.environmentService.getAllRecurrenciaTypes();

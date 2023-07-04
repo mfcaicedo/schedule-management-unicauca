@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 })
 export class EnvironmentEditComponent {
 
+  updateEnvironment!: Environment;
   constructor(
     private route: ActivatedRoute,
     private environmentService: EnvironmentService
@@ -53,20 +54,26 @@ export class EnvironmentEditComponent {
       })
   }
 
+  getEnvironmentForm(environment:Environment){
+    console.log("entra a get environment form")
+    console.log("que tiene: ", environment);
+    this.updateEnvironment = environment;
+  }
   onUpdateEnvironment() {
     console.log("entra a update environment")
     let status: number = 0
     //llamar a recurso de save environment
-    console.log("que va a acutualizar ", this.environmentParent);
-    return null;
-    this.environmentService.updateEnvironment(this.environmentParent).subscribe(
+    console.log("que va a acutualizar ", this.updateEnvironment);
+    const id: number = this.updateEnvironment.id
+    // return null;
+    this.environmentService.updateEnvironment(this.updateEnvironment,id).subscribe(
       response => {
         status = response.status
         if (response.status == 200) {
 
-          this.environmentParent.id = response.data.id
+          this.updateEnvironment.id = response.data.id
           Swal.fire('Ambiente actualizado',
-            `El ambiente : ${this.environmentParent.id.toString()} | ${this.environmentParent.facultyId} \nfue actualizado exitosamente`, 'success');
+            `El ambiente : ${this.updateEnvironment.id.toString()} | ${this.updateEnvironment.facultyId} \nfue actualizado exitosamente`, 'success');
 
           this.isSent = true //enviar señal al formulario hijo de que puede limpiarse
           this.show = false
