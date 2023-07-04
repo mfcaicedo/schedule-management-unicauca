@@ -1,19 +1,12 @@
 package com.pragma.api.services;
 
 import com.google.common.reflect.TypeToken;
-import com.pragma.api.domain.EnvironmentDTO;
-import com.pragma.api.domain.GenericPageableResponse;
-import com.pragma.api.domain.ResourceList;
-import com.pragma.api.domain.Response;
+import com.pragma.api.domain.*;
+import com.pragma.api.model.*;
+import com.pragma.api.repository.*;
 import com.pragma.api.util.exception.ScheduleBadRequestException;
-import com.pragma.api.model.Environment;
-import com.pragma.api.model.Period;
-import com.pragma.api.model.Resource;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
-import com.pragma.api.repository.IEnvironmentRepository;
-import com.pragma.api.repository.IPeriodRepository;
-import com.pragma.api.repository.IResourceRepository;
 import com.pragma.api.util.PageableUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -46,16 +39,25 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     private IResourceRepository resourceRepository;
     @Autowired
     private IPeriodRepository periodRepository;
+    @Autowired
+    private IFacultyRepository facultyRepository;
+    @Autowired
+    private IEnvironmentResourceRepository environmentResourceRepository;
 
     @Override
     public Response<EnvironmentDTO> createEnvironment(EnvironmentDTO environmentDTO) {
         logger.debug("Init createEnvironment Business Environment: {}", environmentDTO.toString());
         Response<EnvironmentDTO> response = new Response<>();
-
+        System.out.println("Init createEnvironment Business Environment: " + environmentDTO.toString());
+        // Busco el faculty
+        Faculty faculty = null;
+        faculty = this.facultyRepository.findByFacultyId(environmentDTO.getFacultyId());
         Environment environment = modelMapper.map(environmentDTO, Environment.class);
+        environment.setFaculty(faculty);
 
         EnvironmentDTO environmentDTO1 = modelMapper.map(this.environmentRepository.save(environment),
                 EnvironmentDTO.class);
+
 
         response.setStatus(200);
         response.setUserMessage("Environment created");
@@ -72,11 +74,13 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     public Response<EnvironmentDTO> updateEnvironment(EnvironmentDTO environmentDTO, Integer id) {
         Response<EnvironmentDTO> response = new Response<>();
         logger.debug("Miremos esto: {}", environmentDTO.toString());
-
+        System.out.println("Miremos esto: " + environmentDTO.toString());
         // Busco el environment a actualizar
         Environment environment = null;
         environment = this.environmentRepository.findById(id).get();
         Environment environmentUpdate = modelMapper.map(environmentDTO, Environment.class);
+        Faculty faculty = null;
+        faculty = this.facultyRepository.findByFacultyId(environmentDTO.getFacultyId());
 
         if (environment != null) {
 
@@ -85,7 +89,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
             environment.setLocation(environmentUpdate.getLocation());
             environment.setCapacity(environmentUpdate.getCapacity());
             environment.setEnvironmentType(environmentUpdate.getEnvironmentType());
-            environment.setFaculty(environmentUpdate.getFaculty());
+            environment.setFaculty(faculty);
             environment.setAvailableResources(environmentUpdate.getAvailableResources());
             environment.setSchedules(environmentUpdate.getSchedules());
             this.environmentRepository.save(environment);
@@ -110,12 +114,12 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
 
         }
 
-        Environment enviromentUpdate = modelMapper.map(environmentDTO, Environment.class);
+        /*Environment enviromentUpdate = modelMapper.map(environmentDTO, Environment.class);
         EnvironmentDTO environmentDTO1 = null;
 
         environmentDTO1 = modelMapper.map(this.environmentRepository.save(enviromentUpdate), EnvironmentDTO.class);
-
-        return null;
+*/
+        return response;
     }
 
     @Override
@@ -190,6 +194,7 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         if (!this.environmentRepository.existsById(environmentId))
             throw new ScheduleBadRequestException("bad.request.environment.id", Integer.toString(environmentId));
         Environment environment = this.environmentRepository.findById(environmentId).get();
+        System.out.println("Miremos esto: " + resourceList.getResourceList());
         for (int resourceId : resourceList.getResourceList()) {
             if (!this.resourceRepository.existsById(resourceId))
                 throw new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));
@@ -208,6 +213,51 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         response.setErrorCode("");
         response.setData(true);
 
+        return response;
+    }
+
+    @Override
+    public Response<Boolean> addResourceToEnvironmentForm(List<Integer> resourceList, Integer environmentId) {
+        if (!this.environmentRepository.existsById(environmentId)){
+            Response<Boolean> response = new Response<>();
+            response.setStatus(400);
+            response.setUserMessage("Environment not found");
+            response.setDeveloperMessage("Environment not found");
+            response.setMoreInfo("localhost:8080/api/subject");
+            response.setErrorCode("Id del environment no encontrado");
+            response.setData(false);
+            return response;
+        }
+        Environment environment = this.environmentRepository.findById(environmentId).get();
+        if(environment.getAvailableResources().size() > 0){
+            for (EnvironmentResource environmentResource : environment.getAvailableResources()) {
+                for (int i = 0; i < resourceList.size(); i++) {
+                    if (resourceList.get(i) == environmentResource.getResource().getId()){
+                        resourceList.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        System.out.println("Miremos esto: " + resourceList.get(0));
+        for (int resourceId : resourceList) {
+            //busco el recurso
+            Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();
+            //guardo los recursos en el ambiente
+            EnvironmentResource environmentResource = new EnvironmentResource();
+            environmentResource.setEnvironment(environment);
+            environmentResource.setResource(resourceToAdd);
+            environmentResource.setResourceQuantity(1);
+            this.environmentResourceRepository.save(environmentResource);
+        }
+
+        Response<Boolean> response = new Response<>();
+        response.setStatus(200);
+        response.setUserMessage("Resource added successfully");
+        response.setDeveloperMessage("Resource added successfully");
+        response.setMoreInfo("localhost:8080/api/subject");
+        response.setErrorCode("");
+        response.setData(true);
         return response;
     }
 

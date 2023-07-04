@@ -58,6 +58,11 @@ public class EnvironmentController {
         return this.environmentService.updateEnvironment(environmentDTO, id);
     }
 
+    @PostMapping("/addResourceForm")
+    public Response<Boolean> addResourceToEnvironmentForm(@RequestParam List<Integer> resourceList,
+                                                                  @RequestParam Integer environmentId) {
+        return this.environmentService.addResourceToEnvironmentForm(resourceList, environmentId);
+    }
     @PostMapping("/addResource")
     public Response<Boolean> addResourceToEnvironment(@RequestBody ResourceList resourceList,
                                                       @RequestParam Integer environmentId) {

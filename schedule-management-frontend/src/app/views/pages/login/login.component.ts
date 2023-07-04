@@ -8,6 +8,8 @@ import {AuthService} from 'src/app/services/auth/auth.service'
 
 import{emailValues} from'src/app/models/emailValues'
 import Swal from 'sweetalert2';
+import { title } from 'process';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -62,7 +64,15 @@ export class LoginComponent implements OnInit {
       } 
       ,error=>{
         console.log("Error en login", error)
-        
+        Swal.fire({
+          title: 'Error!', 
+          text: 'Usuario o contraseña incorrectos', 
+          icon: 'error', 
+          showConfirmButton:false, 
+          timer: 2000
+        }
+
+        )
       }
       )
       

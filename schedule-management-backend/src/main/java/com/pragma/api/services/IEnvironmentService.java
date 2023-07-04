@@ -2,6 +2,7 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Environment;
+import com.pragma.api.model.Resource;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 
@@ -58,6 +59,7 @@ public interface IEnvironmentService {
      */
     Response<Boolean> addResourceToEnvironment(ResourceList resourceList, Integer environmentId);
 
+    Response<Boolean> addResourceToEnvironmentForm(List<Integer> resourceList, Integer environmentId);
     /**
      * Método que permite editar los recursos a un ambiente
      *
