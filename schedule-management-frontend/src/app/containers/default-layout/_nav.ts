@@ -110,6 +110,10 @@ export const navItems: INavData[] = [
         url: '/schedule/reserve'
       },
       {
+        name: 'Consultar Reservas',
+        url: '/schedule/consultreserve'
+      },
+      {
         name: 'Ver ambientes',
         url: '/schedule/detail'
       },

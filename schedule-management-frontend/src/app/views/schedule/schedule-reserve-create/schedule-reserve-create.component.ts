@@ -1,12 +1,18 @@
 //import { Component } from '@angular/core';
-import { Component,Input ,Output,EventEmitter,AfterViewChecked, ChangeDetectorRef, SimpleChanges } from '@angular/core';
-import { FormGroup ,FormBuilder,Validators} from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
+import { Component, Input, Output, EventEmitter, AfterViewChecked, ChangeDetectorRef, SimpleChanges } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { reserveEnvironment } from 'src/app/models/reserve-environment.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
-
+import { availabilityEnvironment } from 'src/app/models/availabilityEnvironment.model';
+//import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript/lib/tsserverlibrary';
+import { ReserveEnvironmentService } from "src/app/services/schedule-reserve/reserve-environment.service"
+import { event } from 'src/app/models/event.model';
+import { eventToSchedule, eventToScheduleAUX } from 'src/app/models/eventToschedule.model';
+import { finalEventSchedule } from 'src/app/models/FinalEventSchedule.model';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-schedule-reserve-create',
   templateUrl: './schedule-reserve-create.component.html',
@@ -14,160 +20,304 @@ import { EnvironmentService } from 'src/app/services/environment/environment.ser
 })
 export class ScheduleReserveCreateComponent {
 
-  environments:Environment[]=[];
-  columns:string[]=['Id','Tipo Ambiente','Nombre','Ubicacion','Capacidad','Facultad','Opciones'];
-  environmentTypesTabla:string[]=[];
-  environmentTypeTabla!: string ;
-  isTypeSelected:boolean=false
-  totalItems:number=0;
-  totalNumberPage:number=1;
-  pageSize:number=0;
-
+  reserveEnvironments: reserveEnvironment[] = [];
+  avaibilityEnvironments: availabilityEnvironment[] = [];
+  event: event[] = [];
+  eventToSChedule: eventToSchedule[] = [];
+  columns: string[] = ['Tipo de evento', 'nombre', 'Nombre del encargado',
+    'Cedula del encargado', 'Descripcion', 'Fecha Inicio', 'Recurrencia', 'Hora Inicio', 'Hora Fin'];
+  columnsCheckeados: string[] = ['Tipo de salon', 'nombre', 'Ubicacion',
+    'Dia', 'Fecha Inicio', 'Recurrencia', 'Hora Inicio', 'Hora Fin'];
+  environments: Environment[] = [];
+  columnsEnvironments: string[] = ['Id', 'Tipo Ambiente', 'Nombre', 'Ubicacion', 'Capacidad', 'Facultad'];
+  reserveEnvironmentTypesTabla: string[] = [];
+  reserveEnvironmentTypeTabla!: string;
+  ennvironmentTypesTabla: string[] = [];
+  environmentTypeTabla!: string;
+  isTypeSelected: boolean = false
+  totalItems: number = 0;
+  totalNumberPage: number = 1;
+  pageSize: number = 0;
+  visible: boolean = false;
+  headers: string[] = ["hora", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+  weekDays = ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado"]
+  horasDia = ["07:00:00", "09:00:00", "11:00:00", "13:00:00", "14:00:00", "16:00:00", "18:00:00", "20:00:00", "22:00:00"]
+  AmbientesChekeados: eventToScheduleAUX[] = [];
+  eventToScheduleList: eventToSchedule[] = [];
+  check: boolean = true;
   form!: FormGroup;
-  //si vamos a editar un ambiente el input de ese id deberia ser readonly=true osea is edit=true
-  @Input('isEdit')isEdit!:boolean;
+  @Input('isEdit') isEdit!: boolean;
+  @Input('environment') environment!: reserveEnvironment;
+  @Input('isSent') isSent!: boolean;
+  @Input('getEnvironment') getEnvironment!: boolean;
+  @Output() showAddResource = new EventEmitter<boolean>();
+  @Output() emitterForm = new EventEmitter<reserveEnvironment>();
 
-  //obtener el ambiente cuando me llega de edit
+  formEnvironment: reserveEnvironment = {
 
-  @Input('environment')environment!:Environment;
+    'availableResources': [],
+    'tipoEvento': "",
+    'nombreEvento': "",
+    'nombreEncargado': "",
+    'cedulaEncargado': 0,
+    'recurrencia': "",
+    'descripcion': "",
+    'fechaInicio': '',
+    'horaInicio': '',
+    'horaFin': "",
+    'day': "",
 
-  //@Input('environment')environment!:reserveEnvironment;
-
-  @Input('isSent') isSent!:boolean;
-  //obtener el ambiente del form cuando lo va a crear
-  @Input('getEnvironment') getEnvironment!:boolean;
-
-  //decirle al padre para mostrar añadir recursos al ambiente
-  @Output()showAddResource = new EventEmitter<boolean>();
-
-  //emitir al padre el abiente creado en el emmiter form
-
-  @Output()emitterForm= new EventEmitter<Environment>();
-
-  //@Output()emitterForm= new EventEmitter<reserveEnvironment>();
-
-  //variable para recolectar info del formulario
-  /*formEnvironment:reserveEnvironment={
-    'availableResources':[],
-
-    'tipoEvento':"",
-    'nombreEvento':"",
-    'nombreEncargado':"",
-    'cedulaEncargado':0,
-    'recurrencia':"",
-    'descripcion':"",
-    'fechaInicio':'12-1-23',
-    'horaInicio': ,
-    'horaFin':
-
-  };*/
-
-  formEnvironment:Environment={
-    'id':0,
-    'name':'',
-    'location':'',
-    'capacity':0,
-    'environmentType':'',
-    'facultyId':'',
-    'availableResources':[]
   };
 
-  environmentTypes:string[]=[]
-  eventTypes:string[]=[]
-  recurrenciaTypes:string[]=[]
-  facultys: Faculty[] = [];
-  // facultys:string[]=[];
+  formEnvironmentAvailability: availabilityEnvironment = {
+    'starting_date': "",
+    'starting_time': "",
+    'ending_time': "",
+    'recurrence': "",
+    'day': "",
+    "weeks": "1"
+  }
+
+  formEvent: event = {
+    'eventId': 0,
+    'eventName': "",
+    'eventManagerName': "",
+    'description': "",
+    'person': "",
+    'eventType': ""
+  }
+  formEventToSchedule: eventToSchedule = {
+    'startingDate': "",
+    'endingDate': "",
+    'startingTime': "",
+    'endingTime': "",
+    'recurrence': "",
+    'day': "",
+    "environmentId": 0,
+    'weeks': ""
+  }
+
+  aux: eventToSchedule = {
+    startingDate: "",
+    endingDate: "",
+    startingTime: "",
+    endingTime: "",
+    recurrence: "",
+    day: "",
+    weeks: "",
+    environmentId: 0
+  }
+
+  formFinalEventSchedule: finalEventSchedule = {
+    event: this.formEvent,
+    eventToScheduleList: []
+
+  }
+
+  environmentTypes: string[] = []
+  environmentType!: string;
+  eventTypes: string[] = []
+  recurrenciaTypes: string[] = []
+  facultys: string[] = [];
+
+
 
   constructor(
-    private formBuilder:FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router,
-    private environmentService:EnvironmentService,
-    private readonly changeDetectorRef: ChangeDetectorRef
-  ){
+    private environmentService: EnvironmentService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private reserveService: ReserveEnvironmentService,
+    
+
+  ) {
 
     this.buildForm();
   }
+
   ngAfterViewChecked(): void {
     this.changeDetectorRef.detectChanges();
   }
+  actualizarValorInput(nuevoValor: boolean) {
 
-  ngOnInit():void{
-    this.environmentTypes=this.environmentService.getAllEnvironmentTypes();
-    this.environmentService.getAllFacultys().subscribe(response => {
-      this.facultys = response;
-    });
+    console.log(nuevoValor + "valor actualizado desde el padre")
+    this.check = nuevoValor;
 
+
+  }
+
+
+  ngOnInit(): void {
+    this.environmentTypes = this.environmentService.getAllEnvironmentTypes();
+    //this.facultys = this.environmentService.getAllFacultys();
     this.eventTypes = this.environmentService.getAllEventTypes();
     this.recurrenciaTypes = this.environmentService.getAllRecurrenciaTypes();
 
-    // this.fillForm();
 
   }
-  private fillForm(environment:Environment){
 
-    if(this.isEdit==true){
 
-      const environmentFill={
-        'id' :environment.id,
-        'name':environment.name,
-        'location':environment.location,
-        'capacity':environment.capacity,
-        'environmentType':environment.environmentType,
-        'faculty':environment.facultyId
+  private fillForm(reserveEnvironment: reserveEnvironment) {
+
+    if (this.isEdit == true) {
+
+      const environmentFill = {
+        'tipoEvento': reserveEnvironment.tipoEvento,
+        'eventName': reserveEnvironment.nombreEvento,
+        'eventEncargado': reserveEnvironment.nombreEncargado,
+        'cedulaEncargado': reserveEnvironment.cedulaEncargado,
+        'descripcion': reserveEnvironment.descripcion,
+        'fechaInicio': reserveEnvironment.fechaInicio,
+        'recurrencia': reserveEnvironment.recurrencia,
+        'horaInicio': reserveEnvironment.horaInicio,
+        'horaFin': reserveEnvironment.horaFin
       }
-      console.log("name en fill ",environmentFill.name)
+      console.log("name en fill ", environmentFill.eventName)
       this.form.patchValue(environmentFill);
     }
   }
-  private buildForm(){
+  private buildForm() {
     this.form = this.formBuilder.group({
-      id: ['', []],
-      name: ['', [Validators.required]],
-      location: ['',[Validators.required]],
-      capacity: ['', [Validators.required, Validators.min(2)]],
-      environmentType: ['', [Validators.required]],
-      faculty:['',[Validators.required]],
+      tipoEvento: ['', [Validators.required]],
+      eventName: ['', [Validators.required]],
+      eventEncargado: ['', [Validators.required]],
+      cedulaEncargado: ['', [Validators.required]],
+      descripcion: ['', [Validators.required]],
+      fechaInicio: ['', [Validators.required]],
+      recurrencia: ['', [Validators.required]],
+      horaInicio: ['', [Validators.required]],
+      horaFin: ['', [Validators.required]],
+      day: ['', []],
+      weeks: ['', []]
     });
   }
 
-  onSelectedValue(event:Event){
+  onSelectedEVENT(event: Event) {
 
-    this.form.controls['environmentType'].setValue((event.target as HTMLInputElement).value);
+    this.form.controls['tipoEvento'].setValue((event.target as HTMLInputElement).value);
   }
-  onSelectedFaculty(event:Event){
+  onSelectedValued(event: Event) {
+
+    this.form.controls['recurrencia'].setValue((event.target as HTMLInputElement).value);
+  }
+  onSelectedFaculty(event: Event) {
 
     this.form.controls['faculty'].setValue((event.target as HTMLInputElement).value);
   }
 
 
-  setValues(){
-    // console.log("entra a set values ")
-    this.formEnvironment.id=this.form.get('id')?.value;
-    this.formEnvironment.name=this.form.get('name')?.value;
-    this.formEnvironment.location=this.form.get('location')?.value;
-    this.formEnvironment.capacity=this.form.get('capacity')?.value;
-    this.formEnvironment.environmentType=this.form.get('environmentType')?.value;
-    this.formEnvironment.facultyId=this.form.get('faculty')?.value;
 
-    this.emitterForm.emit(this.formEnvironment);
+  setValues() {
 
+    this.formEnvironment.tipoEvento = this.form.get('tipoEvento')?.value;
+    this.formEnvironment.nombreEvento = this.form.get('eventName')?.value;
+    this.formEnvironment.nombreEncargado = this.form.get('eventEncargado')?.value;
+    this.formEnvironment.cedulaEncargado = this.form.get('cedulaEncargado')?.value;
+    this.formEnvironment.descripcion = this.form.get('descripcion')?.value;
+    this.formEnvironment.fechaInicio = this.form.get('fechaInicio')?.value;
+    this.formEnvironment.recurrencia = this.form.get('recurrencia')?.value;
+    this.formEnvironment.horaInicio = this.form.get('horaInicio')?.value;
+    this.formEnvironment.horaFin = this.form.get('horaFin')?.value;
+    this.formEnvironmentAvailability.starting_date = this.form.get('fechaInicio')?.value;
+    this.formEnvironmentAvailability.starting_time = this.form.get('horaInicio')?.value;
+    this.formEnvironmentAvailability.ending_time = this.form.get('horaFin')?.value;
+    this.formEnvironmentAvailability.recurrence = this.form.get('recurrencia')?.value;
+    this.formEnvironmentAvailability.weeks = this.form.get('weeks')?.value;
+    this.formEnvironmentAvailability.day = this.form.get('day')?.value;
+    if (this.formEnvironmentAvailability.recurrence == "DIA") {
+      const fecha = new Date(this.formEnvironmentAvailability.starting_date);
+      const diasSemana = ['LUNES', 'MARTES', 'MIERCOLES', 'JUEVES', 'VIERNES', 'SABADO'];
+      this.formEnvironmentAvailability.day = diasSemana[fecha.getDay()];
+      this.formEventToSchedule.day = diasSemana[fecha.getDay()];
 
-  }
-  showResource(){
-    this.setValues();
-    this.showAddResource.emit(true);
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if(changes['environment']){
-      // console.log("environment cambio para form ",this.environment)
-
-      this.fillForm(this.environment);
+      console.log(this.formEnvironmentAvailability.day + "dia asignado")
 
     }
+    this.formEvent.eventType = this.form.get('tipoEvento')?.value;
+    this.formEvent.eventName = this.form.get('eventName')?.value;
+    this.formEvent.eventManagerName = this.form.get('eventEncargado')?.value
+    this.formEvent.person = this.form.get('cedulaEncargado')?.value;
+    this.formEvent.description = this.form.get('descripcion')?.value;
+    this.formEvent.eventId = Math.floor(Math.random() * (100 - 1 + 1)) + 1;
+    this.formEventToSchedule.startingDate = this.form.get('fechaInicio')?.value;
+    this.formEventToSchedule.startingTime = this.form.get('horaInicio')?.value;
+    this.formEventToSchedule.endingTime = this.form.get('horaFin')?.value;
+    this.formEventToSchedule.recurrence = this.form.get('recurrencia')?.value;
+    this.formEventToSchedule.weeks = this.form.get('weeks')?.value;
+    //this.formEventToSchedule.day = this.form.get('day')?.value;
+    console.log(this.formEnvironmentAvailability.day + "dia asignado")
+    console.log(this.form.valid + "estado")
+    console.log(this.form.invalid + "estado")
+    if (this.form.valid) {
+      console.log("formulario valido");
+      this.sendInfo();
+    } else {
+      console.log("formulario invalido," + this.form.controls);
+      Swal.fire('Error', 'El formulario es invalido,Debe rellenar todos los campos', 'warning');
+    }
 
-    if(changes['isSent'] ){
-      if(changes['isSent'].currentValue==true){
+  }
+  setValuesDTOFinal() {
+    this.formFinalEventSchedule.event = this.formEvent;
+    this.formFinalEventSchedule.eventToScheduleList = this.eventToScheduleList;
+    this.reserveService.postSaveEventInSchedule(this.formFinalEventSchedule).subscribe(response=>{
+      //aqui me da el evento ya creado, decidir que hacer despues
+      console.log(response)
+      if(response.data == null){
+        Swal.fire('Error','No fue posible crear la reserva debido a que no se encontro un profesor con ese ID','error');
+      }else{
+        this.recargarComponente()
+        Swal.fire('Exito','El evento y la reserva fueron creados Correctamente','success');
+        console.log(response+"evento creado")
+      }
+  
+    })
+   }
+
+
+  sendInfo() {
+    this.reserveService.postAllEnvironmentsByEnvironmentALL(1, 5, this.formEnvironmentAvailability).subscribe(response => {
+      console.log("Data : ", response)
+      console.log(response.error);
+      if (response.data == null) {
+        Swal.fire('Error', response.errorCode, 'error');
+        //this.recargarComponente();
+      } else {
+        this.environments = response.data.elements as Environment[]
+        this.totalItems = response.data.pagination.totalNumberElements as number
+        this.totalNumberPage = response.data.pagination.totalNumberPage as number
+        this.pageSize = response.data.pagination.size as number
+        this.visible = true;
+        this.check = false;
+
+      }
+
+    })
+
+  }
+  recargarComponente() {
+    const currentUrl = this.router.url;
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
+
+
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['environment']) {
+      // console.log("environment cambio para form ",this.environment)
+      this.fillForm(this.environment);
+    }
+    if (changes['check']) {
+       console.log(" cambio para check ",this.check)
+      
+    }
+    if (changes['isSent']) {
+      if (changes['isSent'].currentValue == true) {
         this.form.reset()
       }
 
@@ -175,78 +325,158 @@ export class ScheduleReserveCreateComponent {
 
   }
 
-  updateTableEnvironments(type:string){
 
-    if(type == 'all'){
-      this.isTypeSelected=false
-    }else{
-      this.isTypeSelected=true
-      this.environmentTypeTabla=type
-    }
-    this.loadTableEnvironments([1,5])
-
-  }
-
-  loadTableEnvironments(args: number[]) {
-    //this.http.get(`http://localhost:8080/users?page=${page}&size=${this.paginationConfig.itemsPerPage}`)
-    //this.http.get(this.endPoint+`?page=${page}&size=${this.itemsPerPage}`)
-    let pageSolicitud:number = args[0];
-    let pageSize: number = args[1]
-      if(!pageSolicitud){
-        pageSolicitud = 0;
-      }
-      if(!pageSize){
-        pageSize=10
-      }
-    if(!this.isTypeSelected){
-      this.environmentService.getAllEnvironmentsPage(pageSolicitud,pageSize).subscribe((response) =>{
-
-        this.environments = response.data.elements as Environment[]
-        this.totalItems=response.data.pagination.totalNumberElements as number
-        this.totalNumberPage=response.data.pagination.totalNumberPage as number
-
-      });
-    }else{
-      this.environmentService.getAllEnvironmentsByEnvironmentTypePage(this.environmentTypeTabla,pageSolicitud,pageSize).subscribe(response =>{
-        console.log("Data en load Type: ",response)
-        this.environments=response.data.elements as Environment[]
-        this.totalItems=response.data.pagination.totalNumberElements as number
-        this.totalNumberPage=response.data.pagination.totalNumberPage as number
-
-
+  agregarEventToSchedule() {
+    if (this.AmbientesChekeados.length == 0) {
+      Swal.fire('Error', 'No se ha seleccionado ningun ambiente para reservar', 'error');
+    } else {
+      this.AmbientesChekeados.forEach((elemento) => {
+        this.aux.startingDate = elemento.startingDate
+        this.aux.startingTime = elemento.startingTime
+        this.aux.endingTime = elemento.endingTime
+        this.aux.recurrence = elemento.recurrence
+        this.aux.day = elemento.day
+        this.aux.weeks = elemento.weeks
+        this.aux.environmentId = elemento.environment.id
+        this.eventToScheduleList.push(this.aux)
+        this.limpiarListaAux()
+        console.log(this.aux + "aux")
       })
+      console.log(this.eventToScheduleList + "lista de schedules")
+      this.setValuesDTOFinal()
+
+    }
+
+  }
+  limpiarListaAux() {
+    this.aux = {
+      startingDate: "",
+      endingDate: "",
+      startingTime: "",
+      endingTime: "",
+      recurrence: "",
+      day: "",
+      weeks: "",
+      environmentId: 0
     }
 
   }
 
-  get name(){
-    return this.form.get("name")
+
+  agregarAmbiente(eventToScheduleAUX: eventToScheduleAUX) {
+    this.AmbientesChekeados.push(eventToScheduleAUX);
+    console.log(this.AmbientesChekeados);
+
+
   }
-  get location(){
-    return this.form.get("location")
+
+  get tipoEvento() {
+    return this.form.get("tipoEvento")
   }
-  get capacity(){
-    return this.form.get("capacity");
+  get eventName() {
+    return this.form.get("eventName")
   }
-  get environmentType(){
-    return this.form.get("environmentType")
+  get eventEncargado() {
+    return this.form.get("eventEncargado");
   }
-  get faculty(){
-    return this.form.get("faculty")
+  get cedulaEncargado() {
+    return this.form.get("cedulaEncargado")
   }
-  get isNameInvalid(){
-    return  this.name?.touched && this.name?.invalid
+  get descripcion() {
+    return this.form.get("descripcion")
   }
-  get isLocationInvalid(){
-    return  this.location?.touched && this.location?.invalid
+
+  get fechaInicio() {
+    return this.form.get("fechaInicio")
   }
-  get isCapacityInvalid(){
-    return  this.capacity?.touched && this.capacity?.invalid
+
+  get weeks() {
+    return this.form.get("weeks")
   }
-  get isEnvironmentTypeInvalid(){
-    return  this.environmentType?.touched && this.environmentType?.invalid
+  get day() {
+    return this.form.get("day")
   }
-  get isFacultyInvalid(){
-    return  this.faculty?.touched && this.faculty?.invalid
+
+  get horaInicio() {
+    return this.form.get("horaInicio")
   }
+
+  get horaFin() {
+    return this.form.get("horaFin")
+  }
+
+  get recurrencia() {
+    return this.form.get("recurrencia")
+  }
+
+  getInfo() {
+    this
+  }
+
+  get isEventNameInvalid() {
+    return this.eventName?.touched && this.eventName?.invalid
+  }
+  get isTipoEventoInvalid() {
+    return this.tipoEvento?.touched && this.tipoEvento?.invalid
+  }
+  get isEventEncargadoInvalid() {
+    return this.eventEncargado?.touched && this.eventEncargado?.invalid
+  }
+  get isCedulaEncargadoInvalid() {
+    return this.cedulaEncargado?.touched && this.cedulaEncargado?.invalid
+  }
+  get isDescripcionInvalid() {
+    return this.descripcion?.touched && this.descripcion?.invalid
+  }
+  get isFechaInicioInvalid() {
+    return this.fechaInicio?.touched && this.fechaInicio?.invalid
+  }
+
+  get isWeeksInvalid() {
+    return this.weeks?.touched && this.weeks?.invalid
+  }
+
+  get isHoraInicioInvalid() {
+    return this.horaInicio?.touched && this.horaInicio?.invalid
+  }
+
+  get isHoraFinInvalid() {
+    return this.horaFin?.touched && this.horaFin?.invalid
+  }
+
+  get isRecurrenciaInvalid() {
+    return this.recurrencia?.touched && this.recurrencia?.invalid
+  }
+
+
+  get isEnvironmentTypeInvalid() {
+    return this.recurrencia?.touched && this.recurrencia?.invalid
+  }
+
+  get isDayInvalid() {
+    return this.day?.touched && this.day?.invalid
+  }
+
+
+
+  get materiaSelected() {
+    return this.tipoEvento?.value == "Academico"
+  }
+  get eventoSelected() {
+    return this.tipoEvento?.value == "Administrativo"
+  }
+
+  EliminarAmbChekado(i: number): void {
+
+    console.log(i + "indice");
+    this.AmbientesChekeados.splice(i, 1);
+    if(this.AmbientesChekeados.length==0){
+      this.check=false;
+      this.sendInfo(); //probar
+    }
+  }
+
+
+
+
 }

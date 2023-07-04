@@ -25,30 +25,32 @@ public interface IEnvironmentRepository extends JpaRepository<Environment, Integ
 
 
 
-    @Query(value = "SELECT * FROM environment u WHERE u.id NOT IN ("+
-        "SELECT r.id \n"+
+    @Query(value = "SELECT * FROM environment u WHERE u.environment_id NOT IN ("+
+        "SELECT r.environment_id \n"+
         "FROM schedule r \n"+
         "WHERE r.starting_Date = :starting_date \n"+
-          "AND r.starting_time >= :starting_time \n"+
-          "AND r.ending_time <= :ending_time"+
+          "AND :starting_time  >= r.starting_time \n"+
+          "AND :ending_time <=   r.ending_time"+
       ")",
-    nativeQuery = true)
-    List<Environment> findAllByStartingDateAndAvailabilityAnd1DayRecurrence(@Param("starting_date") Date starting_date,
-    @Param("starting_time") LocalTime starting_time,@Param("ending_time") LocalTime ending_time);
+      countQuery = "SELECT COUNT(*) FROM environment",
+      nativeQuery = true)
+    Page<Environment> findAllByStartingDateAndAvailabilityAnd1DayRecurrence(@Param("starting_date") Date starting_date,
+    @Param("starting_time") LocalTime starting_time,@Param("ending_time") LocalTime ending_time,Pageable pageable);
 
 
-    @Query(value = "SELECT * FROM environment u WHERE u.id NOT IN ("+
-        "SELECT r.id \n"+
+    @Query(value = "SELECT * FROM environment u WHERE u.environment_id NOT IN ("+
+        "SELECT r.environment_id \n"+
         "FROM schedule r \n"+
-        "WHERE r.starting_Date >= :starting_date AND r.ending_Date <= :ending_date \n"+
+        "WHERE :starting_date >= r.starting_Date AND :ending_date <= r.ending_Date  \n"+
           "AND r.day = :day \n"+
-          "AND r.starting_time >= :starting_time \n"+
-          "AND r.ending_time <= :ending_time"+
+          "AND :starting_time  >= r.starting_time \n"+
+          "AND :ending_time <=   r.ending_time"+
       ")",
+    countQuery = "SELECT COUNT(*) FROM environment",
     nativeQuery = true)
-    List<Environment> findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(@Param("starting_date") Date starting_date,
+    Page<Environment> findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(@Param("starting_date") Date starting_date,
     @Param("ending_date") Date ending_date,@Param("starting_time") LocalTime starting_time,@Param("ending_time") LocalTime ending_time,
-    @Param("day") String day);
+    @Param("day") String day,Pageable pageable);
 
     //Verificar si existe por lo menos un ambiente
     boolean existsBy();

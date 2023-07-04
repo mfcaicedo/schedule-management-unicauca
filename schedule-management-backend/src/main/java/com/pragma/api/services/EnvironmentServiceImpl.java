@@ -25,7 +25,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -391,66 +393,156 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         return response;
     }
     @Override
-    public Response<List<EnvironmentDTO>> findAllByAvailabilityAndDayRecurrence(Date starting_date,
-                                                                                LocalTime starting_time, LocalTime ending_time) {
+    public Response<GenericPageableResponse> findAllByAvailabilityAndDayRecurrence(Date starting_date,
+            LocalTime starting_time, LocalTime ending_time, Pageable pageable) {
 
-        Response<List<EnvironmentDTO>> response = new Response<>();
-        List<Environment> enviromentList = this.environmentRepository
-                .findAllByStartingDateAndAvailabilityAnd1DayRecurrence(starting_date, starting_time, ending_time);
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
-        }.getType());
+        Response<GenericPageableResponse> response = new Response<>();
+        response=this.ValidacionesReserva(starting_date,starting_time,ending_time);  
+        if(response.getStatus()!=200){
+            return response;
+        }    
+        Page<Environment> enviromentList = this.environmentRepository
+                .findAllByStartingDateAndAvailabilityAnd1DayRecurrence(starting_date, starting_time, ending_time,
+                        pageable);
+        // List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new
+        // org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
+        // }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
         response.setDeveloperMessage("List of Availability Enviroments Finded successfully");
         response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
         response.setErrorCode("");
-        response.setData(enviromentDTOlist);
+        response.setData(this.validatePageList(enviromentList));
         return response;
     }
 
     // validar que el numero de semanas y el dia no lleguen en nullo FALTAAAAAA
     @Override
-    public Response<List<EnvironmentDTO>> findAllByAvailabilityAndWeekRecurrence(Date starting_date,
-                                                                                 LocalTime starting_time, LocalTime ending_time,DaysEnumeration day,
-                                                                                 Integer weeks) {
+    public Response<GenericPageableResponse> findAllByAvailabilityAndWeekRecurrence(Date starting_date,
+            LocalTime starting_time, LocalTime ending_time, DaysEnumeration day,
+            Integer weeks, Pageable pageable) {
 
-        Response<List<EnvironmentDTO>> response = new Response<>();
+        Response<GenericPageableResponse> response = new Response<>();
+        response=this.ValidacionesReserva(starting_date,starting_time,ending_time);  
+        if(response.getStatus()!=200){
+            return response;
+        } 
+        //validar que el numero de semanas que el usuario digite sea menor o igual al numero de semanas restantes del periodo
+        Period actualPeriod = this.periodRepository.GetActivePeriod();
+        int aux=this.cantidadSemanasRestantes(starting_date, actualPeriod.getEndDate());
+        if(weeks > aux){
+            response.setStatus(500);
+            response.setUserMessage("Error Obteniendo la lista, la cantidad de semanas digitadas excede la fecha de fin de semestre");
+            response.setDeveloperMessage("Error Obteniendo la lista, la cantidad de semanas digitadas excede la fecha de fin de semestre");
+            response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
+            response.setErrorCode("Error Obteniendo la lista, la cantidad de semanas digitadas excede la fecha de fin de semestre");
+            return response;
+
+        }
 
         LocalDate StartingDate = starting_date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate NewDate = StartingDate.plusDays(7 * weeks);// multiplicar por la cantidad de la semanas
         Date EndingDate = Date.from(NewDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        List<Environment> enviromentList = this.environmentRepository
+        Page<Environment> enviromentList = this.environmentRepository
                 .findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(starting_date, EndingDate, starting_time,
-                        ending_time, day.toString());
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
-        }.getType());
+                        ending_time, day.toString(), pageable);
+        // List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new
+        // org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
+        // }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
         response.setDeveloperMessage("List of Availability Enviroments Finded successfully");
         response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
         response.setErrorCode("");
-        response.setData(enviromentDTOlist);
+        response.setData(this.validatePageList(enviromentList));
         return response;
     }
 
     @Override
-    public Response<List<EnvironmentDTO>> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
-                                                                                     LocalTime ending_time, DaysEnumeration day) {
+     public Response<GenericPageableResponse> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
+            LocalTime ending_time, DaysEnumeration day, Pageable pageable) {
 
-        Response<List<EnvironmentDTO>> response = new Response<>();
+        Response<GenericPageableResponse> response = new Response<>();
+        
         Period actualPeriod = this.periodRepository.GetActivePeriod();
-        List<Environment> enviromentList = this.environmentRepository
-                .findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(actualPeriod.getInitDate(),actualPeriod.getEndDate(),
-                        starting_time,ending_time,day.toString());
-        List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
-        }.getType());
+        response=this.ValidacionesReserva(actualPeriod.getInitDate(),starting_time,ending_time);  
+        if(response.getStatus()!=200){
+            return response;
+        } 
+        Page<Environment> enviromentList = this.environmentRepository
+                .findAllByStartingDateAndAvailabilityAndWeekSemesterRecurrence(actualPeriod.getInitDate(),
+                        actualPeriod.getEndDate(),
+                        starting_time, ending_time, day.toString(), pageable);
+        // List<EnvironmentDTO> enviromentDTOlist = modelMapper.map(enviromentList, new
+        // org.modelmapper.TypeToken<List<EnvironmentDTO>>() {
+        // }.getType());
         response.setStatus(200);
         response.setUserMessage("List of Availability Enviroments Finded successfully");
         response.setDeveloperMessage("List of Availability Enviroments Finded successfully");
         response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
         response.setErrorCode("");
-        response.setData(enviromentDTOlist);
+        response.setData(this.validatePageList(enviromentList));
         return response;
+
+    }
+
+    public Response<GenericPageableResponse> ValidacionesReserva(Date starting_date,LocalTime starting_time,
+            LocalTime ending_time) {
+        Response<GenericPageableResponse> response = new Response<>();
+        // validar que la hora de inicio sea menor a la hora de fin
+        if (starting_time.isAfter(ending_time) || starting_time.equals(ending_time)) {
+            response.setStatus(500);
+            response.setUserMessage("Error Obteniendo la lista, hora inicio es mayor o igual a hora final");
+            response.setDeveloperMessage("Error Obteniendo la lista, hora inicio es mayor o igual a hora final");
+            response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
+            response.setErrorCode("Error Obteniendo la lista, hora inicio es mayor o igual a hora final");
+            return response;
+        }
+        // validar que la fecha de inicio sea mayor o igual a la fecha actual
+        //Calendar calendar = Calendar.getInstance();
+        Date fechaActual = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaActual);
+        // Restar un día
+        calendar.add(Calendar.DAY_OF_YEAR, -1);
+        // Obtener la nueva fecha
+        Date fechaNueva = calendar.getTime();
+        if (starting_date.before(fechaNueva)) {
+            response.setStatus(500);
+            response.setUserMessage("Error Obteniendo la lista, fecha inicio es menor a la fecha actual");
+            response.setDeveloperMessage("Error Obteniendo la lista, fecha inicio es menor a la fecha actual");
+            response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
+            response.setErrorCode("Error Obteniendo la lista, fecha inicio es menor a la fecha actual");
+            return response;
+        }
+        // validar que la fecha de inicio sea menor o igual a la fecha de fin de periodo
+        Period actualPeriod = this.periodRepository.GetActivePeriod();
+        if (starting_date.after(actualPeriod.getEndDate())) {
+            response.setStatus(500);
+            response.setUserMessage("Error Obteniendo la lista, fecha inicio es mayor a la fecha de fin de periodo");
+            response.setDeveloperMessage(
+                    "Error Obteniendo la lista, fecha inicio es mayor a la fecha de fin de periodo");
+            response.setMoreInfo("localhost:8080/api/enviroment(toDO)");
+            response.setErrorCode("Error Obteniendo la lista, fecha inicio es mayor a la fecha de fin de periodo");
+            return response;
+        }
+        response.setStatus(200);
+        return response;
+
+    }
+
+    public int cantidadSemanasRestantes(Date starting_time,Date fechaFinSemestre){
+        // Convertir a LocalDate
+        LocalDate localDate1 = starting_time.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate localDate2 = fechaFinSemestre.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+        // Calcular la diferencia en días
+        long diferenciaEnDias = ChronoUnit.DAYS.between(localDate1, localDate2);
+
+        // Calcular la diferencia en semanas
+        long diferenciaEnSemanas = diferenciaEnDias / 7;
+
+        return (int)diferenciaEnSemanas;
 
     }
 

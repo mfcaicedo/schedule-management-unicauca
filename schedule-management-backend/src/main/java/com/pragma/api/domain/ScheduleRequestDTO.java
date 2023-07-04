@@ -27,6 +27,8 @@ public class ScheduleRequestDTO {
     @NotNull
     private Date startinDate;
     @NotNull
+    private Date startingDate;
+    @NotNull
     private LocalTime startingTime;
     @Nullable
     private Integer courseId;

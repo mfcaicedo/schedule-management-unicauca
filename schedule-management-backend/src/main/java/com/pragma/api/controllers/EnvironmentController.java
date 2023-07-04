@@ -2,11 +2,6 @@ package com.pragma.api.controllers;
 
 import com.pragma.api.domain.*;
 import com.pragma.api.services.IEnvironmentService;
-import com.pragma.api.domain.AvailabilityEnvironmentDTO;
-import com.pragma.api.domain.EnvironmentDTO;
-import com.pragma.api.domain.GenericPageableResponse;
-import com.pragma.api.domain.ResourceList;
-import com.pragma.api.domain.Response;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 import com.pragma.api.model.enums.RecurrenceEnumeration;
 import com.pragma.api.services.IFileEnvironmentService;
@@ -130,24 +125,27 @@ public class EnvironmentController {
     }
 
     @PreAuthorize("hasRole('ROLE_SCHEDULE_MANAGER')")
-    @GetMapping("/findEnviromentAvailability")
-    public Response<List<EnvironmentDTO>> findEnviromentAvailability(
+    @PostMapping("/findEnviromentAvailability")
+    public Response<GenericPageableResponse> findEnviromentAvailability(@RequestParam Integer page, @RequestParam Integer size,                                            
             @Valid @RequestBody AvailabilityEnvironmentDTO environmentAvailabilityDTO) {
+
+        Pageable pageable = PageRequest.of(page, size); 
+        
         if (environmentAvailabilityDTO.getRecurrence().equals(RecurrenceEnumeration.DIA)) {
             return this.environmentService.findAllByAvailabilityAndDayRecurrence(
                     environmentAvailabilityDTO.getStarting_date(),
-                    environmentAvailabilityDTO.getStarting_time(), environmentAvailabilityDTO.getEnding_time());
+                    environmentAvailabilityDTO.getStarting_time(), environmentAvailabilityDTO.getEnding_time(),pageable);
 
         } else if (environmentAvailabilityDTO.getRecurrence().equals(RecurrenceEnumeration.SEMANA)) {
             return this.environmentService.findAllByAvailabilityAndWeekRecurrence(
                     environmentAvailabilityDTO.getStarting_date(),
                     environmentAvailabilityDTO.getStarting_time(), environmentAvailabilityDTO.getEnding_time(),
-                    environmentAvailabilityDTO.getDay(), environmentAvailabilityDTO.getWeeks());
+                    environmentAvailabilityDTO.getDay(), environmentAvailabilityDTO.getWeeks(),pageable);
 
         } else if (environmentAvailabilityDTO.getRecurrence().equals(RecurrenceEnumeration.SEMESTRE)) {
             return this.environmentService.findAllByAvailabilityAndSemesterRecurrence(
                     environmentAvailabilityDTO.getStarting_time(), environmentAvailabilityDTO.getEnding_time(),
-                    environmentAvailabilityDTO.getDay());
+                    environmentAvailabilityDTO.getDay(),pageable);
 
         }
         return null;

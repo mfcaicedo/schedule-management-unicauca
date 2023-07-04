@@ -79,14 +79,14 @@ public interface IEnvironmentService {
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
     public void deleteById(Integer environmentId);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndDayRecurrence(Date starting_date,LocalTime starting_time,
-    LocalTime ending_time);
+    Response<GenericPageableResponse> findAllByAvailabilityAndDayRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time,Pageable pageable);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndWeekRecurrence(Date starting_date,LocalTime starting_time,
-    LocalTime ending_time,DaysEnumeration day,Integer weeks);
+    Response<GenericPageableResponse> findAllByAvailabilityAndWeekRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day,Integer weeks,Pageable pageable);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
-    LocalTime ending_time,DaysEnumeration day);
+    Response<GenericPageableResponse> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day,Pageable pageable);
 
     //Metodo para consultar todos los edificio, trayendolos por id de facultad
     public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId);

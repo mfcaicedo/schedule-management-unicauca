@@ -18,6 +18,10 @@ export const environment = {
   urlProgram: 'http://localhost:8081/api/program',
   urlDepartment: 'http://localhost:8081/api/department',
   urlFaculty: 'http://localhost:8081/api/faculty',
+  urlReserve : 'http://localhost:8081/api/environment/findEnviromentAvailability',
+  urlReserveInSchedule:'http://localhost:8081/api/event/EventToSchedule',
+  urlGetReserve:'http://localhost:8081/api/event/consultByPersonCode/'
+
 };
 
 /*

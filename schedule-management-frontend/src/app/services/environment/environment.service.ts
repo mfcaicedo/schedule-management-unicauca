@@ -30,7 +30,7 @@ export class EnvironmentService {
 
   environmentTypes = ['TODOS', 'AUDITORIO', 'LABORATORIO', 'SALON'];
   EventTypes = ['Academico', 'Administrativo'];
-  recurrenciaTypes = ['Dia', 'Semana', 'Semestre'];
+  recurrenciaTypes = ['SEMANA', 'DIA', 'SEMESTRE'];
   endPoint: String = environment.urlEnv
   endPointFaculty: String = environment.urlFaculty
   // endPoint:String = 'api/environment'

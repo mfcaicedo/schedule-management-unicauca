@@ -26,4 +26,8 @@ public interface IScheduleRepository extends JpaRepository<Schedule, Long> {
     @Query(value = "SELECT * FROM schedule WHERE course_id = :course_id", nativeQuery = true)
     List<Schedule>findAllByCourseId(@Param("course_id")Integer course_id);
 //    List<Schedule>findAllByCourseTeacher(Teacher teacher);
+    
+    @Query(value = "SELECT * FROM schedule WHERE event_id = :event_id", nativeQuery = true)
+    List<Schedule>findAllByEventId(@Param("event_id")Integer event_id);
+
 }
