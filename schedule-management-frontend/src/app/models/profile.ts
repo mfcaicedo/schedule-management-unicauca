@@ -4,5 +4,5 @@ export interface User{
 }
 
 export interface Authority{
-  authority:string;
+  authority:string ;
 }

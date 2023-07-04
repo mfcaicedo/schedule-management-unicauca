@@ -7,9 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
@@ -23,6 +25,10 @@ public class JwtProvider {
 
     public String generateToken(Authentication authentication){
         MainUser mainUser = (MainUser) authentication.getPrincipal();
+        String authoritiesString = mainUser.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.joining(", "));
+
         return Jwts.builder()
                 .setSubject(mainUser.getUsername())
                 .setIssuedAt(new Date())
@@ -51,5 +57,10 @@ public class JwtProvider {
             LOGGER.error("SignatureException token");
         }
         return false;
+    }
+
+    public Object getSecretKey() {
+
+        return secret;
     }
 }
