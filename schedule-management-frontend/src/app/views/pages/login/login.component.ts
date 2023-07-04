@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { Observable, map } from 'rxjs';
 import { navItems } from 'src/app/containers/default-layout/_nav';
 import{LoginService} from 'src/app/services/login/login.service'
 import {AuthService} from 'src/app/services/auth/auth.service'
@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.formPassword=this.formBuilder.group({
+      usuario:['',[Validators.required]],
       correo:['',[Validators.required]]
     });
 
@@ -80,17 +81,25 @@ export class LoginComponent implements OnInit {
 
   enviarCorreo(){
 
-    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" ,token:"",username:""}
+
+    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" ,token:"",username:this.getUsuario()}
     console.log(emailValues)
     this.authService.sendEmailChangePassword(emailValues).subscribe(
       (respuesta => {
         Swal.fire("Mensaje",`Respuesta : ${respuesta}`,"success");
       })
     )
+
+
+
+
   }
 
   getEmail(){
     return this.formPassword.get('correo')?.value;
+  }
+  getUsuario(){
+    return this.formPassword.get('usuario')?.value;
   }
 
 }

@@ -84,6 +84,7 @@ public class InitialDataConfig {
                 .password(encoder.encode("admin"))
                 .roles(Collections.singleton(academicManagerRole))
                 .build();
+        
         List<User> initialUserList = Arrays.asList(userOne, userTwo);
         userRepository.saveAll(initialUserList);
     }

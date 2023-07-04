@@ -102,8 +102,10 @@ export class AuthService {
 
   sendEmailChangePassword(emailValues:emailValues):Observable<string>{
     console.log("email send ", emailValues)
-    const url =`${this.apiPasswordUrl}/email/sendHtml`
+
     
+    const url =`${this.apiPasswordUrl}/email/sendHtml`
+
     console.log(url)
     return this.http.post<string>(url,emailValues)
   }
