@@ -8,7 +8,7 @@
           <p *ngIf="(formLogin.get('username')?.touched || buttontouched) && formLogin.get('username')?.invalid">{{getError("email")}}</p>
           <input type="password" placeholder="Contraseña" formControlName="password"/>
           <p *ngIf="(formLogin.get('password')?.touched || buttontouched) && formLogin.get('password')?.invalid">{{getError("password")}}</p>
-          <button type="submit" (click)="enviarDatos()" >Iniciar sesión</button>
+          <button type="submit" class="btn-login" (click)="enviarDatos()" >Iniciar sesión</button>
         <button  cButton color="ligth" size="sm" (click)="toggleLiveDemo()" >Olvidé mi contraseña</button>
       </form>
       <footer>
