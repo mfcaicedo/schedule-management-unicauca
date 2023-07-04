@@ -249,7 +249,7 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         }
 
                         //-------------------------------Location-------------------------------
-                        if(!this.locationInList(logs, log.getLocation().toUpperCase())){
+                        if(!this.locationInList(logs, log.getLocation().toUpperCase())&&!log.getLocation().toUpperCase().equals("NO APLICA")){
                             errorTipos = true;
                             responseFile.getLogsGeneric().add("[FILA" + rowNum + "] DIGITE PRIMERO LA UBICACION DEL AMBIENTE, ESTA UBICACION NO EXISTE");
                         }

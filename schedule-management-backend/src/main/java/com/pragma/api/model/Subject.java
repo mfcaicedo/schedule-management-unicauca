@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "subject")
 @Setter
 @Getter
 @AllArgsConstructor

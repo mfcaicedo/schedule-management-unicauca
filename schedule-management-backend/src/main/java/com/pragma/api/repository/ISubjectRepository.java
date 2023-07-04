@@ -35,4 +35,6 @@ public interface ISubjectRepository extends JpaRepository<Subject, String> {
     @Query(value = "SELECT DISTINCT semester,program_id FROM subject WHERE program_id= :program_id ORDER BY semester ASC", nativeQuery = true)
     List<Object[]> findSemesterByProgramId(@Param("program_id") String program_id);
 
+    @Query(value = "SELECT * FROM subject", nativeQuery = true)
+    List<Subject> findAllProgram();
 }

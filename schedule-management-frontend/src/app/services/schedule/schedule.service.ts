@@ -21,16 +21,16 @@ import { ReturnStatement } from '@angular/compiler';
 export class ScheduleService {
 
 
-  
+
   programs!: ProgramService;
-  color!:string;
-  subjetc1!: Subject; 
+  color!: string;
+  subjetc1!: Subject;
   period: Period = {
     'periodId': '2022.2', 'state': 'true', endDate: "2023-07-15T00:00:00.000+0000",
     initDate: "2023-07-15T00:00:00.000+0000"
   }
-  program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1',color:'bg-orange' }
-  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'program': this.program }
+  program: Program = { programId: 'PIS', name: 'INGENIERIA DE SISTEMAS', department_id: '1', color: 'bg-orange' }
+  subject: Subject = { 'subjectCode': '1', 'name': 'Programacion orientada a objetos', 'weeklyOverload': 6, 'timeBlock': true, 'semester': 2, 'programId': this.program }
   person: Person = { 'personCode': '104618021314', 'fullName': 'PPC', 'personType': 'TEACHER', 'department': { 'departmentId': '1', 'departmentName': 'Ingenieria de sistemas' } }
 
   curso: Course = {
@@ -38,7 +38,7 @@ export class ScheduleService {
     'subject': this.subject, 'personCode': this.person.personCode, 'remainingHours': 2, 'typeEnvironmentRequired': 'asd'
   }
 
-   courseprueba!: CourseService;
+  courseprueba!: CourseService;
   course!: Course;
   envi!: Environment;
   schedule: Schedule[] = [
@@ -129,7 +129,7 @@ export class ScheduleService {
   iteradorColores: number = 0
   colores: { [key: number]: string; } = {
 
-    
+
     1: "bg-sky",
     2: "bg-orange",
     3: "bg-green",
@@ -138,7 +138,7 @@ export class ScheduleService {
     6: "bg-purple",
     // 7:"bg-lightred"
   }
- 
+
   continueCreatingScheduleForCourse: boolean = false;
   // endPoint: String = 'api/schedule'
   endPoint: string = schedule.urlSch;///se crea otro endPoint por que el de arriba esta retornando http://localhost:4200/ y no conecta
@@ -174,47 +174,47 @@ export class ScheduleService {
 
         })
       )
-      
+
   }
-  getColorToSchedule(courseId:number){
+  getColorToSchedule(courseId: number) {
 
     let courseColor: Course
-    
-    console.log("ENTRAAAAAAAAAAAAAAAA",this.courseprueba)
+
+    console.log("ENTRAAAAAAAAAAAAAAAA", this.courseprueba)
     return this.courseService.getCourseById(courseId).subscribe((response) => {
       // console.log("Response de takenprofesor" ,response)
       courseColor = response as Course
       console.log(courseColor)
-    
-      this.color=courseColor.subject.program.color;
-  
-      console.log("ESTE ES EL COLOOOOR ",this.color)
+
+      this.color = courseColor.subject.programId.color;
+
+      console.log("ESTE ES EL COLOOOOR ", this.color)
 
 
     });
-   
-   
-    
-  }
-  
 
-  
+
+
+  }
+
+
+
   getTakenEnvironmentSchedule(environmentId: number) {
     //TODO consumir servicio para obtener el horario ocupado del ambiente
-    
-    
+
+
     return this.http.get<any>(this.endPoint + `/byEnvironmentId/${environmentId}`, this.httpOptions)
       .pipe(
         map((response: any) => {
 
-          
+
           const scheduleColors: ScheduleColor[] = Object.values(response.data).map((item: any) => {
             const courseId: number = item.course.courseId;
-            console.log('AQUI DEBE IR EL ID DEL CURSO: '+courseId)
+            console.log('AQUI DEBE IR EL ID DEL CURSO: ' + courseId)
             this.getColorToSchedule(courseId)
             console.log("PRUEBAAAAAAAAAAAAAAAAAA", this.getColorToSchedule(courseId))
 
-                                
+
             const scheduleColor: ScheduleColor = {
               id: item.id,
               day: item.day,
@@ -223,18 +223,18 @@ export class ScheduleService {
               color: this.color,
               course: item.course, // Asigna el valor correspondiente a 'course'
               environment: item.environment // Asigna el valor correspondiente a 'environment'
-              
+
             };
-           
+
 
             return scheduleColor;
           });
           return scheduleColors;
         })
-      
+
       );
   }
-  
+
   fillTakenProfessorSchedule(personCode: string): Observable<Schedule[]> {
     let takenProfessorSchedules: Schedule[] = []
     this.getTakenProfessorSchedule(personCode).subscribe((response) => {
@@ -249,7 +249,7 @@ export class ScheduleService {
     let takenEnvironmentSchedules: Schedule[] = []
     this.getTakenEnvironmentSchedule(environmentId).subscribe((response) => {
 
-      takenEnvironmentSchedules =  Object.values(response) as Schedule[]
+      takenEnvironmentSchedules = Object.values(response) as Schedule[]
 
     });
     return of(takenEnvironmentSchedules)
@@ -302,14 +302,14 @@ export class ScheduleService {
 
   getScheduleWithColor(schedules: Schedule[]): ScheduleColor[] {
 
-    
+
     return this.fillColorSchedule(schedules);
   }
   fillColorSchedule(horariosAmbiente: Schedule[]) {
 
-    
+
     let horariosColor = horariosAmbiente.map((x) => { return { ...x, color: "" } })
-    
+
     horariosColor.forEach(x => x.color = this.choseRandomColor())
 
     // console.log("colores de horario ",horariosColor)
@@ -317,8 +317,8 @@ export class ScheduleService {
   }
 
   choseRandomColor() {
-    
-   
+
+
     let randomColorValue: string = this.colores[this.iteradorColores];
     if (this.iteradorColores < 4) {
       this.iteradorColores += 1

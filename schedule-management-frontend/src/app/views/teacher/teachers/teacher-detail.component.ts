@@ -100,6 +100,8 @@ export class TeachersComponent {
 
       this.teacherService.findAllByDepartmetName(this.departmentId, this.personType, pageSolicitud, pageSize).subscribe((response) => {
         this.person = response.data.elements as Person[]
+        console.log("persona ", response);
+        console.log("persona ", this.person);
         this.totalItems = response.data.pagination.totalNumberElements as number
         this.totalNumberPage = response.data.pagination.totalNumberPage as number
         this.paginadorResource = response;
