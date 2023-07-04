@@ -272,7 +272,7 @@
     </c-col>
 
 
-    <button   type="submit" cButton color="primary" size="lg">
+    <button   type="submit" cButton color="primary" size="lg" [ngStyle]="{'margin-top': '.5rem', 'margin-bottom': '.5rem'}">
       Consultar Ambientes disponibles
     </button>
 
@@ -358,7 +358,7 @@
 
 
 
-  <button cButton color="primary" size="lg" [disabled]="" (click)="agregarEventToSchedule()">
+  <button cButton color="primary" size="lg" [disabled]="" (click)="agregarEventToSchedule()" [ngStyle]="{'margin-bottom': '.5rem'}">
     Guardar Reserva
   </button>
   <br>

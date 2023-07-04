@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +28,8 @@ public class EventController {
     @Autowired
     private IEventService eventService;
 
-    
 
+    @PreAuthorize("hasRole('ROLE_SCHEDULE_MANAGER')")
     @GetMapping("/consultByPersonCode/{personCode}")
     public Response<List<EventScheduleDTOResponse>> consultEventByPersonCode(@PathVariable String personCode) {
         return this.eventService.findAllByPersonCode(personCode);

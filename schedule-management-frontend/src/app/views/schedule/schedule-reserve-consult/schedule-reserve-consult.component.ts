@@ -31,8 +31,12 @@ export class ScheduleReserveConsultComponent  {
   sendPersonCode(){
     this.personCode = this.form.get('personCode')?.value;
     this.reserveService.getReserveScheduleList(this.personCode).subscribe(response=>{
+      console.log("response ", response);
       if(response.data == null){
-        Swal.fire('Error','No fue posible cargar la lista de reservas','error');
+        Swal.fire('Error','El código ingresado no existe','error');
+      }else if(response.data == undefined){
+        Swal.fire('Error','El encargado no tiene reservas','error');
+        
       }else{
         
         //Swal.fire('Exito','El evento y la reserva fueron creados Correctamente','success');

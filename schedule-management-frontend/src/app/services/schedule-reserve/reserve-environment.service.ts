@@ -88,7 +88,7 @@ getReserveScheduleList(personCode:string){
   
   return this.http.get<any>(` ${this.endPointScheduleGetReserves}${personCode}`).pipe(
     catchError((e) => {
-      
+      Swal.fire('Error','El encargado no tiene reservas','error');
       console.log('Error obteniendo todos lista reservas', e.error.mensaje, 'error');
       return throwError(e);
 
