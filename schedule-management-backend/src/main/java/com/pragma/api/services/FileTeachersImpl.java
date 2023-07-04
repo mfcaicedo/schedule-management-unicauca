@@ -94,7 +94,7 @@ public class FileTeachersImpl implements IFileTeachersService {
 
                 //Validacion nombre vacio
                 if(log.getName_teacher().trim().length() == 0){
-                    infoErroresVacias.add("[FILA " + rowNum + "] EL NOMBRE DEL PROFESOR ESTA VACIO (NOMBRE OBLIGATORIO)");
+                    infoErroresVacias.add("[FILA " + (rowNum-1) + "] EL NOMBRE DEL PROFESOR ESTA VACIO (NOMBRE OBLIGATORIO)");
                     errorVacias = true;
                 }
 
@@ -103,13 +103,13 @@ public class FileTeachersImpl implements IFileTeachersService {
                 //if(log.getCode_teacher().equals(null)){
                 //if(log.getCode_teacher() == 0){
                 if(log.getCode_teacher().equals(0)){
-                    infoErroresVacias.add("[FILA " + rowNum + "] EL CODIGO DEL PROFESOR ESTA VACIO (CODIGO OBLIGATORIO)");
+                    infoErroresVacias.add("[FILA " + (rowNum-1) + "] EL CODIGO DEL PROFESOR ESTA VACIO (CODIGO OBLIGATORIO)");
                     errorVacias = true;
                 }
 
                 System.out.println("mirar este: " + log.getName_department());
                 if(log.getName_department().trim().length() == 0){
-                    infoErroresVacias.add("[FILA " + rowNum + "] EL DEPARTAMENTO DEL PROFESOR ESTA VACIO (DEPARTAMENTO OBLIGATORIO)");
+                    infoErroresVacias.add("[FILA " + (rowNum-1) + "] EL DEPARTAMENTO DEL PROFESOR ESTA VACIO (DEPARTAMENTO OBLIGATORIO)");
                     errorVacias = true;
                 }
 
@@ -134,15 +134,15 @@ public class FileTeachersImpl implements IFileTeachersService {
                             infoLogs.add("Teacher Created succesfully!");
                         }else{
                             errorDepartamento = true;
-                            infoErrores.add("[FILA " + rowNum + "] EL DEPARTAMENTO ASIGNADO AL PROFESOR NO SE ENCUENTRA REGISTRADO: " + log.getName_department().trim());
+                            infoErrores.add("[FILA " + (rowNum-1) + "] EL DEPARTAMENTO ASIGNADO AL PROFESOR NO SE ENCUENTRA REGISTRADO: " + log.getName_department().trim());
                             infoLogs.add("Teacher NOT Created");
                         }
 
                         if (!errorDepartamento) {
-                            infoLogs.add("[FILA " + rowNum + "] LISTA PARA SER REGISTRADA");
+                            infoLogs.add("[FILA " + (rowNum-1) + "] LISTA PARA SER REGISTRADA");
                             contSuccess++;
                         } else {
-                            infoLogs.add("[FILA " + rowNum + "] CONTIENE ERRORES:");
+                            infoLogs.add("[FILA " + (rowNum-1) + "] CONTIENE ERRORES:");
                             for (String infoError : infoErrores) {
                                 infoLogs.add(infoError);
                             }
@@ -153,7 +153,7 @@ public class FileTeachersImpl implements IFileTeachersService {
                 }
 
                 if (!errorDepartamento && !errorProgram && !errorVacias && !errorTipos && !errorRepetidos) {
-                    infoSuccess.add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
+                    infoSuccess.add("[FILA " + (rowNum-1) + "]  LISTA PARA SER REGISTRADA");
                     archivoProfesores.add(log);
                     contSuccess++;
                 } else {
