@@ -28,7 +28,7 @@ export class AuthGuard implements CanActivate {
           if(!user) {
              this.router.navigate(['login']);
             //this.router.createUrlTree(['login'])
-            Swal.fire("Acceso Denegado ", "No has iniciado sesión","error")
+            //Swal.fire("Acceso Denegado ", "No has iniciado sesión","error")
             return false;
           }
           return true;
