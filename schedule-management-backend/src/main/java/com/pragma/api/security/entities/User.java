@@ -25,7 +25,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private String TokenPassword;
+    private String tokenPassword;
 
     public User(String name, String lastName, String username, String email, String password) {
         this.name = name;
@@ -84,11 +84,11 @@ public class User {
     }
 
     public String getTokenPassword() {
-        return TokenPassword;
+        return tokenPassword;
     }
 
     public void setTokenPassword(String tokenPassword) {
-        TokenPassword = tokenPassword;
+        tokenPassword = tokenPassword;
     }
 
     public Set<Role> getRoles() {
