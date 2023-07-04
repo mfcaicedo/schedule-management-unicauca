@@ -265,11 +265,13 @@ INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_SCHEDULE_MANAGER');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_ACADEMIC_MANAGER');
 
---eventos
 INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`) VALUES (NULL, 'charla iaa', 'Mr.Masso', 'Charla Inteligencia', 'OTROS', '1062');
 
 
 --horario
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'JUEVES', '2023-06-15', '09:00:00', 1, '2023-06-15', '07:00:00', NULL, 1, 1);
+
+INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`) VALUES (NULL, 'JUEVES', '2023-06-15', '11:00:00', 0, '2023-06-15', '09:00:00', 1, 1, NULL);
 
 --resource event
 

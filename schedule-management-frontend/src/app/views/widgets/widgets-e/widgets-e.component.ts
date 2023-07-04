@@ -74,6 +74,7 @@ export class WidgetsEComponent implements AfterContentInit {
     }
     return data;
   }
+  
 
   get baseDatasets(): Array<any> {
     return [

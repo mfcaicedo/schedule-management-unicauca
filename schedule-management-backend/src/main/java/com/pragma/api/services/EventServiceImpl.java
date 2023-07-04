@@ -108,6 +108,7 @@ public class EventServiceImpl implements IEventService {
     public Response<EventDTO> saveEventToSchedule(FinalEventScheduleDTO finalEventScheduleDTO) {
         Person person = this.personRepository.findById(finalEventScheduleDTO.getEvent().getPerson()).orElse(null);
         Response<EventDTO> response = new Response<>();
+        
         if (person == null) {
             response.setStatus(404);
             response.setUserMessage("Internal error the person not found");

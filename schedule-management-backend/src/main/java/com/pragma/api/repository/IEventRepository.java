@@ -18,3 +18,4 @@ public interface IEventRepository extends JpaRepository<Event,Integer> {
 
 
 }
+

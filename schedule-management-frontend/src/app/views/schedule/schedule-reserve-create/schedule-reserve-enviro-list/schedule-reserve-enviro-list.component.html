@@ -1,0 +1,60 @@
+<c-row ngPreserveWhitespaces>
+
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong class="titulo">Ambientes </strong>
+        </c-card-header>
+        <c-card-body>
+  
+          <c-row class="mb-3">
+            <c-col md="5">
+              <label cLabel class="label-title">
+                Filtro:
+              </label>
+              <c-dropdown>
+                <button cButton cDropdownToggle color="primary">
+                  Seleccionar tipo ambiente
+                </button>
+                <ul cDropdownMenu>
+                  <li *ngFor="let tipo of environmentTypes">
+                    <a (click)="updateTableEnvironments(tipo)" cDropdownItem>
+                      {{tipo}}
+                    </a>
+                  </li>
+  
+                </ul>
+              </c-dropdown>
+            </c-col>
+  
+          </c-row>
+  
+  
+          <table cTable [responsive]="true">
+            <thead cTableColor="primary">
+              <tr>
+                <th *ngFor="let c of columns">{{c}} </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let ambiente of ambientes">
+                <td>{{ambiente.environmentType}} </td>
+                <td>{{ambiente.name}} </td>
+                <td>{{ambiente.location}}</td>
+                <td>{{ambiente.capacity}} </td>
+                <td>{{ambiente.facultyId}} </td>
+                <td><input [disabled]="check==true" #checkboxes  id="selectedSchedule"  type="checkbox" (click)="agregarAmbiente(ambiente,$event,formEnvironmentAvailability)"></td>
+  
+              </tr>
+            </tbody>
+  
+          </table>
+          <br>
+          <app-paginador (pageChanged)="loadTableEnvironments($event)" [totalItems]="totalItems"
+            [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"></app-paginador>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  
+  </c-row>
+  

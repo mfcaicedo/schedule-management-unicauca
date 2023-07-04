@@ -1,5 +1,7 @@
 package com.pragma.api.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +29,13 @@ public class EventController {
     
 
     @GetMapping("/consultByName/{name}")
-    public Response<EventDTO> consultEventByName(@PathVariable String name) {
-        //return this.eventService.findByeventName(name);
-        return null;
+    public Response<List<EventDTO>> consultEventByName(@PathVariable String name) {
+        return this.eventService.findAllByeventName(name);
     }
 
     @GetMapping("/consultByManagerName/{name}")
-    public Response<EventDTO> consultByManagerName(@PathVariable String name) {
-      // return this.eventService.findByeventName(name);
-        return null;
+    public Response<List<EventDTO>> consultByManagerName(@PathVariable String name) {
+        return this.eventService.findAllByeventManagerName(name);
     }
 
     @PostMapping("/EventToSchedule")
