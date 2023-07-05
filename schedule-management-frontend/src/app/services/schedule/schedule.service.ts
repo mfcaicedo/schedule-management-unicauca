@@ -269,6 +269,16 @@ export class ScheduleService {
         })
       )
   }
+  obtenerDatos(): Observable<any> {
+    return this.http.get<any>(this.endPoint, this.httpOptions)
+      .pipe(
+        catchError((error) => {
+          console.error('Error al obtener los datos:', error);
+          return throwError(error);
+        })
+      );
+  }
+  
   updateSchedule(schedule: ScheduleDTO) {
     // http://localhost:8081/api/schedule?scheduleId=1
     console.log("Le llega schedule a update ", schedule)

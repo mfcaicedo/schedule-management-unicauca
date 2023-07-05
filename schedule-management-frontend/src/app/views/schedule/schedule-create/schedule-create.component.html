@@ -1,11 +1,11 @@
 <div class="grid-container">
   <div>
-    <c-accordion class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
-      <c-accordion-item>
-        <ng-template cTemplateId="accordionHeader">
+    <div class="shadow accordion-custom rounded-2" #beforeFormAccordion (mouseleave)="closeAccordion()">
+      <div class="accordion" [ngClass]="{ 'closed': !showSelectedProgramAndSemester }">
+        <button class="accordion-button" (click)="toggleFormAccordion()">
           <strong>Seleccionar programa y semestre</strong>
-        </ng-template>
-        <ng-template cTemplateId="accordionBody">
+        </button>
+        <div class="accordion-content">
           <div *ngIf="!showSelectedProgramAndSemester">
             <app-schedule-before-create-form #beforeForm (progress)="getProgressMadeProgramSemester($event)"
               (programa)="getSelectedProgram($event)" (semestre)="getSelectedSemester($event)"
@@ -25,28 +25,28 @@
               </button>
             </div>
           </div>
-        </ng-template>
-      </c-accordion-item>
+        </div>
+      </div>
 
-      <c-accordion-item *ngIf="showSelectedProgramAndSemester">
-        <ng-template cTemplateId="accordionHeader">
+      <div class="accordion" *ngIf="showSelectedProgramAndSemester">
+        <button class="accordion-button" (dragstart)="onDragStart()" (dragend)="onDragEnd()">
           <strong>Crear Horario para un curso</strong>
-        </ng-template>
-        <ng-template cTemplateId="accordionBody">
+        </button>
+        <div class="accordion-content">
           <div class="container">
             <app-schedule-create-form #scheduleform (progress)="getProgressMadeForm($event)"
               (isFormValid)="getCreateFormIsValid($event)" (selectedEnvironment)="getSelectedEnvironment($event)"
               (scheduleCreated)="onSaveSchedule($event)" [selectedProgram]="program" [selectedSemester]="semester">
             </app-schedule-create-form>
           </div>
-        </ng-template>
-      </c-accordion-item>
-    </c-accordion>
+        </div>
+      </div>
+    </div>
     <br>
   </div>
+</div>
 
-  <div *ngIf="showScheduleView">
-    <app-schedule-view #scheduleview (scheduleCreated)="onSaveSchedule($event)" [ambiente]="environmentSelected"
-      [selectedProgram]="program" [selectedSemester]="semester"></app-schedule-view>
-  </div>
+<div *ngIf="showScheduleView">
+  <app-schedule-view #scheduleview (scheduleCreated)="onSaveSchedule($event)" [ambiente]="environmentSelected"
+    [selectedProgram]="program" [selectedSemester]="semester"></app-schedule-view>
 </div>

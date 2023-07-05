@@ -7,10 +7,10 @@
     <strong>Horario del ambiente {{ambiente.id}} : {{ambiente.name}} {{ambiente.environmentType}} </strong>
   </c-card-header>
   <c-card-body>
-    <div class="container">
+    <div class=" table-container">
       <br>
       <div class="table-responsive">
-        <table class="table table-bordered text-center">
+        <table class="table table-bordered text-center " >
           <thead cTableColor="info">
             <tr class="bg-light-gray">
               <th class="text-uppercase" *ngFor="let header of headers ">{{header}} </th>
@@ -24,7 +24,7 @@
               <td class="align-middle">{{hora}}</td>
 
               <td *ngFor="let dia of weekDays" class="drop-zone" (dragover)="allowDrop($event)"
-                (drop)="drop($event, weekDayToInteger(weekDays, dia), hora,horario.startingTime,horario.endingTime,dia, ambiente.id) ">
+                (drop)="drop($event, weekDayToInteger(weekDays, dia), hora,horario.startingTime,horario.endingTime,dia, ambiente.id,horario.id) ">
                 
                 <div id="franja" *ngFor="let horario of horariosAmbienteColor; ">
                   <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
@@ -36,27 +36,17 @@
                       </div>
                       <div class="margin-10px-top font-size14"><strong><span>Curso:{{horario.course.courseGroup}}</span>
                         </strong> </div>
-                      <button class="eliminar-btn"
-                        (click)="confirmRemoveMateriaa(weekDayToInteger(weekDays, dia), hora,horario.id)">
-                        <i class="fas fa-trash"></i>
-                      </button>
+                        <button class="eliminar-btn" (click)="confirmRemoveMateriaa(weekDayToInteger(weekDays, dia), hora, horario.id)">
+                          <i class="fas fa-trash"></i>
+                        </button>
+                        
 
 
                     </div>
                   </div>
                 </div>
 
-                <div *ngFor="let materia of getMaterias(weekDayToInteger(weekDays, dia), hora); let i = index">
-                  <div class="materia-container">
-                    <div class="materia">{{ materia }}</div>
-                    <button class="eliminar-btn"
-                      (click)="confirmRemoveMateria(weekDayToInteger(weekDays, dia), hora, i)">
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
-
-                </div>
-
+                
 
               </td>
               <ng-template cTemplateId="accordionBody">
