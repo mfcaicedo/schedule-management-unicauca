@@ -15,6 +15,8 @@ import { PdfService } from 'src/app/views/reportes/pdf.service';
 
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
+import { ProgramBD } from 'src/app/models/ProgramBD.model';
+import { ColorProgramaDiccionarioService } from '../color-programa-diccionario.service';
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
@@ -66,6 +68,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
   columns:string[]=['Id','Nombre','Ubicacion','Tipo Ambiente','Seleccionar'];
   
   //listas
+  listasProgramas:ProgramBD[]=[];  //tiene el programa y color para enviar
   environmentTypes:string[]=[];   ///lista que contiene los tipos de ambientes definidos en el servicio y mostrados en los radios
   environmentType!: string ;      ///indica que no puede ser nulo
   listafacultades:Faculty[]=[];   ///lista que contiene las facultades que se llenan en el desplegable html
@@ -90,7 +93,8 @@ export class RoomComponent implements OnInit,AfterViewInit {
     private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
     private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
     private pdfService: PdfService,
-    protected calendaroptionsService: OptionsFullCalendarService
+    protected calendaroptionsService: OptionsFullCalendarService,
+    private coloresService:ColorProgramaDiccionarioService
   ){ 
     /*
     this.cambiarNombreVistaPreviaGenerar();// funcion constante ejecucion para ver si hay vistas previas
@@ -239,6 +243,7 @@ export class RoomComponent implements OnInit,AfterViewInit {
     }
   }
   GenerarReporte(){
+    this.listasProgramas=this.coloresService.getDiccionario();
     this.esquemas = [];
     this.listaTitulosReporte=[];
     this.seleccionados.forEach((id) => {

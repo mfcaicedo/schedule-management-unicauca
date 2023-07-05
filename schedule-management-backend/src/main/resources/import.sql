@@ -7,7 +7,7 @@ INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALU
 INSERT INTO `department` (`department_id`, `department_name`, `faculty_id`) VALUES ('3', 'Civil', 'FIC');
 --Program
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIS', 'INGENIERIA DE SISTEMAS', '1','bg-orange');
-INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-sky');
+INSERT INTO `program` (`program_id`, `name`, `department_id`, `color` ) VALUES ('PIET', 'INGENIERIA ELECTRONICA Y TELECOMUNICACIONES', '2','bg-pink');
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('PIAI', 'INGENIERIA AUMOTAMICA INDISTRIAL', '1','bg-green');
 INSERT INTO `program` (`program_id`, `name`, `department_id`, `color`) VALUES ('TTM', 'TECNOLOGIA EN TELEMATICA', '2','bg-purple');
 --Person
@@ -113,17 +113,6 @@ INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('TDG', 'Trabajo de Grado', '10', false, '4', 'PIS');
 
 --Grupo 1 subject
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('POO', 'Programacion Orientada a Objetos', '1', false, '2', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR1', 'Estructura de Datos', '2',false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ESTR2', 'Estructura de Datos 2', '2', false, '2', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('SISDIS', 'Sistemas Distribuidos', '4',false, '4', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('CALSOFT', 'Calidad de Software', '6', false, '2', 'PIS');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('INTRO1', 'Introduccion programacion', '1',false, '4', 'PIS');
-
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD1', 'Bases de datos 1', '1', false, '2', 'TTM');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('BD2', 'Bases de datos 2', '1',false, '4', 'TTM');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('LEGIS', 'Legislacion Laboral', '2', false, '2', 'TTM');
-INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('ARQUITE', 'Arquitectura', '2',false, '4', 'TTM');
 
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1003A','Algebra Lineal', '1',false, '4', 'PIET');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1004A','Cálculo Diferencial', '1',false, '4', 'PIET');
@@ -134,9 +123,6 @@ INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1008A','Circuitos  de corriente Directa', '1',false, '4', 'PIAI');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1009A','Mecánica', '1',false, '4', 'PIAI');
 INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1010A','Programación Orientada a Objetos', '2',false, '4', 'PIAI');
-
-
-
 
 --Environment
 INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES (NULL, NULL, 'EDIFICIO', 'no aplica', 'IPET', 'FIET',NULL);
@@ -236,29 +222,6 @@ INSERT INTO course (course_id, course_capacity,course_group,type_environment_req
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('101', '25', 'A', 'descripcion ', '4', 'LEG');
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('102', '25', 'A', 'descripcion ', '4', 'TDG');
 
---Curso de grupo 1
---resource course sistemas
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('1', '25', 'B', ,"4",'LABORATORIO ','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('2', '13', 'A',"4",'LABORATORIO','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('3', '20', 'B',"4",'asd','ESTR1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('4', '20', 'B',"4",'asd','ESTR2');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('5', '20', 'B',"4",'asd','SISDIS');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('6', '20', 'B',"4",'asd','CALSOFT');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('10', '13', 'A',"4",'SALON','INTRO1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('11', '13', 'B',"4",'SALON','INTRO1');
---resource course electronica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('13', '20', 'B',"4",'LABORATORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('14', '20', 'A',"4",'AUDITORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('15', '20', 'C',"4",'AUDITORIO','1003A');
---resource course automatica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('16', '20', 'B',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('17', '20', 'A',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('18', '20', 'C',"4",'asd','1009A');
---resource course telematica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A',"4",'asd','BD1');
-
 
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_SCHEDULE_MANAGER');
@@ -270,8 +233,6 @@ INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_nam
 
 --horario
 
---resource event
-INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `program_id`, `person_code`)VALUES ('2', 'conferencia', 'conferencia', 'conferenciado', 'CONFERENCIA', 'PIS', '1061');
 --resource Schedule SALON 101(COD:9)
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'LUNES', '2023-05-18 11:00:18', '09:00:18', b'0', '2023-05-16 10:19:18', '07:00:18', '11', '9', NULL);
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES  (NULL, 'LUNES', '2023-05-18 11:00:18', '11:00:18', b'0', '2023-05-16 10:19:18', '09:00:18', '20', '9', NULL);

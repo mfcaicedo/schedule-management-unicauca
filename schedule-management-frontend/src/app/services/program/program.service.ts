@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, throwError } from 'rxjs';
+import { ProgramBD } from 'src/app/models/ProgramBD.model';
 import { Program } from 'src/app/models/program.model';
-import { program } from 'src/program/program';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -56,6 +56,19 @@ export class ProgramService {
       map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
       catchError((e) => {
         console.log('Error obteniendo programas por Facultad', e.error.mensaje, 'error');
+        return throwError(e);
+      })
+    );
+  }
+  /**
+   * obtiene todos los programas, a diferencia de get all programs los obtiene de un Data de la respesta del data
+   */
+  getPrograms(): Observable<ProgramBD[]> {
+    //alert("ruta "+(this.endPoint+"/consultarProgramas/"))
+    return this.http.get<any>(this.endPoint+"/consultarProgramas/").pipe(
+      map((response: any) => response.data), // Proporcionar un tipo explícito para 'response'
+      catchError((e) => {
+        //console.log('Error obteniendo programas por Facultad', e.error.mensaje, 'error');
         return throwError(e);
       })
     );
