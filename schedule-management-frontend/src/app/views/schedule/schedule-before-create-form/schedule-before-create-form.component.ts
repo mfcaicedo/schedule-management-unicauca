@@ -168,6 +168,23 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
     this.selectedSemester = Number((event.target as HTMLOptionElement).value);
     this.progress.emit(this.sumProgres);
     this.semestre.emit(this.selectedSemester);
-    this.ngOnInit();
+    console.log('Semestre ', this.selectedSemester);
+    if (this.selectedSemester == 10) {
+      if (
+        confirm(
+          'El Semestre que usted eligio fue el 10 (Decimo) semestre. Si continua la creacion de horario para este programa finalizara, ¿Desea continuar?'
+        )
+      ) {
+        this.ofertaService
+          .updateStateFile(this.archivoId, 'Finalizado')
+          .subscribe((resp) => {
+            console.log('Archivo actualizado', resp);
+          });
+      } else {
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    }
   }
 }
