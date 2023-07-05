@@ -43,7 +43,11 @@
         [disabled]="aoFileEnProceso.length > 0"
       >
         <option value="">Escoge un programa</option>
-        <option *ngFor="let oferta of aoFileSinIniciar" value="{{ oferta.id }}">
+        <option
+          *ngFor="let oferta of auxAoFileSinIniciar; let i = index"
+          [value]="oferta.id"
+          [disabled]="i !== 0"
+        >
           {{ oferta.program.name }}
         </option>
       </select>

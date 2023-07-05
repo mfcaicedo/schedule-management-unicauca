@@ -41,6 +41,7 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
   aoFileSinIniciar: academicOferFile[] = [];
   aoFileEnProceso: academicOferFile[] = [];
   aoFilebyState!: academicOferFile;
+  auxAoFileSinIniciar!: academicOferFile[];
   archivoId!: number;
   programId!: string;
 
@@ -61,7 +62,7 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
       //console.log("response ",response)
 
       this.aoFileEnProceso = response.data as academicOferFile[];
-      this.aoFileEnProceso.reverse();
+
       console.log('En Proceso', this.aoFileEnProceso);
     });
 
@@ -69,7 +70,7 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
       //console.log("response ",response)
 
       this.aoFileSinIniciar = response.data as academicOferFile[];
-      this.aoFileSinIniciar.reverse();
+      this.auxAoFileSinIniciar = [...this.aoFileSinIniciar];
       console.log('Sin Iniciar', this.aoFileSinIniciar);
     });
   }
@@ -110,6 +111,12 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
         .subscribe((resp) => {
           console.log('Archivo actualizado', resp);
         });
+
+      alert(
+        '  El Programa  : ' +
+          this.aoFileSinIniciar[0].program.name +
+          ' ha sido seleccionado y cambio su estado a " EN PROCESO " puede continuar con el proceso de creacion de horarios'
+      );
     }
 
     this.programService.getProgramById(this.programId).subscribe((resp) => {
@@ -119,6 +126,9 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
       this.programa.emit(this.selectedProgram);
       this.progress.emit(this.sumProgres);
     });
+
+    this.aoFileSinIniciar.shift();
+    console.log(this.aoFileSinIniciar);
   }
 
   //Crear Funcion para guardar el id del archivo en proceso
@@ -158,5 +168,6 @@ export class ScheduleBeforeCreateFormComponent implements OnInit {
     this.selectedSemester = Number((event.target as HTMLOptionElement).value);
     this.progress.emit(this.sumProgres);
     this.semestre.emit(this.selectedSemester);
+    this.ngOnInit();
   }
 }
