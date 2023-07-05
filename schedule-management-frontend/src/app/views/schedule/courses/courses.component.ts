@@ -102,24 +102,12 @@ dragStart(event: DragEvent, course: Course) {
   this.isCheckboxDisabled = true;
   this.showSelectedCourse = true;
 
-  window.addEventListener('wheel', this.onMouseWheel, { passive: false });
+  
 }
 
-onMouseWheel = (event: WheelEvent) => {
-  event.preventDefault();
 
-  if (event.deltaY < 0) {
-    // Rueda hacia arriba
-    window.scrollBy({ top: -100, behavior: 'smooth' }); // Ajusta el valor de desplazamiento según tus necesidades
-  } else {
-    // Rueda hacia abajo
-    window.scrollBy({ top: 100, behavior: 'smooth' }); // Ajusta el valor de desplazamiento según tus necesidades
-  }
-}
 
-dragEnd() {
-  window.removeEventListener('wheel', this.onMouseWheel);
-}
+
 
   
   
