@@ -82,22 +82,17 @@ export class ScheduleViewComponent implements AfterViewInit {
     
   this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
     this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
-    console.log("ESTE ES EL RESPONSE DEL BOBO HPTA DE DANIEL",response);
-    
 
-
-      
-   
     });
   }
   
 
   ngOnInit() {
-
+    this.cdr.detectChanges();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-
+    
   }
 
   getShowHorario(value: boolean) {
@@ -190,9 +185,7 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.scheduleCreated.emit(scheduleCreated)
     console.log("EL ID DEL HORARIO ES", this.horarioId);
     
-    setTimeout(() => {
-      window.location.reload();
-    }, 2000);
+    
   }
 
 
@@ -226,71 +219,6 @@ export class ScheduleViewComponent implements AfterViewInit {
   }
 
 
-  removeMateria(day: number, hour: string, index: number) {
-    const previousHour = this.getPreviousHour(hour);
-    const nextHour = this.getNextHour(hour);
-    const removedMateria = this.horario[hour][day].splice(index, 1)[0]; // Eliminar el elemento de la franja horaria actual
-    let scheduleresponse: Schedule;
-    // Buscar el índice del elemento correspondiente en la franja horaria siguiente
-    const nextHourIndex = this.horario[nextHour][day].indexOf(removedMateria);
-
-    if (nextHourIndex !== -1) {
-      // Si se encuentra el elemento en la franja horaria siguiente, eliminarlo
-      this.horario[nextHour][day].splice(nextHourIndex, 1);
-      console.log("el ideee es: ", this.horarioId);
-      this.scheduleService.deleteSchedule(this.horarioId).subscribe(
-        response => {
-          if (response != null) {
-            scheduleresponse = response as Schedule;
-
-            Swal.fire(`Franja eliminada`,
-              `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\nha sido eliminada exitosamente`, 'success');
-            // this.router.navigate(['//schedule/detail']);
-          }
-        },
-        err => {
-          Swal.fire(`Error: ${err.message}`,
-            `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\n`, 'warning');
-          this.router.navigate(['//schedule/detail']);
-        }
-      );
-    }
-
-    // Buscar el índice del elemento correspondiente en la franja horaria anterior
-    const previousHourIndex = this.horario[previousHour][day].indexOf(removedMateria);
-
-    if (previousHourIndex !== -1) {
-      // Si se encuentra el elemento en la franja horaria anterior, eliminarlo
-      this.horario[previousHour][day].splice(previousHourIndex, 1);
-
-
-      console.log("el ideee es: ", this.horarioId);
-
-      this.scheduleService.deleteSchedule(this.horarioId).subscribe(
-        response => {
-          if (response != null) {
-            scheduleresponse = response as Schedule;
-
-            Swal.fire(`Franja eliminada`,
-              `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\nha sido eliminada exitosamente`, 'success');
-            // this.router.navigate(['//schedule/detail']);
-          }
-        },
-        err => {
-          Swal.fire(`Error: ${err.message}`,
-            `La franja: ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\nCurso: ${scheduleresponse.course.courseId}\n`, 'warning');
-          this.router.navigate(['//schedule/detail']);
-        }
-      );
-    }
-  }
-
-  confirmRemoveMateria(day: number, hour: string, index: number): void {
-    if (window.confirm("¿Estás seguro de que deseas eliminar este curso?")) {
-      this.removeMateria(day, hour, index);
-    }
-
-  }
 
   confirmRemoveMateriaa(day: number, hour: string, id: number): void {
     const confirmationTitle = "Eliminar curso";
@@ -308,7 +236,8 @@ export class ScheduleViewComponent implements AfterViewInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.removeMateriaa(day, hour, id);
-        window.location.reload();
+        //window.location.reload();
+        this.horariosAmbienteColor = this.horariosAmbienteColor.filter(horario => horario.id !== id);
       }
     });
   }

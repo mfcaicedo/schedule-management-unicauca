@@ -1,32 +1,70 @@
-#btnChangeSelection{
+.accordion {
+  position: relative;
+  width: 100%;
+  transition: width 0.3s;
+}
+
+.accordion.closed {
+  width: 40px;
+}
+
+.accordion-button {
+  background-color: #f1f1f1;
+  border: none;
+  color: #333;
+  cursor: pointer;
+  padding: 10px;
+  text-align: left;
+  width: 100%;
+}
+
+.accordion-content {
+  background-color: #fff;
+  visibility: hidden; /* Cambio: ocultar el contenido */
+  padding: 10px;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 999;
+   /* Nuevas propiedades para ajustar el área expandida */
+   width: calc(100%); /* Aumenta el ancho en 20px */
+   /* Desplaza 10px hacia la izquierda */
+}
+
+.accordion:hover {
+  width: 100%;
+}
+
+.accordion:hover .accordion-content {
+  visibility: visible; /* Cambio: mostrar el contenido al pasar el cursor */
+}
+
+#btnChangeSelection {
   float: right;
 }
+
 label {
   float: left;
 }
 
-.container{
-    display: grid;
-    grid-template-columns: 1fr auto;
+.container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  position: relative;
 }
 
 .grid-container {
   display: grid;
-  // grid-template-columns: auto auto auto auto;
-  grid-template-columns: repeat(auto-fit,minmax(300px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 10px;
-  //background-color: #2196F3;
-  padding: 10px;
 }
 
 .grid-container > div {
-  // background-color: rgba(255, 255, 255, 0.8);
-  // border: 1px solid black;
   text-align: center;
-  // font-size: 30px;
 }
+
 @media (max-width: 800px) {
   .grid-container {
-  grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
   }
 }

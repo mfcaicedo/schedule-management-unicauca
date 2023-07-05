@@ -3,7 +3,8 @@ import { timeStamp } from 'console';
 import {Course} from 'src/app/models/course.model'
 import { Program } from 'src/app/models/program.model';
 import {CourseService} from 'src/app/services/course/course.service'
-
+import {  Renderer2 } from '@angular/core';
+import { interval } from 'rxjs';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
@@ -30,11 +31,21 @@ export class CoursesComponent implements OnInit{
   @ViewChildren("checkboxes") checkboxes!: QueryList<ElementRef>;
   constructor(
     private courseService: CourseService,
+    private renderer: Renderer2,
   ){
 
   }
   ngOnInit(): void {
+    this.selectedCourse.subscribe(() => {
+      this.loadTableCourses([1, 5]);
+    });
 
+    
+  
+    interval(1000) // Cambia el valor para ajustar el intervalo de tiempo (en milisegundos)
+      .subscribe(() => {
+        this.loadTableCourses([1, 5]);
+      });
     // Traer los cursos del programa y semestre seleccionados
     //this.courses= this.courseService.getAllCoursesFromProgramAndSemester(this.program.id,this.semester)
     this.loadTableCourses([1,5])
@@ -52,16 +63,66 @@ export class CoursesComponent implements OnInit{
     }
 
   }
-  dragStart(event: DragEvent, course: Course) {
-    const courseData = `${course.courseId} ${course.subject.subjectCode} ${course.courseGroup}`;
-    event.dataTransfer?.setData('application/json', JSON.stringify(courseData));
-    console.log("El curso id es = ", courseData);
-    this.curso = course;
-    this.selectedCourse.emit(course);
-    this.isCourseSelected = true;
-    this.isCheckboxDisabled = true;
-    this.showSelectedCourse = true;
+  private isDragOverTop = false;
+private readonly SCROLL_THRESHOLD = 200; // Umbral de desplazamiento ajustable
+
+onDragEnter(event: DragEvent) {
+  event.preventDefault();
+
+  const mouseY = event.clientY;
+
+  this.isDragOverTop = mouseY < this.SCROLL_THRESHOLD;
+}
+
+onDragLeave() {
+  this.isDragOverTop = false;
+}
+
+dragStart(event: DragEvent, course: Course) {
+  const courseElement = event.target as HTMLElement;
+  const courseOffsetTop = courseElement.offsetTop;
+
+  let pageOffsetTop = 0;
+  if (this.isDragOverTop) {
+    pageOffsetTop = courseOffsetTop - this.SCROLL_THRESHOLD;
   }
+
+  this.renderer.setProperty(window, 'scrollTo', {
+    left: 0,
+    top: pageOffsetTop,
+    behavior: 'smooth'
+  });
+
+  const courseData = `${course.courseId} ${course.subject.subjectCode} ${course.courseGroup}`;
+  event.dataTransfer?.setData('application/json', JSON.stringify(courseData));
+
+  this.curso = course;
+  this.selectedCourse.emit(course);
+  this.isCourseSelected = true;
+  this.isCheckboxDisabled = true;
+  this.showSelectedCourse = true;
+
+  window.addEventListener('wheel', this.onMouseWheel, { passive: false });
+}
+
+onMouseWheel = (event: WheelEvent) => {
+  event.preventDefault();
+
+  if (event.deltaY < 0) {
+    // Rueda hacia arriba
+    window.scrollBy({ top: -100, behavior: 'smooth' }); // Ajusta el valor de desplazamiento según tus necesidades
+  } else {
+    // Rueda hacia abajo
+    window.scrollBy({ top: 100, behavior: 'smooth' }); // Ajusta el valor de desplazamiento según tus necesidades
+  }
+}
+
+dragEnd() {
+  window.removeEventListener('wheel', this.onMouseWheel);
+}
+
+  
+  
   
   selectCourse(course: Course) {
     const courseData = `${course.courseId} ${course.subject.subjectCode} ${course.courseGroup}`;
