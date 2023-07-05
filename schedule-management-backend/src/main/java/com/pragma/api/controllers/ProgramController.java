@@ -41,4 +41,10 @@ public class ProgramController {
         return this.iProgramService.findAllProgramByFacultyId(id);
     }
 
+    //Metodo para obtener todos los programas para ser listados
+    @GetMapping("/consultarProgramas/")
+    public Response<List<ProgramDTO>> consultarTodosProgramas() {
+        return this.iProgramService.findAllProgramNameColor();
+    }
+
 }

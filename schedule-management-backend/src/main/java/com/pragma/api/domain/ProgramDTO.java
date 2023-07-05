@@ -15,6 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class ProgramDTO {
 
     private String programId;
+    private String color;
 
     @NonNull
     @NotBlank
@@ -26,5 +27,6 @@ public class ProgramDTO {
         this.programId=programId;
         this.name=name;
     }
+    
 
 }

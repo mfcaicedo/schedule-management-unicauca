@@ -15,4 +15,7 @@ public interface IProgramService {
     
     public Response<List<ProgramDTO>> findAllByDepartmentId(String department_id);
 
+    //Metodo para consultar todos los programas, nombre y color
+    public Response<List<ProgramDTO>> findAllProgramNameColor();
+
 }
