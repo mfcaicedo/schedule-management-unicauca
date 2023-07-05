@@ -11,6 +11,7 @@ import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-for
 import Swal from 'sweetalert2';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { EnvironmentService } from 'src/app/services/environment/environment.service';
+import { interval } from 'rxjs';
 
 
 @Component({
@@ -84,11 +85,15 @@ export class ScheduleViewComponent implements AfterViewInit {
     this.horariosAmbienteColor = Object.values(response) as ScheduleColor[];
 
     });
+   
   }
   
 
   ngOnInit() {
-    this.cdr.detectChanges();
+    interval(1000) // Cambia el valor para ajustar el intervalo de tiempo (en milisegundos)
+      .subscribe(() => {
+        this.ngAfterViewInit();
+      });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -134,7 +139,7 @@ export class ScheduleViewComponent implements AfterViewInit {
     event.preventDefault();
   }
 
-  drop(event: any, day: number, hour: string, inicial: string, final: string, dia: string, environmentId: number) {
+  drop(event: any, day: number, hour: string, inicial: string, final: string, dia: string, environmentId: number,id: number) {
     event.preventDefault();
     const materia = event.dataTransfer.getData("application/json");
     const courseIdCaracter = (materia.split(" ")[0]);
@@ -174,7 +179,7 @@ export class ScheduleViewComponent implements AfterViewInit {
       this.horasDia.splice(index, 2); // Eliminar dos elementos consecutivos
 
     }
-
+    
     let scheduleCreated: ScheduleDTO = { id: 0, day: '', startingTime: '', endingTime: '', courseId: 0, environmentId: 0 };
     scheduleCreated.day = dia.toUpperCase()
     scheduleCreated.startingTime = hour
