@@ -1,15 +1,16 @@
-import {Period} from './period.model'
-import {Subject} from './subject.model'
-import {Person} from './person.model';
-export interface Course{
+import { Period } from './period.model'
+import { Subject } from './subject.model'
+import { Person } from './person.model';
+export interface Course {
 
   courseId: number;
-  courseGroup:string;
-  courseCapacity:number;
-  periodId:string;
-  subjectCode:string;
-  personCode:string;
-  remainingHours:number;
+  courseGroup: string;
+  courseCapacity: number;
+  periodId: string;
+  subject: Subject;
+  personCode: string;
+  remainingHours: number;
+  typeEnvironmentRequired: string;
   // period:Period;
   // subject:Subject;
   // person:Person;

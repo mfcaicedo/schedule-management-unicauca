@@ -74,6 +74,7 @@ export class TeacherService {
 
   findAllByDepartmetName(deparmentId: string, type: string, page: number, pageSize: number): Observable<any> {
     //TODO agregar autorizacion
+    
     return this.http.get<any>(
       this.endPoint + '/byDepartmetId' + `?page=${page - 1}&size=${pageSize}&sort=personCode&order=ASC&departmentId=${deparmentId}&personType=${type}`)
       .pipe(

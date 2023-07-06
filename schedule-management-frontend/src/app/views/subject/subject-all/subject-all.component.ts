@@ -40,7 +40,7 @@ export class SubjectAllComponent implements OnInit {
 
     this.SubjectService.getAllPrograms().subscribe(response =>{
       this.programs = response as Program[]
-      this.programs.unshift({programId:'TODOS',name:'TODOS',department_id:''})
+      this.programs.unshift({programId:'TODOS',name:'TODOS',department_id:'',color:''})
     });
 
     this.totalItems = 1
@@ -74,6 +74,9 @@ export class SubjectAllComponent implements OnInit {
     }else{
       this.SubjectService.getSubjectsByProgramId(this.program_id,pageSolicitud,pageSize).subscribe(response =>{
         this.subjects = response.elements as Subject[];
+        console.log("subjest",response);
+        console.log("subjest",this.subjects);
+
         this.totalItems = response.pagination.totalNumberElements as number
         this.paginadorResource = response;
         this.totalNumberPage = response.pagination.totalNumberPage as number

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Environment } from 'src/app/models/environment.model';
+import { Subject } from 'src/app/models/subject.model';
 import { Schedule, ScheduleDTO } from 'src/app/models/schedule.model';
 import { ScheduleService } from 'src/app/services/schedule/schedule.service';
 import Swal from 'sweetalert2';
@@ -11,19 +12,19 @@ import { Router } from '@angular/router';
 })
 export class ScheduleDetailComponent {
 
-  showScheduleView:boolean=false;
-  ambiente!:Environment;
-  isEnvironmentSelected : boolean = false
-  takenEnvironmentSchedules:Schedule[]=[];
-  takenProfessorSchedules:Schedule[]=[];
-  showBtnAccion=false
-  updateIsSelected:boolean=false
-  scheduleSelected:Schedule   =  {
-    id:0,
-    day:'',
-    startingTime:'',
-    endingTime:'',
-    course:{'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0},
+  showScheduleView: boolean = false;
+  ambiente!: Environment;
+  isEnvironmentSelected: boolean = false
+  takenEnvironmentSchedules: Schedule[] = [];
+  takenProfessorSchedules: Schedule[] = [];
+  showBtnAccion = false
+  updateIsSelected: boolean = false
+  scheduleSelected: Schedule = {
+    id: 0,
+    day: '',
+    startingTime: '',
+    endingTime: '',
+    course: { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subject': {} as Subject, 'personCode': '', 'remainingHours': 0, 'typeEnvironmentRequired': '' },
     environment: {
       id: 0,
       name: '',
@@ -34,72 +35,72 @@ export class ScheduleDetailComponent {
       availableResources: []
     }
   }
-  scheduleSelectedUpdate !:Schedule;
+  scheduleSelectedUpdate !: Schedule;
   constructor(
 
-    private scheduleService:ScheduleService,
+    private scheduleService: ScheduleService,
     private router: Router
 
 
-  ){
+  ) {
 
   }
-  ngOnInit(){
-    this.showBtnAccion=false
+  ngOnInit() {
+    this.showBtnAccion = false
   }
-  getSelectedEnvironment(environment:Environment | null){
-    if(environment != null){
-      this.ambiente=environment
-      console.log("ambiente seleccionaod ",this.ambiente)
+  getSelectedEnvironment(environment: Environment | null) {
+    if (environment != null) {
+      this.ambiente = environment
+      console.log("ambiente seleccionaod ", this.ambiente)
       // consumir servicio que trae el horario ocupado del amibiente
       this.fillTakenEnvironmentSchedule()
-      this.isEnvironmentSelected=false
+      this.isEnvironmentSelected = false
 
 
-    }else{
+    } else {
 
-      this.isEnvironmentSelected=false
-      this.showBtnAccion=false
+      this.isEnvironmentSelected = false
+      this.showBtnAccion = false
       //limpiar horario ocupado del ambiente
-      this.takenEnvironmentSchedules=[]
+      this.takenEnvironmentSchedules = []
     }
 
   }
-  getSelectedSchedule(schedule:Schedule | null ){
-    if(schedule != null){
-      this.scheduleSelected=schedule;
-      console.log("schedule seleccionaod ",this.scheduleSelected)
-      this.showBtnAccion=true
+  getSelectedSchedule(schedule: Schedule | null) {
+    if (schedule != null) {
+      this.scheduleSelected = schedule;
+      console.log("schedule seleccionaod ", this.scheduleSelected)
+      this.showBtnAccion = true
       // this.fillTakenProfessorSchedule(this.scheduleSelected.course.personCode);
-    }else{
+    } else {
 
-      this.showBtnAccion=false
+      this.showBtnAccion = false
 
     }
   }
-  getSelectedUpdateSchedule(schedule:Schedule | null ){
-    if(schedule != null){
+  getSelectedUpdateSchedule(schedule: Schedule | null) {
+    if (schedule != null) {
 
-      this.scheduleSelectedUpdate=schedule;
-      this.scheduleSelectedUpdate.course=this.scheduleSelected.course
-      this.scheduleSelectedUpdate.id=this.scheduleSelected.id
-      this.scheduleSelectedUpdate.environment=this.ambiente
-      console.log("Updated schedule es ",schedule)
-      this.showBtnAccion=true
+      this.scheduleSelectedUpdate = schedule;
+      this.scheduleSelectedUpdate.course = this.scheduleSelected.course
+      this.scheduleSelectedUpdate.id = this.scheduleSelected.id
+      this.scheduleSelectedUpdate.environment = this.ambiente
+      console.log("Updated schedule es ", schedule)
+      this.showBtnAccion = true
       // this.fillTakenProfessorSchedule(this.scheduleSelectedUpdate.course.personCode);
-    }else{
+    } else {
 
-      this.showBtnAccion=false
+      this.showBtnAccion = false
 
     }
   }
-  getIfEnvironmentSelected(value:boolean){
-    this.isEnvironmentSelected=value
+  getIfEnvironmentSelected(value: boolean) {
+    this.isEnvironmentSelected = value
   }
-  onUpdateSchedule(){
-    this.updateIsSelected=true
+  onUpdateSchedule() {
+    this.updateIsSelected = true
 
-   this.router.navigate([ `/schedule/update/${this.ambiente.id}/${this.scheduleSelected.id}`]);
+    this.router.navigate([`/schedule/update/${this.ambiente.id}/${this.scheduleSelected.id}`]);
   }
   // onClickUpdateSchedule(){
   //   let scheduleresponse:Schedule;
@@ -114,13 +115,13 @@ export class ScheduleDetailComponent {
   //     }
   //   })
   // }
-  onDeleteSchedule(){
-    this.scheduleService.deleteSchedule(this.scheduleSelected.id).subscribe(response=>{
-      if(response.status==500){
+  onDeleteSchedule() {
+    this.scheduleService.deleteSchedule(this.scheduleSelected.id).subscribe(response => {
+      if (response.status == 500) {
 
-      }else if(response){
+      } else if (response) {
         Swal.fire('Franja Eliminada',
-        `La franja : fue eliminada exitosamente`, 'success');
+          `La franja : fue eliminada exitosamente`, 'success');
         this.router.navigate(['/schedule/create']);
       }
     })
@@ -146,12 +147,12 @@ export class ScheduleDetailComponent {
 
   //     });
   // }
-  fillTakenEnvironmentSchedule(){
+  fillTakenEnvironmentSchedule() {
     // console.log("En fill Taken de detail ")
-    this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) =>{
+    this.scheduleService.getTakenEnvironmentSchedule(this.ambiente.id).subscribe((response) => {
       // console.log("Response de taken Envi  " ,response)
       this.takenEnvironmentSchedules = response as Schedule[]
 
-     });
+    });
   }
 }

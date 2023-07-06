@@ -82,7 +82,7 @@ export class SubjectService {
   getAllSubjectsPage(page:number, pageSize:number):Observable<any>{
     console.log("llegan page y size ",page, " ", pageSize)
 
-    return this.http.get<any>(this.endPoint + '/allSubject' + `?page=${page-1}&size=${pageSize}&sort=subjectCode&order=asc`).pipe(
+    return this.http.get<any>(this.endPoint + '/allSubject' + `?page=${page-1}&size=${pageSize}&sort=subjectCode&order=ASC`).pipe(
       catchError((e) => {
 
         console.log('Error obteniendo todas las Asignaturas', e.error.mensaje, 'error');
@@ -100,6 +100,7 @@ export class SubjectService {
    * @returns Observable con la respuesta del servicio
    */
   getSubjectsByProgramId(programId:string,page:number, pageSize:number):Observable<any>{
+    console.log("llega al metodo buscar por programa ", programId);
     return this.http.get<any>(this.endPoint+'/byProgramId'+`?programId=${programId}&page=${page-1}&size=${pageSize}&sort=subjectCode&order=ASC`).pipe(
       catchError((e) => {
         console.log('Error obteniendo todas las asignaturas por programa', e.error.mensaje, 'error');

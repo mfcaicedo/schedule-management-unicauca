@@ -4,8 +4,29 @@
 label {
   float: left;
 }
-
 .container{
     display: grid;
     grid-template-columns: 1fr auto;
+}
+
+.materias {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 20px;
+}
+.materia-box {
+  padding: 10px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  margin-bottom: 2px;
+  cursor: move;
+  white-space: nowrap;
+  
+  text-overflow: ellipsis;
+  max-width: 200px;
+}
+.materias-container {
+  height: 200px; /* Ajusta la altura según tus necesidades */
+  overflow-y: scroll;
 }

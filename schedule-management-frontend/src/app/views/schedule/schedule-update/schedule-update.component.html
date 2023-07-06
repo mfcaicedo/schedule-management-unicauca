@@ -1,22 +1,22 @@
 <div class="grid-container">
-<!--
+  <!--
   Mostrar información del ambiente seleccionado
  -->
 
   <c-accordion [alwaysOpen]="true" class="shadow accordion-custom rounded-2">
-    <c-accordion-item [visible]="true" >
+    <c-accordion-item [visible]="true">
       <ng-template cTemplateId="accordionHeader">
         Ambiente seleccionado
       </ng-template>
       <ng-template cTemplateId="accordionBody" class="centered">
         <div class="centered">
-        <h5 cCardSubtitle class="mb-2 text-medium-emphasis">{{environment.id}}</h5>
-        <p cCardText >
-           {{environment.name}}  <br>
-           {{environment.capacity}} <br>
-           {{environment.environmentType}}
-        </p>
-      </div>
+          <h5 cCardSubtitle class="mb-2 text-medium-emphasis">{{environment.id}}</h5>
+          <p cCardText>
+            {{environment.name}} <br>
+            {{environment.capacity}} <br>
+            {{environment.environmentType}}
+          </p>
+        </div>
       </ng-template>
     </c-accordion-item>
 
@@ -27,37 +27,34 @@
       <ng-template cTemplateId="accordionBody">
         <div class="centered">
           <h5 cCardSubtitle class="mb-2 text-medium-emphasis">{{schedule.id}}</h5>
-          <p cCardText >
-            {{schedule.course.subjectCode }} | {{schedule.course.courseGroup}} <br>
+          <p cCardText>
+            {{schedule.course.subject.subjectCode }} | {{schedule.course.courseGroup}} <br>
             {{schedule.startingTime}} - {{schedule.endingTime}}
           </p>
 
-      </div>
+        </div>
       </ng-template>
     </c-accordion-item>
 
-    <div  *ngIf="showAvailable">
+    <div *ngIf="showAvailable">
 
-        <app-schedule-time-all
-          [takenEnvironmentSchedule]="takenEnvironmentSchedules"
-          [takenProfessorSchedule]="takenProfessorSchedules"
-          (selectedSchedule)="getSelectedUpdateSchedule($event)"
-        ></app-schedule-time-all>
+      <app-schedule-time-all [takenEnvironmentSchedule]="takenEnvironmentSchedules"
+        [takenProfessorSchedule]="takenProfessorSchedules"
+        (selectedSchedule)="getSelectedUpdateSchedule($event)"></app-schedule-time-all>
 
-        <div class="cont d-grid gap-2 col-6 mx-auto" >
-          <button *ngIf="updateIsSelected" cButton class="boton"  color="warning" size="lg" (click)="onClickUpdateSchedule()" >
-            Actualizar
-          </button>
-        </div>
+      <div class="cont d-grid gap-2 col-6 mx-auto">
+        <button *ngIf="updateIsSelected" cButton class="boton" color="warning" size="lg"
+          (click)="onClickUpdateSchedule()">
+          Actualizar
+        </button>
+      </div>
 
     </div>
   </c-accordion>
 
 
   <div class="elemnt" *ngIf="showAvailable">
-    <app-schedule-view
-          [ambiente]="environment"
-    ></app-schedule-view>
+    <app-schedule-view [ambiente]="environment"></app-schedule-view>
   </div>
 </div>
 <!--
@@ -65,7 +62,7 @@
   Llamar al horario seleccionado y mostrar su infomación
  -->
 
- <!--
+<!--
   Llamar a horarios disponibles para hacer la actualización
   -->
 <!--

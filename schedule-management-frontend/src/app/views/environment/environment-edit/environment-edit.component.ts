@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { Environment } from 'src/app/models/environment.model';
 import { Resource } from 'src/app/models/resource.model';
@@ -16,6 +16,7 @@ export class EnvironmentEditComponent {
   updateEnvironment!: Environment;
   constructor(
     private route: ActivatedRoute,
+    private routeNav: Router,
     private environmentService: EnvironmentService
   ) { }
   show: boolean = false;
@@ -68,33 +69,38 @@ export class EnvironmentEditComponent {
     // return null;
     this.environmentService.updateEnvironment(this.updateEnvironment,id).subscribe(
       response => {
+        console.log("response", response);
         status = response.status
         if (response.status == 200) {
-
           this.updateEnvironment.id = response.data.id
           Swal.fire('Ambiente actualizado',
             `El ambiente : ${this.updateEnvironment.id.toString()} | ${this.updateEnvironment.facultyId} \nfue actualizado exitosamente`, 'success');
 
           this.isSent = true //enviar señal al formulario hijo de que puede limpiarse
           this.show = false
+          // navego hata lista de ambientes
+          // this.router.navigate(['/ambientes']);
+          if (status == 200) {
+            console.log("entraaa");
+            this.callingAddResourcesToEnvironment();
+          }
+          this.routeNav.navigate(['//environment/all']);
         }
 
       }
     );
-    if (status == 200) {
-      this.callingAddResourcesToEnvironment();
-    }
   }
   async callingAddResourcesToEnvironment() {
     const id: number = this.environmentParent.id
     //iterar por cada recurso que se agrego al add Resource llamar al metodo de on Add Resoruce por cada uno
-    this.environmentParent.availableResources.forEach(recurso => this.onAddResourceToEnvironment(recurso.id, id))
+    // this.environmentParent.availableResources.forEach(recurso => this.onAddResourceToEnvironment(recurso.id, id))
+    this.onAddResourceToEnvironment(this.environmentParent.availableResources,id);
 
   }
 
-  onAddResourceToEnvironment(resourceId: number, environmentId: number) {
-    console.log("Legan recursos para agregar ", resourceId, " envi ", environmentId)
-    this.environmentService.addResourceToEnvironment(resourceId, environmentId).subscribe(
+  onAddResourceToEnvironment(resource: Resource[], environmentId: number) {
+    console.log("Legan recursos para agregar ", resource, " envi ", environmentId)
+    this.environmentService.addResourceToEnvironment(resource, environmentId).subscribe(
       response => {
         console.log("Data", response)
       }

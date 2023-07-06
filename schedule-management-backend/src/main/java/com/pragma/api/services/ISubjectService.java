@@ -5,6 +5,7 @@ import com.pragma.api.domain.GenericPageableResponse;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.SubjectDTO;
 import com.pragma.api.model.Program;
+import com.pragma.api.model.Subject;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -59,4 +60,5 @@ public interface ISubjectService {
 
     public Response<List<SubjectDTO>> findAllSemesterByProgramId(String programId);
 
+    public List<Subject> findAllPrueba();
 }

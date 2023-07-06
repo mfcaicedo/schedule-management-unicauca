@@ -22,6 +22,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
+
       // return this.authService.user$
       // .pipe(
       //   map(user => {
@@ -40,6 +41,21 @@ export class AuthGuard implements CanActivate {
         return true
       }
       return false
+
+      // return this.authService.user$
+      // .pipe(
+      //   map(user => {
+      //     console.log(user)
+      //     if(!user) {
+      //        this.router.navigate(['login']);
+      //       //this.router.createUrlTree(['login'])
+      //       //Swal.fire("Acceso Denegado ", "No has iniciado sesión","error")
+      //       return false;
+      //     }
+      //     return true;
+      //   })
+      // )
+
   }
 
 }

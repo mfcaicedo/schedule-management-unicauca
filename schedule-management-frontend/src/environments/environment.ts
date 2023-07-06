@@ -8,9 +8,11 @@ export const environment = {
   urlRsc: 'http://localhost:8081/api/resource',
   urlCrs: 'http://localhost:8081/api/course',
   urlEnv: 'http://localhost:8081/api/environment',
+  // urlProg: 'http://localhost:8081/api/program',
   urlAuth: 'http://localhost:8081/api/auth',
   urlPassword: 'http://localhost:4200/api/emailPassword',
   urlProfile: 'http://localhost:4200/api/usercontroller',
+  urlScd: 'http://localhost:8081/api/schedule',
   urlAcadOffer: 'http://localhost:8081/api/academicOffer',
   urlPerson: 'http://localhost:8081/api/person',
   urlSub: 'http://localhost:8081/api/subject',
@@ -18,6 +20,10 @@ export const environment = {
   urlProgram: 'http://localhost:8081/api/program',
   urlDepartment: 'http://localhost:8081/api/department',
   urlFaculty: 'http://localhost:8081/api/faculty',
+  urlReserve : 'http://localhost:8081/api/environment/findEnviromentAvailability',
+  urlReserveInSchedule:'http://localhost:8081/api/event/EventToSchedule',
+  urlGetReserve:'http://localhost:8081/api/event/consultByPersonCode/'
+
 };
 
 /*

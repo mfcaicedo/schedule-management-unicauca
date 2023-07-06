@@ -8,6 +8,8 @@ import {AuthService} from 'src/app/services/auth/auth.service'
 
 import{emailValues} from'src/app/models/emailValues'
 import Swal from 'sweetalert2';
+import { title } from 'process';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -53,19 +55,37 @@ export class LoginComponent implements OnInit {
   enviarDatos(){
     // console.log("entra a enviar datos")
     this.buttontouched=true
+    console.log("object login ",this.formLogin.value);
     if(this.formLogin.valid){
+
       this.loginService.singin(this.formLogin.value).subscribe(response =>{
         console.log("Login exitoso!", response)
         //this.authService.saveToken(response.token)
         this.router.navigate(['dashboard'])
-      })
+      } 
+      ,error=>{
+        console.log("Error en login", error)
+        Swal.fire({
+          title: 'Error!', 
+          text: 'Usuario o contraseña incorrectos', 
+          icon: 'error', 
+          showConfirmButton:false, 
+          timer: 2000
+        }
+
+        )
+      }
+      )
+      
+    }else{
+      console.log("Formulario invalido")
     }
     return
   }
   getError(controlname:string){
     let control = this.formLogin.get(controlname)
-    if(control?.hasError("required")) return "campo obligatorio."
-    if(control?.hasError("username")) return "ingrese un correo valido."
+    if(control?.hasError("required")) return "Campo obligatorio."
+    if(control?.hasError("username")) return "Ingrese un correo valido."
     return ""
   }
 

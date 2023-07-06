@@ -75,13 +75,16 @@ export class EnvironmentDetailComponent implements OnInit {
     //llamar a recurso de save environment
   this.environmentService.saveEnvironment(this.environment).subscribe(
     response => {
-
       status=response.status
       if(response.status ==200){
-
         this.environment.id=response.data.id
         Swal.fire('Ambiente creado',
         `El ambiente : ${this.environment.id.toString()} | ${this.environment.facultyId} \nfue creado exitosamente`, 'success');
+        //Si es correcto guardo sus recursos
+        if(status == 200){
+          console.log("si entra al 200");
+          this.callingAddResourcesToEnvironment();
+        }
         this.router.navigate(['//environment/all']);
         this.isSent=true //enviar señal al formulario hijo de que puede limpiarse
         this.show=false
@@ -89,20 +92,21 @@ export class EnvironmentDetailComponent implements OnInit {
 
     }
     );
-    if(status ==200){
-      this.callingAddResourcesToEnvironment();
-    }
+   
   }
-  async callingAddResourcesToEnvironment(){
+  callingAddResourcesToEnvironment(){
+    console.log("callingAddResourcesToEnvironment");
     const id:number=this.environment.id
+    console.log("Legan recursos para agregar ",this.environment.availableResources, " envi ",id)
     //iterar por cada recurso que se agrego al add Resource llamar al metodo de on Add Resoruce por cada uno
-    this.environment.availableResources.forEach(recurso=> this.onAddResourceToEnvironment(recurso.id,id))
+    this.onAddResourceToEnvironment(this.environment.availableResources,id);
+    // this.environment.availableResources.forEach(recurso=> this.onAddResourceToEnvironment(recurso.id,id))
 
   }
 
-  onAddResourceToEnvironment(resourceId:number,environmentId:number){
+  onAddResourceToEnvironment(resource:Resource[],environmentId:number){
     // console.log("Legan recursos para agregar ",resourceId, " envi ",environmentId)
-    this.environmentService.addResourceToEnvironment(resourceId,environmentId).subscribe(
+    this.environmentService.addResourceToEnvironment(resource,environmentId).subscribe(
       response=> {
         console.log("Data",response)
       }

@@ -19,7 +19,7 @@ public class CourseDTO {
     /**
      * Id del curso
      */
-    private Integer id;
+    private Integer courseId;
 
     /**
      * Grupo del curso

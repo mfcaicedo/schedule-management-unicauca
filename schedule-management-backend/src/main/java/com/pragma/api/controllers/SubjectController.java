@@ -1,5 +1,6 @@
 package com.pragma.api.controllers;
 
+import com.pragma.api.model.Subject;
 import com.pragma.api.services.ISubjectService;
 import com.pragma.api.services.IFileSubjectService;
 import com.pragma.api.model.Program;
@@ -65,10 +66,15 @@ public class SubjectController {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
         return this.subjectBusiness.findAll(pageable);
     }
+    @GetMapping("/all")
+    private List<Subject> findAllPrueba() {
+        return this.subjectBusiness.findAllPrueba();
+    }
 
     @GetMapping("/allSubject")
     public ResponseEntity<GenericPageableResponse> getAllSubject(@RequestParam Integer page, @RequestParam Integer size, @RequestParam String sort, @RequestParam String order) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(order), sort));
+        System.out.println("Llega a allSubject " + page + " " + size + " " + sort + " " + order);
         return ResponseEntity.status(HttpStatus.OK).body(this.subjectBusiness.findAllSubject(pageable));
     }
 

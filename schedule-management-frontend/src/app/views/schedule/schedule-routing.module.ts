@@ -10,6 +10,7 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
 import { AdminGuard } from 'src/app/guards/admin.guard';
 import { ScheduleManagerGuard } from 'src/app/guards/schedule-manager.guard';
 
+import { ScheduleReserveConsultComponent } from './schedule-reserve-consult/schedule-reserve-consult.component';
 const routes: Routes = [
   {
     path: '',
@@ -45,6 +46,13 @@ const routes: Routes = [
         component: ScheduleReserveCreateComponent,
         data: {
           title: 'reserve'
+        }
+      },
+      {
+        path: 'consultreserve',
+        component: ScheduleReserveConsultComponent,
+        data: {
+          title: 'consultreserve'
         }
       },
       {
