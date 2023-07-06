@@ -4,14 +4,6 @@
   transition: width 0.3s;
 }
 
-.tamano {
-  width: 400px;
-}
-
-.tamano2 {
-  width: 195%;
-}
-
 .accordion.closed {
   width: 40px;
 }
@@ -28,13 +20,15 @@
 
 .accordion-content {
   background-color: #fff;
-  visibility: hidden;
+  visibility: hidden; /* Cambio: ocultar el contenido */
   padding: 10px;
   position: absolute;
   top: 100%;
   left: 0;
   z-index: 999;
-  width: calc(100%);
+   /* Nuevas propiedades para ajustar el área expandida */
+   width: calc(100%); /* Aumenta el ancho en 20px */
+   /* Desplaza 10px hacia la izquierda */
 }
 
 .accordion:hover {
@@ -42,7 +36,7 @@
 }
 
 .accordion:hover .accordion-content {
-  visibility: visible;
+  visibility: visible; /* Cambio: mostrar el contenido al pasar el cursor */
 }
 
 #btnChangeSelection {
@@ -61,8 +55,8 @@ label {
 
 .grid-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(50px, 0.35fr));
-  justify-content: start; /* Añadido: Pegar el contenido a la izquierda */
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 10px;
 }
 
 .grid-container > div {

@@ -1,3 +1,4 @@
+
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Course } from 'src/app/models/course.model';
