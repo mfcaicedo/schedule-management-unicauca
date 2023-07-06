@@ -1,45 +1,34 @@
-<c-accordion-item [visible]="true" >
+<c-accordion-item [visible]="true">
   <ng-template cTemplateId="accordionHeader">
-    <div *ngIf="!showSelectedEnvironment" >
+    <div *ngIf="!showSelectedEnvironment">
       <strong>Ambientes </strong>
     </div>
 
     <div class="container" *ngIf="showSelectedEnvironment">
-      <label  >
-        Ambiente seleccionado : <strong>{{ambiente.id}} <br></strong>
-        Capacidad :             <strong>{{ambiente.capacity}} </strong>
-
+      <label>
+        <strong>Ambiente seleccionado:</strong> {{ambiente.id}} <br>
+        <strong>Capacidad:</strong> {{ambiente.capacity}}
       </label>
-      <div md="5" *ngIf="isDisabled">
-        <button cButton id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeSelectedEnvironment()">
-          Cambiar selección
-        </button>
-      </div>
+      <button cButton id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeSelectedEnvironment()" *ngIf="isDisabled">
+        Cambiar selección
+      </button>
     </div>
   </ng-template>
 
   <ng-template cTemplateId="accordionBody">
     <c-row class="mb-3">
-
-      <!-- <label cLabel  >
-        Filtrar por tipo de ambiente :
-      </label> -->
       <c-col md="5">
-      <c-dropdown>
-        <button cButton cDropdownToggle color="light">
-          Filtrar tipo ambiente
-        </button>
-        <ul cDropdownMenu>
-          <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
-          <li *ngFor="let tipo of environmentTypes"><a (click)="updateTableEnvironments(tipo)" cDropdownItem>{{tipo}}</a></li>
-
-        </ul>
-      </c-dropdown>
+        <c-dropdown>
+          <button cButton cDropdownToggle color="light">
+            Filtrar tipo ambiente
+          </button>
+          <ul cDropdownMenu>
+            <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
+            <li *ngFor="let tipo of environmentTypes"><a (click)="updateTableEnvironments(tipo)" cDropdownItem>{{tipo}}</a></li>
+          </ul>
+        </c-dropdown>
       </c-col>
-
-
     </c-row>
-
 
     <div style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
       <table cTable>
@@ -50,11 +39,8 @@
         </thead>
         <tbody>
           <tr *ngFor="let ambiente of environments">
-
             <td>{{ambiente.name}}</td>
             <td>{{ambiente.location}}</td>
-            
-
             <td>
               <input [disabled]="isDisabled" #checkboxes id="selectedEnv" type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">
             </td>
@@ -63,11 +49,8 @@
       </table>
     </div>
 
-
     <app-paginador
-        (pageChanged)="loadTableEnvironmentsSchedule($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
-
+      (pageChanged)="loadTableEnvironmentsSchedule($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
     ></app-paginador>
   </ng-template>
-
 </c-accordion-item>

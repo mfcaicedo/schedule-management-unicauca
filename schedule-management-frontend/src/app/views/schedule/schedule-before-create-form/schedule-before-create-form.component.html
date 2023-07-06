@@ -1,6 +1,7 @@
 <form [formGroup]="form" cForm>
   <c-row class="mb-3">
-    <label cLabel class="col-sm-2 col-form-label"> Programas En Proceso </label>
+    <div class="contenedor">
+      <label cLabel class="label"> Programas En Proceso </label>
 
     <c-col md="5">
       <select
@@ -27,11 +28,17 @@
         required
       />
     </c-col>
-  </c-row>
+  
+    </div>
+    
+</c-row>
+
+
 
   <c-row class="mb-3">
-    <label cLabel class="col-sm-2 col-form-label">
-      Programas Sin Iniciar
+    <div class="contenedor">
+      <label cLabel class="label">
+      Sin Iniciar
     </label>
 
     <c-col md="5">
@@ -51,11 +58,13 @@
           {{ oferta.program.name }}
         </option>
       </select>
-    </c-col>
+    </c-col></div>
+    
   </c-row>
 
   <c-row class="mb-3">
-    <label cLabel class="col-sm-2 col-form-label"> Semestre </label>
+    <div class="contenedor">
+      <label cLabel class="label"> Semestre </label>
 
     <c-col md="5">
       <select
@@ -79,6 +88,8 @@
         required
       />
     </c-col>
+    </div>
+    
   </c-row>
 
   <br />

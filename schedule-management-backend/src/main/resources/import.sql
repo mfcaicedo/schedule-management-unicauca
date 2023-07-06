@@ -121,7 +121,9 @@ INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type
 --resource course electronica
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('13', '20', 'B',"4",'LABORATORIO','1003A');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('14', '20', 'A',"4",'AUDITORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('15', '20', 'C',"4",'AUDITORIO','1003A');
+
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('19', '20', 'C',"4",'LABORATORIO','1003A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('30', '20', 'D',"4",'LABORATORIO','10003A');
 --resource course automatica
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('16', '20', 'B',"4",'asd','1009A');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('17', '20', 'A',"4",'asd','1009A');
@@ -130,7 +132,6 @@ INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B',"4",'asd','BD1');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C',"4",'asd','BD1');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A',"4",'asd','BD1');
-
 --Resourse course-teacher
 INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('1', '0', '2', '1061');
 INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('2', '0', '3', '1062');
