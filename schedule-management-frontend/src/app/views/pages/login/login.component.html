@@ -9,7 +9,7 @@
           <input type="password" placeholder="Contraseña" formControlName="password"/>
           <p *ngIf="(formLogin.get('password')?.touched || buttontouched) && formLogin.get('password')?.invalid">{{getError("password")}}</p>
           <button type="submit" class="btn-login" (click)="enviarDatos()" >Iniciar sesión</button>
-        <button  cButton color="ligth" size="sm" (click)="toggleLiveDemo()" >Olvidé mi contraseña</button>
+        <button  cButton color="ligth" size="sm" (click)="showDialog()" >Olvidé mi contraseña</button>
       </form>
       <footer>
       </footer>
@@ -18,7 +18,7 @@
   <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
     <c-modal-header>
       <h5 cModalTitle>Recuperar contraseña</h5>
-      <button (click)="toggleLiveDemo()" cButtonClose></button>
+      <button (click)="showDialog()" cButtonClose></button>
     </c-modal-header>
     <c-modal-body>
       Ingresa tu correo electronico registrado en la aplicación.
@@ -28,10 +28,10 @@
       </form>
     </c-modal-body>
     <c-modal-footer>
-      <button (click)="toggleLiveDemo()" cButton color="secondary">
+      <button (click)="showDialog() ;cleanForm()" cButton color="secondary">
         Cerrar
       </button>
-      <button cButton color="primary" (click)="enviarCorreo()" >Enviar</button>
+      <button cButton color="primary" (click)="enviarCorreo();cleanForm()" >Enviar</button>
     </c-modal-footer>
   </c-modal>
 </body>

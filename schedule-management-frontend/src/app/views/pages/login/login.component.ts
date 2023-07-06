@@ -62,21 +62,21 @@ export class LoginComponent implements OnInit {
         console.log("Login exitoso!", response)
         //this.authService.saveToken(response.token)
         this.router.navigate(['dashboard'])
-      } 
+      }
       ,error=>{
         console.log("Error en login", error)
         Swal.fire({
-          title: 'Error!', 
-          text: 'Usuario o contraseña incorrectos', 
-          icon: 'error', 
-          showConfirmButton:false, 
+          title: 'Error!',
+          text: 'Usuario o contraseña incorrectos',
+          icon: 'error',
+          showConfirmButton:false,
           timer: 2000
         }
 
         )
       }
       )
-      
+
     }else{
       console.log("Formulario invalido")
     }
@@ -91,8 +91,12 @@ export class LoginComponent implements OnInit {
 
   public visible = false;
 
-  toggleLiveDemo() {
+  showDialog() {
     this.visible = !this.visible;
+  }
+  cleanForm(){
+    this.formPassword.get('usuario')?.setValue('')
+    this.formPassword.get('correo')?.setValue('')
   }
 
   handleLiveDemoChange(event: any) {
@@ -106,8 +110,18 @@ export class LoginComponent implements OnInit {
     console.log(emailValues)
     this.authService.sendEmailChangePassword(emailValues).subscribe(
       (respuesta => {
-        Swal.fire("Mensaje",`Respuesta : ${respuesta}`,"success");
+        console.log("Respuesta send email ",respuesta)
+
+        if(respuesta.status!=200){
+          Swal.fire("Fallo",` ${respuesta.userMessage}`,"error");
+        }else{
+          Swal.fire("Exito!",`${respuesta.data}`,"success");
+        }
+
+        this.showDialog()
       })
+
+
     )
 
 

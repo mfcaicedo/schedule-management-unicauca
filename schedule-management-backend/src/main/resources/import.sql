@@ -239,26 +239,29 @@ INSERT INTO course (course_id, course_capacity,course_group,type_environment_req
 
 --Curso de grupo 1
 --resource course sistemas
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('1', '25', 'B', ,"4",'LABORATORIO ','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('2', '13', 'A',"4",'LABORATORIO','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('3', '20', 'B',"4",'asd','ESTR1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('4', '20', 'B',"4",'asd','ESTR2');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('5', '20', 'B',"4",'asd','SISDIS');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('6', '20', 'B',"4",'asd','CALSOFT');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('10', '13', 'A',"4",'SALON','INTRO1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('11', '13', 'B',"4",'SALON','INTRO1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('1', '25', 'B','4','LABORATORIO','POO');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('2', '13', 'A','4','LABORATORIO','POO');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('3', '20', 'B','4','asd','ESTR1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('4', '20', 'B','4','asd','ESTR2');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('5', '20', 'B','4','asd','SISDIS');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('6', '20', 'B','4','asd','CALSOFT');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('103', '13', 'A','4','SALON','INTRO1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('104', '13', 'B','4','SALON','INTRO1');
+
 --resource course electronica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('13', '20', 'B',"4",'LABORATORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('14', '20', 'A',"4",'AUDITORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('15', '20', 'C',"4",'AUDITORIO','1003A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('105', '20', 'B','4','LABORATORIO','1003A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('106', '20', 'A','4','AUDITORIO','1003A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('107', '20', 'C','4','AUDITORIO','1003A');
+
 --resource course automatica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('16', '20', 'B',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('17', '20', 'A',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('18', '20', 'C',"4",'asd','1009A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('108', '20', 'B','4','asd','1009A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('109', '20', 'A','4','asd','1009A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('110', '20', 'C','4','asd','1009A');
+
 --resource course telematica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A',"4",'asd','BD1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B','4','asd','BD1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C','4','asd','BD1');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A','4','asd','BD1');
 
 
 --Resource environment
@@ -275,7 +278,7 @@ INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`,
 
 --resource event
 
-INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`)VALUES (NULL, 'conferencia', 'conferencia', 'conferenciado', 'CONFERENCIA',  '1061');
+INSERT INTO `event` (`event_id`, `description`, `event_manager_name`, `event_name`, `event_type`, `person_code`)VALUES (NULL, 'conferencia', 'Mr.Masso', 'conferenciado', 'CONFERENCIA',  '1062');
 --resource Schedule
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'LUNES', '2023-05-18 11:19:18', '11:19:18', b'0', '2023-05-16 10:19:18', '06:19:18', '3', '8', '2');
 INSERT INTO `schedule` (`id`, `day`, `ending_Date`, `ending_time`, `is_reserve`, `starting_Date`, `starting_time`, `course_id`, `environment_id`, `event_id`)VALUES (NULL, 'MARTES', '2023-05-20 11:19:18', '8:19:18', b'1', '2023-05-18 10:19:18', '07:19:18', '6', '8', '2');

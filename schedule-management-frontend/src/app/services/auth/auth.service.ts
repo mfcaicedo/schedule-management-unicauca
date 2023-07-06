@@ -9,6 +9,8 @@ import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
 
 import{emailValues} from'src/app/models/emailValues'
+import { changePasswordDTO} from 'src/app/models/changePasswordDTO';
+import {Response } from 'src/app/models/response';
 @Injectable({
   providedIn: 'root'
 })
@@ -100,22 +102,21 @@ export class AuthService {
     )
   }
 
-  sendEmailChangePassword(emailValues:emailValues):Observable<string>{
+  sendEmailChangePassword(emailValues:emailValues):Observable<Response>{
     console.log("email send ", emailValues)
 
-    
+
     const url =`${this.apiPasswordUrl}/email/sendHtml`
 
     console.log(url)
-    return this.http.post<string>(url,emailValues)
+    return this.http.post<Response>(url,emailValues)
   }
 
-  changePassword(credentials:{username:string,password:string }):Observable<any>{
-    const username = credentials.username
-    const password = credentials.password
+  changePassword(nuevasCredenciales:changePasswordDTO):Observable<Response>{
+    console.log("al servicio change le llega ",nuevasCredenciales)
 
-    return this.http.post<string>(`${this.apiPasswordUrl}/email/sendHtml`,{username,password})
+    return this.http.post<Response>(`${this.apiPasswordUrl}/changePassword`,nuevasCredenciales)
+
   }
-
 
 }

@@ -2,6 +2,7 @@ package com.pragma.api.controllers;
 
 import com.pragma.api.domain.ChangePasswordDTO;
 import com.pragma.api.domain.EmailValuesDTO;
+import com.pragma.api.domain.Response;
 import com.pragma.api.security.entities.User;
 import com.pragma.api.security.services.UserService;
 import com.pragma.api.services.EmailService;
@@ -43,11 +44,17 @@ public class EmailController {
     }
 
     @PostMapping("/email/sendHtml")
-    public ResponseEntity<?> sendEmailTemplate(@RequestBody EmailValuesDTO dto){
+    public Response<String> sendEmailTemplate(@RequestBody EmailValuesDTO dto){
+        Response response = new Response();
+
         Optional<User> usuarioOptional = userService.getByUsernameOrEmail(dto.getMailTo());
         //comprobamos si no existe el usuario
-        if(!usuarioOptional.isPresent())
-            return new ResponseEntity("No existe ningun usuario con estas credenciales ", HttpStatus.NOT_FOUND);
+        if(!usuarioOptional.isPresent()) {
+            response.setUserMessage("No existe ningun usuario con estas credenciales ");
+            response.setStatus(404);
+            return response;
+            /*return new ResponseEntity("No existe ningun usuario con estas credenciales ", HttpStatus.NOT_FOUND);*/
+        }
         User user = usuarioOptional.get();
         dto.setMailFrom(mailFrom);
         dto.setMailTo(user.getEmail());
@@ -60,24 +67,47 @@ public class EmailController {
         user.setTokenPassword(tokenPassword);
         userService.save(user);
         emailService.sendEmailTemplate(dto);
-        return new ResponseEntity("Te hemos enviado un corrreo con un link para cambiar la contraseña", HttpStatus.OK);
+
+        response.setStatus(200);
+        response.setData("Te hemos enviado un corrreo con un link para cambiar la contrasena");
+        return response;
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<?> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult){
-        if(bindingResult.hasFieldErrors())
-            return new ResponseEntity("Campos mal diligenciados", HttpStatus.BAD_REQUEST);
-        if(!dto.getPassword().equals(dto.getConfirmPassword()))
-            return new ResponseEntity("Las contraseñas no coinciden", HttpStatus.BAD_REQUEST);
+    public Response<String> changePassword(@Valid @RequestBody ChangePasswordDTO dto, BindingResult bindingResult){
+        Response response = new Response();
+
+        if(bindingResult.hasFieldErrors()) {
+            response.setUserMessage("Campos mal diligenciados");
+            response.setStatus(400);
+            response.setData(bindingResult.getAllErrors().toString());
+            return response;
+            /*return new ResponseEntity("Campos mal diligenciados", HttpStatus.BAD_REQUEST);*/
+        }
+        if(!dto.getPassword().equals(dto.getConfirmPassword())) {
+            response.setUserMessage("Las contraseñas no coinciden");
+            response.setStatus(400);
+            return response;
+            /*return new ResponseEntity("Las contraseñas no coinciden", HttpStatus.BAD_REQUEST);*/
+        }
         Optional<User> userOptional = userService.getByTokenPassword(dto.getTokenPassword());
-        if(!userOptional.isPresent())
-            return new ResponseEntity("No existe ningun usuario con estas credenciales ", HttpStatus.NOT_FOUND);
+        if(!userOptional.isPresent()) {
+            response.setUserMessage("No existe ningun usuario con estas credenciales ");
+            response.setStatus(404);
+            return response;
+            /*return new ResponseEntity("No existe ningun usuario con estas credenciales ", HttpStatus.NOT_FOUND);*/
+        }
+
         User user = userOptional.get();
         String newPassword = passwordEncoder.encode(dto.getPassword());
         user.setPassword(newPassword);
         user.setTokenPassword(null);
         userService.save(user);
-        return new ResponseEntity("Contraseña actualizada con exito", HttpStatus.OK);
+
+        response.setStatus(200);
+        response.setData("Se cambio la contraseña exitosamente");
+
+        return response;
 
     }
 
