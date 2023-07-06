@@ -1,4 +1,4 @@
-input{
+input {
   margin: 0;
   display: block;
   width: 100%;
@@ -23,10 +23,15 @@ input:focus {
   outline: 0;
   box-shadow: 0 0 0 0.25rem rgb(50 31 219 / 25%);
 }
-.contenedor{
+.contenedor {
   display: flex;
   margin-left: 10%;
-    }
-.label{
+}
+.label {
   margin-right: 10px;
+}
+
+.disabled-option {
+  color: #999999;
+  pointer-events: none;
 }

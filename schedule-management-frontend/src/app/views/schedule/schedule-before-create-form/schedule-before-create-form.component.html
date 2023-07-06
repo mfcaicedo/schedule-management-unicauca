@@ -3,93 +3,90 @@
     <div class="contenedor">
       <label cLabel class="label"> Programas En Proceso </label>
 
-    <c-col md="5">
-      <select
-        cSelect
-        id="validationCustom04"
-        (change)="onSelectedProgram($event)"
-        #selectRefPrograma
-        [disabled]="aoFileEnProceso.length <= 0"
-      >
-        <option value="">Escoge un programa</option>
-        <option *ngFor="let oferta of aoFileEnProceso" value="{{ oferta.id }}">
-          {{ oferta.program.name }}
-        </option>
-      </select>
-    </c-col>
+      <c-col md="5">
+        <select
+          cSelect
+          id="validationCustom04"
+          (change)="onSelectedProgram($event)"
+          #selectRefPrograma
+          [disabled]="aoFileEnProceso.length <= 0"
+        >
+          <option value="">Escoge un programa</option>
+          <option
+            *ngFor="let oferta of aoFileEnProceso"
+            value="{{ oferta.id }}"
+          >
+            {{ oferta.program.name }}
+          </option>
+        </select>
+      </c-col>
 
-    <c-col md="4">
-      <input
-        formControlName="program"
-        touched
-        type="text"
-        readonly="true"
-        [hidden]="!isEdit"
-        required
-      />
-    </c-col>
-  
+      <c-col md="4">
+        <input
+          formControlName="program"
+          touched
+          type="text"
+          readonly="true"
+          [hidden]="!isEdit"
+          required
+        />
+      </c-col>
     </div>
-    
-</c-row>
-
-
+  </c-row>
 
   <c-row class="mb-3">
     <div class="contenedor">
-      <label cLabel class="label">
-      Sin Iniciar
-    </label>
+      <label cLabel class="label"> Programas Sin Iniciar </label>
 
-    <c-col md="5">
-      <select
-        cSelect
-        id="validationCustom04"
-        (change)="onSelectedProgram($event)"
-        #selectRefPrograma
-        [disabled]="aoFileEnProceso.length > 0"
-      >
-        <option value="">Escoge un programa</option>
-        <option
-          *ngFor="let oferta of auxAoFileSinIniciar; let i = index"
-          [value]="oferta.id"
-          [disabled]="i !== 0"
+      <c-col md="5">
+        <select
+          cSelect
+          id="validationCustom04"
+          (change)="onSelectedProgram($event)"
+          #selectRefPrograma
+          [disabled]="aoFileEnProceso.length > 0"
         >
-          {{ oferta.program.name }}
-        </option>
-      </select>
-    </c-col></div>
-    
+          <option value="">Escoge un programa</option>
+          <option
+            *ngFor="let oferta of auxAoFileSinIniciar; let i = index"
+            [value]="oferta.id"
+            [disabled]="i !== 0"
+            [class.disabled-option]="i !== 0"
+          >
+            {{ oferta.program.name }}
+          </option>
+        </select>
+      </c-col>
+    </div>
   </c-row>
 
   <c-row class="mb-3">
     <div class="contenedor">
       <label cLabel class="label"> Semestre </label>
 
-    <c-col md="5">
-      <select
-        cSelect
-        id="validationCustom04"
-        (change)="onSelectedSemester($event)"
-        #selectRefSemestre
-      >
-        <option value="">Escoge un semestre</option>
-        <option *ngFor="let semester of semesters" value="{{ semester }}">
-          {{ semester }}
-        </option>
-      </select>
-    </c-col>
-    <c-col md="4">
-      <input
-        formControlName="semester"
-        type="text"
-        readonly="true"
-        [hidden]="!isEdit"
-        required
-      />
-    </c-col>
+      <c-col md="5">
+        <select
+          cSelect
+          id="validationCustom04"
+          (change)="onSelectedSemester($event)"
+          #selectRefSemestre
+        >
+          <option value="">Escoge un semestre</option>
+          <option *ngFor="let semester of semesters" value="{{ semester }}">
+            {{ semester }}
+          </option>
+        </select>
+      </c-col>
+      <c-col md="4">
+        <input
+          formControlName="semester"
+          type="text"
+          readonly="true"
+          [hidden]="!isEdit"
+          required
+        />
+      </c-col>
     </div>
-    
   </c-row>
 
   <br />
