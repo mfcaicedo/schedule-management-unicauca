@@ -1,6 +1,7 @@
 package com.pragma.api.services;
 
 import com.google.common.reflect.TypeToken;
+import com.pragma.api.domain.CourseTeacherDTO;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
@@ -10,14 +11,19 @@ import com.pragma.api.util.exception.ScheduleIntegrityException;
 //import antlr.debug.Event;
 
 import com.pragma.api.model.Course;
+import com.pragma.api.model.CourseTeacher;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Schedule;
 import com.pragma.api.model.Event;
+import com.pragma.api.model.Person;
 import com.pragma.api.repository.ICourseRepository;
+import com.pragma.api.repository.ICourseTeacherRepository;
 import com.pragma.api.repository.IEnvironmentRepository;
 import com.pragma.api.repository.IEventRepository;
 import com.pragma.api.repository.IScheduleRepository;
 import com.pragma.api.repository.IPersonRepository;
+
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -37,13 +43,16 @@ public class ScheduleServiceImpl implements IScheduleService {
 
     private final ICourseRepository courseRepository;
 
+    private final ICourseTeacherService CourseTeacherService;
+
     private final IPersonRepository personRepository;
     // reporsitorio de eventos // parte nueva
     private final IEventRepository eventRepository;
 
     public ScheduleServiceImpl(ModelMapper modelMapper, IEnvironmentRepository environmentRepository,
             IScheduleRepository scheduleRepository, ICourseRepository courseRepository,
-            IPersonRepository personRepository, IEventRepository eventRepository) {
+            IPersonRepository personRepository, IEventRepository eventRepository,
+            ICourseTeacherService CourseTeacherService) {
         this.modelMapper = modelMapper;
         this.environmentRepository = environmentRepository;
         this.scheduleRepository = scheduleRepository;
@@ -51,6 +60,7 @@ public class ScheduleServiceImpl implements IScheduleService {
         this.personRepository = personRepository;
         // nuevo
         this.eventRepository = eventRepository;
+        this.CourseTeacherService = CourseTeacherService;
     }
 
     @Override
@@ -90,10 +100,18 @@ public class ScheduleServiceImpl implements IScheduleService {
                     environmentOptRequest.get().getName());
         }
 
-        //verifica que el curso sea en el ambiente ideal
-        if (!courseOptRequest.get().getTypeEnvironmentRequired().equals(environmentOptRequest.get().getEnvironmentType().toString())) {
-            throw new ScheduleBadRequestException("bad.request.schedule.course.environment", environmentOptRequest.get().getName());
-                    
+        // verifica que el curso sea en el ambiente ideal
+        if (!courseOptRequest.get().getTypeEnvironmentRequired()
+                .equals(environmentOptRequest.get().getEnvironmentType().toString())) {
+            throw new ScheduleBadRequestException("bad.request.schedule.course.environment",
+                    environmentOptRequest.get().getName());
+
+        }
+        // verificar que los profesores del curso seleccionado no esten ocupados en la
+        // franja horaria
+         if (checkSchedulesToPersons(saveRequest)) {
+            throw new ScheduleBadRequestException("bad.request.schedule.courseTeacher.person",environmentOptRequest.get().getName());
+
         }
 
         int differenceHours = (int) getDifferenceHours(saveRequest.getStartingTime(), saveRequest.getEndingTime());
@@ -282,7 +300,7 @@ public class ScheduleServiceImpl implements IScheduleService {
      *           this.scheduleRepository.findAllByCoursePerson(personRequest.get());
      *           return schedules.stream()
      *           .map(schedule -> {
-     *           ScheduleResponseDTO scheduleResponseDTO =
+     *           ScheduleResponseDTO scheduleRe-sponseDTO =
      *           this.modelMapper.map(schedule, ScheduleResponseDTO.class);
      *           scheduleResponseDTO.setColor(schedule.getCourse().getPerson().getProgram().getColor());
      *           return scheduleResponseDTO;
@@ -290,6 +308,7 @@ public class ScheduleServiceImpl implements IScheduleService {
      *           .collect(Collectors.toList());
      *           }
      */
+
     @Override
     public ScheduleResponseDTO getScheduleById(Long code) {
         try {
@@ -334,4 +353,45 @@ public class ScheduleServiceImpl implements IScheduleService {
      * UnsupportedOperationException("Unimplemented method 'getAllByEnvironment'");
      * }
      */
+    public boolean checkSchedulesToPersons(ScheduleRequestDTO scheduleRequest) {
+        List<CourseTeacherDTO> courseTeachersList = this.CourseTeacherService
+                .findCourseTeacherByCourseId(scheduleRequest.getCourseId());
+        for (CourseTeacherDTO courseTeacher : courseTeachersList) {
+            List<CourseTeacherDTO> courseTeachersListAux = this.CourseTeacherService
+                    .findCourseTeacherByPersonId(courseTeacher.getPerson().getPersonCode());
+            for (CourseTeacherDTO courseTeacherAux : courseTeachersListAux) {
+                if (this.scheduleRepository.existsByStartingTimeAndEndingTimeAndDayAndCourse(
+                        scheduleRequest.getStartingTime(),
+                        scheduleRequest.getEndingTime(), scheduleRequest.getDay(), courseTeacherAux.getCourse())) {
+                    return true;
+                }
+
+                // Verificar que la segunda hora del nuevo curso esté disponible
+                LocalTime newCourseSecondHour = scheduleRequest.getStartingTime().plusHours(1);
+                if (this.scheduleRepository.existsByStartingTimeAndDayAndCourse(newCourseSecondHour,
+                        scheduleRequest.getDay(),
+                        courseTeacherAux.getCourse())){
+                    
+                    return true;
+                    
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public List<ScheduleResponseDTO> findSchedulesByCourseId(Integer CourseId) {
+        Optional<Course> courseRequest = this.courseRepository.findById(CourseId);
+        if (!courseRequest.isPresent())
+            throw new ScheduleBadRequestException("bad.request.course.id", CourseId.toString());
+        List<Schedule> schedules = this.scheduleRepository.findAllByCourse(courseRequest.get());
+        return schedules.stream()
+                .map(schedule -> {
+                    ScheduleResponseDTO scheduleResponseDTO = this.modelMapper.map(schedule, ScheduleResponseDTO.class);
+                    return scheduleResponseDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.pragma.api.services;
 
+import com.pragma.api.domain.CourseTeacherDTO;
 import com.pragma.api.domain.Response;
 import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.domain.ScheduleResponseDTO;
@@ -19,4 +20,6 @@ public interface IScheduleService {
     Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer environmentId);
 //    List<ScheduleResponseDTO> getAllByTeacher(String teacherCode);
     ScheduleResponseDTO getScheduleById(Long id);
+    List<ScheduleResponseDTO> findSchedulesByCourseId(Integer CourseId);
+    
 }
