@@ -121,7 +121,9 @@ INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type
 --resource course electronica
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('13', '20', 'B',"4",'LABORATORIO','1003A');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('14', '20', 'A',"4",'AUDITORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('15', '20', 'C',"4",'AUDITORIO','1003A');
+
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('19', '20', 'C',"4",'LABORATORIO','1003A');
+INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('30', '20', 'D',"4",'LABORATORIO','10003A');
 --resource course automatica
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('16', '20', 'B',"4",'asd','1009A');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('17', '20', 'A',"4",'asd','1009A');
@@ -130,7 +132,24 @@ INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B',"4",'asd','BD1');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C',"4",'asd','BD1');
 INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A',"4",'asd','BD1');
-
+--Resourse course-teacher
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('1', '0', '2', '1061');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('2', '0', '3', '1062');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('3', '0', '4', '1063');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('4', '0', '5', '1064');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('5', '0', '6', '1065');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('6', '0', '7', '1066');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('7', '0', '8', '1067');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('8', '0', '9', '1068');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('9', '0', '10', '1069');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('10', '0', '11', '1070');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('11', '0', '12', '1071');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('12', '0', '13', '1072');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('13', '0', '14', '1073');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('14', '0', '15', '1074');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('15', '0', '16', '1075');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('16', '0', '17', '1076');
+INSERT INTO `course_teacher` (`course_teacher_id`, `teacher_category`, `course_id`, `personCode`) VALUES ('17', '0', '18', '1077');
 --Resource environment
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('1', 'ROLE_ADMIN');
 INSERT INTO `roles` (`role_id`, `role_name`) VALUES ('2', 'ROLE_USER');

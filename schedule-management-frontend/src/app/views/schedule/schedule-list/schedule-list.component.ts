@@ -8,7 +8,7 @@ import { ScheduleService } from 'src/app/services/schedule/schedule.service';
   styleUrls: ['./schedule-list.component.scss']
 })
 export class ScheduleListComponent {
-  columns:string[]=["Id","Dia","Hora Inicio","Hora Fin","Curso Id", "Seleccionado"]
+  columns:string[]=["Id","Dia","Hora Inicio","Hora Fin","Curso Id"]
   weekDays:string[]=["all","Lunes","Martes","Miercoles","Jueves","Viernes","Sabado"]
   showSelectedSchedule:boolean=false;
   isCheckboxDisabled:boolean=false;
