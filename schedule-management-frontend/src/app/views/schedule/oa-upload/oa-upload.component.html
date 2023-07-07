@@ -29,7 +29,7 @@
         <div class="center">
           <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="drop-zone-style"
             contentClassName="drop-content-style" dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)"
-            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
+            (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)" accept=".xlsx">
             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
               <div class="content-upload">
                 <div class="drop-label">
@@ -41,9 +41,9 @@
                       <i class="cilCloudUpload"></i>
                       <svg cIcon name="cilCloudUpload" size="xl"></svg>
                       Carga el archivo
-                    </span>
-                    <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
+                      <input class="file-environment" id="file-environment" name="file-environment" accept=".xlsx"
                       (click)="openFileSelector()" required hidden>
+                    </span>
                   </label>
                 </div>
               </div>

@@ -239,7 +239,6 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
                 }
             }
         }
-        System.out.println("Miremos esto: " + resourceList.get(0));
         for (int resourceId : resourceList) {
             //busco el recurso
             Resource resourceToAdd = this.resourceRepository.findById(resourceId).get();

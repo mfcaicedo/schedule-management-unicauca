@@ -7,7 +7,7 @@
         <input formControlName="personCode" type="text" id="personCode" name="personCode" required />
       </c-col>
     </c-row>
-    <button cButton color="primary" size="lg" type="submit" [ngStyle]="{'margin-bottom': '.5rem'}">
+    <button cButton color="primary" size="lg" type="submit">
       Consultar
     </button>
   </form>
@@ -45,6 +45,7 @@
                       <td>{{ item.startingDate }} / {{ item.endingDate }} /{{item.day}}/{{item.startingTime}}/{{item.endingTime}}</td>
                     </tr>
                   </ng-container>
+                  <td><button class="btn btn-primary" (click)="deleteEvent(e.event.eventId)">Eliminar</button></td>
                 </tr>
               </ng-container>
             </tbody>

@@ -77,7 +77,7 @@
   <!-- Progreso de descarga -->
 
   <div *ngFor="let esquema of esquemas; let i=index">
-    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
+    <div class="titulo" #miTablaTITULO>{{listaTitulosReporte[i]}}</div>
      <!--         <table cTable #miTablaI>
                 <thead cTableColor="dark">
                 <tr>
@@ -100,7 +100,7 @@
                 </tr>
               </tbody>
           </table>-->
-  <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+  <app-calendario #appCalendario [cuadroDeColores]="listasProgramas" [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
 <!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
 </div>
 </c-card>

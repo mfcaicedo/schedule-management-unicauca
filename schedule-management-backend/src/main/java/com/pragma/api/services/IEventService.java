@@ -13,5 +13,6 @@ public interface IEventService {
     public Response<List<EventScheduleDTOResponse>> findAllByPersonCode(String personCode);
     public Response<List<EventDTO>> findAllByeventManagerName(String eventManagerName);
     public Response<EventDTO> save(EventDTO event,Person personManager);
+    public Response<EventDTO> delete(int eventId);
     public Response<EventDTO> saveEventToSchedule(FinalEventScheduleDTO finalEventScheduleDTO);
 }

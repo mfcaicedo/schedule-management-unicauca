@@ -98,4 +98,23 @@ public class ProgramServiceImpl implements IProgramService {
         return response;
     }
 
+    //Metodo para traer todos los programas para sacar color y nombre del programa
+    @Override
+    public Response<List<ProgramDTO>> findAllProgramNameColor() {
+        //Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de programa
+        if(!this.iProgramRepository.existsBy()) throw  new ScheduleBadRequestException("bad.request.event.event_name","");
+
+        Response<List<ProgramDTO>> response = new Response<>();
+        List<Program> programList = this.iProgramRepository.findAllProgramNameColor();
+        List<ProgramDTO> programDTOlist = modelMapper.map(programList, new org.modelmapper.TypeToken<List<ProgramDTO>>() {
+        }.getType());
+        response.setStatus(200);
+        response.setUserMessage("List of Availability Programs Finded successfully");
+        response.setDeveloperMessage("List of Availability Programs Finded successfully");
+        response.setMoreInfo("localhost:8081/api/program(toDO)");
+        response.setErrorCode("");
+        response.setData(programDTOlist);
+        return response;
+    }
+
 }

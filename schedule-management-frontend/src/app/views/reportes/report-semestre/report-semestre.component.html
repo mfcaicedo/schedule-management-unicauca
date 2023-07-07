@@ -64,10 +64,10 @@
             <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>        
               <c-accordion-item >
                 <ng-template cTemplateId="accordionHeader">
-                  <h2>{{listaTitulosReporte[i]}}</h2>
+                  <div class="titulo">{{listaTitulosReporte[i]}}</div>
                 </ng-template>
                 <ng-template cTemplateId="accordionBody">
-                  <h3 #miTablaTITULO>{{listaTitulosReporte[i]}} </h3>    
+                  <div class="titulo" #miTablaTITULO>{{listaTitulosReporte[i]}} </div>    
                   <table cTable #miTablaI>
                     <thead cTableColor="dark">
                       <tr>

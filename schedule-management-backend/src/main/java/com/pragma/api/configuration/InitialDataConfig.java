@@ -84,8 +84,16 @@ public class InitialDataConfig {
                 .password(encoder.encode("admin"))
                 .roles(Collections.singleton(academicManagerRole))
                 .build();
+        User userthree = User.builder()
+                .email("sebcollazos@unicauca.edu.co")
+                .name("seb")
+                .lastName("seb")
+                .username("seb")
+                .password(encoder.encode("seb"))
+                .roles(Collections.singleton(academicManagerRole))
+                .build();
         
-        List<User> initialUserList = Arrays.asList(userOne, userTwo);
+        List<User> initialUserList = Arrays.asList(userOne, userTwo, userthree);
         userRepository.saveAll(initialUserList);
     }
 }

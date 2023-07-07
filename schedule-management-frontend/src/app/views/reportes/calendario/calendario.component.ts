@@ -1,9 +1,16 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component, ElementRef, EventEmitter, Input,
+  OnChanges,
+  OnInit,
+  Output, Renderer2, SimpleChanges, ViewChild
+} from '@angular/core';
 import { CalendarOptions } from '@fullcalendar/core'; // useful for typechecking
 import esLocale from '@fullcalendar/core/locales/es';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import html2canvas from 'html2canvas';
+import { ProgramBD } from 'src/app/models/ProgramBD.model';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
+import { ProgramService } from 'src/app/services/program/program.service';
 import { PdfService } from 'src/app/views/reportes/pdf.service';
 
 
@@ -18,12 +25,13 @@ import { PdfService } from 'src/app/views/reportes/pdf.service';
  *  y mostrarla en donde sea llamado tambien descargara en el dispositivo
  * de forma automatica
  */
-export class CalendarioComponent implements OnChanges{
+export class CalendarioComponent implements OnChanges, OnInit {
   @Output() onLoadComplete: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() eventosParaCalendario: ReportRoom[]=[];//trae desde un componente externo los datos del reporte que se van a mapear en fullcalendar como eventos
+  @Input() cuadroDeColores: ProgramBD[]=[];
   @Input() tituloImg: string="img";// trae desde un componente externotitulo que contendra la imagen descargada por defecto sera img
-
+  
   esquemas: ReportRoom[]=[];//variable que contiene los eventos que se van a mapear en el fullcalendar
   showFullCalendar: boolean = true; //variable bandera para que el fullcalendar se quite despues de que la imagen sea generada
 
@@ -33,6 +41,8 @@ export class CalendarioComponent implements OnChanges{
   imageSrc: string = '';//variable que almacena la ruta de la imagen para mostrarse en el HTML
 
  //-------------------------------------constantes-------------------------------- 
+  listasProgramas:ProgramBD[]=[];   ///lista que contiene los programaas de la facultad
+  
   daysOfWeekMap: { [key: string]: number } = {// como el fullcalendar asocia los dias a numeros este diccionario ayuda con esta transformacion
     lunes: 1,
     martes: 2,
@@ -92,6 +102,10 @@ export class CalendarioComponent implements OnChanges{
   };
 
 //-----------------------------------------------METODOS INICIADORES----------------------
+async ngOnInit() {
+  // Continuar con otros ngOnInit() después de que se complete la llamada
+
+}
 /**
  * Ocurre despues de que la vista se haya generado totalmente ya qye para generar
  * la imagen el fullcalendar debe estar totalmente creado y mostrado
@@ -110,9 +124,16 @@ ngAfterViewInit() {
    * ya que los que tiene son servicios
    * @param renderer Permite hacer el renderizado ngAfterViewInit
    */
-  constructor(private renderer: Renderer2, private serviciopdf: PdfService) {
+  constructor(private renderer: Renderer2, 
+    private serviciopdf: PdfService,
+    
+    private programService:ProgramService) {
+      
     this.esquemas =this.eventosParaCalendario;
+    //alert(this.cuadroDeColores.length+"acafsf"+this.eventosParaCalendario.length);
+    //this._obtenerTodosLosProgramas();    
   }
+ 
   /**
    * Funcion que se activa cuando un @Input cambia de valor para registrar los cambios
    * y actualiza de esta forma los eventos en el calendario
@@ -122,6 +143,10 @@ ngAfterViewInit() {
     if (changes['eventosParaCalendario'] && changes['eventosParaCalendario'].currentValue) {
       this.esquemas = changes['eventosParaCalendario'].currentValue;
       this._actualizarEventosCalendario();
+    }  
+    if (changes['cuadroDeColores'] && changes['cuadroDeColores'].currentValue) {
+      this.listasProgramas = changes['cuadroDeColores'].currentValue;
+      //alert(this.listasProgramas.length+"resivi");
     }    
     
   }
@@ -174,7 +199,12 @@ ngAfterViewInit() {
    */
   _generarDescargableCalendario() {
     const calendarDiv = this.fullCalendarRef.element.nativeElement;
-
+    let cantidadDeAgregadosItems=this.listasProgramas.length;
+    //alert("longitud ????"+this.listasProgramas.length);
+    
+    let cantidadpxTitulo=50;
+    let cantidadPxItems=30;
+    let pixelesMoverCalendario=cantidadpxTitulo+(cantidadDeAgregadosItems*cantidadPxItems);//Calculo de pixeles para no quedar sobrepuesto el cuadro
     html2canvas(calendarDiv).then((canvas) => {
       // Crear un nuevo canvas con el texto 
       const canvasConTexto = document.createElement('canvas');
@@ -183,21 +213,46 @@ ngAfterViewInit() {
       if (context) {
         // Ajustar el tamaño del nuevo canvas para que quepa el calendario y el texto
         canvasConTexto.width = canvas.width;//el ancho no se modifica
-        canvasConTexto.height = canvas.height + 50; // Altura adicional para el texto
+        let alturaAdicional=pixelesMoverCalendario;// es el valor que va a comprender el titulo y todo lo que este antes del canva del calendario
+        canvasConTexto.height = canvas.height + alturaAdicional; // Altura adicional para el texto
 
         // Dibujar el calendario en el nuevo canvas
-        context.drawImage(canvas, 0, 50); // Ajustar la posición vertical del calendario
+        context.drawImage(canvas, 0, alturaAdicional); // Ajustar la posición vertical del calendario
 
-        // Dibujar un rectángulo blanco en la parte superior del canvas
+        // Dibujar un rectángulo blanco en la parte superior del canvas para titulo y cuadro convensiones
         context.fillStyle = 'white';
-        context.fillRect(0, 0, canvasConTexto.width, 50);
+        context.fillRect(0, 0, canvasConTexto.width, alturaAdicional);
         // Agregar el texto en la parte superior del canvas
         context.font = 'bold 20px Arial';
         context.textAlign = 'center';
         context.fillStyle = 'black';
-
+        
         context.fillText(this.tituloImg.toUpperCase(), canvas.width / 2, 30); // Ajustar la posición vertical del texto
-        this._descargaFormato(canvasConTexto,1);
+       
+        // Dibujar el círculo 
+        
+        let radioCirculo = 10;
+        let cuadroX = 50; // Posición horizontal del círculo y el texto
+        let cuadroY = 60; // Posición vertical del círculo y el texto
+
+      for (let i = 0; i < cantidadDeAgregadosItems; i++) {
+        let palabra = this.listasProgramas[i].name;
+        // Dibujar el círculo rojo
+        context.beginPath();
+        context.arc(cuadroX + radioCirculo, cuadroY + radioCirculo, radioCirculo, 0, 2 * Math.PI);
+        context.fillStyle = this.colorMap[this.listasProgramas[i].color];
+        context.fill();
+
+        // Agregar la palabra "rojo" al lado del círculo
+        context.font = 'bold 16px Arial';
+        context.textAlign = 'left';
+        context.fillStyle = 'black';
+        context.fillText(palabra, cuadroX + radioCirculo * 2 + 10, cuadroY + radioCirculo + 5);
+
+        cuadroY += 30; // Ajustar la posición vertical para el siguiente círculo
+      }
+        
+      this._descargaFormato(canvasConTexto,1);
 
       } else {
         console.error('Error al obtener el contexto del canvas.');
@@ -257,5 +312,8 @@ ngAfterViewInit() {
   _descargaFormatoPdf(canvasConTexto:HTMLCanvasElement){
     this.serviciopdf.generarPDFsDeCanvaElement(canvasConTexto, this.tituloImg.toUpperCase());
   }
-
+  /**
+   * obtiene los programas con su color para crear el cuadro de convenciones
+   */
+   
 }

@@ -32,3 +32,5 @@ out/
 
 ### VS Code EDITOR ###
 .vscode/
+
+.fake

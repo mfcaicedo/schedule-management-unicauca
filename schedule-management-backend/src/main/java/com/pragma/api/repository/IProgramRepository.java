@@ -28,4 +28,7 @@ public interface IProgramRepository extends JpaRepository<Program, String> {
     @Query(value = "SELECT * FROM program p WHERE p.department_id = :department_id",nativeQuery = true)
     List<Program> findByDepartmentId(@Param("department_id") String department_id);
 
+    //Metodo para consultar todos los programas y sus colores
+    @Query(value = "SELECT * FROM program ",nativeQuery = true)
+    List<Program> findAllProgramNameColor();
 }

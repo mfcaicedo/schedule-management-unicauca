@@ -156,12 +156,16 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         // Periodo correspondiente del archivo
         if (data.get(0).getPeriod() != null && !data.get(0).getPeriod().isEmpty()) {
             // Busco el periodo
+            System.out.println("entro al buscar el periodo");
             Optional<Period> period = iPeriodRepository.findById(data.get(0).getPeriod());
-            if (period.isPresent()) {
+            System.out.println("periodo: " + period);
+            if (!period.equals(Optional.empty())) {
                 academicOfferFile.setPeriod(period.get());
             } else {
                 responseFile.addLogsGeneric("El periodo académico no existe, verifique si lo escribió " +
                         "correctamente: Ej: 2023-1");
+                responseFile.setStatusFile(StatusFileEnumeration.ERROR);
+                return responseFile;
             }
         }
         // Programa correspondiente del archivo
