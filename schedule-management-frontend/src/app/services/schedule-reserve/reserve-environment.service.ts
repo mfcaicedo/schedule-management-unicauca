@@ -34,6 +34,7 @@ httpOptions = {
 endPoint: String = environment.urlReserve;
 endPointSchedule: String = environment.urlReserveInSchedule;
 endPointScheduleGetReserves: String = environment.urlGetReserve;
+endPointDeleteEvent :String =environment.urlDeleteEvent;
 
 ngOnInit() {
   //TODO llamar metodo para cargar todos los tipos de ambientes
@@ -89,6 +90,17 @@ getReserveScheduleList(personCode:string){
   return this.http.get<any>(` ${this.endPointScheduleGetReserves}${personCode}`).pipe(
     catchError((e) => {
       Swal.fire('Error','El encargado no tiene reservas','error');
+      console.log('Error obteniendo todos lista reservas', e.error.mensaje, 'error');
+      return throwError(e);
+
+    })
+  );
+}
+deleteEvent(eventId:number){
+  
+  return this.http.get<any>(` ${this.endPointDeleteEvent}${eventId}`).pipe(
+    catchError((e) => {
+      
       console.log('Error obteniendo todos lista reservas', e.error.mensaje, 'error');
       return throwError(e);
 

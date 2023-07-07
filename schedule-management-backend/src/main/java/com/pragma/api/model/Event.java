@@ -2,6 +2,7 @@ package com.pragma.api.model;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,7 +51,7 @@ public class Event {
     @JoinColumn(name = "person_code")
     private Person person;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event",cascade = CascadeType.REMOVE)
     private Set<Schedule> schedules;
 
     @Column(name = "event_type",nullable = false)

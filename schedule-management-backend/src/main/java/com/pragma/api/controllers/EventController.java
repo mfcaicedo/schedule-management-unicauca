@@ -44,6 +44,10 @@ public class EventController {
     public Response<EventDTO> EventToSchedule(@Valid @RequestBody FinalEventScheduleDTO finalEventScheduleDTO) {
         return this.eventService.saveEventToSchedule(finalEventScheduleDTO);
     }
+    @GetMapping("/deleteEvent/{eventId}")
+    public Response<EventDTO> deleteEvent(@PathVariable int eventId) {
+        return this.eventService.delete(eventId);
+    }
 
 
     

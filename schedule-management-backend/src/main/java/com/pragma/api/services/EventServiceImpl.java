@@ -211,5 +211,20 @@ public class EventServiceImpl implements IEventService {
         return null;
 
     }
+    @Override
+    public Response<EventDTO> delete(int eventId) {
+        Response<EventDTO> response = new Response<>();
+        
+        this.eventRepository.deleteById(eventId);
+        
+        response.setStatus(200);
+        response.setUserMessage("Event deleted successfully");
+        response.setDeveloperMessage("Event deleted successfully");
+        response.setMoreInfo("localhost:808/api/event(toDO)");
+        response.setErrorCode("");
+        response.setData(null);
+        return response;
+        
+    }
 
 }
