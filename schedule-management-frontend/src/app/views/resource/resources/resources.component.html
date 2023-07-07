@@ -1,0 +1,58 @@
+<c-row ngPreserveWhitespaces>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong>Recursos </strong>
+        <div class="head">
+           Recursos agregados : <span class="counter" >{{counter}}</span>
+        </div>
+      </c-card-header>
+      <c-card-body>
+
+      <c-row class="mb-3">
+        <!-- <c-col md=""> -->
+            <label cLabel class="col-sm-2 col-form-label" >
+              Filtrar tipo recurso:
+            </label>
+        <!-- </c-col> -->
+          <c-col md="5">
+            <c-dropdown>
+              <button cButton cDropdownToggle color="light">
+                Seleccione tipo recurso
+              </button>
+              <ul cDropdownMenu>
+                <li><h6 cDropdownHeader>Tipos de recurso</h6></li>
+                <li *ngFor="let tipo of resourceTypes" ><a (click)="updateTableResources(tipo)" cDropdownItem>{{tipo}}</a></li>
+
+              </ul>
+            </c-dropdown>
+
+          </c-col>
+
+      </c-row>
+
+        <table cTable>
+          <thead cTableColor="primary">
+          <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let resource of resources" >
+            <td>{{resource.id}} </td>
+            <td>{{resource.name}} </td>
+            <td>{{resource.resourceType}} </td>
+            <td> <input id="envResource"  type="checkbox" (change)="onAddEnvironment(resource,$event)" [checked]="inResourceList(resource)" ></td>
+            <!-- <td>{{inResourceList(resource)}} </td> -->
+            <!-- <td><a [routerLink]="['../ambiente',ambiente.idAmbiente]">Ver</a> </td> -->
+          </tr>
+          </tbody>
+        </table>
+        <br>
+        <app-paginador (pageChanged)="loadTableResource($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize" ></app-paginador>
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>

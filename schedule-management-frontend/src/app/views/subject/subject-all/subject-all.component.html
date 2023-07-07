@@ -1,0 +1,69 @@
+
+<c-row ngPreserveWhitespaces>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong class="titulo">Asignaturas </strong>
+      </c-card-header>
+      <c-card-body>
+
+        <c-row class="mb-3">
+        <!-- <div class="col-auto"> -->
+          <label cLabel class="col-sm-2 col-form-label" >
+            Filtrar por id de programa:
+          </label>
+          <c-col md="5">
+          <c-dropdown>
+            <button cButton cDropdownToggle color="light">
+              Selecciona programa
+            </button>
+            <ul cDropdownMenu>
+              <li><h6 cDropdownHeader>Programas</h6></li>
+              <li *ngFor="let program1 of programs">
+                <a (click)="updateTableSubject(program1.programId)" cDropdownItem>
+                {{program1.programId}}</a></li>
+              <!-- routerLink="./{{tipo}}" -->
+            </ul>
+          </c-dropdown>
+          </c-col>
+        <!-- </div> -->
+        </c-row>
+
+
+        <table cTable
+            footer
+            itemsPerPageSelect
+            itemsPerPage={1}
+            pagination
+            [responsive]="true"
+        >
+          <thead cTableColor="primary">
+          <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let subject of subjects">
+            <td>{{subject.subjectCode}} </td>
+            <td>{{subject.name}} </td>
+            <td>{{subject.semester}}</td>
+            <td>{{subject.timeBlock ? "Si" : "No"}}</td>
+            <td>{{subject.weeklyOverload}}</td>
+            <td>{{subject.program}}</td>
+
+          </tr>
+          </tbody>
+
+        </table>
+        <br>
+        <app-paginador
+        (pageChanged)="loadTableSubject($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+
+        ></app-paginador>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>

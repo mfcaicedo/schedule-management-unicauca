@@ -1,0 +1,27 @@
+<c-card>
+    <c-card-header>
+      <strong class="titulo">{{title}} </strong>
+    </c-card-header>
+  
+    <c-card-body>
+      <fieldset>
+        <strong class="cuerpo">
+          <legend>Selección de tipo de búsqueda</legend>
+        </strong>
+          <c-col md="10"> 
+            <input type="radio" name="tipoBusqueda" value="datosPersonales" id="datosPersonalesRadio" #datosPersonalesRadio>
+            <label for="datosPersonalesRadio">Búsqueda de Un docente por datos personales. </label><br>
+            
+            <input type="radio" name="tipoBusqueda" value="departamento" id="departamentoRadio" #departamentoRadio>
+            <label for="departamentoRadio"   >Búsqueda de Varios docentes por departamento. </label><br>
+          </c-col> 
+      </fieldset>
+
+      <app-datos-personales *ngIf="banderaActivarComponenteDatosPersonales"></app-datos-personales>
+      <app-departamento *ngIf="banderaActivarComponenteDepartamento"></app-departamento>
+     
+          
+    </c-card-body>
+
+  
+  </c-card>

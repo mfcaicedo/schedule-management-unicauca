@@ -1,0 +1,34 @@
+:host {
+  .legend {
+    small {
+      font-size: x-small;
+    }
+  }
+}
+
+.facultades {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+section {
+  display: flex;
+  width: 730px;
+  height: 420px;
+}
+
+section img {
+  width: 0px;
+  flex-grow: 1;
+  object-fit: cover;
+  opacity: .8;
+  transition: .5s ease;
+}
+
+section img:hover {
+  // cursor: all-scroll;
+  width: 450px;
+  opacity: 1;
+  filter: contrast(120%);
+}

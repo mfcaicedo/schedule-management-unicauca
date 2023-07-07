@@ -1,0 +1,65 @@
+
+<c-row ngPreserveWhitespaces>
+
+  <c-col xs="12">
+    <c-card class="mb-4">
+      <c-card-header>
+        <strong class="titulo">Recursos </strong>
+      </c-card-header>
+      <c-card-body>
+
+        <c-row class="mb-3">
+        <!-- <div class="col-auto"> -->
+          <label cLabel class="col-sm-2 col-form-label" >
+            Filtrar por tipo de recurso:
+          </label>
+          <c-col md="5">
+          <c-dropdown>
+            <button cButton cDropdownToggle color="light">
+              Selecciona tipo recurso
+            </button>
+            <ul cDropdownMenu>
+              <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
+              <li *ngFor="let tipo of resourceTypes"><a (click)="updateTableResource(tipo)" cDropdownItem>{{tipo}}</a></li>
+              <!-- routerLink="./{{tipo}}" -->
+            </ul>
+          </c-dropdown>
+          </c-col>
+        <!-- </div> -->
+        </c-row>
+
+
+        <table cTable
+            footer
+            itemsPerPageSelect
+            itemsPerPage={1}
+            pagination
+            [responsive]="true"
+        >
+          <thead cTableColor="primary">
+          <tr>
+            <th *ngFor="let c of columns">{{c}} </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let resource of resources">
+            <td>{{resource.id}} </td>
+            <td>{{resource.name}} </td>
+            <td>{{resource.resourceType}}</td>
+            <td><a [routerLink]="['../edit',resource.id]">Editar</a> </td>
+
+          </tr>
+          </tbody>
+
+        </table>
+        <br>
+        <app-paginador
+        (pageChanged)="loadTableResource($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+
+        ></app-paginador>
+
+      </c-card-body>
+    </c-card>
+  </c-col>
+
+</c-row>

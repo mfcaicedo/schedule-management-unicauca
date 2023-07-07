@@ -1,0 +1,33 @@
+<div class="container">
+    <p>Diligencie a continuacion <span class="titulo">solo uno </span>de los campos para realizar la busqueda.
+    <br>Cuando llene uno de ellos se desactivará el otro.</p>
+    
+    <div class="form-group" *ngIf="contenidoTextIdentificacion =='' ">
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" [(ngModel)]="contenidoTextNombre" #textNombre (input)="getListaProfesoresPorNombre()">
+    </div>
+    
+    <div class="form-group" *ngIf="contenidoTextNombre =='' ">
+      <label for="Identificacion">Identificación:</label>
+      <input type="text" id="Identificacion" name="nombre" [(ngModel)]="contenidoTextIdentificacion" #textIdentificacion (input)="getNombreProfesor()">
+    </div>
+   <!-- {{contenidoTextIdentificacion}}
+    {{nombrePersonaReporte}}-->
+     
+          
+  <div *ngFor="let docente of listaDocenesPorNombre; let i=index">
+    <label>
+      <input type="radio" name="docente" [value]="docente.personCode" [(ngModel)]="contenidoSelectedBusquedaDocenteNombre">
+      {{ docente.fullName }}({{docente.personCode}})
+    </label>
+  </div>
+    <input *ngIf="contenidoTextIdentificacion !='' || 
+                  (contenidoTextNombre !='' && contenidoSelectedBusquedaDocenteNombre !='' && listaDocenesPorNombre.length>0)"
+    id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte" (click)="GenerarReporte()">  
+   
+  <div *ngFor="let esquema of esquemas; let i=index">
+    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2> 
+    <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+    <!--<full-calendar [options]="calendaroptionsService.getCalendarOptions(esquema)"></full-calendar>-->
+    </div>     
+  </div>

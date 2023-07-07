@@ -1,0 +1,60 @@
+<form  [formGroup]="form"  >
+
+  <c-row class="mb-3">
+   <label cLabel class="col-sm-2 col-form-label" for="resourceId">
+     Id:
+   </label>
+   <div class="col-sm-10">
+     <input formControlName="id"  type="text" value="" id="resourceId" readonly="true"/>
+   </div>
+ </c-row>
+ <c-row class="mb-3">
+   <label cLabel class="col-sm-2 col-form-label" for="resourceName" >
+     Nombre:
+   </label>
+   <div class="col-sm-10">
+     <input formControlName="name" id="resourceName" type="text"  required />
+   </div>
+   <div class="alert alert-danger" *ngIf="isNameInvalid">
+    <div *ngIf="name?.hasError('required')">
+      Nombre es requerido
+    </div>
+    <div *ngIf="name?.hasError('minlength')">
+      Nombre debe tener mas de 2 carácteres
+    </div>
+  </div>
+ </c-row>
+
+ <c-row class="mb-3">
+   <label cLabel class="col-sm-2 col-form-label" for="resourceType">
+     Tipo recurso:
+   </label>
+
+   <c-col md="5">
+     <select cSelect id="validationCustom04"  (change)="onSelectedValue($event)" >
+       <option value="">Escoge un tipo de recurso</option>
+       <option *ngFor="let tipo of resourceTypes" value="{{tipo}}" >{{tipo}} </option>
+     </select>
+     <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+   </c-col>
+   <c-col md="4">
+     <!-- <input formControlName="resourceType"  required type="text" readonly="true" [value]="selectedValueType" [hidden]="!isEdit"/> -->
+     <input formControlName="resourceType"   touched type="text" readonly="true" [hidden]="!isEdit" required/>
+     <div class="alert alert-danger" *ngIf="isResourceTypeInvalid">
+      <div *ngIf="resourceType?.hasError('required')">
+       Tipo de recurso es requerido
+      </div>
+    </div>
+     <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+   </c-col>
+
+ </c-row>
+
+
+ <br>
+ <!-- <div class="d-grid gap-2 ">
+   <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="form.invalid" (click)="showResource()">Añadir recursos a este ambiente</button>
+ </div> -->
+
+
+</form>

@@ -1,0 +1,23 @@
+
+.iedit{
+  background-image: url('/src/assets/img/svg/edit.svg');
+}
+.ico {
+	padding-left: 22px;
+	background-position: center left;
+	background-repeat: no-repeat;
+	background-color: transparent;
+}
+a{
+  margin: 0px 10px 0px 0px;
+}
+a > svg{
+  width: 25px;
+  height: 25px;
+ }
+.titulo{
+  color: #a80000;
+}
+.label-title{
+  font-weight: bold;
+}

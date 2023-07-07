@@ -1,0 +1,40 @@
+
+<c-card>
+  <c-card-header>
+    <strong class="titulo">Crear recurso</strong>
+  </c-card-header>
+  <c-card-body>
+
+    <app-resources-form
+    #child [isEdit]="false" (emitterForm)="getResourceForm($event)"
+    [isSent]="isSent"
+    ></app-resources-form>
+
+
+  </c-card-body>
+
+</c-card>
+<br>
+<button cButton color="primary" size="lg" [disabled]= "child.form.invalid" (click)="child.setValues() ;getInfoResource();saveResource()" >
+  Guardar este recurso
+</button>
+
+<!--
+  cuadro de dialog resumiendo info del ambiente creado
+ -->
+ <!-- <c-modal id="liveDemoModal" [visible]="visible" (visibleChange)="handleLiveDemoChange($event)">
+  <c-modal-header>
+    <h5 cModalTitle>Resumen del recurso creado</h5>
+    <button (click)="toggleLiveDemo()" cButtonClose></button>
+  </c-modal-header>
+  <c-modal-body>
+    {{showResource}}
+
+  </c-modal-body>
+  <c-modal-footer>
+    <button (click)="toggleLiveDemo()" cButton color="secondary">
+      Seguir editando
+    </button>
+    <button cButton (click)="saveResource()" color="primary">Confirmar</button>
+  </c-modal-footer>
+</c-modal> -->

@@ -1,0 +1,144 @@
+package com.pragma.api.domain;
+
+import com.pragma.api.model.enums.StatusFileEnumeration;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public class ResponseFile {
+
+    private StatusFileEnumeration statusFile;
+    private int contRows;
+    private int contErrorRows;
+    private int contSuccessRows;
+    private int contSaveRows;
+
+    //ERRORES DE TIPO
+    private List<String> logsType;
+
+    //ERRORES DE CAMPOS
+    private List<String> logsEmptyFields;
+
+    //ERRORES GENERALES DE LA CLASE ESPECIFICA
+    private List<String> logsGeneric;
+
+    //ERRORES GENERALES DE LA CLASE ESPECIFICA
+    private List<String> logsSuccess;
+
+    public ResponseFile() {
+        this.statusFile = StatusFileEnumeration.NO_PROCESS;
+        this.contRows = 0;
+        this.contErrorRows = 0;
+        this.contSuccessRows = 0;
+        this.contSaveRows = 0;
+        this.logsType = new LinkedList();
+        this.logsEmptyFields = new LinkedList();
+        this.logsGeneric = new LinkedList();
+        this.logsSuccess = new LinkedList();
+    }
+
+    public StatusFileEnumeration getStatusFile() {
+        return statusFile;
+    }
+
+    public void setStatusFile(StatusFileEnumeration statusFile) {
+        this.statusFile = statusFile;
+    }
+
+    public int getContRows() {
+        return contRows;
+    }
+
+    public void setContRows(int contRows) {
+        this.contRows = contRows;
+    }
+
+    public int getContErrorRows() {
+        return contErrorRows;
+    }
+
+    public void setContErrorRows(int contErrorRows) {
+        this.contErrorRows = contErrorRows;
+    }
+
+    public int getContSuccessRows() {
+        return contSuccessRows;
+    }
+
+    public void setContSuccessRows(int contSuccessRows) {
+        this.contSuccessRows = contSuccessRows;
+    }
+
+    public int getContSaveRows() {
+        return contSaveRows;
+    }
+
+    public void setContSaveRows(int contSaveRows) {
+        this.contSaveRows = contSaveRows;
+    }
+
+    public List<String> getLogsType() {
+        return logsType;
+    }
+
+    public void setLogsType(List<String> logsType) {
+        this.logsType = logsType;
+    }
+
+    public List<String> getLogsEmptyFields() {
+        return logsEmptyFields;
+    }
+
+    public void setLogsEmptyFields(List<String> logsEmptyFields) {
+        this.logsEmptyFields = logsEmptyFields;
+    }
+
+    public List<String> getLogsGeneric() {
+        return logsGeneric;
+    }
+
+    public void setLogsGeneric(List<String> logsGeneric) {
+        this.logsGeneric = logsGeneric;
+    }
+
+    public List<String> getLogsSuccess() {
+        return logsSuccess;
+    }
+
+    public void setLogsSuccess(List<String> logsSuccess) {
+        this.logsSuccess = logsSuccess;
+    }
+
+    //TODO Metodos para agregar errores
+
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsEmptyFields(String log) {
+        if (!log.isEmpty()) this.logsEmptyFields.add(log);
+    }
+    /**
+     * Metodo para agregar errores de campos vacios
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsType(String log) {
+        if (!log.isEmpty()) this.logsType.add(log);
+    }
+    /**
+     * Metodo para agregar errores genéricos.
+     * @param log error a agregar a la lista de errores.
+     */
+    public void addLogsGeneric(String log) {
+        if (!log.isEmpty()) this.logsGeneric.add(log);
+    }
+    /**
+     * Metodo para agregar mensajer de éxito al procesar el archivo.
+     * @param log mensaje a agregar a la lista de mensajes de éxito.
+     */
+    public void addLogsSuccess(String log) {
+        if (!log.isEmpty()) this.logsSuccess.add(log);
+    }
+
+
+}

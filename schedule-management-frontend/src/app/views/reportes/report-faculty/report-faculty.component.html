@@ -1,0 +1,33 @@
+<c-card>
+    <c-card-header>
+      <strong class="titulo">{{title}} </strong>
+    </c-card-header>
+  
+
+
+
+    <c-card-body>
+      <strong class="cuerpo">seleccione la facultad :</strong>
+        <br>
+        <c-row class="mb-3">
+
+            <c-col md="10">
+              <select cSelect id="filtroFacultad"  (change)="onSelectedFacultad($event)" class="uppercase-text" >
+                <option value="{{valDefecto}}">Selecciona una Facultad</option>
+                <option *ngFor="let fac of listafacultades" value="{{fac.facultyId}}" 
+                class="uppercase-text" >
+                  {{fac.facultyName}} </option>
+              </select>
+            </c-col>  
+
+        </c-row>
+        
+        <span *ngIf="isFacSelected">
+          <div class="centrado">
+            <input type="submit" class="btn-upload-file" value="Generar Reporte"(click)="GenerarReporte()">      
+          </div>
+        </span>
+    </c-card-body>
+
+  
+  </c-card>

@@ -1,0 +1,37 @@
+<div class="grid-container">
+  <div>
+
+    <form [formGroup]="form" #formCreate>
+
+      <c-accordion [alwaysOpen]="false" class="shadow accordion-custom rounded-2 " #beforeFormAccordion>
+
+<!-- Seleccionar ambiente
+                (isEnvironmentSelected)="getIfEnvironmentSelected($event)"
+            -->
+            <div >
+              <app-schedule-environments #scheduleenvironments
+                (selectedEnvironment)="getSelectedEnvironment($event)"></app-schedule-environments>
+            </div>
+
+        <!-- cursos del programa y semestre seleccionado, solo seleccionar 1-->
+        <div>
+          <app-courses #courses [selectedProgram]="program" [selectedSemester]="semester"
+            (selectedCourse)="getSelectedCourse($event)"></app-courses>
+        </div>
+
+        
+
+
+
+        <!-- seleccionar horarios y dia  -->
+
+      </c-accordion>
+
+
+
+    </form>
+  </div>
+  <br>
+
+
+</div>

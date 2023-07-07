@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org"xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Unicauca</title>
+</head>
+<body>
+    <h2>Restablecimiento de contraseña</h2>
+    <h3><span>Hola</span><span th:text="${username}"></span></h3>
+    <h4>Haz click en el siguiente enlace para reestablecer tu contraseña</h4>
+    <a th:href="@{${url}}"><button> Reestablecer contraseña</button></a>
+</body>
+</html>

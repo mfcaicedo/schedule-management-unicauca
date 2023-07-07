@@ -1,0 +1,26 @@
+
+<!-- <ng-container *ngIf="showHorario"> -->
+<div id="franja" *ngFor="let horario of horariosColor " >
+
+  <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
+
+        <!-- {{validarNumeroDia(horario.day!)}} -->
+    <!-- <div *ngIf="numeroDia == {{validarNumeroDia(header)}} " class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13"> -->
+    <div *ngIf="horario.day == header.toUpperCase()"  >
+
+      <!-- <span>Materia:{{horario.course.subject.subjectCode}}</span> -->
+      <div class="{{horario.color}} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">
+        <span >Materia:{{horario.id}}</span>
+      </div>
+
+
+      <div class="margin-10px-top font-size14"><strong><span>CursoId:{{horario.course.courseId}}</span> </strong> </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- </ng-container> -->
+<!-- <ng-template #loading>
+  <div class="loading">Loading...</div>
+</ng-template> -->

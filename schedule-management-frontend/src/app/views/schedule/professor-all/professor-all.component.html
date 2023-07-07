@@ -1,0 +1,44 @@
+<!-- TODO
+
+tabla con todos los profesores mostrar atributos de esa entidad y casilla para poder seleccionarlo
+al seleccionarlo emitirlo al padre schedule-professor-detail 
+-->
+<c-accordion-item >
+    <ng-template cTemplateId="accordionHeader">
+        <div *ngIf="!showSelectedProfessor" >
+          <strong>Profesores </strong>
+        </div>
+    
+        <div class="container" *ngIf="showSelectedProfessor">
+          <label  >
+            Profesor seleccionado : <strong>{{professor.personCode}} <br></strong>
+    
+          </label>
+          <div md="5" *ngIf="isDisabled">
+            <button cButton id="btnChangeSelection" color="danger" variant="outline" size="sm" type="submit" (click)="changeSelectedProfessor()">
+              Cambiar Profesor
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+    <ng-template cTemplateId="accordionBody">
+      <table cTable  >
+        <thead cTableColor="dark">
+        <tr>
+          <th *ngFor="let c of columns">{{c}} </th>
+        </tr>
+        </thead>
+        <tbody >
+        <tr *ngFor="let professor of professors" >
+          <td>{{professor.personCode}} </td>
+          <td>{{professor.fullName}} </td>
+          <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingProfessor(professor,$event)">  </td>
+        </tr>
+        </tbody>
+        </table>
+        <app-paginador
+            (pageChanged)="loadTableProfessorsSchedule($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+        ></app-paginador>
+    </ng-template>
+</c-accordion-item>

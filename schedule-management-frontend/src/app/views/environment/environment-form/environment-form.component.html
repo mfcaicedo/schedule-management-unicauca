@@ -1,0 +1,95 @@
+<form [formGroup]="form">
+  <c-row class="mb-3">
+    <label cLabel class=" col-form-label" for="environmentId" style="display: none;">
+      Id:
+    </label>
+    <div class="">
+      <input formControlName="id" type="text" value="" id="environmentId" readonly="true" style="display: none;" />
+    </div>
+  </c-row>
+  <c-row class="mb-3">
+    <div class="group-field-text">
+      <label cLabel class="col-form-label" for="environmentName">
+        Nombre:
+      </label>
+      <div class="">
+        <input formControlName="name" id="environmentName" type="text" required />
+      </div>
+      <div class="alert alert-danger mt-2 mb-0" *ngIf="isNameInvalid">
+        <div *ngIf="name?.hasError('required')" class="">
+          El nombre es requerido
+        </div>
+      </div>
+    </div>
+  </c-row>
+  <c-row class="mb-3">
+    <div class="group-field-text">
+      <label cLabel class="col-form-label" for="environmentLocation">
+        Ubicación:
+      </label>
+      <div class="">
+        <input formControlName="location" id="environmentLocation" type="text" required />
+      </div>
+      <div class="alert alert-danger mt-2 mb-0" *ngIf="isLocationInvalid">
+        <div *ngIf="location?.hasError('required')">
+          La ubicación es requerida
+        </div>
+      </div>
+    </div>
+  </c-row>
+  <c-row class="mb-3">
+    <div class="group-field-text">
+      <label cLabel class="col-form-label" for="environmentCapacity">
+        Capacidad:
+      </label>
+      <div class="">
+        <input formControlName="capacity" id="environmentCapacity" type="number" required />
+      </div>
+      <div class="alert alert-danger mt-2 mb-0" *ngIf="isCapacityInvalid">
+        <div *ngIf="capacity?.hasError('required')">
+          La capacidad es requerido
+        </div>
+        <div *ngIf="capacity?.hasError('min')">
+          Capacidad debe ser mayor o igual a 2
+        </div>
+      </div>
+    </div>
+  </c-row>
+
+  <c-row>
+    <div class="group-faculty-typeAmbient">
+      <div class="">
+        <label cLabel class="col-form-label" for="environmentType">
+          Tipo ambiente:
+        </label>
+          <select cSelect id="validationCustom04" (change)="onSelectedValue($event)">
+            <option value="">Escoge un tipo de ambiente</option>
+            <option *ngFor="let tipo of environmentTypes" value="{{tipo}}">{{tipo}} </option>
+          </select>
+          <input formControlName="environmentType" touched type="text" readonly="true" [hidden]="!isEdit" required />
+          <div class="alert alert-danger" *ngIf="isEnvironmentTypeInvalid">
+            <div *ngIf="environmentType?.hasError('required')">
+              Tipo de ambiente es requerido
+            </div>
+          </div>
+      </div>
+      <div class="faculty">
+        <label cLabel class="col-form-label" for="environmentFaculty">
+          Facultad:
+        </label>
+        <select cSelect id="validationCustom04" (change)="onSelectedFaculty($event)">
+          <option value="">Escoge una facultad</option>
+          <option *ngFor="let faculty of facultys" value="{{faculty.facultyId}}">{{faculty.facultyId}} </option>
+        </select>
+        <input formControlName="faculty" id="environmentFaculty" type="text" readonly="true" [hidden]="!isEdit"
+          required />
+        <div class="alert alert-danger" *ngIf="isFacultyInvalid">
+          <div *ngIf="faculty?.hasError('required')">
+            Facultad es requerido
+          </div>
+        </div>
+      </div>
+    </div>
+  </c-row>
+  <br>
+</form>

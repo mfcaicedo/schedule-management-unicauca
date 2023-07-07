@@ -1,0 +1,57 @@
+<!--sidebar-->
+<c-sidebar
+  #sidebar="cSidebar"
+  class="d-print-none sidebar sidebar-fixed"
+  id="sidebar"
+  visible
+>
+<!-- src: 'assets/img/brand/coreui-angular.svg',
+src: 'assets/img/brand/coreui-signet-white.svg', -->
+  <c-sidebar-brand
+    [brandFull]="{
+      src:'assets/img/png/logo_unicauca.png',
+      width: 150,
+      height: 70,
+      alt: 'Logo unicauca'
+    }"
+    [brandNarrow]="{
+
+      width: 46,
+      height: 46,
+      alt: 'CoreUI Logo'
+    }"
+    routerLink="./"
+  >
+  </c-sidebar-brand>
+    <perfect-scrollbar [config]="perfectScrollbarConfig">
+  <!--  [perfectScrollbar]="perfectScrollbarConfig"-->
+    <c-sidebar-nav
+      [navItems]="navItems"
+      dropdownMode="close"
+    >
+
+    </c-sidebar-nav>
+    </perfect-scrollbar>
+  <c-sidebar-toggler
+    *ngIf="!sidebar.narrow"
+    toggle="unfoldable"
+    cSidebarToggle="sidebar"
+  ></c-sidebar-toggler>
+</c-sidebar>
+
+<!--main-->
+<div class="wrapper d-flex flex-column min-vh-100 bg-light dark:bg-transparent">
+  <!--app-header-->
+  <app-default-header class="mb-4 d-print-none header header-sticky" position="sticky" sidebarId="sidebar"></app-default-header>
+  <!--app-body-->
+  <!-- <div class="body flex-grow-1 "> -->
+  <div class="body flex-grow-1 " style="margin-inline:60px">
+   
+    <!-- <c-container breakpoint="lg" class="h-auto" style="margin-inline:50px ; padding:0px; display:inline-block;"> -->
+
+      <router-outlet></router-outlet>
+    <!-- </c-container> -->
+  </div>
+  <!--app footer-->
+  <app-default-footer></app-default-footer>
+</div>

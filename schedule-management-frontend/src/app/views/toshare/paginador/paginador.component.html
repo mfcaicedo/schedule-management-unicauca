@@ -1,0 +1,27 @@
+
+<c-pagination align="end" aria-label="Page navigation example">
+  <c-dropdown direction="dropup" variant="btn-group">
+    <button cButton cDropdownToggle color="secondary" id="selectSize">
+      Elementos por página [ {{pageSize}} ]
+    </button>
+    <ul cDropdownMenu>
+      <li *ngFor="let size of selectPageSize">
+        <button cDropdownItem (click)="onSelectingPageSize(size)">{{size}}</button>
+      </li>
+    </ul>
+  </c-dropdown>
+  <br>
+  <li cPageItem [disabled]="currentPage==1">
+    <a cPageLink  (click)="onPreviusPage()" >Anterior</a>
+  </li>
+  <li cPageItem *ngFor="let pagina of paginas" [active]="pagina ==currentPage">
+    <a cPageLink (click)="onChangePage(pagina)"  >{{pagina}} </a>
+  </li>
+
+  <li cPageItem [disabled]="currentPage == paginas.length || paginas.length ==0" >
+    <a cPageLink (click)="onNextPage()" >Siguiente</a>
+  </li>
+
+</c-pagination>
+
+
