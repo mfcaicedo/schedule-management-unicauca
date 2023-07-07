@@ -60,5 +60,4 @@ public interface ISubjectService {
 
     public Response<List<SubjectDTO>> findAllSemesterByProgramId(String programId);
 
-    public List<Subject> findAllPrueba();
 }

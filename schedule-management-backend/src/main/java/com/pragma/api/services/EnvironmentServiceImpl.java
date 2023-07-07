@@ -48,7 +48,6 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     public Response<EnvironmentDTO> createEnvironment(EnvironmentDTO environmentDTO) {
         logger.debug("Init createEnvironment Business Environment: {}", environmentDTO.toString());
         Response<EnvironmentDTO> response = new Response<>();
-        System.out.println("Init createEnvironment Business Environment: " + environmentDTO.toString());
         // Busco el faculty
         Faculty faculty = null;
         faculty = this.facultyRepository.findByFacultyId(environmentDTO.getFacultyId());
@@ -74,7 +73,6 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
     public Response<EnvironmentDTO> updateEnvironment(EnvironmentDTO environmentDTO, Integer id) {
         Response<EnvironmentDTO> response = new Response<>();
         logger.debug("Miremos esto: {}", environmentDTO.toString());
-        System.out.println("Miremos esto: " + environmentDTO.toString());
         // Busco el environment a actualizar
         Environment environment = null;
         environment = this.environmentRepository.findById(id).get();
@@ -194,7 +192,6 @@ public class EnvironmentServiceImpl implements IEnvironmentService {
         if (!this.environmentRepository.existsById(environmentId))
             throw new ScheduleBadRequestException("bad.request.environment.id", Integer.toString(environmentId));
         Environment environment = this.environmentRepository.findById(environmentId).get();
-        System.out.println("Miremos esto: " + resourceList.getResourceList());
         for (int resourceId : resourceList.getResourceList()) {
             if (!this.resourceRepository.existsById(resourceId))
                 throw new ScheduleBadRequestException("bad.request.resource.id", Integer.toString(environmentId));

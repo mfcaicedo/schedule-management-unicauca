@@ -156,9 +156,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
         // Periodo correspondiente del archivo
         if (data.get(0).getPeriod() != null && !data.get(0).getPeriod().isEmpty()) {
             // Busco el periodo
-            System.out.println("entro al buscar el periodo");
             Optional<Period> period = iPeriodRepository.findById(data.get(0).getPeriod());
-            System.out.println("periodo: " + period);
             if (!period.equals(Optional.empty())) {
                 academicOfferFile.setPeriod(period.get());
             } else {
@@ -194,7 +192,6 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             return responseFile;
         }else{
-            System.out.println("llega la que sabemos");
             //TODO Guardamos los cursos del archivo nuevo
             //1. Buscamos un archivo en finalizado para el archivo a subir
 //            List<AcademicOfferFile> academicOfferFileSearch = iAcademicOfferFileRepository.findByProgram_ProgramIdAndPeriod_PeriodIdAndStateFile(
@@ -205,15 +202,11 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             if(academicOfferFileSearchList.size() > 0){
                 academicOfferFileSearch = academicOfferFileSearchList.get(0);
             }
-            academicOfferFileSearchList.forEach(x-> System.out.println("Archivo: " + x.getNameFile()));
 
-            System.out.println("holiii " + academicOfferFileSearch.getProgram().getName());
             if(academicOfferFileSearch != null){
-                System.out.println("estamos melos");
                 //2. Validamos que no hayan cursos repetidos pertenecientes al mismo programa del archivo a subir
                 //2.1 Recupero los cursos pertenecientes al programa del archivo a subir
                 List<Course> courses = iCourseService.finAllByProgram_ProgramaId(academicOfferFileSearch.getProgram().getProgramId());
-                courses.forEach(x-> System.out.println("Curso: " + x.getId() + x.getSubject().getProgram().getName()));
                 //2.2 Comparar los cursos del archivo a subir con los cursos del archivo finalizado encontrado que
                 //pertenezcan al mismo programa
                 boolean flag = false;
@@ -260,9 +253,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             }
 
             if (value.getSubjectCode() != null && !value.getSubjectCode().isEmpty()) {
-                System.out.println("codigo materia: " + value.getSubjectCode());
                 Response<SubjectDTO> subjectDTO = iSubjectService.getSubjectByCode(value.getSubjectCode());
-                System.out.println("subjectDTO: " + subjectDTO.getData());
                 if (subjectDTO.getData() != null) {
                     Subject subjectFinal = modelMapper.map(subjectDTO.getData(), Subject.class);
                     course.setSubject(subjectFinal);
@@ -279,9 +270,7 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             List<CourseTeacher> lstCourseTeacher = new ArrayList<>();
             int contAux = 1;
             if (value.getPersonCode().size() != 0) {
-                System.out.println("LLEGA AL FOR DE PERSONAS " + value.getPersonCode().size());
                 for (String personCode : value.getPersonCode()) {
-                    System.out.println("codigo persona: " + personCode);
 
                     Person person = modelMapper.map(iPersonService.findByCode(personCode), Person.class);
                     if (person != null) {
@@ -302,23 +291,18 @@ public class FileAcademicOfferImpl implements IFileAcademicOffer {
             }
             // TODO guardar curso, cursoTeacher y academicOfferFile
             // ANTES DE GUARDAR VALIDAMOS QUE NO HAYAN ERRORES
-            System.out.println("lista de errores genericos: " + responseFile.getLogsGeneric().size());
-            System.out.println("lista de errores vacios: " + responseFile.getLogsEmptyFields().size());
-            System.out.println("lista de errores tipo: " + responseFile.getLogsType().size());
             if (responseFile.getLogsEmptyFields().size() == 0 && responseFile.getLogsGeneric().size() == 0 &&
                     responseFile.getLogsType().size() == 0) {
 
                 Response<CourseDTO> courseResponse = iCourseService
                         .createCourse(modelMapper.map(course, CourseDTO.class));
                 for (CourseTeacher courseTeacher : lstCourseTeacher) {
-                    System.out.println("entro a guardar COURSE TEACHER");
                     courseTeacher.setCourse(modelMapper.map(courseResponse.getData(), Course.class));
                     iCourseTeacherService.save(modelMapper.map(courseTeacher, CourseTeacherDTO.class));
                 }
                 auxIndice++;
                 bandera = true;
             } else {
-                System.out.println("entro al else de guardar informacion");
                 responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             }
 

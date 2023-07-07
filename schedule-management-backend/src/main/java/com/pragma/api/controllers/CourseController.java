@@ -46,7 +46,6 @@ public class CourseController {
 
     @GetMapping("/{id}")
     private CourseDTO findById(@PathVariable Integer id){
-        System.out.println("llego al controlado con el id" + id);
         return this.courseBusiness.findById(id);
     }
 

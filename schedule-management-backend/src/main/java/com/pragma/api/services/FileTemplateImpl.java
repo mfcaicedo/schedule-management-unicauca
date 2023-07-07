@@ -80,8 +80,6 @@ public class FileTemplateImpl implements ITemplateFileService{
             path = listPath.get(1);
         }
 
-        System.out.println("temporaryFile: "+temporaryFile.length);
-        System.out.println("temporaryFile: "+temporaryFile);
         Workbook workbook = processExcelFile(path, programId, responseExcel);
         //Ahora se guarda el archivo en un OutputStream
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -106,7 +104,6 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         //TODO 1. consultar los todos los profesores
         List<Person> teachers = iPersonService.findAllPersonByTypeTeacher();
-//        teachers.forEach(teacher -> System.out.println("hola: " + teacher.getFullName() + teacher.getDepartment().getDepartmentName()));
 
         //TODO 2. consultar todos las materias pertenecientes a un programa
         //TODO 2.1 consultar el programa
@@ -228,7 +225,6 @@ public class FileTemplateImpl implements ITemplateFileService{
             Resource resource = resourceLoader.getResource("file:" + nameFile);
             File file = resource.getFile();
             String absolutePath = file.getAbsolutePath();
-            System.out.println("ruta " + absolutePath);
             //Cambio e \ por / para que la ruta sea correcta
             absolutePath = absolutePath.replace("\\","/");
             String pathFormat[] = absolutePath.split("/");

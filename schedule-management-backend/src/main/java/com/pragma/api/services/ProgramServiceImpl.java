@@ -31,9 +31,7 @@ public class ProgramServiceImpl implements IProgramService {
 
     @Override
     public List<ProgramDTO> findAllProgram() {
-        System.out.println("ProgramServiceImpl.findAllProgram");
         List<Program> programs = this.iProgramRepository.findAll();
-        programs.forEach(program -> System.out.println("vereeeeee " +program.getName()));
         List<ProgramDTO> programDTOS = programs.stream().map(program ->  modelMapper.map(program, ProgramDTO.class)).collect(Collectors.toList());
         return programDTOS;
     }

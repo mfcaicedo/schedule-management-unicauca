@@ -73,7 +73,6 @@ public class AuthenticationController {
             return new ResponseEntity("Bad arguments"
                     , HttpStatus.BAD_REQUEST);
         }
-        System.out.println("que sale " + loginDTO.getUsername() + ' ' + loginDTO.getPassword());
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken
                         (loginDTO.getUsername(),loginDTO.getPassword()));

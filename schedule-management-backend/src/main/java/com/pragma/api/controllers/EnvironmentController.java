@@ -35,7 +35,6 @@ public class EnvironmentController {
 
     @PostMapping()
     public Response<EnvironmentDTO> createEnvironment(@Valid @RequestBody EnvironmentDTO environmentDTO) {
-        System.out.println(environmentDTO);
         return this.environmentService.createEnvironment(environmentDTO);
     }
 
@@ -46,7 +45,6 @@ public class EnvironmentController {
 
     @GetMapping("/downloadTemplate")
     ResponseEntity<Resource> downloadTemplate() throws IOException {
-        System.out.println("--------------------------------lleaga al controlador de descarga");
         return this.fileEnvironmentService.downloadTemplateFile();
     }
 
@@ -54,7 +52,6 @@ public class EnvironmentController {
     @ResponseBody
     public Response<EnvironmentDTO> updateEnvironment(@Valid @RequestBody EnvironmentDTO environmentDTO,
                                                       @PathVariable Integer id) {
-        System.out.println("llega al controlador de update");
         return this.environmentService.updateEnvironment(environmentDTO, id);
     }
 
@@ -125,7 +122,6 @@ public class EnvironmentController {
 
     @DeleteMapping("/delete/{environmentId}")
     public void deleteEnvironment(@PathVariable Integer environmentId) {
-        System.out.println("id" + environmentId);
         this.environmentService.deleteById(environmentId);
     }
 

@@ -90,14 +90,8 @@ public class SubjectTemplateImpl implements ITemplateSubjectService {
 
     private Workbook processExcelFile(String path, String programId) throws IOException {
         // Obtener el programa por medio del programID
-        System.out.println("ProgramID: " + programId);
         ProgramDTO program1 = iProgramService.findByProgramId(programId);
-        System.out.println("Program veerr: " + program1.getName());
-        System.out.println("Program veerr id: " + program1.getProgramId());
         Program program = modelMapper.map(iProgramService.findByProgramId(programId), Program.class);
-        System.out.println("Program: " + program.getName());
-        System.out.println("Program: " + program.getProgramId());
-
 
         // Cargar plantilla de Excel
         Workbook workbook = WorkbookFactory.create(new File(path));

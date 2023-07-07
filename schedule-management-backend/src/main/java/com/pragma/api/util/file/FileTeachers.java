@@ -27,16 +27,13 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
         XSSFSheet sheet = book.getSheetAt(0);  //cargamos la hoja que vamos a tratar
         int rowNum = sheet.getLastRowNum();
         int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
-        System.out.println("FILAS EXCEL suceso : " + rowNumOriginal);
         if (rowNumOriginal == 0){
             responseFile.addLogsGeneric("El archivo no contiene registros");
             responseFile.setStatusFile(StatusFileEnumeration.ERROR);
             return fileRows;
         }
-        System.out.println("FILAS EXCEL: " + rowNum);
         for (int i = 1; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
-            System.out.println("Registro numero: " + i);
             Row row = sheet.getRow(i);
             int columnNum = row.getLastCellNum();
             for (int j = 0; j < columnNum; j++) {
@@ -50,8 +47,6 @@ public class FileTeachers extends ProcessFile<FileRowTeacher>{
 
     @Override
     public FileRowTeacher convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
-
-        System.out.println("CELLS SIZE: " + cells.size());
 
         //FileRowTeacher fileRow = new FileRowTeacher();
         FileRowTeacher fileRow = new FileRowTeacher(-1,0,"","");

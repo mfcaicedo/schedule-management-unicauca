@@ -302,14 +302,12 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                             responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE CANTIDAD DE RECURSOS ESTA MAL DIGITADO");
                         }
                         if (!errorEnvironment && !errorResources && !errorVacias && !errorTipos && !errorRepetidos) {
-                            System.out.println("----------que hay:"+errorEnvironment);
                             responseFile.getLogsSuccess().add("[FILA " + rowNum + "]  LISTA PARA SER REGISTRADA");
                             fileEnvironment.add(log);
                             //listEnvironment.add(environment);
                             contSuccess++;
 
                         } else {
-                            System.out.println("--------------------- NO GUARDA AMBIENTE--------------");
                             contError++;
                         }
                     }
@@ -392,14 +390,12 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
             }
             environmentRepository.save(environment);
 
-            System.out.println("---------------------GUARDA AMBIENTE--------------");
             //------------------------Resources Avaliable--------------------------------------------
 
             if (log.getAvailableResources() != null) {
 
                 //Se crea el enviromentResources
                 List<Resource> resourcesDb = this.resourceRepository.findAll();
-                System.out.println("-----que hay: televisor, videobem" + log.getAvailableResources());
                 String[] words = log.getAvailableResources().split(",");
                 String[] wordsFormat = wordFormat(words); //formatear palabras
 
@@ -470,10 +466,6 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         for (Environment elementoEnvironment : logs) {
 
             if (elementoEnvironment.getName().equals(environmentaux.getName()) && elementoEnvironment.getLocation().equals(environmentaux.getLocation())) {
-                System.out.println("Nombre Ambiente: " + elementoEnvironment.getName());
-                System.out.println("Nombre ambiente: " + environmentaux.getName());
-                System.out.println("Location: " + elementoEnvironment.getLocation());
-                System.out.println("Location aux Ambiente: " + environmentaux.getLocation());
                 encontrado = true;
                 break;
             }

@@ -38,19 +38,14 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
         // Obtener el número de la última fila en la hoja de cálculo
         int rowNum = sheet.getLastRowNum();
 
-        // Imprimir el número de filas
-        //System.out.println(rowNum);
-
         //Establezco el número de filas a recorrer.
         int rowNumOriginal = getRowNumOriginal(rowNum, sheet);
-        System.out.println("filas a recorrer: " + rowNumOriginal);
 
         // Iterar a través de las filas, comenzando desde la fila 1 (omitiendo la primera fila de encabezado)
         for (int i = 1; i <= rowNumOriginal; i++) {
             // Crear una lista vacía de celdas para almacenar las celdas de una fila
             List<Cell> cells = new ArrayList<>();
             // Imprimir el número de columna actual
-            //System.out.println("Columna: " + i);
             // Obtener la fila actual en base al índice de fila
             Row row = sheet.getRow(i);
             // Obtener el número de la última celda en la fila
@@ -84,7 +79,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     fileRow.setName(name.toUpperCase());
                 }
             }else if (cells.get(0).getCellType().equals(CellType.NUMERIC)) {
-                System.out.println("---------------------Nombre 1:"+cells.get(0));
                 int aux = (int) cells.get(0).getNumericCellValue();
                 String name = ""+aux;
                 if (name.length() > 0) {
@@ -92,7 +86,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                     fileRow.setName(name.toUpperCase());
                 }
             } else if (!cells.get(0).getCellType().equals("")) {
-                System.out.println("---------------------Nombre 2:"+cells.get(0));
                 String name = ""+(cells.get(0));
                 if (name.length() > 0) {
                     fileRow.setRowNum(cells.get(0).getRowIndex());
@@ -177,7 +170,6 @@ public class FileEnvironment extends ProcessFile<FileRowEnvironment> {
                         fileRow.setQuantity(listaint);
                     }
                     catch (Exception e){
-                        System.out.println("-------------------ENTRA AAQIO");
                         fileRow.setQuantity(null);
                     }
                 }else if(cells.get(6).getStringCellValue().equals("no aplica")){

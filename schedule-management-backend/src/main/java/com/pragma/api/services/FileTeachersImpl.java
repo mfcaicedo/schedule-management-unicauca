@@ -88,17 +88,12 @@ public class FileTeachersImpl implements IFileTeachersService {
                 boolean errorTipos = false;
                 boolean errorRepetidos = false;
 
-                System.out.println("Nombre profesor: " + log.getName_teacher());
-                System.out.println("Codigo profesor: " + log.getCode_teacher());
-                System.out.println(log.getName_department());
-
                 //Validacion nombre vacio
                 if(log.getName_teacher().trim().length() == 0){
                     infoErroresVacias.add("[FILA " + (rowNum-1) + "] EL NOMBRE DEL PROFESOR ESTA VACIO (NOMBRE OBLIGATORIO)");
                     errorVacias = true;
                 }
 
-                System.out.println("este es el tipo de variable: " );
                 //validacion de codigo de profesor
                 //if(log.getCode_teacher().equals(null)){
                 //if(log.getCode_teacher() == 0){
@@ -107,7 +102,6 @@ public class FileTeachersImpl implements IFileTeachersService {
                     errorVacias = true;
                 }
 
-                System.out.println("mirar este: " + log.getName_department());
                 if(log.getName_department().trim().length() == 0){
                     infoErroresVacias.add("[FILA " + (rowNum-1) + "] EL DEPARTAMENTO DEL PROFESOR ESTA VACIO (DEPARTAMENTO OBLIGATORIO)");
                     errorVacias = true;
@@ -277,8 +271,6 @@ public class FileTeachersImpl implements IFileTeachersService {
 
         //consultamos todos los departamentos
         List<DepartmentDTO> departments = departmentService.findAll();
-        System.out.println("xxxxxxxxxxxxxxxxx");
-        departments.forEach(x-> System.out.println(x.getDepartmentName()));
 
 
         // Cargar el archivo existente
@@ -290,7 +282,6 @@ public class FileTeachersImpl implements IFileTeachersService {
 
         //MODIFICAMOS EL ARCHIVO EXCEL
         for (int i = 1; i <= departments.size(); i++) {
-            System.out.println("lega");
             Row row = sheetSubjects.getRow(i);
 
             row.getCell(0).setCellValue(departments.get(i-1).getDepartmentId());

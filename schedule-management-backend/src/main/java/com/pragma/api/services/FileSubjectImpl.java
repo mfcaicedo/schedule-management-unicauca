@@ -63,7 +63,6 @@ public class FileSubjectImpl implements IFileSubjectService {
                 boolean errorTipos = false;
                 boolean errorRepetidos = false;
 
-//                System.out.println("CODIGO MATERIA: " + log.getSubjectCode());
                 if (log.getSubjectCode().trim().length() == 0) {
                     infoErroresVacias.add("[FILA " + rowNum + "]  EL CODIGO DE LA MATERIA ESTA VACIO (CODIGO OBLIGATORIO)");
                     errorVacias = true;
@@ -120,7 +119,6 @@ public class FileSubjectImpl implements IFileSubjectService {
                     errorTipos = true;
                 }
                 //--------------------------------------------------------------
-//                System.out.println("PROGRAMA: " + log.getProgramCode());
                 if (log.getProgramCode().trim().length() == 0) {
                     infoErroresVacias.add("[FILA " + rowNum + "]  EL CODIGO DEL PROGRAMA ESTA VACIO (CAMPO OBLIGATORIO)");
                     errorVacias = true;

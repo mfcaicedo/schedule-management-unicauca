@@ -91,7 +91,6 @@ public class ReportServiceImpl implements IReportService{
     public Response<List<ReportDTO>> getCombinetDataScheduleByProgramId(String programId) {
     
         List<Object[]> schedulesCombined = this.reportRepository.getCombinedDataScheduleByProgramId(programId);
-        System.out.println("schedulesCombined: " + schedulesCombined);
         List<ReportDTO> ReportDTOList = new ArrayList<>();
         for (Object[] schedule : schedulesCombined) {
         

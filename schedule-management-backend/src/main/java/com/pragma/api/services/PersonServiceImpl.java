@@ -85,7 +85,6 @@ public class PersonServiceImpl implements IPersonService {
         //buscar el id del departamento y se le envia el nombre
         PersonTypeEnumeration type = personType.equals("TEACHER") ? PersonTypeEnumeration.TEACHER : PersonTypeEnumeration.ADMINISTRATIVE;
         Page<Person> personPage = this.iPersonRepository.findAllByPersonTypeAndDepartmentDepartmentId(type,departmentId, pageable);
-        personPage.forEach(x -> System.out.println(x.getDepartment().getDepartmentId()));
         Response<GenericPageableResponse> response = new Response<>();
         response.setStatus(200);
         response.setUserMessage("Departments found");

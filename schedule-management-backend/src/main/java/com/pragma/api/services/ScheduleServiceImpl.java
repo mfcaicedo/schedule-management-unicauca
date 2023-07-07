@@ -306,12 +306,6 @@ public class ScheduleServiceImpl implements IScheduleService {
 
     @Override
     public Response<List<ScheduleResponseDTO>> findAllByEnvironmentId(Integer environmentId) {
-        // Acordarse de cambiar el mensaje de la excepcion porque necesitamos uno de
-        // ambiente
-        // if(!this.scheduleRepository.existsBy()) throw new
-        // ScheduleBadRequestException("bad.request.event.event_name","");
-        // System.out.println("Esto ocurre en la implementacion de
-        // servicios"+environmentId);
         List<Schedule> schedules = this.scheduleRepository.findAllByEnvironmentId(environmentId);
         List<ScheduleResponseDTO> ScheduleDTOlist = modelMapper.map(schedules,
                 new TypeToken<List<ScheduleResponseDTO>>() {

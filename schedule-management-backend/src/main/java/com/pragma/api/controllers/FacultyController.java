@@ -30,7 +30,6 @@ public class FacultyController {
     //consultar todas las facultades
     @GetMapping("/consultAllFaculty")
     public Response<List<FacultyDTO>> consultAllFaculty() {
-        System.out.println("Consultando todas las facultades");
         return this.facultyService.findAllFaculty();
     }
 }

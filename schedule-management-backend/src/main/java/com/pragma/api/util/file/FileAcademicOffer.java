@@ -30,7 +30,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         XSSFSheet sheet = book.getSheetAt(0);
 
         int rowNum = sheet.getLastRowNum();
-        System.out.println("FILAS EXCEL: " + rowNum);
         //Valido que no suba un archivo vacio o diferente al de la plantilla
         if (rowNum == -1){
             responseFile.addLogsGeneric("El archivo que intenta subir no " +
@@ -81,7 +80,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             return fileRows;
         }
         //Periodo
-        System.out.println("PERIODO: " + sheet.getRow(5).getCell(1).getCellType());
         if(sheet.getRow(5).getCell(1) == null ||
                 sheet.getRow(5).getCell(1).getCellType().equals(CellType.BLANK)){
             responseFile.addLogsEmptyFields("[Fila: 6 - Columna: B]  El periodo está vacío");
@@ -108,10 +106,8 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             return fileRows;
         }
 
-        System.out.println("filas a recorrer: " + rowNumOriginal);
         for (int i = 10; i <= rowNumOriginal; i++) {
             List<Cell> cells = new ArrayList<>();
-            System.out.println("Registro numero: " + i);
             Row row = sheet.getRow(i);
             int columnNum = row.getLastCellNum();
             for (int j = 0; j < columnNum; j++) {
@@ -192,9 +188,7 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             responseFile.addLogsType("[Fila: " + (cells.get(2).getRowIndex() + 1) + " Columna: C] La celda de bloque" +
                     " no debe modificarse");
         }
-        System.out.println("Celda verr: " + cells.get(1).getCellType());
         if(cells.get(1).getCellType().equals(CellType.STRING)){
-            System.out.println("entra al condicional");
             fileRow.setSubjectCode(cells.get(1).getStringCellValue().split("-")[0].trim());
         }else{
             responseFile.addLogsType("[Fila: " + (cells.get(1).getRowIndex() + 1) + " Columna: B] Solo debes " +
@@ -204,7 +198,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
         //CourseTecher
         List<String> listAuxCodeTeachers = new ArrayList<>();
         if(cells.get(7).getCellType() != CellType.BLANK){
-            System.out.println("Celda 7: " + cells.get(7).getCellType());
             if (cells.get(7).getCellType().equals(CellType.STRING)){
                 listAuxCodeTeachers.add(cells.get(7).getStringCellValue().split("-")[0].trim());
             }else{
@@ -224,7 +217,6 @@ public class FileAcademicOffer extends ProcessFile<FileRowAcademicOffer> {
             }
         }
         if(cells.get(9).getCellType() != CellType.BLANK){
-            System.out.println("Celda 9: " + cells.get(9).getCellType());
             if (cells.get(9).getCellType().equals(CellType.STRING)){
                 listAuxCodeTeachers.add(cells.get(9).getStringCellValue().split("-")[0].trim());
             }else{

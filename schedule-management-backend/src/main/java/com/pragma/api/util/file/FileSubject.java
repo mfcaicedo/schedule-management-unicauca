@@ -28,7 +28,6 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
         XSSFWorkbook book = new XSSFWorkbook(fileExcel);
         XSSFSheet sheet = book.getSheetAt(0);
         int rowNum = sheet.getLastRowNum();
-//        System.out.println("FILAS EXCEL: " + rowNum);
         Row rowProgram = sheet.getRow(this.filaPrograma);
         if (rowProgram.getLastCellNum() >= 1) {
             this.programCode = rowProgram.getCell(this.columnPrograma).getStringCellValue();
@@ -49,8 +48,6 @@ public class FileSubject extends ProcessFile<FileRowSubject> {
 
     @Override
     public FileRowSubject convertCellsToFileRow(List<Cell> cells, ResponseFile responseFile) {
-//        System.out.println("CELLS SIZE: " + cells.size());
-//        System.out.println("COLUMNA 1: ." + cells.get(0) + ".");
         FileRowSubject fileRow = new FileRowSubject(-1, "", "", -1, "", -1, "");
         fileRow.setProgramCode(this.programCode);
 
