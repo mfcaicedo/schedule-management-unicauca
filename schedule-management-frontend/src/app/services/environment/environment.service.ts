@@ -4,6 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Environment } from 'src/app/models/environment.model';
 import { Faculty } from 'src/app/models/faculty.model';
+import { Resource } from 'src/app/models/resource.model';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
@@ -30,7 +31,7 @@ export class EnvironmentService {
 
   environmentTypes = ['TODOS', 'AUDITORIO', 'LABORATORIO', 'SALON'];
   EventTypes = ['Academico', 'Administrativo'];
-  recurrenciaTypes = ['Dia', 'Semana', 'Semestre'];
+  recurrenciaTypes = ['SEMANA', 'DIA', 'SEMESTRE'];
   endPoint: String = environment.urlEnv
   endPointFaculty: String = environment.urlFaculty
   // endPoint:String = 'api/environment'
@@ -90,9 +91,14 @@ export class EnvironmentService {
         })
       );
   }
-  addResourceToEnvironment(resourceId: number, environmentId: number) {
+  addResourceToEnvironment(resources: Resource[], environmentId: number) {
+    let resourcesId: number[] = [];
+    resources.forEach(resource => {
+      resourcesId.push(resource.id);
+    });
+    console.log("esto se va: " + resourcesId);
     //Todo agregar autorizacion
-    return this.http.post<any>(this.endPoint + '/addResource' + `?resourceId=${resourceId}&environmentId=${environmentId}`, this.httpOptions)
+    return this.http.post<any>(this.endPoint + '/addResourceForm' + `?resourceList=${resourcesId}&environmentId=${environmentId}`, this.httpOptions)
       .pipe(
         catchError((e) => {
 

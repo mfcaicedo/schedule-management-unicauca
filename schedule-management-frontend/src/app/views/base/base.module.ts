@@ -94,7 +94,7 @@ import { BaseRoutingModule } from './base-routing.module';
     NavsComponent,
     PaginationsComponent,
     PopoversComponent,
-    ProgressComponent,
+    
     SpinnersComponent,
     TablesComponent,
     TooltipsComponent,

@@ -13,6 +13,7 @@ export class OfertaAcademicaService {
 
   endPoint: String = environment.urlAcadOffer
   endPointProgram: String = environment.urlProgram;
+  offers:string="/findAllByStatefile";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ export class OfertaAcademicaService {
    */
   findAllFiles(page: number, pageSize: number): Observable<any> {
     return this.http.get<any>(
-      this.endPoint + `?page=${page - 1}&size=${pageSize}&sort=dateRegisterFile&order=ASC`)
+      this.endPoint +`?page=${page - 1}&size=${pageSize}&sort=dateRegisterFile&order=ASC`)
       .pipe(
         catchError((e) => {
           console.log('Error obteniendo todos los archivos de la oferta académica', e.error.mensaje, 'error');
@@ -70,6 +71,23 @@ export class OfertaAcademicaService {
         })
       );
   }
+
+  /**
+   * Metodo que invoca al servicio para obtener los archivos dependiendo del estado
+   * @returns lista con la respuesta del servicio
+   */
+  findByStateFile(statefile:string): Observable<any> {
+    return this.http.get<any>(
+      this.endPoint +this.offers + `?stateFile=${statefile}`)
+      .pipe(
+        catchError((e) => {
+          console.log('Error obteniendo los archivos de la oferta académica por estado ', e.error.mensaje, 'error');
+          return throwError(e);
+        })
+      );
+  }
+
+
   /**
   * Método que invoca al servicio para obtener todos los programas
   * @returns Observable con la respuesta del servicio con todos los programas

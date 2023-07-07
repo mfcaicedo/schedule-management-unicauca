@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl,FormBuilder, FormGroup, Validators ,ValidatorFn ,ValidationErrors  } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-change-password',
@@ -28,7 +29,7 @@ export class ChangePasswordComponent implements OnInit{
         // username:['',[Validators.required]],
         password:['',[Validators.required]],
         confirmPassword:['',[Validators.required]],
-        token:['',[Validators.required]]
+        tokenPassword:['',[Validators.required]]
       },
       {validator: passwordMatchValidator } // Aplica el validador personalizado}
       );
@@ -43,6 +44,7 @@ export class ChangePasswordComponent implements OnInit{
         if (this.id != null) {
           console.log("id del back ",this.id)
           this.setToken(this.id)
+
         }
 
       })
@@ -52,10 +54,16 @@ export class ChangePasswordComponent implements OnInit{
 
 
     if(this.formChangePassword.valid){
-      this.authService.changePassword(this.formChangePassword.value).subscribe(response =>{
-        console.log("Cambio de contraseña exitoso", response)
-        //this.authService.saveToken(response.token)
-        this.router.navigate(['login'])
+      this.authService.changePassword(this.formChangePassword.value).subscribe(respuesta =>{
+        console.log("Cambio de contraseña exitoso", respuesta)
+        if(respuesta.status!=200){
+          Swal.fire("Fallo",` ${respuesta.userMessage}`,"error");
+          this.cleanForm()
+        }else{
+          Swal.fire("Exito!",` ${respuesta.data}`,"success");
+          this.router.navigate(['login'])
+        }
+
       })
     }
     return
@@ -68,9 +76,13 @@ export class ChangePasswordComponent implements OnInit{
   }
 
   setToken(id:string){
-    this.formChangePassword.get('token')?.setValue(id)
+    this.formChangePassword.get('tokenPassword')?.setValue(id)
   }
 
+  cleanForm(){
+    this.formChangePassword.get('password')?.setValue('')
+    this.formChangePassword.get('confirmPassword')?.setValue('')
+  }
 
 
 

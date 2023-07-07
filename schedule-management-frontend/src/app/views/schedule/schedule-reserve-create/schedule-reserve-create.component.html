@@ -1,212 +1,367 @@
-<form  [formGroup]="form"  >
+<form [formGroup]="form" (ngSubmit)="setValues()">
 
 
   <c-row class="mb-3">
-   <label cLabel class="col-sm-2 col-form-label" for="tipoEvento">
-     Tipo de evento:
-   </label>
-   <c-col md="5">
-    <select cSelect id="validationCustom04"  (change)="onSelectedValue($event)" >
-      <option value="">Escoge un tipo de evento</option>
-      <option *ngFor="let tipo of eventTypes" value="{{tipo}}" >{{tipo}} </option>
-    </select>
-    <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
-  </c-col>
- </c-row>
- <c-row class="mb-3">
-   <label cLabel class="col-sm-2 col-form-label" for="enventName" >
-     Nombre del evento:
-   </label>
-   <div class="col-sm-10">
-     <input formControlName="name" id="eventName" type="text"  required />
-   </div>
-   <div class="alert alert-danger" *ngIf="isNameInvalid">
-     <div *ngIf="name?.hasError('required')">
-       Nombre del evento es requerido
-     </div>
-   </div>
- </c-row>
- <c-row class="mb-3">
-   <label cLabel class="col-sm-2 col-form-label" for="eventEncargado" >
-     Nombre del encargado:
-   </label>
-   <div class="col-sm-10">
-     <input formControlName="Encargado" id="eventEncargado" type="text"  required/>
-   </div>
-   <div class="alert alert-danger" *ngIf="isLocationInvalid">
-     <div *ngIf="location?.hasError('required')">
-       Nombre del encargado es requerido
-     </div>
-   </div>
- </c-row>
- <c-row class="mb-3">
-   <label cLabel class="col-sm-2 col-form-label" for="cedulaEncargado">
-     Cedula del encargado:
-   </label>
-   <div class="col-sm-10">
-     <input formControlName="Cedula" id="cedulaEncargado" type="number"  required />
-   </div>
-   <div class="alert alert-danger" *ngIf="isCapacityInvalid">
-     <div *ngIf="capacity?.hasError('required')">
-       Cedula es requerido
-     </div>
-     <!--<div *ngIf="capacity?.hasError('min')">
-       Capacidad debe ser mayor o igual a 2
-     </div>-->
-   </div>
- </c-row>
+    <label cLabel class="col-sm-2 col-form-label" for="tipoEvento">
+      Tipo de evento:
+    </label>
+    <c-col md="5">
+      <select cSelect id="validationCustom04" (change)="onSelectedEVENT($event)">
+        <option value="">Escoge un tipo de evento</option>
+        <option *ngFor="let tipo of eventTypes" value="{{tipo}}">{{tipo}} </option>
+      </select>
+      <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+    </c-col>
 
- <c-row class="mb-3">
-  <label cLabel class="col-sm-2 col-form-label" for="descripcion">
-    descripcion:
-  </label>
-  <div class="col-sm-10">
-    <input formControlName="descripcion" id="descripcionEvento" type="text"  required />
-  </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
-      La descripcion es requerida
+    <c-col md="4">
+      <!-- <input formControlName="environmentType"  required type="text" readonly="true" [value]="selectedValueType" [hidden]="!isEdit"/> -->
+      <input formControlName="tipoEvento" touched type="text" readonly="true" [hidden]="!isEdit" required />
+      <div class="alert alert-danger" *ngIf="isEnvironmentTypeInvalid">
+        <div *ngIf="tipoEvento?.hasError('required')">
+          El tipo de Evento es requerido
+        </div>
+      </div>
+      <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+    </c-col>
+
+  </c-row>
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label" for="eventName">
+      Nombre del evento:
+    </label>
+    <div class="col-sm-10">
+      <input formControlName="eventName" id="eventName" type="text" required />
     </div>
-  </div>
- </c-row>
-
- <hr style="height: 20px;" style="width: 75%;" style="border-color:rgb(20, 100, 248)(136, 255, 0)(0, 204, 255);">
-
- <c-row class="mb-3">
-  <label cLabel class="col-sm-2 col-form-label" for="fechaInicio">
-    Fecha Inicio:
-  </label>
-  <div class="col-sm-10">
-    <input formControlName="fechaInicio" id="fechasInicio" type="text"  required />
-  </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
-      La fecha inicio es requerida
-    </div>
-  </div>
- </c-row>
-
- <c-row class="mb-3">
-  <label cLabel class="col-sm-2 col-form-label" for="fechaFin">
-    Fecha Fin:
-  </label>
-  <div class="col-sm-10">
-    <input formControlName="fechaFin" id="fechaFin" type="text"  required />
-  </div>
-  <div class="alert alert-danger" *ngIf="isNameInvalid">
-    <div *ngIf="name?.hasError('required')">
-      La fecha fin es requerida
-    </div>
-  </div>
- </c-row>
-
- <c-row class="mb-3">
-  <label cLabel class="col-sm-2 col-form-label" for="Recurrencia">
-    Recurrencia:
-  </label>
-
-  <c-col md="5">
-    <select cSelect id="validationCustom04"  (change)="onSelectedValue($event)" >
-      <option value="">Escoge una recurrencia</option>
-      <option *ngFor="let tipo of recurrenciaTypes" value="{{tipo}}" >{{tipo}} </option>
-    </select>
-    <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
-  </c-col>
-  <c-col md="4">
-    <!-- <input formControlName="environmentType"  required type="text" readonly="true" [value]="selectedValueType" [hidden]="!isEdit"/> -->
-    <input formControlName="environmentType"   touched type="text" readonly="true" [hidden]="!isEdit" required/>
-    <div class="alert alert-danger" *ngIf="isEnvironmentTypeInvalid">
-      <div *ngIf="environmentType?.hasError('required')">
-       La recurrencia es requerida
+    <div class="alert alert-danger" *ngIf="isEventNameInvalid">
+      <div *ngIf="eventName?.hasError('required')">
+        Nombre del evento es requerido
       </div>
     </div>
-    <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+  </c-row>
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label" for="eventEncargado">
+      Nombre del encargado:
+    </label>
+    <div class="col-sm-10">
+      <input formControlName="eventEncargado" id="eventEncargado" type="text" required />
+    </div>
+    <div class="alert alert-danger" *ngIf="isEventEncargadoInvalid">
+      <div *ngIf="eventEncargado?.hasError('required')">
+        Nombre del encargado es requerido
+      </div>
+    </div>
+  </c-row>
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label" for="cedulaEncargado">
+      Cedula del encargado:
+    </label>
+    <div class="col-sm-10">
+      <input formControlName="cedulaEncargado" id="cedulaEncargado" type="number" required />
+    </div>
+    <div class="alert alert-danger" *ngIf="isCedulaEncargadoInvalid">
+      <div *ngIf="cedulaEncargado?.hasError('required')">
+        Cedula es requerido
+      </div>
+      <!--<div *ngIf="capacity?.hasError('min')">
+       Capacidad debe ser mayor o igual a 2
+     </div>-->
+    </div>
+  </c-row>
+
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label" for="descripcion">
+      Descripcion:
+    </label>
+    <div class="col-sm-10">
+      <input formControlName="descripcion" id="descripcionEvento" type="text" required />
+    </div>
+    <div class="alert alert-danger" *ngIf="isDescripcionInvalid">
+      <div *ngIf="descripcion?.hasError('required')">
+        La descripcion es requerida
+      </div>
+    </div>
+  </c-row>
+
+  <hr style="height: 20px;" style="width: 75%;" style="border-color:rgb(20, 100, 248)(136, 255, 0)(0, 204, 255);">
+
+  <c-row class="mb-3">
+    <label cLabel class="col-sm-2 col-form-label" for="fechaInicio">
+      Fecha Inicio:
+    </label>
+    <div class="col-sm-10">
+      <input formControlName="fechaInicio" id="fechasInicio" type="date" required />
+    </div>
+    <div class="alert alert-danger" *ngIf="isFechaInicioInvalid">
+      <div *ngIf="fechaInicio?.hasError('required')">
+        La fecha inicio es requerida
+      </div>
+    </div>
+  </c-row>
+
+
+
+  <div>
+
+    <c-row class="mb-3">
+      <label cLabel class="col-sm-2 col-form-label" for="horaInicio" >
+        Hora Inicio:
+      </label>
+      <div class="col-sm-10">
+        
+        <select formControlName="horaInicio" name="horaInicio" id="horaInicio" required>
+          <option value="">Selecciona una hora</option>
+          <option value="07:00">7:00 AM</option>
+          <option value="08:00">8:00 AM</option>
+          <option value="09:00">9:00 AM</option>
+          <option value="10:00">10:00 AM</option>
+          <option value="11:00">11:00 AM</option>
+          <option value="12:00">12:00 PM</option>
+          <option value="13:00">1:00 PM</option>
+          <option value="14:00">2:00 PM</option>
+          <option value="15:00">3:00 PM</option>
+          <option value="16:00">4:00 PM</option>
+          <option value="17:00">5:00 PM</option>
+          <option value="18:00">6:00 PM</option>
+          <option value="19:00">7:00 PM</option>
+          <option value="20:00">8:00 PM</option>
+          <option value="21:00">9:00 PM</option>
+          <option value="22:00">10:00 PM</option>
+        </select>
+      </div>
+      <div class="alert alert-danger" *ngIf="isHoraInicioInvalid">
+        <div *ngIf="horaInicio?.hasError('required')">
+          La hora Inicio es requerida
+        </div>
+      </div>
+    </c-row>
+
+    <c-row class="mb-3">
+      <label cLabel class="col-sm-2 col-form-label" for="horaFin" >
+        Hora Fin:
+      </label>
+      <div class="col-sm-10">
+        
+        <select formControlName="horaFin" name="horaFin" id="horaFin" required>
+          <option value="">Selecciona una hora</option>
+          <option value="07:00">7:00 AM</option>
+          <option value="08:00">8:00 AM</option>
+          <option value="09:00">9:00 AM</option>
+          <option value="10:00">10:00 AM</option>
+          <option value="11:00">11:00 AM</option>
+          <option value="12:00">12:00 PM</option>
+          <option value="13:00">1:00 PM</option>
+          <option value="14:00">2:00 PM</option>
+          <option value="15:00">3:00 PM</option>
+          <option value="16:00">4:00 PM</option>
+          <option value="17:00">5:00 PM</option>
+          <option value="18:00">6:00 PM</option>
+          <option value="19:00">7:00 PM</option>
+          <option value="20:00">8:00 PM</option>
+          <option value="21:00">9:00 PM</option>
+          <option value="22:00">10:00 PM</option>
+        </select>
+      </div>
+      <div class="alert alert-danger" *ngIf="isHoraFinInvalid">
+        <div *ngIf="horaFin?.hasError('required')">
+          La hora fin es requerida
+        </div>
+      </div>
+    </c-row>
+
+    <c-row class="mb-3">
+      <label cLabel class="col-sm-2 col-form-label" for="recurrencia">
+        Recurrencia:
+      </label>
+      <div class="alert alert-danger" *ngIf="isRecurrenciaInvalid">
+        <div *ngIf="recurrencia?.hasError('required')">
+          La recurrencia es requerida
+        </div>
+      </div>
+
+    </c-row>
+
+    <c-col md="5">
+      <select cSelect id="validationCustom04" (change)="onSelectedValued($event)">
+        <option value="">Escoge una recurrencia</option>
+        <option *ngFor="let tipo of recurrenciaTypes" value="{{tipo}}">{{tipo}} </option>
+      </select>
+      <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+
+    </c-col>
+
+    <div *ngIf="this.form.get('recurrencia')?.value=='SEMANA'">
+      <c-col md="5">
+        <label cLabel class="col-sm-2 col-form-label" for="weeks">
+          Numero de semanas
+        </label>
+        <div class="col-sm-10">
+          <input formControlName="weeks" id="weeks" type="number" min="1" max="16" required />
+        </div>
+        <div class="alert alert-danger" *ngIf="isWeeksInvalid">
+          <div *ngIf="weeks?.hasError('required')">
+            La cantidad de semanas es requerida
+          </div>
+        </div>
+      </c-col>
+
+    </div>
+
+    <div *ngIf="this.form.get('recurrencia')?.value=='SEMANA'">
+      <c-col md="5">
+        <label cLabel class="col-sm-2 col-form-label" for="day">
+          Dia:
+        </label>
+
+        <div class="col-sm-10">
+          <select formControlName="day" name="day" id="day" required>
+            <option value="">Selecciona un dia</option>
+            <option value="LUNES">LUNES</option>
+            <option value="MARTES">MARTES</option>
+            <option value="MIERCOLES">MIERCOLES</option>
+            <option value="JUEVES">JUEVES</option>
+            <option value="VIERNES">VIERNES</option>
+            <option value="SABADO">SABADO</option>
+          </select>
+        </div>
+        <div class="alert alert-danger" *ngIf="isDayInvalid">
+          <div *ngIf="day?.hasError('required')">
+            El dia es requerido
+          </div>
+        </div>
+      </c-col>
+    </div>
+    <div *ngIf="this.form.get('recurrencia')?.value=='SEMESTRE'">
+      <c-col md="5">
+        <label cLabel class="col-sm-2 col-form-label" for="day" >
+          Dia:
+        </label>
+
+        <div class="col-sm-10">
+          
+          <div class="col-sm-10">
+            <select formControlName="day" name="day" id="day" required>
+              <option value="">Selecciona un dia</option>
+              <option value="LUNES">LUNES</option>
+              <option value="MARTES">MARTES</option>
+              <option value="MIERCOLES">MIERCOLES</option>
+              <option value="JUEVES">JUEVES</option>
+              <option value="VIERNES">VIERNES</option>
+              <option value="SABADO">SABADO</option>
+            </select>
+          </div>
+        </div>
+        <div class="alert alert-danger" *ngIf="isDayInvalid">
+          <div *ngIf="day?.hasError('required')">
+            El dia es requerido
+          </div>
+        </div>
+      </c-col>
+    </div>
+
+
+
+    <c-col md="4">
+      <!-- <input formControlName="environmentType"  required type="text" readonly="true" [value]="selectedValueType" [hidden]="!isEdit"/> -->
+      <input formControlName="recurrencia" touched type="text" readonly="true" [hidden]="!isEdit" required />
+      <div class="alert alert-danger" *ngIf="isEnvironmentTypeInvalid">
+        <div *ngIf="recurrencia?.hasError('required')">
+          La recurrencia es requerida
+        </div>
+      </div>
+      <!-- <c-form-feedback [valid]="false">Porfavor proveer un tipo de ambiente valido</c-form-feedback> -->
+    </c-col>
+
+
+    <button   type="submit" cButton color="primary" size="lg" [ngStyle]="{'margin-top': '.5rem', 'margin-bottom': '.5rem'}">
+      Consultar Ambientes disponibles
+    </button>
+
+    <br>
+    <div class="d-grid gap-2 ">
+    </div>
+  </div>
+  <c-col xs="12">
+    <c-card class="mb-4">
+
+      <c-card-body>
+
+        <div class="elemnt" *ngIf="visible">
+
+
+          <app-schedule-reserve-enviro-list [ambientes]="environments"
+            [check]="check"
+            (checkRespone)="actualizarValorInput($event)"
+            [formEnvironmentAvailability]="formEnvironmentAvailability" [totalItems]="totalItems"
+            [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+            (envioAmbientes)="agregarAmbiente($event)" 
+            ></app-schedule-reserve-enviro-list>
+
+        </div>
+
+        <br>
+      </c-card-body>
+    </c-card>
   </c-col>
 
+  <ng-container *ngIf="AmbientesChekeados.length > 0">
+    <c-row ngPreserveWhitespaces>
+
+      <c-col xs="12">
+        <c-card class="mb-4">
+          <c-card-header>
+            <strong class="titulo">Ambientes Seleccionados </strong>
+          </c-card-header>
+          <c-card-body>
+
+            
+            <table cTable footer itemsPerPageSelect itemsPerPage={1} pagination [responsive]="true">
+              <thead cTableColor="primary">
+                <tr>
+                  <th > Tipo de salon </th>
+                  <th > nombre </th>
+                  <th > Ubicacion </th>
+                  <th > Dia </th>
+                  <th > Fecha Inicio </th>
+                  <th > Recurrencia</th>
+                  <th > Hora Inicio </th>
+                  <th > Hora Fin </th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let amb of AmbientesChekeados; let i = index ">
+                  <td>{{amb.environment.environmentType}} </td>
+                  <td>{{amb.environment.name}} </td>
+                  <td>{{amb.environment.location}}</td>
+                  <td>{{amb.day}} </td>
+                  <td>{{amb.startingDate}} </td>
+                  <td>{{amb.recurrence}} </td>
+                  <td>{{amb.startingTime}} </td>
+                  <td>{{amb.endingTime}} </td>
+                  <td><button type="button" cButton color="primary" size="lg" (click)="EliminarAmbChekado(i)">Eliminar</button> </td>
+
+                </tr>
+              </tbody>
+
+            </table>
+            <br>
+          </c-card-body>
+        </c-card>
+      </c-col>
+
+    </c-row>
 
 
-</c-row>
 
- <br>
- <div class="d-grid gap-2 ">
-   <button cButton color="danger" variant="outline" size="lg" type="submit" [disabled]="form.invalid" (click)="showResource()">Consultar disponibiliad de ambientes</button>
- </div>
-
- <c-col xs="12">
-  <c-card class="mb-4">
-    <c-card-header>
-      <strong class="titulo">Ambientes </strong>
-    </c-card-header>
-    <c-card-body>
-
-      <!--<c-row class="mb-3">
-
-        <label cLabel class="col-sm-2 col-form-label" >
-          Filtrar por tipo de ambiente:
-        </label>
-        <c-col md="5">
-        <c-dropdown>
-          <button cButton cDropdownToggle color="light">
-            Selecciona tipo de ambiente
-          </button>
-          <ul cDropdownMenu>
-            <li><h6 cDropdownHeader>Tipos de ambiente</h6></li>
-            <li *ngFor="let tipo of environmentTypes"><a (click)="updateTableEnvironments(tipo)" cDropdownItem>{{tipo}}</a></li>
-
-          </ul>
-        </c-dropdown>
-        </c-col>
-
-      </c-row>-->
+  </ng-container>
 
 
-      <!-- Tabla para visualizar los ambientes -->
 
 
-      <table cTable [responsive]="true">
-        <thead cTableColor="primary">
-        <tr>
-          <th *ngFor="let c of columns">{{c}} </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let ambiente of environments">
-          <td>{{ambiente.id}} </td>
-          <td>{{ambiente.environmentType}} </td>
-          <td>{{ambiente.name}} </td>
-          <td>{{ambiente.location}}</td>
-          <td>{{ambiente.capacity}} </td>
-          <td>{{ambiente.facultyId}} </td>
-          <td>
-            <!-- <a [routerLink]="['../edit',ambiente.id]">
-
-            </a> -->
-            <a _ngcontent-spm-c175="" [routerLink]="['../edit',ambiente.id]" style="color:rgb(0, 0, 134)" >
-              <svg style="size: 10px;" class="ng-tns-c175-1 nav-icon ng-star-inserted" ng-reflect-custom-classes="[object Object]" ng-reflect-name="cil-pencil" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img"><path fill="var(--ci-danger-color, currentColor)" d="M29.663,482.25l.087.087a24.847,24.847,0,0,0,17.612,7.342,25.178,25.178,0,0,0,8.1-1.345l142.006-48.172,272.5-272.5A88.832,88.832,0,0,0,344.334,42.039l-272.5,272.5L23.666,456.541A24.844,24.844,0,0,0,29.663,482.25Zm337.3-417.584a56.832,56.832,0,0,1,80.371,80.373L411.5,180.873,331.127,100.5ZM99.744,331.884,308.5,123.127,388.873,203.5,180.116,412.256,58.482,453.518Z" class="ci-primary"></path></svg>
-            </a>
-
-            <!-- <a href="" [routerLink]="['../edit',ambiente.id]" style="color:rgb(0, 0, 134)">
-            <svg cIcon="cilZoomIn"    ng-reflect-name="cilZoomIn" ng-reflect-title="cilZoomIn" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" ><path fill="var(--ci-primary-color, currentColor)" d="M479.6,400.4l-81.084-81.084-62.368-25.767A175.008,175.008,0,0,0,368,192.687c0-97.047-78.953-176-176-176S16,95.64,16,192.687s78.953,176,176,176a175.028,175.028,0,0,0,101.619-32.378l25.7,62.2L400.4,479.6a56,56,0,0,0,79.2-79.2ZM48,192.687c0-79.4,64.6-144,144-144s144,64.6,144,144-64.6,144-144,144S48,272.088,48,192.687ZM456.971,456.971a24.029,24.029,0,0,1-33.942,0L346.457,380.4l-23.894-57.835L380.4,346.457l76.573,76.572A24.029,24.029,0,0,1,456.971,456.971Z" class="ci-primary"></path></svg>
-
-            </a> -->
-            <a href="" style="color:rgb(110, 0, 0)">
-              <svg ng-reflect-name="cilTrash" ng-reflect-title="cilTrash" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" pointer-events="none" role="img" ><path fill="var(--ci-primary-color, currentColor)" d="M96,472a23.82,23.82,0,0,0,23.579,24H392.421A23.82,23.82,0,0,0,416,472V152H96Zm32-288H384V464H128Z" class="ci-primary"></path><rect width="32" height="200" x="168" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><rect width="32" height="200" x="240" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><rect width="32" height="200" x="312" y="216" fill="var(--ci-primary-color, currentColor)" class="ci-primary"></rect><path fill="var(--ci-primary-color, currentColor)" d="M328,88V40c0-13.458-9.488-24-21.6-24H205.6C193.488,16,184,26.542,184,40V88H64v32H448V88ZM216,48h80V88H216Z" class="ci-primary"></path></svg>
-            </a>
-          </td>
-
-
-        </tr>
-        </tbody>
-
-      </table>
-      <br>
-      <app-paginador
-      (pageChanged)="loadTableEnvironments($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
-
-      ></app-paginador>
-    </c-card-body>
-  </c-card>
-</c-col>
+  <button cButton color="primary" size="lg" [disabled]="" (click)="agregarEventToSchedule()" [ngStyle]="{'margin-bottom': '.5rem'}">
+    Guardar Reserva
+  </button>
+  <br>
 
 
 </form>

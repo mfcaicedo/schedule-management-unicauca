@@ -88,11 +88,18 @@ public class SubjectServiceImpl implements ISubjectService {
     }
 
     @Override
+    public List<Subject> findAllPrueba() {
+        System.out.println("si llego donde era");
+        List<Subject> subjects = subjectRepository.findAllProgram();
+        return subjects;
+    }
+
+    @Override
     public GenericPageableResponse findAllSubject(Pageable pageable) {
         Page<Subject> resourcesPage = this.subjectRepository.findAll(pageable);
+        System.out.println("resourcesPage: " + resourcesPage.get());
         if(resourcesPage.isEmpty()) throw new ScheduleBadRequestException("bad.request.subject.empty", "");
         return this.validatePageList(resourcesPage);
-
     }
 
     @Override

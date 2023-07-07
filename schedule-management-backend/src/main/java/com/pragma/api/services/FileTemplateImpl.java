@@ -128,6 +128,16 @@ public class FileTemplateImpl implements ITemplateFileService{
 
         Workbook workbook = WorkbookFactory.create(new File(path));
 
+        //obtengo la hoja 0 Oferta Academica
+        Sheet sheetOfferAcademic = workbook.getSheetAt(0);
+        Row rowOfer = sheetOfferAcademic.getRow(1);
+        Cell cell = rowOfer.getCell(1);
+        cell.setCellValue(program.getName());
+        rowOfer = sheetOfferAcademic.getRow(2);
+        cell = rowOfer.getCell(1);
+        cell.setCellValue(program.getProgramId());
+
+
         //obtengo la hoja 2 (Materias)
         Sheet sheetSubjects = workbook.getSheetAt(1);
 

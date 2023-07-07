@@ -91,7 +91,8 @@ public class PersonServiceImpl implements IPersonService {
         response.setUserMessage("Departments found");
         response.setDeveloperMessage("Departments found");
         response.setErrorCode("");
-        response.setData(this.validatePageList(personPage));
+        List<Person> resources = personPage.stream().map(x->modelMapper.map(x, Person.class)).collect(Collectors.toList());
+        response.setData(PageableUtils.createPageableResponse(personPage, resources));
         return response;
     }
 

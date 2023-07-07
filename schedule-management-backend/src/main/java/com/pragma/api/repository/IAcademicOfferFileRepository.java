@@ -10,8 +10,10 @@ import java.util.List;
 public interface IAcademicOfferFileRepository extends JpaRepository<AcademicOfferFile, Integer>{
 
     /**
-     * Encuentra un archivo de oferta academica por el id del programa, el id del periodo y el estado
+     * Encuentra un archivo de oferta academica por el id del programa, el id del
+     * periodo y el estado
      * del archivo que deber ser diferente de FINALIZADO
+     *
      * @param programId
      * @param periodId
      * @param stateFile

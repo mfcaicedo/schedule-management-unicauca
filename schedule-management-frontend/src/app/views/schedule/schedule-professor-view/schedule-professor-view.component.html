@@ -3,60 +3,62 @@
     <strong>Horario del profesor {{profesor.personCode}} : {{profesor.fullName}} </strong>
   </c-card-header>
   <c-card-body>
-      <div class="container">
-        <br>
-        <div class="table-responsive">
-            <table class="table table-bordered text-center" >
-                <thead cTableColor="info">
-                    <tr class="bg-light-gray">
-                        <th class="text-uppercase" *ngFor="let header of headers ">{{header}} </th>
+    <div class="container">
+      <br>
+      <div class="table-responsive">
+        <table class="table table-bordered text-center">
+          <thead cTableColor="info">
+            <tr class="bg-light-gray">
+              <th class="text-uppercase" *ngFor="let header of headers ">{{header}} </th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                <!--
+            </tr>
+          </thead>
+          <tbody>
+            <!--
                   Iterar por filas o sea por horas del dia esa es la primera casilla
                   despues iterar por dias de la semana horizontalemnte ahi llamamos al hijo que despliega la información
                   del schedule
                  -->
-                 <!-- <div *ngIf="showHorario">
+            <!-- <div *ngIf="showHorario">
                   (showHorario)="getShowHorario($event)"
                 -->
-                    <tr *ngFor="let hora of horasDia ">
-                      <td class="align-middle">{{hora}}</td>
-                        <td *ngFor="let dia of weekDays ">
-                            <!-- <app-schedule-row
+            <tr *ngFor="let hora of horasDia ">
+              <td class="align-middle">{{hora}}</td>
+              <td *ngFor="let dia of weekDays ">
+                <!-- <app-schedule-row
                               #child
 
                               [header]="dia"
                               [hora] = "hora"
 
                             ></app-schedule-row> -->
-                            <div id="franja" *ngFor="let horario of horariosProfesorColor " >
+                <div id="franja" *ngFor="let horario of horariosProfesorColor ">
 
-                              <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
+                  <div *ngIf="timeInRange(horario.startingTime,horario.endingTime,hora)">
 
-                                    <!-- {{validarNumeroDia(horario.day!)}} -->
-                                <!-- <div *ngIf="numeroDia == {{validarNumeroDia(header)}} " class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13"> -->
-                                <div *ngIf="horario.day == dia.toUpperCase() "  >
+                    <!-- {{validarNumeroDia(horario.day!)}} -->
+                    <!-- <div *ngIf="numeroDia == {{validarNumeroDia(header)}} " class="bg-sky padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13"> -->
+                    <div *ngIf="horario.day == dia.toUpperCase() ">
 
-                                  <!-- <span>Materia:{{horario.course.subject.subjectCode}}</span> -->
-                                  <div class="{{horario.color}} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">
-                                    <span >{{horario.course.subjectCode}}</span>
-                                  </div>
+                      <!-- <span>Materia:{{horario.course.subject.subjectCode}}</span> -->
+                      <div
+                        class="{{horario.color}} padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">
+                        <span>{{horario.course.subject.subjectCode}}</span>
+                      </div>
 
 
-                                  <div class="margin-10px-top font-size14"><strong><span>Curso:{{horario.course.courseGroup}}</span> </strong> </div>
+                      <div class="margin-10px-top font-size14"><strong><span>Curso:{{horario.course.courseGroup}}</span>
+                        </strong> </div>
 
-                                </div>
-                              </div>
-                            </div>
-                        </td>
-                    </tr>
-                  <!-- </div> -->
-                </tbody>
-            </table>
-        </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+            <!-- </div> -->
+          </tbody>
+        </table>
       </div>
+    </div>
   </c-card-body>
 </c-card>

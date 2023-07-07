@@ -9,12 +9,12 @@ import org.springframework.data.repository.query.Param;
 import com.pragma.api.model.Event;
 public interface IEventRepository extends JpaRepository<Event,Integer> {
 
-    @Query(value = "SELECT * FROM event u WHERE u.event_name = :event_name",
+    @Query(value = "SELECT * FROM event u WHERE u.person_code = :person_code",
             nativeQuery = true)
-    List<Event> findAllByEventName(@Param("event_name") String event_name);
-    boolean existsEventByEventName(String eventName);
+    List<Event> findAllByPersonCode(@Param("person_code") String person_code);
     boolean existsEventByEventManagerName(String EventManagerName);
     List<Event> findAllByEventManagerName(String eventManagerName);
 
 
 }
+

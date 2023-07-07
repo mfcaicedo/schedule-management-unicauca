@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-
+import { Observable, map } from 'rxjs';
 import { navItems } from 'src/app/containers/default-layout/_nav';
 import{LoginService} from 'src/app/services/login/login.service'
 import {AuthService} from 'src/app/services/auth/auth.service'
 
 import{emailValues} from'src/app/models/emailValues'
 import Swal from 'sweetalert2';
+import { title } from 'process';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -40,6 +42,7 @@ export class LoginComponent implements OnInit {
     });
 
     this.formPassword=this.formBuilder.group({
+      usuario:['',[Validators.required]],
       correo:['',[Validators.required]]
     });
 
@@ -52,26 +55,48 @@ export class LoginComponent implements OnInit {
   enviarDatos(){
     // console.log("entra a enviar datos")
     this.buttontouched=true
+    console.log("object login ",this.formLogin.value);
     if(this.formLogin.valid){
+
       this.loginService.singin(this.formLogin.value).subscribe(response =>{
         console.log("Login exitoso!", response)
         //this.authService.saveToken(response.token)
         this.router.navigate(['dashboard'])
-      })
+      }
+      ,error=>{
+        console.log("Error en login", error)
+        Swal.fire({
+          title: 'Error!',
+          text: 'Usuario o contraseña incorrectos',
+          icon: 'error',
+          showConfirmButton:false,
+          timer: 2000
+        }
+
+        )
+      }
+      )
+
+    }else{
+      console.log("Formulario invalido")
     }
     return
   }
   getError(controlname:string){
     let control = this.formLogin.get(controlname)
-    if(control?.hasError("required")) return "campo obligatorio."
-    if(control?.hasError("username")) return "ingrese un correo valido."
+    if(control?.hasError("required")) return "Campo obligatorio."
+    if(control?.hasError("username")) return "Ingrese un correo valido."
     return ""
   }
 
   public visible = false;
 
-  toggleLiveDemo() {
+  showDialog() {
     this.visible = !this.visible;
+  }
+  cleanForm(){
+    this.formPassword.get('usuario')?.setValue('')
+    this.formPassword.get('correo')?.setValue('')
   }
 
   handleLiveDemoChange(event: any) {
@@ -80,17 +105,35 @@ export class LoginComponent implements OnInit {
 
   enviarCorreo(){
 
-    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" ,token:"",username:""}
+
+    const emailValues:  emailValues ={mailFrom:"", mailTo: this.getEmail() ,subject:"" ,token:"",username:this.getUsuario()}
     console.log(emailValues)
     this.authService.sendEmailChangePassword(emailValues).subscribe(
       (respuesta => {
-        Swal.fire("Mensaje",`Respuesta : ${respuesta}`,"success");
+        console.log("Respuesta send email ",respuesta)
+
+        if(respuesta.status!=200){
+          Swal.fire("Fallo",` ${respuesta.userMessage}`,"error");
+        }else{
+          Swal.fire("Exito!",`${respuesta.data}`,"success");
+        }
+
+        this.showDialog()
       })
+
+
     )
+
+
+
+
   }
 
   getEmail(){
     return this.formPassword.get('correo')?.value;
+  }
+  getUsuario(){
+    return this.formPassword.get('usuario')?.value;
   }
 
 }

@@ -41,25 +41,29 @@
     </c-row>
 
 
-    <table cTable  >
-      <thead cTableColor="dark">
-      <tr>
-        <th *ngFor="let c of columns">{{c}} </th>
-      </tr>
-      </thead>
-      <tbody >
-      <tr *ngFor="let ambiente of environments" >
-        <td>{{ambiente.id}} </td>
-        <td>{{ambiente.environmentType}} </td>
-        <td>{{ambiente.name}} </td>
-        <td>{{ambiente.location}}</td>
-        <td>{{ambiente.capacity}} </td>
-        <td>{{ambiente.facultyId}} </td>
-        <td><input [disabled]="isDisabled" #checkboxes  id="selectedEnv"  type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">  </td>
-      </tr>
-      </tbody>
+    <div style="overflow-x: auto; overflow-y: auto; max-height: 400px;">
+      <table cTable>
+        <thead cTableColor="dark">
+          <tr>
+            <th *ngFor="let c of columns">{{c}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let ambiente of environments">
 
-    </table>
+            <td>{{ambiente.name}}</td>
+            <td>{{ambiente.location}}</td>
+            
+
+            <td>
+              <input [disabled]="isDisabled" #checkboxes id="selectedEnv" type="checkbox" (click)="onSelectingEnvironment(ambiente,$event)">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
     <app-paginador
         (pageChanged)="loadTableEnvironmentsSchedule($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
 

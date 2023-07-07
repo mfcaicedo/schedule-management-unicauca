@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 import Swal from 'sweetalert2';
 // import { NgxBootstrapService } from '@coreui/angular';
 import { Course } from 'src/app/models/course.model';
+import { Subject } from 'src/app/models/subject.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Program } from 'src/app/models/program.model';
 import { Schedule, ScheduleDTO } from 'src/app/models/schedule.model';
@@ -10,6 +11,7 @@ import { ignoreElements } from 'rxjs';
 import { Router } from '@angular/router';
 import { error } from 'console';
 import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-form/schedule-before-create-form.component';
+import { academicOferFile } from 'src/app/models/academicOferFIle.model';
 
 @Component({
   selector: 'app-schedule-create',
@@ -18,112 +20,121 @@ import { ScheduleBeforeCreateFormComponent } from '../schedule-before-create-for
 })
 export class ScheduleCreateComponent {
   items = [1, 2, 3, 4];
-  progressMadeProgramSemester:number=0;
-  progressMadeForm:number=0;
-  sumProgress:number=10;
-  showForm:boolean=true;
-  createFormIsValid=false
-  program:Program={
-    'programId':'0',
-    'name':'',
-    'department_id':''
+ 
+  progressMadeProgramSemester: number = 0;
+  progressMadeForm: number = 0;
+  sumProgress: number = 10;
+  showForm: boolean = true;
+  createFormIsValid = false
+  program: Program = {
+    'programId': '0',
+    'name': '',
+    'department_id': '',
+    'color':''
   };
+
+  oferFile!:academicOferFile;
   // @ViewChild('beforeFormAccordion',{static:true}) beforeFormAccordion !:ElementRef ;
   @ViewChild('beforeForm', { static: false }) beforeForm!: ScheduleBeforeCreateFormComponent;
-  showSelectedProgramAndSemester:boolean=false;
-  showScheduleView:boolean=false;
-  semester:number=0;
-  course:Course={'courseId':1,'courseGroup':'A','courseCapacity':20,'periodId':'','subjectCode':'','personCode':'','remainingHours':0}
+  showSelectedProgramAndSemester: boolean = false;
+  showScheduleView: boolean = false;
+  semester: number = 0;
+  course: Course = { 'courseId': 1, 'courseGroup': 'A', 'courseCapacity': 20, 'periodId': '', 'subject': {} as Subject, 'personCode': '', 'remainingHours': 0, 'typeEnvironmentRequired': '' }
   environmentSelected!: Environment;
-  scheduleToCreate!:Schedule;
-  continueCreatingSchedule:boolean = false
-  changeValue:boolean = true
+  scheduleToCreate!: Schedule;
+  continueCreatingSchedule: boolean = false
+  changeValue: boolean = true
 
 
   constructor(
     private scheduleService: ScheduleService,
     private router: Router,
-    ) { }
-  getSelectedProgram(program:Program){
+     
+  ) { }
+  getSelectedProgram(program: Program) {
 
-    this.program=program;
+    this.program=program
+
+ 
   }
-  getSelectedSemester(semestre:number){
+  
+  getSelectedSemester(semestre: number) {
 
-    this.semester=semestre;
+    this.semester = semestre;
   }
-  getSelectedCourse(course:Course){
+  getSelectedCourse(course: Course) {
 
-    this.course=course
+    this.course = course
 
   }
-  getProgressMadeProgramSemester(progress:number){
+  
+  getProgressMadeProgramSemester(progress: number) {
     this.progressMadeProgramSemester += progress
-    if(this.progressMadeProgramSemester == 100){
-      this.showSelectedProgramAndSemester =true;
+    if (this.progressMadeProgramSemester == 100) {
+      this.showSelectedProgramAndSemester = true;
 
-    }else{
-      this.showSelectedProgramAndSemester =false;
+    } else {
+      this.showSelectedProgramAndSemester = false;
     }
     //this.progressMadeForm +=(progress/2)
   }
-  getProgressMadeForm(progress:number){
+  getProgressMadeForm(progress: number) {
     this.progressMadeForm += progress
 
-    if(this.progressMadeForm >= 60){
-      this.showScheduleView=true
-    }else{
-      this.showScheduleView=false
+    if (this.progressMadeForm >= 60) {
+      this.showScheduleView = true
+    } else {
+      this.showScheduleView = false
     }
   }
-  changeShowForm(){
-    this.progressMadeProgramSemester=0
-    this.progressMadeForm=0
-    this.showSelectedProgramAndSemester =false;
-    this.changeValue=false
+  changeShowForm() {
+    this.progressMadeProgramSemester = 0
+    this.progressMadeForm = 0
+    this.showSelectedProgramAndSemester = false;
+    this.changeValue = false
     this.beforeForm.cleanSelect()
   }
 
-  change(){
-    console.log("Entra aqui ",this.changeValue)
-    if(this.changeValue ==false){
-      this.changeValue=true
+  change() {
+    console.log("Entra aqui ", this.changeValue)
+    if (this.changeValue == false) {
+      this.changeValue = true
     }
   }
-  getSelectedEnvironment(environment:Environment){
+  getSelectedEnvironment(environment: Environment) {
     this.environmentSelected = environment;
   }
-  getCreateFormIsValid(result:boolean){
-    this.createFormIsValid=result
+  getCreateFormIsValid(result: boolean) {
+    this.createFormIsValid = result
   }
-  getInfo(){
+  getInfo() {
 
   }
-  changeContinueCreating(value:boolean){
+  changeContinueCreating(value: boolean) {
     this.scheduleService.updateContinueCreatingForCourse(value)
   }
-  onSaveSchedule(scheduleToCreate:ScheduleDTO){
+  onSaveSchedule(scheduleToCreate: ScheduleDTO) {
     console.log("entra a save envi")
-    let scheduleresponse:Schedule;
+    let scheduleresponse: Schedule;
     //llamar a recurso de save environment
     this.scheduleService.saveSchedule(scheduleToCreate).subscribe(
       response => {
 
 
-        if(response != null){
+        if (response != null) {
           scheduleresponse = response as Schedule
 
           Swal.fire(`Franja creada, por asignar ${scheduleresponse.course.remainingHours} horas`,
-          `La franja : ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\n Curso: ${scheduleresponse.course.courseId}  \nfue creado exitosamente`, 'success');
-          this.router.navigate(['//schedule/detail']);
+            `La franja : ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\n Curso: ${scheduleresponse.course.courseId}  \nfue creado exitosamente`, 'success');
+          //this.router.navigate(['//schedule/detail']);
 
         }
 
 
-      }, err=>{
+      }, err => {
         Swal.fire(`Error: ${err.message} `,
           `La franja : ${scheduleresponse.startingTime} ${scheduleresponse.endingTime}\n Curso: ${scheduleresponse.course.courseId}  \n`, 'warning');
-          this.router.navigate(['//schedule/detail']);
+        this.router.navigate(['//schedule/detail']);
       }
 
     );

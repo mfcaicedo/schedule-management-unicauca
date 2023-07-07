@@ -32,6 +32,10 @@ public class UserService{
         return userRepository.findByUsername(username);
     }
 
+    public Optional<User> getByTokenPassword(String tokenPassword) {
+        return userRepository.findByTokenPassword(tokenPassword);
+    }
+
     //@Override
     public Optional<User> getByUsernameOrEmail(String usernameOrEmail) {
         return userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail);

@@ -39,6 +39,7 @@ import { IconModule } from '@coreui/icons-angular';
 import { ScheduleBeforeCreateFormComponent } from './schedule-before-create-form/schedule-before-create-form.component';
 import { CoursesComponent } from './courses/courses.component';
 
+
 import { FormsModule } from '@angular/forms';
 import { ScheduleEnvironmentsComponent } from './schedule-environments/schedule-environments.component';
 import { ScheduleTimeAllComponent } from './schedule-time-all/schedule-time-all.component';
@@ -53,6 +54,9 @@ import { ScheduleUpdateComponent } from './schedule-update/schedule-update.compo
 import { OaUploadComponent } from './oa-upload/oa-upload.component';
 import { OaViewFilesComponent } from './oa-view-files/oa-view-files.component';
 import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedule-reserve-create.component';
+import { ViewComponent } from 'src/app/views/schedule/view/view.component';
+import { ScheduleReserveEnviroListComponent } from './schedule-reserve-create/schedule-reserve-enviro-list/schedule-reserve-enviro-list.component';
+import { ScheduleReserveConsultComponent } from './schedule-reserve-consult/schedule-reserve-consult.component';
 @NgModule({
   declarations: [
     ScheduleCreateComponent,
@@ -71,7 +75,10 @@ import { ScheduleReserveCreateComponent } from './schedule-reserve-create/schedu
     ScheduleUpdateComponent,
     OaUploadComponent,
     OaViewFilesComponent,
-    ScheduleReserveCreateComponent
+    ScheduleReserveCreateComponent,
+    ViewComponent,
+    ScheduleReserveEnviroListComponent,
+    ScheduleReserveConsultComponent
   ],
   imports: [
     CommonModule,

@@ -84,11 +84,31 @@ export class EnvironmentFormComponent {
     this.form = this.formBuilder.group({
       id: ['', []],
       name: ['', [Validators.required]],
-      location: ['',[Validators.required]],
-      capacity: ['', [Validators.required, Validators.min(2)]],
+      // location: ['',[Validators.required]],
+      location: ['',[]],
+      // capacity: ['', [Validators.required , Validators.min(2)]],
+      capacity: ['', []],
       environmentType: ['', [Validators.required]],
       faculty:['',[Validators.required]],
     });
+  }
+
+  validCapacity(){
+    if(this.form.get('environmentType')?.value != 'EDIFICIO'){
+      this.form.get('capacity')?.setValidators([Validators.required , Validators.min(2)]);
+    }else{
+      this.form.get('capacity')?.clearValidators();
+    }
+    this.form.get('capacity')?.updateValueAndValidity();
+  }
+  
+  validLocation(){
+    if(this.form.get('environmentType')?.value != 'EDIFICIO'){
+      this.form.get('location')?.setValidators([Validators.required]);
+    }else{
+      this.form.get('location')?.clearValidators();
+    }
+    this.form.get('location')?.updateValueAndValidity();
   }
 
   onSelectedValue(event:Event){
@@ -155,10 +175,25 @@ export class EnvironmentFormComponent {
     return  this.name?.touched && this.name?.invalid
   }
   get isLocationInvalid(){
-    return  this.location?.touched && this.location?.invalid
+    this.validLocation();
+    const environmentType = this.form.get('environmentType')?.value;
+    if(environmentType != 'EDIFICIO'){
+      return  this.location?.touched && this.location?.invalid
+    }else{
+      return false;
+    }
+    // return  this.location?.touched && this.location?.invalid
   }
   get isCapacityInvalid(){
-    return  this.capacity?.touched && this.capacity?.invalid
+    this.validCapacity();
+    const environmentType = this.form.get('environmentType')?.value;
+    if(environmentType != 'EDIFICIO'){
+      return  this.capacity?.touched && this.capacity?.invalid
+    }else{
+      return false;
+    }
+
+    // return  this.capacity?.touched && this.capacity?.invalid
   }
   get isEnvironmentTypeInvalid(){
     return  this.environmentType?.touched && this.environmentType?.invalid

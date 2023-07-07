@@ -9,6 +9,7 @@ import { Subject } from 'src/app/models/subject.model';
 import { Environment } from 'src/app/models/environment.model';
 import { Program } from 'src/app/models/program.model';
 import { catchError, Observable, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class ScheduleProfessorService {
   //   {id:1,day:"martes",startingTime:'07:00',endingTime:'9:00',course:this.curso,environment:this.envi}
   // ]
 
-  endPoint:String = 'api/person'
+  endPoint:String = environment.urlPerson;
 
   constructor(
     private http : HttpClient

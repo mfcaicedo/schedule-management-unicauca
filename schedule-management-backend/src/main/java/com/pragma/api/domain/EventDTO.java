@@ -26,3 +26,4 @@ public class EventDTO  {
     private EventTypeEnumeration eventType;
     
 }
+

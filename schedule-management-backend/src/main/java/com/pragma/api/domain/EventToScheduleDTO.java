@@ -20,12 +20,12 @@ import lombok.Setter;
 public class EventToScheduleDTO {
 
     @NotNull
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     private DaysEnumeration day;
     @NotNull
     @Enumerated(EnumType.STRING)
     private RecurrenceEnumeration recurrence;
-    @NotNull
+    
     private Date endingDate;
     @NotNull
     private LocalTime endingTime;
@@ -40,3 +40,4 @@ public class EventToScheduleDTO {
     
     
 }
+

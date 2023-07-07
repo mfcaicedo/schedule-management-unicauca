@@ -211,6 +211,8 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                 Environment environment = new Environment();
 
                 if (faculty == null) {
+                    statusFile = StatusFileEnumeration.ERROR;
+                    errorTipos = true;
                     responseFile.getLogsGeneric().add("[FILA "+ (log.getRowNum()+1) + "] LA FACULTAD ESTA VACIA");
                 }else {
                     int rowNum = log.getRowNum();
@@ -247,7 +249,10 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
                         }
 
                         //-------------------------------Location-------------------------------
-
+                        if(!this.locationInList(logs, log.getLocation().toUpperCase())&&!log.getLocation().toUpperCase().equals("NO APLICA")){
+                            errorTipos = true;
+                            responseFile.getLogsGeneric().add("[FILA" + rowNum + "] DIGITE PRIMERO LA UBICACION DEL AMBIENTE, ESTA UBICACION NO EXISTE");
+                        }
                         if (log.getLocation().trim().length() == 0) {
                             errorVacias = true;
                             responseFile.getLogsEmptyFields().add("FILA" + rowNum + "] EL CAMPO DE UBICACION ESTA VACIO");
@@ -344,6 +349,22 @@ public class FileEnvironmentImpl implements IFileEnvironmentService {
         return words;
     }
 
+    /**
+     * Verificar que el usuario ha ingresado antes un edificio de ubicación
+     * @param logs
+     * @param locationaux
+     * @return
+     */
+    private boolean locationInList(List<FileRowEnvironment> logs, String locationaux) {
+        boolean encontrado = false;
+        int cont = 0;
+        for (FileRowEnvironment elementoEnvironment : logs) {
+            if (elementoEnvironment.getName().toUpperCase().equals(locationaux)) {
+                encontrado= true;
+            }
+        }
+        return encontrado;
+    }
 
     private int saveFile(List<FileRowEnvironment> fileEnvironment) {
 

@@ -12,9 +12,11 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.reflect.TypeToken;
 import com.pragma.api.domain.EventDTO;
+import com.pragma.api.domain.EventScheduleDTOResponse;
 import com.pragma.api.domain.EventToScheduleDTO;
 import com.pragma.api.domain.FinalEventScheduleDTO;
 import com.pragma.api.domain.Response;
+import com.pragma.api.domain.ScheduleRequestDTO;
 import com.pragma.api.model.Environment;
 import com.pragma.api.model.Event;
 import com.pragma.api.model.Period;
@@ -50,21 +52,41 @@ public class EventServiceImpl implements IEventService {
     private IPersonRepository personRepository;
 
     @Override
-    public Response<List<EventDTO>> findAllByeventName(String eventName) {
+    public Response<List<EventScheduleDTOResponse>> findAllByPersonCode(String personCode) {
+        List<EventScheduleDTOResponse> ListaFinal= new ArrayList<>();
 
-        if (!this.eventRepository.existsEventByEventName(eventName))
-            throw new ScheduleBadRequestException("bad.request.event.event_name", "");
+        
+            
 
-        List<Event> event = this.eventRepository.findAllByEventName(eventName);
+        List<Event> event = this.eventRepository.findAllByPersonCode(personCode);
+        if(event.isEmpty()){
+            Response<List<EventScheduleDTOResponse>> response = new Response<>();
+            response.setStatus(404);
+            response.setUserMessage("No se encontro un evento con el codigo de la persona");
+            response.setDeveloperMessage("No se encontro un evento con el codigo de la persona");
+            response.setMoreInfo("localhost:8080/api/event(toDO)");
+            response.setErrorCode("Error No se encontro un evento con el codigo de la persona ");
+            response.setData(null);
+            return response;
+        }
         List<EventDTO> eventDTO1 = modelMapper.map(event, new TypeToken<List<EventDTO>>() {
         }.getType());
-        Response<List<EventDTO>> response = new Response<>();
+
+        for (EventDTO eventDTO : eventDTO1) {
+            List<Schedule> listaHorario = this.scheduleRepository.findAllByEventId(eventDTO.getEventId());
+            List<ScheduleRequestDTO> l = this.modelMapper.map(listaHorario, new TypeToken<List<ScheduleRequestDTO>>() {
+        }.getType());
+            
+            EventScheduleDTOResponse eventoschedule = new EventScheduleDTOResponse(eventDTO, l);
+            ListaFinal.add(eventoschedule);
+        }
+        Response<List<EventScheduleDTOResponse>> response = new Response<>();
         response.setStatus(200);
-        response.setUserMessage("Event Finded successfully");
-        response.setDeveloperMessage("Event Finded successfully");
+        response.setUserMessage("List of ScheduleEvent Finded successfully");
+        response.setDeveloperMessage("List of ScheduleEvent Finded successfully");
         response.setMoreInfo("localhost:8080/api/event(toDO)");
-        response.setErrorCode("");
-        response.setData(eventDTO1);
+        response.setErrorCode("Error ");
+        response.setData(ListaFinal);
         return response;
     }
 
@@ -108,6 +130,7 @@ public class EventServiceImpl implements IEventService {
     public Response<EventDTO> saveEventToSchedule(FinalEventScheduleDTO finalEventScheduleDTO) {
         Person person = this.personRepository.findById(finalEventScheduleDTO.getEvent().getPerson()).orElse(null);
         Response<EventDTO> response = new Response<>();
+        
         if (person == null) {
             response.setStatus(404);
             response.setUserMessage("Internal error the person not found");

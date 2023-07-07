@@ -2,6 +2,7 @@ package com.pragma.api.services;
 
 import com.pragma.api.domain.*;
 import com.pragma.api.model.Environment;
+import com.pragma.api.model.Resource;
 import com.pragma.api.model.enums.DaysEnumeration;
 import com.pragma.api.model.enums.EnvironmentTypeEnumeration;
 
@@ -58,6 +59,7 @@ public interface IEnvironmentService {
      */
     Response<Boolean> addResourceToEnvironment(ResourceList resourceList, Integer environmentId);
 
+    Response<Boolean> addResourceToEnvironmentForm(List<Integer> resourceList, Integer environmentId);
     /**
      * Método que permite editar los recursos a un ambiente
      *
@@ -79,14 +81,14 @@ public interface IEnvironmentService {
     List<EnvironmentTypeEnumeration> findAllTypesEnvironment();
     public void deleteById(Integer environmentId);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndDayRecurrence(Date starting_date,LocalTime starting_time,
-    LocalTime ending_time);
+    Response<GenericPageableResponse> findAllByAvailabilityAndDayRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time,Pageable pageable);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndWeekRecurrence(Date starting_date,LocalTime starting_time,
-    LocalTime ending_time,DaysEnumeration day,Integer weeks);
+    Response<GenericPageableResponse> findAllByAvailabilityAndWeekRecurrence(Date starting_date,LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day,Integer weeks,Pageable pageable);
 
-    Response<List<EnvironmentDTO>> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
-    LocalTime ending_time,DaysEnumeration day);
+    Response<GenericPageableResponse> findAllByAvailabilityAndSemesterRecurrence(LocalTime starting_time,
+    LocalTime ending_time,DaysEnumeration day,Pageable pageable);
 
     //Metodo para consultar todos los edificio, trayendolos por id de facultad
     public Response<List<EnvironmentDTO>> findAllBuildings(String facultyId);

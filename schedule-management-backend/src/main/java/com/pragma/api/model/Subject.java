@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Table(name = "subject")
 @Setter
 @Getter
 @AllArgsConstructor
@@ -30,7 +31,7 @@ public class Subject {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "program_id")
     private Program program;
-    @Getter(onMethod_= @JsonIgnore)
+    @Getter(onMethod_ = @JsonIgnore)
     @OneToMany(mappedBy = "subject")
     private Set<Course> courses;
 

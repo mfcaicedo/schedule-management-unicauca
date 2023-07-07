@@ -70,10 +70,11 @@ export class WidgetsEComponent implements AfterContentInit {
   get randomData() {
     const data = [];
     for (let i = 0; i < 15; i++) {
-      data.push(this.random);
+      // data.push(this.random);
     }
     return data;
   }
+  
 
   get baseDatasets(): Array<any> {
     return [

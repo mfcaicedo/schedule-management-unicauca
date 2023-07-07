@@ -1,48 +1,46 @@
 <c-accordion-item >
-    <ng-template cTemplateId="accordionHeader">
-      <div *ngIf="!showSelectedCourse" >
-        <strong>Cursos </strong>
-      </div>
+  <ng-template cTemplateId="accordionHeader">
+    <div *ngIf="!showSelectedCourse" >
+      <strong>Cursos </strong>
+    </div>
 
-      <div class="container" *ngIf="showSelectedCourse">
-        <label  >
-          Curso    : <strong>{{curso.subjectCode}}</strong> | Grupo    : <strong>{{curso.courseGroup}} </strong><br>
-          Semestre : <strong>{{semester}} </strong> <br>
+    <div class="container" *ngIf="showSelectedCourse && curso">
+      <label>
+        Curso: <strong>{{curso.subject.subjectCode}}</strong> | Grupo: <strong>{{curso.courseGroup}}</strong><br>
+        Semestre: <strong>{{semester}}</strong><br>
+      </label>
 
-        </label>
-        <div md="5" >
-          <button cButton  id="btnChangeSelection" color="danger" variant="outline" shape="rounded-pill" size="sm" type="submit" (click)="changeSelectedCourse()">
-            Cambiar selección
-          </button>
+    </div>
+  </ng-template>
+  <ng-template cTemplateId="accordionBody">
+    <table cTable>
+      <thead cTableColor="dark">
+      <tr>
+        <th *ngFor="let c of columns">{{c}} </th>
+      </tr>
+      </thead>
+      <tbody>
+
+        <div class="materias-container">
+          <table>
+            <tbody>
+              <tr *ngFor="let course of courses" [hidden]="course.remainingHours === 0" >
+                <td >
+                  <div class="materia-box" draggable="true" (dragstart)="dragStart($event, course) " (click)="selectCourse(course)"  >
+                    {{course.subject.subjectCode}}&nbsp;{{course.courseGroup}}
+                    <div><strong>&nbsp;{{course.typeEnvironmentRequired}}</strong></div>
+                    
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-    </ng-template>
-    <ng-template cTemplateId="accordionBody">
-      <table cTable>
-        <thead cTableColor="dark">
-        <tr>
-          <th *ngFor="let c of columns">{{c}} </th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let course of courses">
-          <td>{{course.courseId}} </td>
-          <td>{{course.courseGroup}} </td>
-          <td>{{course.courseCapacity}} </td>
-          <td>{{course.periodId}}</td>
-          <td>{{course.subjectCode}} </td>
-          <td>{{course.personCode}} </td>
-          <td>{{course.remainingHours}} </td>
-          <td><input [disabled]="isCheckboxDisabled" #checkboxes  id="selectedCourse"  type="checkbox" (click)="onSelectingCourse(course,$event)"></td>
 
-        </tr>
-        </tbody>
+      </tbody>
 
-      </table>
-      <app-paginador
-        (pageChanged)="loadTableCourses($event)" [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+    </table>
 
-      ></app-paginador>
-    </ng-template>
+  </ng-template>
 </c-accordion-item>
 

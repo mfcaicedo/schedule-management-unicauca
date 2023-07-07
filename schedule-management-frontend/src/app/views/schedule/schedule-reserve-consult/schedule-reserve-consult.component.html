@@ -1,0 +1,56 @@
+<form [formGroup]="form" (ngSubmit)="sendPersonCode()">
+    <c-row class="mb-3">
+      <label cLabel class="col-sm-2 col-form-label" id="personCode" for="personCode">
+        Codigo de Persona:
+      </label>
+      <c-col md="4">
+        <input formControlName="personCode" type="text" id="personCode" name="personCode" required />
+      </c-col>
+    </c-row>
+    <button cButton color="primary" size="lg" type="submit" [ngStyle]="{'margin-bottom': '.5rem'}">
+      Consultar
+    </button>
+  </form>
+  
+  <c-row ngPreserveWhitespaces>
+    <c-col xs="12">
+      <c-card class="mb-4">
+        <c-card-header>
+          <strong class="titulo">Evento y horario</strong>
+        </c-card-header>
+        <c-card-body>
+          <c-row class="mb-3">
+            <c-col md="5">
+              <label cLabel class="label-title">
+                Evento:
+              </label>
+            </c-col>
+          </c-row>
+  
+          <table cTable [responsive]="true">
+            <thead cTableColor="primary">
+              <tr>
+                <th *ngFor="let c of columns">{{ c }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <ng-container *ngFor="let e of eventosHorarios">
+                <tr>
+                  <td>{{ e.event.eventId }}</td>
+                  <td>{{ e.event.eventName }}</td>
+                  <td>{{ e.event.person }}</td>
+                  <ng-container *ngFor="let item of e.eventScheduleList; let i = index">
+                    <ng-container *ngIf="e.eventScheduleList.length==1"><tr>{{"."}}</tr></ng-container>
+                    <tr>
+                      <td>{{ item.startingDate }} / {{ item.endingDate }} /{{item.day}}/{{item.startingTime}}/{{item.endingTime}}</td>
+                    </tr>
+                  </ng-container>
+                </tr>
+              </ng-container>
+            </tbody>
+          </table>
+          <br>
+        </c-card-body>
+      </c-card>
+    </c-col>
+  </c-row>

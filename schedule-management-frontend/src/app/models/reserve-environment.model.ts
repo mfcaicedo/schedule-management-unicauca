@@ -20,9 +20,10 @@ export interface reserveEnvironment
   cedulaEncargado: number;
   recurrencia: string;
   descripcion: string;
-  fechaInicio: Date;
-  horaInicio: DatePipe;
-  horaFin: DatePipe;
+  fechaInicio: string;
+  horaInicio: string;
+  horaFin: string;
+  day:string;
 
 }
 // private Integer id;

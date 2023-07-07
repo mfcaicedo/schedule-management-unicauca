@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
+@ToString
 @Entity
 @Setter @Getter @AllArgsConstructor @NoArgsConstructor
 @Table(name = "users")
@@ -25,7 +25,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private String TokenPassword;
+    private String tokenPassword;
 
     public User(String name, String lastName, String username, String email, String password) {
         this.name = name;
@@ -84,11 +84,11 @@ public class User {
     }
 
     public String getTokenPassword() {
-        return TokenPassword;
+        return tokenPassword;
     }
 
     public void setTokenPassword(String tokenPassword) {
-        TokenPassword = tokenPassword;
+        this.tokenPassword = tokenPassword;
     }
 
     public Set<Role> getRoles() {
