@@ -6,7 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
+@ToString
 @Entity
 @Setter @Getter @AllArgsConstructor @NoArgsConstructor
 @Table(name = "users")
@@ -88,7 +88,7 @@ public class User {
     }
 
     public void setTokenPassword(String tokenPassword) {
-        tokenPassword = tokenPassword;
+        this.tokenPassword = tokenPassword;
     }
 
     public Set<Role> getRoles() {

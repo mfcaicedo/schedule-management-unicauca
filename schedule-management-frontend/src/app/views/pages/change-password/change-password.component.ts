@@ -60,7 +60,7 @@ export class ChangePasswordComponent implements OnInit{
           Swal.fire("Fallo",` ${respuesta.userMessage}`,"error");
           this.cleanForm()
         }else{
-          Swal.fire("Mensaje",` ${respuesta.userMessage}`,"success");
+          Swal.fire("Exito!",` ${respuesta.data}`,"success");
           this.router.navigate(['login'])
         }
 
