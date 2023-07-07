@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FileSystemDirectoryEntry, FileSystemFileEntry, NgxFileDropEntry } from 'ngx-file-drop';
+import { Program } from 'src/app/models/program.model';
+import { ResponseFile } from 'src/app/models/response-file.model';
 import { SpinnerService } from 'src/app/services/spinner/spinner.service';
 import { SubjectService } from 'src/app/services/subject/subject.service';
-import { NgxFileDropEntry, FileSystemFileEntry, FileSystemDirectoryEntry } from 'ngx-file-drop';
-import { ResponseFile } from 'src/app/models/response-file.model';
-import { Program } from 'src/app/models/program.model';
 
 import Swal from 'sweetalert2';
 

@@ -59,7 +59,7 @@
     id="btn-Filtro"type="submit" class="btn-rep" value="Descargar Reporte(s)"(click)="GenerarReporte()">
       
   <div *ngFor="let esquema of esquemas; let i=index">
-    <h2 #miTablaTITULO>{{listaTitulosReporte[i]}}</h2>
-  <app-calendario #appCalendario [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
+    <div class="titulo" #miTablaTITULO>{{listaTitulosReporte[i]}}</div>
+  <app-calendario #appCalendario  [cuadroDeColores]="listasProgramas" [eventosParaCalendario]="esquema" [tituloImg]="miTablaTITULO.innerText"></app-calendario>
 </div>    
 </div>

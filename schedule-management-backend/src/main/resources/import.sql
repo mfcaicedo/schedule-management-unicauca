@@ -135,9 +135,6 @@ INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly
 -- INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1009A','Mecánica', '1',false, '4', 'PIAI');
 -- INSERT INTO `subject` (`subject_code`, `name`, `semester`, `time_block`, `weekly_overload`, `program_id`) VALUES ('1010A','Programación Orientada a Objetos', '2',false, '4', 'PIAI');
 
-
-
-
 --Environment
 INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES (NULL, NULL, 'EDIFICIO', 'no aplica', 'IPET', 'FIET',NULL);
 INSERT INTO `environment` (`environment_id`, `capacity`, `environmentType`, `location`, `name`, `faculty_id`, `parent_id`) VALUES (NULL, NULL, 'EDIFICIO', 'no aplica', 'Geotecnia', 'FIET',NULL);
@@ -236,29 +233,6 @@ INSERT INTO course (course_id, course_capacity,course_group,type_environment_req
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('94', '25', 'A', 'descripcion ', '4', 'FUND');
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('101', '25', 'A', 'descripcion ', '4', 'LEG');
 INSERT INTO course (course_id, course_capacity,course_group,type_environment_required,remaining_hours,subject_code) VALUES ('102', '25', 'A', 'descripcion ', '4', 'TDG');
-
---Curso de grupo 1
---resource course sistemas
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('1', '25', 'B', ,"4",'LABORATORIO ','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('2', '13', 'A',"4",'LABORATORIO','POO');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('3', '20', 'B',"4",'asd','ESTR1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('4', '20', 'B',"4",'asd','ESTR2');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('5', '20', 'B',"4",'asd','SISDIS');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('6', '20', 'B',"4",'asd','CALSOFT');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('10', '13', 'A',"4",'SALON','INTRO1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('11', '13', 'B',"4",'SALON','INTRO1');
---resource course electronica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('13', '20', 'B',"4",'LABORATORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('14', '20', 'A',"4",'AUDITORIO','1003A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('15', '20', 'C',"4",'AUDITORIO','1003A');
---resource course automatica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('16', '20', 'B',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('17', '20', 'A',"4",'asd','1009A');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('18', '20', 'C',"4",'asd','1009A');
---resource course telematica
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('7', '20', 'B',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('8', '20', 'C',"4",'asd','BD1');
-INSERT INTO course (course_id, course_capacity,course_group,remaining_hours,type_environment_required, subject_code) VALUES ('9', '20', 'A',"4",'asd','BD1');
 
 
 --Resource environment

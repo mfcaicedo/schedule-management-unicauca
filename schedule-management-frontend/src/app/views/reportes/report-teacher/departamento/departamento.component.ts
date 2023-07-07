@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, Renderer2 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ProgramBD } from 'src/app/models/ProgramBD.model';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Department } from 'src/app/models/department.model';
 import { Faculty } from 'src/app/models/faculty.model';
@@ -7,6 +8,7 @@ import { Person } from 'src/app/models/person.model';
 import { FacultyService } from 'src/app/services/Faculty/faculty.service';
 import { DepartmentService } from 'src/app/services/department/department.service';
 import { ReportService } from 'src/app/services/report/report.service';
+import { ColorProgramaDiccionarioService } from 'src/app/views/reportes/color-programa-diccionario.service';
 import { PdfService } from '../../pdf.service';
 
 @Component({
@@ -29,6 +31,8 @@ export class DepartamentoComponent implements OnInit {
   esquemas: ReportRoom[][] = [];
 
   //listas
+  
+  listasProgramas:ProgramBD[]=[];       //tiene el programa y color para enviar
   listafacultades:Faculty[]=[];        ///lista que contiene las facultades que se llenan en el desplegable html
   listaDepatamentos:Department[]=[];   ///lista que contiene los deartamentos que pertenecen a la facultad seleccionada
   listasDocente:Person[]=[]; 
@@ -49,6 +53,7 @@ constructor(
   private departService :DepartmentService,   ///Servicio para llenar los departamentos dentro de la fac seleccionada por el usuario
   private cdr: ChangeDetectorRef,          ///es un detector de cambios de referencias
   private pdfService: PdfService,
+  private coloresService:ColorProgramaDiccionarioService
 ){ }
 
 ngOnInit(){
@@ -157,6 +162,8 @@ applyFilter() {
   }
   
   GenerarReporte(){
+    
+    this.listasProgramas=this.coloresService.getDiccionario();
     this.esquemas = [];
     this.listaTitulosReporte=[];
     this.seleccionados.forEach((id) => {

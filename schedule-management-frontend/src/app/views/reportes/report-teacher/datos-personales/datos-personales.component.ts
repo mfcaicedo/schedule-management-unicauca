@@ -1,8 +1,10 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { ProgramBD } from 'src/app/models/ProgramBD.model';
 import { ReportRoom } from 'src/app/models/ReportRoom.model';
 import { Person } from 'src/app/models/person.model';
 import { PersonService } from 'src/app/services/person/person.service';
 import { ReportService } from 'src/app/services/report/report.service';
+import { ColorProgramaDiccionarioService } from 'src/app/views/reportes/color-programa-diccionario.service';
 
 @Component({
   selector: 'app-datos-personales',
@@ -17,6 +19,7 @@ export class DatosPersonalesComponent {
   contenidoTextNombre:string="";
   contenidoSelectedBusquedaDocenteNombre:string="";
 
+  listasProgramas:ProgramBD[]=[];  //tiene el programa y color para enviar
   esquemas: ReportRoom[][] = [];
   listaTitulosReporte:string[]=[]; ///tiene los titulos de los horarios
   listaDocenesPorNombre:Person[]=[];
@@ -24,6 +27,7 @@ export class DatosPersonalesComponent {
   idPersonaReporte:string="";
 
   constructor(
+    private coloresService:ColorProgramaDiccionarioService,
     private reportService :ReportService,  ///servicio que se ejecuta al generar el reporte
     private personService :PersonService ///servicio que se ejecuta al generar el nombre de profesor
     ){
@@ -72,6 +76,7 @@ getNombreProfesor(){
   );
 }
 GenerarReporte(){
+  this.listasProgramas=this.coloresService.getDiccionario();
   //let nombre=this.getNombreProfesor(this.contenidoTextIdentificacion);
  // alert("su nom "+nombre);
   this.esquemas = [];
@@ -103,4 +108,5 @@ GenerarReporte(){
     }
   );
 }
+
 }
