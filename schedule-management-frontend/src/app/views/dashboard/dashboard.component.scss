@@ -6,16 +6,27 @@
   }
 }
 
-.facultades {
+.container {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0;
+  padding: 0;
+
 }
 
 section {
   display: flex;
-  width: 730px;
+  width: 100%;
+  max-width: 100%;
   height: 420px;
+}
+c-card-body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
 }
 
 section img {
@@ -32,3 +43,22 @@ section img:hover {
   opacity: 1;
   filter: contrast(120%);
 }
+.contentHead{
+  text-align: center;
+}
+.titulo{
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+  color: #a80000;;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.main{
+  margin: 0;
+  padding: 0;
+}
+// c-card{
+//   border-radius: 0px;
+//   border-top: 0px;
+// }

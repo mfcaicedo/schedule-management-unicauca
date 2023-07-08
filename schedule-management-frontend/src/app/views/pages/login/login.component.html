@@ -2,7 +2,7 @@
   <div class="background"></div>
   <div class="card">
       <img class="logo" src="../../../../assets/png/unicauca.png"/>
-      <h2>SIMCA 3.0</h2>
+      <h2>Gestión de horarios 1.0</h2>
       <form class="form" [formGroup]="formLogin" >
           <input type="text" placeholder="Usuario" formControlName="username" />
           <p *ngIf="(formLogin.get('username')?.touched || buttontouched) && formLogin.get('username')?.invalid">{{getError("email")}}</p>

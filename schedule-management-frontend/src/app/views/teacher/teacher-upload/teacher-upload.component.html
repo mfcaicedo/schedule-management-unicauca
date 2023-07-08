@@ -15,7 +15,7 @@
         <div class="center">
           <ngx-file-drop [multiple]="false" class="drop-zone-style" dropZoneClassName="" contentClassName="drop-content-style"
             dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" (onFileOver)="fileOver($event)"
-            (onFileLeave)="fileLeave($event)">
+            (onFileLeave)="fileLeave($event)" accept=".xlsx">
             <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
               <div class="content-upload">
                 <div class="drop-label">

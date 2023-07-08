@@ -1,6 +1,5 @@
 <form [formGroup]="form" (ngSubmit)="setValues()">
-
-
+<div class="container-form">
   <c-row class="mb-3">
     <label cLabel class="col-sm-2 col-form-label" for="tipoEvento">
       Tipo de evento:
@@ -103,11 +102,11 @@
   <div>
 
     <c-row class="mb-3">
-      <label cLabel class="col-sm-2 col-form-label" for="horaInicio" >
+      <label cLabel class="col-sm-2 col-form-label" for="horaInicio">
         Hora Inicio:
       </label>
       <div class="col-sm-10">
-        
+
         <select formControlName="horaInicio" name="horaInicio" id="horaInicio" required>
           <option value="">Selecciona una hora</option>
           <option value="07:00">7:00 AM</option>
@@ -136,11 +135,11 @@
     </c-row>
 
     <c-row class="mb-3">
-      <label cLabel class="col-sm-2 col-form-label" for="horaFin" >
+      <label cLabel class="col-sm-2 col-form-label" for="horaFin">
         Hora Fin:
       </label>
       <div class="col-sm-10">
-        
+
         <select formControlName="horaFin" name="horaFin" id="horaFin" required>
           <option value="">Selecciona una hora</option>
           <option value="07:00">7:00 AM</option>
@@ -232,12 +231,12 @@
     </div>
     <div *ngIf="this.form.get('recurrencia')?.value=='SEMESTRE'">
       <c-col md="5">
-        <label cLabel class="col-sm-2 col-form-label" for="day" >
+        <label cLabel class="col-sm-2 col-form-label" for="day">
           Dia:
         </label>
 
         <div class="col-sm-10">
-          
+
           <div class="col-sm-10">
             <select formControlName="day" name="day" id="day" required>
               <option value="">Selecciona un dia</option>
@@ -272,7 +271,8 @@
     </c-col>
 
 
-    <button   type="submit" cButton color="primary" size="lg" [ngStyle]="{'margin-top': '.5rem', 'margin-bottom': '.5rem'}">
+    <button type="submit" cButton color="primary" size="lg"
+      [ngStyle]="{'margin-top': '.5rem', 'margin-bottom': '.5rem'}">
       Consultar Ambientes disponibles
     </button>
 
@@ -288,13 +288,10 @@
         <div class="elemnt" *ngIf="visible">
 
 
-          <app-schedule-reserve-enviro-list [ambientes]="environments"
-            [check]="check"
-            (checkRespone)="actualizarValorInput($event)"
-            [formEnvironmentAvailability]="formEnvironmentAvailability" [totalItems]="totalItems"
-            [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
-            (envioAmbientes)="agregarAmbiente($event)" 
-            ></app-schedule-reserve-enviro-list>
+          <app-schedule-reserve-enviro-list [ambientes]="environments" [check]="check"
+            (checkRespone)="actualizarValorInput($event)" [formEnvironmentAvailability]="formEnvironmentAvailability"
+            [totalItems]="totalItems" [totalNumberPage]="totalNumberPage" [pageSize]="pageSize"
+            (envioAmbientes)="agregarAmbiente($event)"></app-schedule-reserve-enviro-list>
 
         </div>
 
@@ -313,19 +310,19 @@
           </c-card-header>
           <c-card-body>
 
-            
+
             <table cTable footer itemsPerPageSelect itemsPerPage={1} pagination [responsive]="true">
               <thead cTableColor="primary">
                 <tr>
-                  <th > Tipo de salon </th>
-                  <th > nombre </th>
-                  <th > Ubicacion </th>
-                  <th > Dia </th>
-                  <th > Fecha Inicio </th>
-                  <th > Recurrencia</th>
-                  <th > Hora Inicio </th>
-                  <th > Hora Fin </th>
-                  
+                  <th> Tipo de salon </th>
+                  <th> nombre </th>
+                  <th> Ubicacion </th>
+                  <th> Dia </th>
+                  <th> Fecha Inicio </th>
+                  <th> Recurrencia</th>
+                  <th> Hora Inicio </th>
+                  <th> Hora Fin </th>
+
                 </tr>
               </thead>
               <tbody>
@@ -338,7 +335,8 @@
                   <td>{{amb.recurrence}} </td>
                   <td>{{amb.startingTime}} </td>
                   <td>{{amb.endingTime}} </td>
-                  <td><button type="button" cButton color="primary" size="lg" (click)="EliminarAmbChekado(i)">Eliminar</button> </td>
+                  <td><button type="button" cButton color="primary" size="lg"
+                      (click)="EliminarAmbChekado(i)">Eliminar</button> </td>
 
                 </tr>
               </tbody>
@@ -351,17 +349,12 @@
 
     </c-row>
 
-
-
   </ng-container>
 
-
-
-
-  <button cButton color="primary" size="lg" [disabled]="" (click)="agregarEventToSchedule()" [ngStyle]="{'margin-bottom': '.5rem'}">
+  <button cButton color="primary" size="lg" [disabled]="" (click)="agregarEventToSchedule()"
+    [ngStyle]="{'margin-bottom': '.5rem'}">
     Guardar Reserva
   </button>
   <br>
-
-
+</div>
 </form>

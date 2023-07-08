@@ -82,17 +82,16 @@ export const navItemsAdmin: INavData[] = [
     ]
   },
   {
-    name: 'Schedule',
+    name: 'Horarios',
     url: '/schedule',
     iconComponent: { name: 'cil-puzzle' },
     children: [
-
       {
-        name: 'Detail Environment',
+        name: 'Ver Ambientes',
         url: '/schedule/detail'
       },
       {
-        name: 'Detail Professor',
+        name: 'Ver Docentes',
         url: '/schedule/detailprofessor'
       }
     ]
@@ -102,7 +101,6 @@ export const navItemsAdmin: INavData[] = [
     url: '/reporte',
     iconComponent: { name: 'cilPrint' },
     children: [
-
       {
         name: 'Reporte por Docente',
         url: '/reportes/Docente'
@@ -110,10 +108,7 @@ export const navItemsAdmin: INavData[] = [
       {
         name: 'Reporte por Ambiente',
         url: '/reportes/Ambiente'
-      }/*, {
-        name: 'Componente Pruebas',
-        url: '/reportes/calendario'
-      }*/
+      }
     ]
   },
 ];
